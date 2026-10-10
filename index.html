@@ -93,6 +93,18 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 /* Keep the opening and epilogue scrollable on short phones. */
 .intro,.outro{min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 @media(max-height:690px){.intro .ornament{margin-bottom:12px}.intro .enter{margin-top:22px}.intro small{margin-top:11px}.outro{justify-content:flex-start}}
+/* A casebook for the six causally linked chronicles. */
+.story-case{border:1px solid #596554;border-radius:13px;margin:9px 0;background:#19221d;overflow:hidden}
+.story-case summary{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px;cursor:pointer;list-style:none;touch-action:manipulation}
+.story-case summary::-webkit-details-marker{display:none}
+.story-case summary:after{content:'+';color:var(--gold);font-size:19px;order:3}
+.story-case[open] summary:after{content:'−'}
+.story-case-title{font:15px Georgia,serif;color:#eee0bf;letter-spacing:.02em}
+.story-case-count{font-size:10px;line-height:1.3;color:#a5b0a0;text-align:right;margin-left:auto}
+.story-case-body{border-top:1px solid #414e41;padding:10px 14px 16px}
+.story-case-body p{font-size:13px;margin:8px 0 12px}
+.story-beat{border-left:2px solid #857a5c;margin:13px 0;padding:3px 0 5px 11px;font:14px/1.45 Georgia,serif;color:#e3d8c4}
+.story-beat small{display:block;margin-top:6px;color:#aeb6a8;font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}
 
 </style>
 </head>
@@ -1227,6 +1239,485 @@ function ndResolve(s,ev,side,arena){const sb=s.sandbox,n=ndInit(s),key=ev.caseId
  if(sb.yearTurn>=sb.perYear)sbAdvanceYear(s);
 }
 
+/* INTERWOVEN NARRATIVE ENGINE */
+/* EDWARD — INTERWOVEN CHRONICLES: 36 authored narrative beats in six causal arcs.
+   Historic background is documented in the linked sources; ALL speeches, warrants,
+   letters, negotiations and counterfactual incidents here are fictional reconstructions.
+   Each scene has two independently authored versions, conditioned on previous choices.
+   No scripted victory, betrayal, battle, or death is imposed on a counterfactual reign.
+*/
+const SE_STORIES={
+ neville:{title:'THE KINGMAKER’S PRICE',start:1465,source:'https://www.royal.uk/edward-iv',anchor:'Warwick was an essential supporter of Edward IV, but their diplomatic and domestic interests diverged. Warwick changed sides in 1470 in recorded history. This simulation never forces that outcome.',lead:'warwick',beats:[
+ {id:'counsel',year:1465,who:'Richard Neville, Earl of Warwick',role:'The king’s principal magnate · Westminster',where:'Westminster',tag:'THE PRICE OF COUNSEL',
+  q:['Your Grace, my captains hold the northern roads in your name. Yet I cannot answer them when every petition must wait for a chamberlain’s whisper. Give me a clear commission, and I shall answer for my men.','Your Grace, the council has not forgotten Towton. If your servants now seek to govern without those who fought beside you, say so openly.'],
+  ctx:'Warwick has military clients and authority in Calais. His request for a commission is also a request to distribute patronage.',
+  l:'Issue a bounded northern commission.',r:'Keep appointments in the royal household.',
+  le:{authority:1,people:{warwick:{trust:1,influence:1},montagu:{trust:1}},flags:{nevilleCommission:'bounded'},report:'Warwick accepts a commission whose terms are entered by the clerks.'},
+  re:{authority:1,people:{warwick:{grievance:2,trust:-1},hastings:{influence:1}},flags:{nevilleCommission:'refused'},report:'Warwick returns to his household without a new warrant.'}},
+ {id:'seal',year:1467,who:'George Neville',role:'Lord Chancellor · the Great Seal',where:'Westminster',tag:'THE SEAL AND THE ENVOY',
+  q:['My brother believes that a French understanding will keep our enemies divided. Yet a Burgundian agent has been entertained in secret. Which undertaking am I to seal in the king’s name?','I have the Seal, Your Grace, but not your confidence. Warwick says your servants promise Burgundy what your envoys promise France. Shall I put my office behind either word?'],
+  ctx:'The Chancellor is Warwick’s brother. A sealed letter binds the Crown more visibly than a private conversation.',
+  l:'Record an open council policy.',r:'Reserve diplomacy to Edward’s own envoys.',
+  le:{authority:1,credit:-1,people:{warwick:{trust:1},burgundy:{grievance:1}},flags:{foreignProcess:'council'},report:'The Chancellor records a public diplomatic instruction.'},
+  re:{people:{warwick:{grievance:2},hastings:{trust:1},burgundy:{trust:1}},flags:{foreignProcess:'private'},reaction:{actor:'warwick',rival:'hastings',kind:'intelligence'},report:'George Neville requests a written explanation for the exclusion of Chancery.'}},
+ {id:'clients',year:1468,who:'William Hastings',role:'Royal chamberlain · the outer court',where:'London',tag:'THE MEN IN TWO LIVERIES',
+  q:['Warwick’s servants have brought a roll of names. They ask which of their men are to keep their fees after the new appointments. I can sign the warrants, but I cannot make both households satisfied.','Warwick’s men are already telling petitioners that your chamber is closed to them. One has offered me his service, and his former master calls it theft.'],
+  ctx:'A household retainer may receive fees from more than one patron. The conflict is over access, not a formal declaration of rebellion.',
+  l:'Publish the fee rolls and protect existing service.',r:'Allow Hastings to replace disputed officers.',
+  le:{authority:1,credit:-1,people:{warwick:{trust:1},hastings:{trust:1}},flags:{clientSettlement:'published'},report:'A fee roll is displayed at Westminster; several names appear on both lists.'},
+  re:{people:{warwick:{grievance:2},hastings:{influence:1,trust:1}},flags:{clientSettlement:'household'},report:'Hastings fills vacant places. Warwick’s clerks dispute which vacancies were real.'}},
+ {id:'affinity',year:1469,who:'A sheriff of Warwickshire',role:'A sealed report from the shire',where:'Midlands',tag:'A RETINUE ASSEMBLES',
+  q:['Two bands of men wear different badges and each says he rides under a royal licence. The market has closed early. I beg leave to summon both captains before a jury, not before one another.','The Neville servants have hired horses by the dozen. They call it an escort for the Earl; their neighbours call it a muster. The first blow may be struck before my next letter.'],
+  ctx:'A local muster may be protection, intimidation, or rebellion. Edward has the sheriff’s account, not access to the private instructions.',
+  l:'Demand sureties from both affinities.',r:'Allow the stronger household to restore order.',
+  le:{authority:1,unrest:{Midlands:-2},people:{warwick:{grievance:1},hastings:{grievance:1}},flags:{affinityPeace:'sureties'},report:'The captains swear peace before the sheriff, though some men keep their badges.'},
+  re:{authority:-1,unrest:{Midlands:2},people:{warwick:{influence:1,grievance:1}},flags:{affinityPeace:'delegated'},report:'The roads open, but the sheriff reports that one lord now commands both toll gates.'}},
+ {id:'terms',year:1470,who:'Richard Neville, Earl of Warwick',role:'An audience sought through intermediaries',where:'Calais',tag:'TERMS OF ALLEGIANCE',
+  q:['I have kept your ports, Your Grace. My men ask what place remains for them when new kindred sit beside your chair. Let us write our obligations before mistrust makes traitors of servants.','You may call my followers troublesome, but they are men who have been refused justice. I will not send them home upon a promise that can be forgotten at supper.'],
+  ctx:'Warwick’s loyalty is a political choice, not an inevitable historical switch. His grievance is shaped by earlier appointments, the queen’s kin and foreign policy.',
+  l:'Negotiate guarantees with named witnesses.',r:'Demand unconditional submission.',
+  le:{authority:1,credit:-1,people:{warwick:{trust:2,grievance:-2},montagu:{trust:1}},flags:{nevilleTerms:'negotiated'},report:'Warwick sends a list of proposed sureties; not every captain agrees to sign.'},
+  re:{authority:1,people:{warwick:{grievance:3,trust:-2},montagu:{grievance:1}},unrest:{North:1},flags:{nevilleTerms:'ultimatum'},reaction:{actor:'warwick',rival:'hastings',kind:'retinue'},report:'The Earl withdraws before the witnesses arrive. His servants say he has not renounced the king.'}},
+ {id:'reckoning',year:1472,who:'A clerk of the royal Council',role:'An inquiry into service and pardons',where:'Westminster',tag:'THE COST OF RECONCILIATION',
+  q:['The Earl’s captains have brought their oaths. They will surrender private warrants if the Crown will confirm their lands. Shall we make this peace part of the record?','Several Neville captains seek pardons, but no one agrees on the offences. To pardon without hearing them may purchase peace; to examine them may uncover a new quarrel.'],
+  ctx:'The outcome depends on whether the Earl retained trust, how northern lands were settled, and whether rival households were heard.',
+  l:'Confirm conditional pardons and land guarantees.',r:'Require separate hearings for every captain.',
+  le:{authority:1,people:{warwick:{grievance:-2,trust:1},montagu:{trust:1}},flags:{nevilleSettlement:'pardon'},report:'Some Neville captains return their private commissions and receive royal letters.'},
+  re:{authority:2,people:{warwick:{grievance:1},hastings:{trust:1}},flags:{nevilleSettlement:'inquest'},report:'The council opens individual inquiries. A few retainers depart before they can be called.'}}
+ ]},
+ woodville:{title:'THE QUEEN’S DOOR',start:1465,requires:s=>s.sandbox.marriage==='elizabeth',source:'https://www.royal.uk/edward-iv',anchor:'Edward IV married Elizabeth Woodville in 1464. Patronage for her kin contributed to political tension. The particular petitions and dialogues are fictional.',lead:'woodville',beats:[
+ {id:'petition',year:1465,who:'Elizabeth Woodville',role:'Queen of England · the privy chamber',where:'Westminster',tag:'THE QUEEN’S PETITION',
+  q:['My lord, Anthony served his family before he served mine. He asks for a place he can perform, not a title he can wear. Must my marriage make every honest petition suspect?','Your servants say a queen should ask nothing for her own blood. Yet when other lords advance their cousins it is called good government. Tell me which rule applies to us.'],
+  ctx:'The queen’s family has pre-existing connections. Her marriage amplifies both their opportunities and resentment from other households.',
+  l:'Grant Anthony a limited office with public terms.',r:'Refer every Woodville petition to Council.',
+  le:{people:{woodville:{influence:1,trust:1},warwick:{grievance:1}},flags:{queenAccess:'direct'},report:'A Woodville commission is entered on the patent rolls.'},
+  re:{authority:1,people:{woodville:{grievance:1},warwick:{trust:1}},flags:{queenAccess:'council'},report:'The Council receives the petition. The queen has not withdrawn it.'}},
+ {id:'marriage',year:1466,who:'Anthony Woodville',role:'The queen’s brother · a marriage negotiation',where:'Westminster',tag:'A MARRIAGE WITH A PRICE',
+  q:['A ward of good estate has been offered to our kin in marriage. I will not pretend the lands do not matter. But the child’s guardian has already taken a fee from another suitor.','The match could strengthen the queen’s house, Your Grace. Yet Warwick’s friends say the guardian once promised the ward elsewhere. They have produced no writing.'],
+  ctx:'Marriage negotiations may redirect inherited property and create a rival claim. The Crown knows only the offers presented to it.',
+  l:'Approve only after inspecting the wardship.',r:'Permit the private match without an inquiry.',
+  le:{authority:1,people:{woodville:{trust:1},warwick:{trust:1}},flags:{woodvilleMatch:'audited'},report:'The wardship is referred to royal officers; both suitors must show their terms.'},
+  re:{authority:-1,people:{woodville:{influence:1},warwick:{grievance:2}},flags:{woodvilleMatch:'private'},report:'A private marriage settlement is announced. Its land clauses are not lodged with the court.'}},
+ {id:'chamber',year:1468,who:'William Hastings',role:'The king’s chamberlain · access to court',where:'London',tag:'WHO MAY SEE THE KING',
+  q:['Petitioners wait in my chamber with letters bearing the queen’s name. I do not doubt her good will. I ask whether the king’s justice now begins at her door or at his seal.','A Woodville clerk has promised a hearing to a man I already refused. If his word is enough, my office is an ornament. If mine is enough, the queen will call it an insult.'],
+  ctx:'Court access affects who can press claims and who bears the blame for rejected petitions.',
+  l:'Establish one recorded petition register.',r:'Maintain separate channels for royal kin.',
+  le:{authority:2,people:{hastings:{trust:1},woodville:{grievance:1}},flags:{petitionDoor:'register'},report:'The first shared petition register exposes two promises for the same office.'},
+  re:{people:{woodville:{influence:1},hastings:{grievance:1}},flags:{petitionDoor:'separate'},report:'Two clerks give different dates for the same audience. Neither will withdraw his entry.'}},
+ {id:'charter',year:1470,who:'A clerk of the Exchequer',role:'Royal grants and resumed revenues',where:'Westminster',tag:'THE PRICE OF A GRANT',
+  q:['A grant to the queen’s kindred names rents already pledged to a northern captain. The same money cannot pay both. Which promise shall I put in the accounts?','The rents promised to the queen’s kin have not arrived. A Neville steward says they were pledged years ago. I have two warrants and one sheriff.'],
+  ctx:'This is an imagined accounting dispute, not a claim that a particular historical charter existed. Earlier royal patronage determines who feels wronged.',
+  l:'Protect the earlier claim until an audit.',r:'Pay the queen’s kin and offer compensation.',
+  le:{credit:1,authority:1,people:{warwick:{trust:1},woodville:{grievance:2}},flags:{woodvilleRents:'audited'},report:'The Exchequer freezes a disputed rent pending a public account.'},
+  re:{credit:-2,people:{woodville:{trust:1,influence:1},warwick:{grievance:2}},flags:{woodvilleRents:'preferred'},report:'The sheriff pays one warrant. The displaced creditor petitions for compensation.'}},
+ {id:'wardship',year:1474,who:'Elizabeth Woodville',role:'The queen’s household · a minor heir',where:'Westminster',tag:'A CHILD AND AN INHERITANCE',
+  q:['A young heir has been placed among my attendants. His mother asks that I keep him safe; his uncle asks for the rents. They are not the same request, and I will not pretend they are.','The child’s relatives have begun sending gifts to rival guardians. If the Crown does not name who may hold his person, they will decide it without us.'],
+  ctx:'A wardship combines the care of a minor with temporary control of property. The child is not merely a prize in an adult dispute.',
+  l:'Separate guardianship from estate revenues.',r:'Entrust both powers to the queen’s household.',
+  le:{authority:1,people:{woodville:{trust:1},hastings:{trust:1}},flags:{queenWard:'separated'},report:'Guardianship and estate income are assigned to different officers.'},
+  re:{authority:-1,people:{woodville:{influence:2},hastings:{grievance:1}},flags:{queenWard:'united'},report:'The queen’s household receives custody and rents; a distant kinsman files a protest.'}},
+ {id:'reckoning',year:1478,who:'Anthony Woodville',role:'A petition from the queen’s kin',where:'Westminster',tag:'THE FAMILY ACCOUNT',
+  q:['We have been favoured, yes. We have also been blamed for every office lost by another man. Let the clerks count our service beside our grants before they write our family into a charge.','Your Grace, I am told we must surrender places to prove we deserve the ones we keep. Name the offence, and I will answer it. Do not make kinship itself a crime.'],
+  ctx:'The king must balance public trust, the queen’s household and established noble networks; there is no automatic historical verdict.',
+  l:'Publish a review of all household grants.',r:'Protect the queen’s grants from further challenge.',
+  le:{authority:2,people:{woodville:{trust:1,grievance:1},warwick:{trust:1}},flags:{queenSettlement:'review'},report:'A register of household grants is opened; it names favours from several competing affinities.'},
+  re:{authority:-1,people:{woodville:{influence:1,trust:1},hastings:{grievance:1}},flags:{queenSettlement:'privilege'},report:'Royal protection quiets some petitions, but complaints continue in private.'}}
+ ]},
+ north:{title:'THE NORTHERN INHERITANCE',start:1465,source:'https://www.historyofwar.org/articles/battles_barnet.html',anchor:'The Nevilles and Percies contested power in the north. In recorded history Henry Percy regained the earldom of Northumberland in 1470 while John Neville received another title. The game allows different settlements.',lead:'montagu',beats:[
+ {id:'title',year:1465,who:'John Neville, Lord Montagu',role:'Northern commander · York',where:'North',tag:'THE PRICE OF VICTORY',
+  q:['My men kept the roads after Hexham. Now a Percy kinsman asks whether the old rents will be restored to his house. I can command the garrisons; I cannot make the tenants forget their former lord.','The Percies have sent agents to the market towns. They offer old protections and speak of hereditary right. If the king means to change the settlement, let him tell me before the garrisons hear it elsewhere.'],
+  ctx:'Northern title, actual possession and local obedience are separate. The Percy–Neville rivalry did not begin with this letter.',
+  l:'Commission an inquiry into old titles.',r:'Confirm Montagu’s present authority.',
+  le:{authority:1,people:{montagu:{trust:1},percy:{trust:1}},flags:{northTitle:'inquest'},report:'An inquest is ordered. Percy claimants bring witnesses from several shires.'},
+  re:{people:{montagu:{trust:1,influence:1},percy:{grievance:2}},flags:{northTitle:'neville'},report:'Montagu’s command is confirmed. Percy tenants continue to speak of the old title.'}},
+ {id:'rents',year:1467,who:'A Percy household steward',role:'Rents and service · Northumberland',where:'North',tag:'WHO COLLECTS THE RENTS',
+  q:['Your sheriff demands the rent in the king’s name. Montagu’s receiver demands it in his. Our old tenants say they have paid both before. Shall they sell their seed to pay twice?','The Neville receiver has seized our carts. He says he holds the lawful warrant. I ask only that the writ be read aloud where the tenants can hear it.'],
+  ctx:'The king has competing accounts. The actual burden on tenants is visible, while the title behind the demand remains disputed.',
+  l:'Suspend collection pending an audited account.',r:'Permit the current receiver to collect.',
+  le:{credit:-1,authority:1,unrest:{North:-1},people:{percy:{trust:1},montagu:{grievance:1}},flags:{northRents:'suspended'},report:'A clerk posts the suspension at the market cross. Receivers protest the lost revenue.'},
+  re:{credit:1,unrest:{North:1},people:{montagu:{trust:1},percy:{grievance:2}},flags:{northRents:'collected'},report:'The current receiver collects. Some tenants abandon their holdings until the dispute is heard.'}},
+ {id:'earldom',year:1469,who:'Henry Percy',role:'Petitioner for northern inheritance',where:'York',tag:'THE OLD EARLDOM',
+  q:['My father’s title has become a word men are forbidden to speak. I do not ask you to dishonour Lord Montagu. I ask whether the blood of my house may ever serve the Crown again.','The tenants will not be quiet because a Neville warrant calls me an intruder. I will serve you, Your Grace, if you will name what is to become of my inheritance.'],
+  ctx:'The real 1470 Percy restoration is a historical pressure, not a mandatory script. Any settlement must address Montagu’s displaced interest.',
+  l:'Restore Percy standing with compensation for Montagu.',r:'Keep the Neville title and offer Percy another office.',
+  le:{authority:1,people:{percy:{trust:2,influence:1},montagu:{grievance:2,trust:-1}},flags:{northEarldom:'percy'},reaction:{actor:'montagu',rival:'percy',kind:'estate'},report:'Percy’s restoration is announced; Montagu’s stewards demand to see the compensation schedule.'},
+  re:{people:{montagu:{trust:1,influence:1},percy:{grievance:2}},flags:{northEarldom:'neville'},report:'The Neville title stands. Percy accepts an office but his household disputes the conditions.'}},
+ {id:'castle',year:1471,who:'The constable of a northern castle',role:'Garrison and oath · northern marches',where:'North',tag:'THE KEYS OF THE KEEP',
+  q:['My soldiers swear to the king, but their wages come through a lord whose title is now questioned. If I surrender the keys to his rival, who will pay the men at the gate?','A new lord has sent his seal for the keys. The old captain says his oath remains good until he sees the king’s hand. I can hold the gate one week, perhaps two.'],
+  ctx:'The castle is an illustrative northern stronghold, not a named documented siege. Garrisons have practical loyalties beyond the wording of a writ.',
+  l:'Pay the garrison directly and take royal custody.',r:'Let the local lord retain the keys.',
+  le:{credit:-2,authority:2,unrest:{North:-1},people:{montagu:{grievance:1},percy:{grievance:1}},flags:{northGarrison:'crown'},report:'The constable accepts royal wages. His former patron protests the cost of losing the keys.'},
+  re:{credit:1,authority:-1,people:{montagu:{influence:1},percy:{grievance:1}},flags:{northGarrison:'lord'},report:'The keys remain in private custody; the constable asks who may command him in war.'}},
+ {id:'oath',year:1474,who:'A northern justice of the peace',role:'A county hearing · Northumberland',where:'North',tag:'OATHS AFTER THE SETTLEMENT',
+  q:['The same tenants have sworn obedience to two houses in ten years. They ask which oath a royal justice will enforce when the harvest is taken. I have brought their names, not their badges.','The old captains will attend your court if their rivals do. Each demands a guarantee that testimony will not be treated as confession. The villages need a peace they can recognize.'],
+  ctx:'Earlier grants, a disputed earldom and garrison decisions determine whether royal peace is enforceable.',
+  l:'Hold a public assize and record local obligations.',r:'Accept a private pact between the great houses.',
+  le:{authority:2,credit:-1,unrest:{North:-2},people:{percy:{trust:1},montagu:{trust:1}},flags:{northOaths:'public'},report:'Tenants testify before royal justices; the strongest houses dislike the written limits.'},
+  re:{authority:-1,unrest:{North:-1},people:{percy:{influence:1},montagu:{influence:1}},flags:{northOaths:'private'},report:'The households exchange private guarantees. Villagers are not shown their terms.'}},
+ {id:'legacy',year:1478,who:'A messenger from York',role:'Northern county returns',where:'York',tag:'THE NORTH REMEMBERS',
+  q:['Your justices have sent their final account. The roads are quieter, but men still ask which lord will speak for them when the next king is a child. Shall the Crown bind their service directly?','The great houses have made peace over the old rents. They now ask to appoint the very sheriffs who must judge future quarrels. Peace, they say, has earned them that right.'],
+  ctx:'A settlement that ended one feud may create a new question about future royal authority and succession.',
+  l:'Reserve the sheriff’s office to the Crown.',r:'Recognise the houses’ local nominations.',
+  le:{authority:2,people:{montagu:{grievance:1},percy:{grievance:1}},flags:{northLegacy:'crown'},report:'Royal sheriffs take office. Some northern captains refuse to surrender their lists of tenants.'},
+  re:{authority:-1,people:{montagu:{influence:1},percy:{influence:1}},flags:{northLegacy:'magnates'},report:'The great houses nominate local officers and promise to keep the roads open.'}}
+ ]},
+ caister:{title:'LETTERS FROM CAISTER',start:1467,source:'https://historicengland.org.uk/listing/the-list/list-entry/1287573',anchor:'Sir John Fastolf left Caister to John Paston. The Duke of Norfolk took the castle by force in 1469; the Pastons eventually regained it after Norfolk’s death in 1476. These royal interventions and speeches are imagined.',lead:'hastings',beats:[
+ {id:'will',year:1467,who:'John Paston',role:'A disputed bequest · Norfolk',where:'Caister',tag:'THE WILL OF FASTOLF',
+  q:['Sir John Fastolf left us his castle. My lord of Norfolk says other men sold him a better right. I have brought copies of the will; the originals are in danger whenever we send them upon the road.','The Duke’s men say possession proves title. If that is the law, why should a family keep its charters? I ask for a hearing before someone who does not wear Norfolk’s livery.'],
+  ctx:'The will and its challengers are historical. Edward has the petitioner’s copy, not a judicial finding that settles every claim.',
+  l:'Appoint independent examiners of the charters.',r:'Ask Norfolk to arbitrate the competing titles.',
+  le:{authority:1,credit:-1,flags:{caisterTitle:'commission'},people:{hastings:{trust:1}},report:'Commissioners receive sealed copies of the Fastolf papers.'},
+  re:{authority:-1,flags:{caisterTitle:'norfolk'},people:{hastings:{grievance:1}},report:'Norfolk’s steward offers a hearing on terms the Pastons say they cannot accept.'}},
+ {id:'rents',year:1468,who:'Margaret Paston',role:'A letter concerning Caister rents',where:'Norfolk',tag:'THE RENTS OF A CASTLE',
+  q:['The duke’s receiver has taken the rents before any judge has seen our title. My sons write brave words from London. Brave words do not feed the men who hold our gate.','I have counted the grain in the storehouse. It will not last if men take the rents and leave us the mouths. I ask not for favour, but for an order a sheriff will enforce.'],
+  ctx:'Margaret Paston’s letters document the family’s struggle, but this particular address to Edward is fictional. The dispute now concerns food and possession.',
+  l:'Protect the harvest pending judgment.',r:'Let the local receiver continue collecting.',
+  le:{authority:1,credit:-1,flags:{caisterRents:'protected'},report:'A royal officer orders grain retained for the garrison; the receiver disputes his warrant.'},
+  re:{credit:1,flags:{caisterRents:'taken'},people:{hastings:{grievance:1}},report:'The rents are collected. A letter from Caister warns of dwindling stores.'}},
+ {id:'muster',year:1469,who:'A Norfolk sheriff',role:'The approaches to Caister',where:'Caister',tag:'THE MEN AT THE GATE',
+  q:['The Duke of Norfolk has assembled men near Caister. He says they will merely enforce his title. The Pastons have barred the gate. Shall I ride between them with your banner?','There are armed men in the lanes, Your Grace. One side has the castle and the other the roads. Neither will be the first to dismiss its followers.'],
+  ctx:'The historical siege took place in 1469. In this reign the outcome depends on earlier commissions, supplies and royal authority.',
+  l:'Send the sheriff with a royal peace commission.',r:'Leave enforcement to the rival claimants.',
+  le:{authority:1,credit:-1,unrest:{Midlands:-1},flags:{caisterPeace:'intervened'},report:'The sheriff rides to Caister with a sealed prohibition on armed entry.'},
+  re:{authority:-1,unrest:{Midlands:2},flags:{caisterPeace:'abandoned'},report:'The duke’s men occupy the approaches; neither household accepts responsibility for the first shot.'}},
+ {id:'gate',year:1470,who:'A messenger from Caister',role:'The disputed gatehouse · Norfolk',where:'Caister',tag:'THE GATEHOUSE LETTER',
+  q:['The king’s commission has kept the gates shut to both claimants. Now the men ask who will pay for the watch. If you leave us without wages, the writ will become a scrap of parchment.','The outer gate has been forced, or so the messenger says; the castellan disputes his count of the men. A widow asks whether a royal writ can reach a besieged tower.'],
+  ctx:'The exact state of Caister in this alternate timeline depends on Edward’s previous intervention. The messenger cannot verify every claim.',
+  l:'Supply a paid royal garrison pending title judgment.',r:'Offer an immediate possession compromise.',
+  le:{credit:-2,authority:2,unrest:{Midlands:-1},flags:{caisterGate:'royal'},report:'Royal wages reach the castle; the disputed title is not yet settled.'},
+  re:{authority:-1,flags:{caisterGate:'compromise'},report:'The parties exchange proposed terms, but disagree over who may keep the keys.'}},
+ {id:'widow',year:1473,who:'Margaret Paston',role:'A family letter · Norfolk',where:'Norfolk',tag:'A WIDOW’S REMEMBRANCE',
+  q:['We have obeyed each hearing and paid for every journey to London. My sons are told that the king’s peace is worth waiting for. I ask how long a family must wait before a promise becomes a judgment.','The lawyers have made a trade of our title. One says the will is sound; another says the duke will never release possession. If you cannot settle it, tell us plainly what the law is worth.'],
+  ctx:'Repeated legal expenses can ruin a gentry family even without open fighting. The case has accumulated costs and memories.',
+  l:'Set a deadline for final judgment.',r:'Fund another private negotiation.',
+  le:{authority:2,credit:-1,flags:{caisterDeadline:'public'},report:'A date for judgment is proclaimed. The duke’s representatives seek an adjournment.'},
+  re:{credit:-1,flags:{caisterDeadline:'private'},report:'Intermediaries begin new talks; the Pastons warn that they cannot pay lawyers indefinitely.'}},
+ {id:'patent',year:1476,who:'John Paston',role:'A petition after a change of lordship',where:'Caister',tag:'THE PATENT AND THE HEIR',
+  q:['The Duke of Norfolk is dead, but our quarrel need not die with him. His heirs may inherit a claim they never examined. Shall the king settle possession now, while there is room for peace?','A new household speaks for the Norfolk inheritance. They say a king’s patent cannot erase the memory of their father’s right. We ask for title and a gate we may enter without an army.'],
+  ctx:'Norfolk died in 1476 in recorded history; here the disputed rights and the settlement remain contingent. A patent may not end local resentment.',
+  l:'Issue a recorded patent after a final inquest.',r:'Accept a settlement with shared rents.',
+  le:{authority:2,flags:{caisterOutcome:'patent'},report:'A final royal patent is issued after the inquest; the losing party retains a right to petition.'},
+  re:{authority:-1,credit:1,flags:{caisterOutcome:'shared'},report:'The claimants divide the rents and pledge not to use force, leaving title unresolved.'}}
+ ]},
+ diplomacy:{title:'THE TWO SHORES',start:1466,source:'https://www.royal.uk/edward-iv',anchor:'Edward IV’s diplomacy involved France, Burgundy and the Calais garrison. In recorded history he made a profitable agreement with Louis XI at Picquigny in 1475. No agreement is predetermined here.',lead:'burgundy',beats:[
+ {id:'wool',year:1466,who:'A merchant of the Staple',role:'English wool trade · Calais',where:'Calais',tag:'THE MERCHANTS’ LEDGER',
+  q:['Our wool crosses through Calais, but French agents offer easier passage if we will carry their letters. I sell cloth, not crowns. Shall I refuse a market because a lord distrusts its prince?','The Burgundian factor promises safe roads and asks for the king’s favour. The Frenchman promises lower duties. Neither promise is written in a language my clerk can enforce.'],
+  ctx:'Calais was a key English commercial and military foothold. Merchants seek predictable duties, not necessarily their patrons’ foreign policy.',
+  l:'Protect the existing Burgundian trading route.',r:'License exploratory French negotiations.',
+  le:{credit:1,people:{burgundy:{trust:1},warwick:{grievance:1}},flags:{tradeRoute:'burgundy'},report:'Calais merchants renew their contracts; French intermediaries seek another channel.'},
+  re:{credit:1,people:{warwick:{trust:1},burgundy:{grievance:1}},flags:{tradeRoute:'france'},report:'French merchants send draft terms; Burgundian factors ask if the king has changed policy.'}},
+ {id:'embassy',year:1467,who:'Richard Neville, Earl of Warwick',role:'A returning diplomatic embassy',where:'Calais',tag:'THE EMBASSY RETURNS',
+  q:['I was sent to hear France, not to be measured against a treaty made behind my back. Tell me what assurances I may carry before I face their king again.','The French council asks if my word is still the king’s. A Burgundian agent has been received by another door. An ambassador cannot serve two instructions at once.'],
+  ctx:'The divergence between Warwick’s French diplomacy and Edward’s Burgundian interests is documented. The exact conversation is invented.',
+  l:'Give Warwick a public, limited mandate.',r:'Use separate confidential envoys.',
+  le:{authority:1,people:{warwick:{trust:1},burgundy:{grievance:1}},flags:{embassy:'public'},report:'A limited French mandate is sealed. Warwick complains about its narrow terms.'},
+  re:{people:{warwick:{grievance:2},burgundy:{trust:1}},flags:{embassy:'private'},report:'Two envoys depart with different instructions. Neither sees the other’s letters.'}},
+ {id:'letters',year:1469,who:'A clerk from the Calais council',role:'Foreign correspondence and secrecy',where:'Calais',tag:'LETTERS WITH TWO SEALS',
+  q:['Two letters promise protection to merchants travelling the same road. One bears the Chancellor’s form; the other was carried without the Great Seal. Both are being shown as royal guarantees.','The Flemish factor asks which of your agents can pledge customs. He has heard that the Chancellor was denied the matter. If we contradict ourselves, the merchants will charge for the risk.'],
+  ctx:'Conflicting instructions create financial and political costs even when neither foreign ruler intends immediate war.',
+  l:'Reconcile the letters through Chancery.',r:'Keep the newer assurance and withdraw the old.',
+  le:{authority:2,credit:-1,people:{warwick:{trust:1},burgundy:{trust:1}},flags:{foreignLetters:'reconciled'},report:'Chancery issues one schedule of customs obligations; both sides lose concessions.'},
+  re:{authority:-1,credit:1,people:{warwick:{grievance:1},burgundy:{trust:1}},flags:{foreignLetters:'withdrawn'},report:'A private letter is recalled. Its bearer insists the king promised him protection.'}},
+ {id:'captains',year:1472,who:'The captain of a Calais ship',role:'Channel passage and military stores',where:'Calais',tag:'THE PRICE OF A PASSAGE',
+  q:['A convoy will sail under your colours. Burgundy offers an escort if we will carry soldiers. France offers safe passage if we carry no arms. The merchants ask for one answer before the tide turns.','Our stores have been counted twice, once for the garrison and once for an expedition that has not been ordered. Men will desert if they are promised pay from the same chest.'],
+  ctx:'A naval escort is a logistical choice as much as a diplomatic declaration. Promises made to merchants and captains may conflict.',
+  l:'Reserve ships and wages for defence of Calais.',r:'Prepare an expeditionary commitment.',
+  le:{credit:1,authority:1,unrest:{Calais:-1},flags:{calaisPolicy:'defence'},report:'The garrison receives stores. Continental allies complain that England has not promised troops.'},
+  re:{credit:-2,people:{burgundy:{trust:1}},flags:{calaisPolicy:'expedition'},report:'Ships are provisioned. The treasurer asks which customs revenue will cover the wages.'}},
+ {id:'picquigny',year:1475,who:'An envoy of Louis XI',role:'French terms · near Picquigny',where:'France',tag:'THE OFFER OF PEACE',
+  q:['My master offers payment, security for merchants, and an end to needless marching. He will not say that he fears you. He will say that he values a neighbour who knows the price of peace.','The Duke of Burgundy has promised more than his men have delivered, so my master believes. Will you stake the kingdom’s credit upon an ally’s arrival, or put a sum upon peace?'],
+  ctx:'Edward historically negotiated the Treaty of Picquigny in 1475. This is an alternate negotiation; no payment arrives unless the player accepts enforceable terms.',
+  l:'Negotiate peace with scheduled payments.',r:'Continue preparations for armed pressure.',
+  le:{credit:3,authority:1,people:{burgundy:{grievance:2}},flags:{frenchSettlement:'payments'},report:'The French offer a schedule of payments; the first instalment is promised, not yet witnessed.'},
+  re:{credit:-2,people:{burgundy:{trust:1}},unrest:{Calais:1},flags:{frenchSettlement:'campaign'},report:'The captains prepare to march. Merchants demand compensation for delayed convoys.'}},
+ {id:'account',year:1477,who:'A royal treasurer',role:'Receipts from France and Calais',where:'Westminster',tag:'THE LEDGER AFTER PEACE',
+  q:['The promised French receipts have improved our account, but the merchants ask whether the peace protects them as well as the king. I can pay a captain or forgive a duty, not both.','The campaign has consumed the credit pledged against the Staple. Our allies still speak of victory; our lenders speak of dates. Which obligation shall the Crown honour first?'],
+  ctx:'The financial result is conditional on Edward’s earlier diplomacy, trade promises and military expenditure.',
+  l:'Publish the accounts and pay verified obligations.',r:'Reserve funds for strategic patronage.',
+  le:{credit:-1,authority:2,people:{london:{trust:1},burgundy:{grievance:1}},flags:{foreignAccount:'published'},report:'A public account is issued. Some creditors discover that their expected payment has been reduced.'},
+  re:{credit:1,authority:-1,people:{london:{grievance:2},burgundy:{trust:1}},flags:{foreignAccount:'reserved'},report:'Royal officers retain a reserve for future service. The London lenders ask for a date.'}}
+ ]},
+ succession:{title:'THE BLOOD AND THE SEAL',start:1468,source:'https://www.cambridge.org/core/journals/historical-journal/article/abs/i-attainder-and-forfeiture-1453-to-15091/1EA8D0EFB954878797B941400045B969',anchor:'Clarence’s marriage and inheritance, the division of Neville estates, and Edward IV’s succession were major dynastic questions. Clarence was executed in 1478 in recorded history; the game does not force his fate.',lead:'woodville',beats:[
+ {id:'brother',year:1468,who:'George, Duke of Clarence',role:'The king’s brother · Westminster',where:'Westminster',tag:'THE KING’S BROTHER',
+  q:['I am your brother before I am your servant. The great lords offer marriage alliances, and every answer I give is said to threaten the Crown. Will you speak plainly of my place in your house?','You have a queen and new kin. I ask for lands and a household proper to my birth, not a promise to wait until all your children are grown.'],
+  ctx:'Clarence has dynastic standing independent of the queen’s family. A marriage alliance could bind him to an ambitious magnate.',
+  l:'Offer a recorded appanage with limits.',r:'Leave Clarence free to seek noble patronage.',
+  le:{credit:-1,authority:1,people:{warwick:{grievance:1}},flags:{clarencePlace:'recorded'},report:'Clarence receives a limited royal income but asks whether it can be revoked.'},
+  re:{authority:-1,people:{warwick:{influence:1}},flags:{clarencePlace:'independent'},report:'Clarence receives visitors from the Neville affinity without a royal officer present.'}},
+ {id:'marriage',year:1469,who:'George, Duke of Clarence',role:'A proposed Neville marriage settlement',where:'Westminster',tag:'A PRINCE’S MARRIAGE',
+  q:['A Neville bride would bring lands and a great kinship. I will not ask you to love the match, only to judge whether my marriage may be treated as treason before it is made.','The Earl of Warwick offers his daughter in marriage. Your servants call the proposal a faction. If it is a danger, give me an honourable alternative.'],
+  ctx:'Clarence historically married Isabel Neville in 1469. This counterfactual proposal may be approved, constrained or redirected.',
+  l:'Permit the match with an explicit loyalty oath.',r:'Withhold assent and propose a different settlement.',
+  le:{authority:1,people:{warwick:{trust:1,influence:1}},flags:{clarenceMarriage:'neville'},report:'Clarence and the Neville household sign a loyalty undertaking. Its enforcement remains uncertain.'},
+  re:{authority:1,people:{warwick:{grievance:2,trust:-1}},flags:{clarenceMarriage:'other'},report:'The match is refused. Clarence asks whether a brother’s marriage is subject to royal licence.'}},
+ {id:'estates',year:1473,who:'A clerk of the royal Chancery',role:'Division of inherited lands',where:'Westminster',tag:'TWO BROTHERS, ONE INHERITANCE',
+  q:['Clarence and Gloucester claim portions of the same inheritance. One presents a royal grant; the other produces a later promise. If I seal both, the sheriff will be ordered to dispossess himself.','Clarence asks for the lands you promised in place of the Neville marriage. Gloucester’s servants say the same estate was assigned to him already. Which instrument may the judges read?'],
+  ctx:'The division of the Warwick and Neville inheritances between Clarence and Gloucester was historically contentious. Specific documents here are imagined.',
+  l:'Require a judicial partition with written boundaries.',r:'Settle the estates through royal discretion.',
+  le:{authority:2,credit:-1,people:{warwick:{grievance:1}},flags:{clarenceLands:'partition'},report:'Surveyors begin marking a division. Both princely households dispute the value of the parcels.'},
+  re:{authority:-1,people:{woodville:{grievance:1}},flags:{clarenceLands:'favour'},report:'A royal grant settles possession for now; a rival household preserves its earlier claim.'}},
+ {id:'charges',year:1477,who:'William Hastings',role:'A report on the king’s brother',where:'Westminster',tag:'THE ACCUSATION',
+  q:['Men say Clarence has received oaths from servants who should answer to you. I have no sworn witness, only two letters with the same story. Shall I question their authors before the rumour becomes a charge?','A servant of Clarence has been arrested, and now the whole court speaks of treason. The testimony may be true or purchased. I ask leave to examine the seal before we accuse the prince.'],
+  ctx:'Charges against Clarence became a grave political crisis in recorded history. In this timeline an allegation is not automatically proof.',
+  l:'Order an independent inquiry with witnesses.',r:'Demand Clarence’s immediate submission.',
+  le:{authority:2,credit:-1,flags:{clarenceCharge:'inquiry'},report:'Witnesses are summoned; the inquiry records contradictions in the first accounts.'},
+  re:{authority:1,unrest:{Court:2},flags:{clarenceCharge:'summons'},report:'Clarence is summoned to answer. His retainers ask for assurances of safe conduct.'}},
+ {id:'heir',year:1480,who:'A tutor of the royal household',role:'The prince’s education and protection',where:'Westminster',tag:'THE HEIR’S HOUSEHOLD',
+  q:['The young prince must learn to govern men who now compete to guard his door. His mother asks for familiar attendants; the Council asks for officers owing service to the Crown. Whose names shall I enter?','A guardian may love the child and still seek the seal. Two houses have sent lists of attendants, each calling the other dangerous. I need an order that will survive a king’s absence.'],
+  ctx:'If no heir is secure in this timeline, the same question concerns the succession settlement rather than a guaranteed historical prince.',
+  l:'Divide education, custody and estate revenues.',r:'Concentrate guardianship in one trusted household.',
+  le:{authority:2,people:{woodville:{grievance:1},hastings:{trust:1}},flags:{heirHousehold:'separated'},report:'Separate officers are appointed for the heir’s education, custody and revenues.'},
+  re:{authority:-1,people:{woodville:{influence:1},hastings:{grievance:1}},flags:{heirHousehold:'united'},report:'One household receives the guardianship. Other counsellors ask who may remove its officers.'}},
+ {id:'guardians',year:1482,who:'A clerk of the Council',role:'A sealed succession instrument',where:'Westminster',tag:'THE KING AFTER THE KING',
+  q:['Your Grace, a regency can be named on parchment, but it will be made in corridors and at gates. If your heir is young, whose men will hold the Tower and whose officers the treasury?','The prince’s guardians have accepted their titles. They have not agreed which of them may summon soldiers or open the treasury. A succession instrument must answer those questions now.'],
+  ctx:'The 1483 crisis is not scripted. The distribution of force, guardianship, revenues and trust shapes the later epilogue.',
+  l:'Bind the succession to a recorded Council settlement.',r:'Entrust the transition to a single household.',
+  le:{authority:2,people:{hastings:{trust:1},woodville:{grievance:1}},flags:{successionInstrument:'council'},report:'The Council witnesses a succession settlement. Several households seek clarifications.'},
+  re:{authority:-2,people:{woodville:{influence:2},hastings:{grievance:1}},flags:{successionInstrument:'household'},report:'One household receives broad guardianship; rival officers quietly retain copies of older warrants.'}}
+ ]}
+};
+
+/* Four conditional crossover hearings: they do not exist unless two earlier
+   chronicles collide. Speeches and incidents are counterfactual reconstructions. */
+const SE_CROSSOVERS={
+ two_doors:{title:'THE TWO DOORS OF WESTMINSTER',year:1469,until:1475,where:'Westminster',actor:'hastings',who:'William Hastings',role:'The chamberlain · a divided royal court',tag:'TWO DOORS, ONE KING',
+  source:'https://www.royal.uk/edward-iv',anchor:'Edward’s household, Warwick’s network and the queen’s kin competed for influence. The particular dispute over access is fictional.',
+  requires:(s,f)=>f.queenAccess==='direct'&&(f.embassy==='private'||f.foreignProcess==='private'||f.petitionDoor==='separate'),
+  q:'The queen’s clerks admit petitioners through one door; Warwick’s men wait at another. Both now claim that their answer comes from you. A merchant has paid twice to be heard once. Shall we record a single royal hearing?',
+  ctx:'This hearing exists because earlier choices gave direct access to the queen’s kin while bypassing or dividing other channels. The merchant’s allegation is not yet independently proven.',
+  l:'Make one public register for all petitions.',r:'Let each household retain its own audience.',
+  le:{authority:2,credit:-1,people:{woodville:{grievance:1},warwick:{trust:1},hastings:{trust:1}},flags:{crossoverDoors:'one-register'},report:'A shared petition register begins. Household clerks complain about the loss of discretion.'},
+  re:{authority:-1,people:{woodville:{influence:1},warwick:{grievance:1},hastings:{grievance:1}},flags:{crossoverDoors:'separate'},report:'The royal households keep separate audiences. Petitioners begin carrying duplicate requests.'}},
+ northern_writ:{title:'THE WRIT NO CAPTAIN WOULD CARRY',year:1471,until:1477,where:'York',actor:'montagu',who:'A northern royal commissioner',role:'The Percy–Neville settlement · York',tag:'THE WRIT WITHOUT A GUARD',
+  source:'https://www.historyofwar.org/articles/battles_barnet.html',anchor:'The historical Percy restoration in 1470 displaced Neville interests. This disputed commission and dialogue are invented.',
+  requires:(s,f)=>f.northEarldom==='percy'&&f.nevilleTerms==='ultimatum',
+  q:'You restored Percy rights, but the Neville captains refuse to escort the sheriff who must read your writ. Percy’s men offer to do it instead. If the writ arrives under one rival’s banner, the other will call it conquest.',
+  ctx:'This crisis can arise only when Percy restoration intersects with an unresolved Neville ultimatum. The commissioner knows the escort has been refused, not the Earl’s private instructions.',
+  l:'Send paid royal men to deliver the writ.',r:'Ask Montagu to guarantee the transfer.',
+  le:{credit:-2,authority:2,unrest:{North:-1},people:{montagu:{grievance:1},percy:{trust:1}},flags:{crossoverNorth:'royal-escort'},report:'The writ is read under the king’s banner. Both houses send observers.'},
+  re:{authority:-1,unrest:{North:1},people:{montagu:{trust:1,influence:1},percy:{grievance:1}},flags:{crossoverNorth:'neville-escort'},report:'Montagu agrees to escort the writ but asks that its boundaries be reopened.'}},
+ empty_chest:{title:'THE TWO EMPTY CHESTS',year:1476,until:1480,where:'Calais',actor:'london',who:'A clerk of the royal Exchequer',role:'Wages for the Channel and the shires',tag:'TWO GARRISONS, ONE TREASURY',
+  source:'https://academic.oup.com/histres/article-abstract/83/220/253/5609937',anchor:'The French campaign of 1475 and the royal financial settlement are historical pressures. This particular accounting conflict is imagined.',
+  requires:(s,f)=>(f.frenchSettlement==='campaign'||f.calaisPolicy==='expedition')&&(f.northGarrison==='crown'||f.caisterGate==='royal'),
+  q:'The ships at Calais and the royal men holding disputed English lands draw wages from the same receipt. Both captains have shown me your warrant. The chest will not pay both. Which oath shall I ask them to break?',
+  ctx:'The Crown promised an overseas commitment while taking direct responsibility for a domestic garrison. The financial shortage follows those two decisions, not a random annual penalty.',
+  l:'Pay the home garrison first.',r:'Pay the Channel captains first.',
+  le:{credit:-1,authority:1,unrest:{Calais:2,North:-1},people:{burgundy:{grievance:1}},flags:{crossoverTreasury:'home'},report:'The home garrison is paid. Calais captains demand a date for their arrears.'},
+  re:{credit:-1,authority:-1,unrest:{Calais:-1,North:2},people:{london:{grievance:1}},flags:{crossoverTreasury:'channel'},report:'The Channel captains receive their wages. A domestic constable threatens to surrender his keys.'}},
+ two_guardians:{title:'THE TWO GUARDIANSHIPS',year:1481,until:1483,where:'Westminster',actor:'woodville',who:'A clerk of the royal Council',role:'The heir’s household and the queen’s wardship',tag:'WHO HOLDS THE KEYS',
+  source:'https://www.cambridge.org/core/journals/historical-journal/article/abs/i-attainder-and-forfeiture-1453-to-15091/1EA8D0EFB954878797B941400045B969',anchor:'Guardianship, inheritance and succession were politically consequential. The combined hearing is a fictional product of the player’s earlier choices.',
+  requires:(s,f)=>f.queenWard==='united'&&f.heirHousehold==='united',
+  q:'You placed the queen’s wardship and the royal successor’s household under concentrated guardianship. Two seals now authorize officers to collect rents from the same estate. The child’s safety is cited by both sides. Shall the Council separate the keys?',
+  ctx:'This conflict exists only because two earlier decisions concentrated guardianship in households. The clerk can identify the duplicate warrants but cannot know every private promise.',
+  l:'Separate custody, revenues and command by public writ.',r:'Confirm the existing guardian’s broad authority.',
+  le:{authority:2,credit:-1,people:{woodville:{grievance:2},hastings:{trust:1}},flags:{crossoverGuardians:'divided'},report:'The Council separates guardianship and revenue; one household protests that protection is now impossible.'},
+  re:{authority:-2,people:{woodville:{influence:2},hastings:{grievance:1}},flags:{crossoverGuardians:'concentrated'},report:'The guardian retains custody and income. Rival councillors preserve copies of the conflicting warrants.'}}
+};
+
+/* EDWARD — INTERWOVEN CHRONICLES, an experimental rule-based narrative scheduler.
+   The six arcs contain 36 distinct authored beats and conditional text variants.
+   They compete for court time, cross-affect actors, and remember royal decisions.
+   This is NOT an LLM or a documentary reconstruction of particular speeches.
+*/
+const SE_SUPPRESS_DOSSIERS=new Set(['queen','seal','caister','france','clarence','heirs']);
+const _seNdCanStart=ndCanStart;
+ndCanStart=function(s,key){return !SE_SUPPRESS_DOSSIERS.has(key)&&_seNdCanStart(s,key);};
+function seInit(s){const sb=s.sandbox;if(sb.story){sb.story.crossovers||={};sb.story.crossJournal||=[];return sb.story;}
+ // Migration from an older Living Chronicle save: do not replay 1465 events in 1478.
+ const arcs={};for(const [id,def] of Object.entries(SE_STORIES)){
+  const stage=sb.year>1465?Math.max(0,def.beats.findIndex(b=>b.year>=sb.year)):0;
+  const migrated=sb.year>1465&&def.beats.every(b=>b.year<sb.year);
+  arcs[id]={stage:migrated?def.beats.length:stage,dueYear:migrated?9999:Math.max(def.start,def.beats[stage].year),inFlight:false,lastChoice:null,lastYear:null,lastOutcome:null,heard:0};
+ }
+ sb.story={schema:1,arcs,crossovers:{},crossJournal:[],flags:{},journal:[],scheduledByYear:{},offscreen:[],causalLinks:[],property:{caister:{title:'disputed',possession:'paston',rents:'contested'},north:{title:'disputed',garrison:'local'}},storyChoices:0,deferrals:0};
+ return sb.story;
+}
+function seVariant(s,id,beat,arc){const sb=s.sandbox,flags=seInit(s).flags;
+ if(id==='neville'&&beat.id==='terms')return sb.actors.warwick.grievance>=4||flags.queenAccess==='direct'||flags.embassy==='private'?1:0;
+ if(id==='neville'&&beat.id==='affinity')return sb.actors.warwick.grievance>=3?1:0;
+ if(id==='diplomacy'&&beat.id==='embassy')return flags.foreignProcess==='private'||flags.tradeRoute==='burgundy'?1:0;
+ if(id==='woodville'&&beat.id==='chamber')return flags.nevilleCommission==='refused'?1:0;
+ if(id==='north'&&beat.id==='earldom')return flags.nevilleCommission==='refused'||sb.actors.percy.grievance>=3?1:0;
+ if(id==='succession'&&beat.id==='charges')return flags.clarenceMarriage==='neville'||sb.actors.warwick.grievance>=4?1:0;
+ if(id==='caister'&&beat.id==='gate')return flags.caisterPeace==='intervened'?0:1;
+ if(id==='diplomacy'&&beat.id==='account')return flags.frenchSettlement==='payments'?0:1;
+ return arc.lastChoice==='right'?1:0;
+}
+function seWhy(s,id,beat,arc){const st=seInit(s),sb=s.sandbox,parts=[];
+ if(arc.lastOutcome)parts.push('Earlier royal order: '+arc.lastOutcome);
+ const f=st.flags;
+ if(id==='neville'&&f.queenAccess==='direct')parts.push('The queen’s kin have received direct royal patronage.');
+ if(id==='neville'&&f.embassy==='private')parts.push('Warwick’s embassy was bypassed by confidential envoys.');
+ if(id==='woodville'&&f.nevilleTerms==='ultimatum')parts.push('Warwick’s unresolved grievance makes the queen’s position more dangerous.');
+ if(id==='north'&&f.nevilleTerms==='ultimatum')parts.push('The Neville settlement is politically unstable.');
+ if(id==='caister'&&st.property.caister.possession==='norfolk')parts.push('A reported seizure has changed who physically holds the castle; the title remains contested.');
+ if(id==='diplomacy'&&f.foreignProcess==='private')parts.push('Earlier royal instructions were sent without the Chancellor’s open endorsement.');
+ if(id==='succession'&&f.queenWard==='united')parts.push('The queen’s household already holds concentrated guardianship in another dispute.');
+ return parts.join(' ');
+}
+function seScene(s,ev){const id=ev.story.arc,def=SE_STORIES[id],arc=seInit(s).arcs[id],beat=def.beats[ev.story.step];let variant=seVariant(s,id,beat,arc);
+ let quote=beat.q[variant];
+ if(id==='succession'&&['heir','guardians'].includes(beat.id)&&s.sandbox.heir==='undecided'){
+  quote=beat.id==='heir'?'There is no undisputed royal heir in the records before me. Each great household now asks whose claim will be heard first if Your Grace dies. Shall we name the procedure before the claimant?':'The succession remains unsettled. Several households have their own candidates and their own captains. Who may hold the treasury and summon the Council if the Crown falls vacant?';
+ }
+ if(id==='neville'&&beat.id==='reckoning'&&s.sandbox.actors.warwick.grievance>=6)quote='The Earl will not attend this Council. His captains send petitions for pardon but refuse to name what they have done. Some may be bargaining; others may be preparing to resist. Shall each answer separately?';
+ if(id==='caister'&&beat.id==='patent'&&seInit(s).property.caister.possession==='paston')quote='We have held the gate through years of letters and lawsuits. The Norfolk claim has outlived its strongest patron. A royal patent now could end the quarrel, but only if the tenants believe it will be enforced.';
+ const delay=ev.origin==='deferred'?' After the king postponed the hearing, rival parties prepared further testimony; the claims remain unverified.':'';
+ return {def,beat,quote,context:beat.ctx+' '+seWhy(s,id,beat,arc)+delay};
+}
+function seMakeEvent(s,id){const sb=s.sandbox,st=seInit(s),arc=st.arcs[id],beat=SE_STORIES[id].beats[arc.stage];
+ const ev={serial:++sb.serial,actor:SE_STORIES[id].lead,template:'petition',where:beat.where,year:sb.year,origin:'interwoven-story',sourceAction:'consequence of prior political choices',parent:arc.lastSerial||null,story:{arc:id,step:arc.stage}};
+ arc.inFlight=true;return ev;
+}
+function seSchedule(s){const sb=s.sandbox,st=seInit(s),year=sb.year;
+ if(sb.ended||year>1483)return;
+ // Save/load and queue overflow recovery: no story may be permanently stuck inFlight.
+ for(const [id,a] of Object.entries(st.arcs))if(a.inFlight){const exists=sb.events.some(ev=>ev.story?.arc===id&&ev.story.step===a.stage)||(sb.current?.story?.arc===id&&sb.current.story.step===a.stage);if(!exists)a.inFlight=false;}
+ // Conditional collisions are not scheduled as fixed yearly events.
+ for(const [id,x] of Object.entries(st.crossovers))if(x.inFlight){const exists=sb.events.some(ev=>ev.story?.crossover===id)||(sb.current?.story?.crossover===id);if(!exists)x.inFlight=false;}
+ const cap=2,already=st.scheduledByYear[year]||0;if(already>=cap)return;
+ const crossing=Object.entries(SE_CROSSOVERS).filter(([id,x])=>year>=x.year&&year<=x.until&&!st.crossovers[id]?.heard&&!st.crossovers[id]?.inFlight&&x.requires(s,st.flags)).sort((a,b)=>a[1].year-b[1].year);
+ let reserved=0;
+ if(crossing.length){const id=crossing[0][0],cross=SE_CROSSOVERS[id];st.crossovers[id]={inFlight:true,heard:false};
+  sb.events.unshift({serial:++sb.serial,actor:cross.actor,template:'petition',where:cross.where,year,origin:'story-crossover',sourceAction:'two prior political histories intersected',parent:null,story:{crossover:id}});reserved=1;
+ }
+
+ const eligible=Object.entries(SE_STORIES).filter(([id,def])=>{
+  const a=st.arcs[id],beat=def.beats[a.stage];return !!beat&&!a.inFlight&&year>=Math.max(a.dueYear,beat.year)&&(!def.requires||def.requires(s));
+ }).map(([id,def])=>{const a=st.arcs[id],beat=def.beats[a.stage],lateness=year-Math.max(a.dueYear,beat.year);
+  const pressure=sb.actors[def.lead]?.grievance||0;
+  return {id,score:lateness*6+Math.min(a.stage,4)*2+pressure+hashScore(s.seed,'story:'+id+':'+year,a.stage)%5};
+ }).sort((a,b)=>b.score-a.score||a.id.localeCompare(b.id));
+ const take=eligible.slice(0,cap-already-reserved);
+ // Place the first selected story first; the remaining world queue continues afterwards.
+ for(let i=take.length-1;i>=0;i--)sb.events.unshift(seMakeEvent(s,take[i].id));
+ st.scheduledByYear[year]=already+take.length+reserved;
+}
+const _seOldNdSchedule=ndSchedule;
+ndSchedule=function(s){_seOldNdSchedule(s);seSchedule(s);};
+const _seOldBuildCard=sbBuildCard;
+sbBuildCard=function(s,ev){if(ev.story?.crossover)return seCrossCard(s,ev);if(!ev.story)return _seOldBuildCard(s,ev);
+ const {def,beat,quote,context}=seScene(s,ev),id=ev.story.arc,stage=ev.story.step;
+ function mk(side,arena){const isLeft=side==='left',effect=isLeft?beat.le:beat.re,label=isLeft?beat.l:beat.r;
+  return {label,effects:function(w){seResolve(w,ev,side,arena);return {records:[`${def.title} · ${beat.tag}: ${label}`],facts:{last_interwoven_chronicle:id},obligations:(arena==='down'?[['edward',def.lead,`Private undertaking concerning ${def.title}`,'private']]:[])};}};
+ }
+ const card={id:'sb-'+ev.serial,where:beat.where,when:String(s.sandbox.year),who:beat.who,role:beat.role,tag:beat.tag,record:'politics',quote,context,left:mk('left','direct'),right:mk('right','direct'),dynamic:true,storyInfo:{id,title:def.title,step:stage+1,total:def.beats.length,trigger:seWhy(s,id,beat,seInit(s).arcs[id])},caseInfo:{title:def.title,anchor:def.anchor,source:def.source,stage:beat.id}};
+ if(stage===1||stage===3)card.up={title:'Take formal counsel',who:'The King’s Council',role:'An open hearing with witnesses',quote:'The Chancellor will enter the testimony and your judgment into the rolls. The witnesses disagree about their interests; their oaths are not proof of everything they say.',left:mk('left','up'),right:mk('right','up')};
+ if(stage===2||stage===4)card.down={title:'Hear a private witness',who:beat.who,role:'An audience without public witnesses',quote:'I will tell you what my household believes, Your Grace, but if you repeat my words before the Council I cannot promise that anyone will confirm them.',left:mk('left','down'),right:mk('right','down')};
+ return card;
+};
+function seCrossCard(s,ev){const cross=SE_CROSSOVERS[ev.story.crossover];
+ const mk=side=>({label:side==='left'?cross.l:cross.r,effects:w=>{
+  seResolveCross(w,ev,side);return {records:[`${cross.title}: ${side==='left'?cross.l:cross.r}`],facts:{last_story_crossover:ev.story.crossover}};
+ }});
+ return {id:'sb-'+ev.serial,where:cross.where,when:String(s.sandbox.year),who:cross.who,role:cross.role,tag:cross.tag,record:'politics',quote:cross.q,context:cross.ctx,dynamic:true,left:mk('left'),right:mk('right'),storyInfo:{id:'cross:'+ev.story.crossover,title:cross.title,step:1,total:1},caseInfo:{title:cross.title,anchor:cross.anchor,source:cross.source,stage:'collision'}};
+}
+function seResolveCross(s,ev,side){const sb=s.sandbox,st=seInit(s),id=ev.story.crossover,cross=SE_CROSSOVERS[id],eff=side==='left'?cross.le:cross.re;
+ if(st.crossovers[id]?.heard)throw Error('Crossover already resolved '+id);
+ if(eff.authority)sb.royalAuthority=sbClamp(sb.royalAuthority+eff.authority,-8,8);
+ if(eff.credit)sb.credit=sbClamp(sb.credit+eff.credit,-8,8);
+ for(const [place,delta] of Object.entries(eff.unrest||{}))sb.unrest[place]=sbClamp((sb.unrest[place]||0)+delta,0,9);
+ for(const [actor,change] of Object.entries(eff.people||{}))sbAdjust(sb,actor,change);
+ Object.assign(st.flags,eff.flags||{});
+ if(eff.report)scheduleReport(s,{id:'cross-'+ev.serial,from:cross.who,text:eff.report,delay:1,certainty:'reported'});
+ dwFact(dwInit(s),'cross-order:'+ev.serial,`A royal order was made in ${cross.title}.`,cross.actor,true);
+ const parents=id==='two_doors'?['woodville','diplomacy']:id==='northern_writ'?['north','neville']:id==='empty_chest'?['diplomacy','caister']:['woodville','succession'];
+ for(const arc of parents){const serial=st.arcs[arc]?.lastSerial;if(serial)st.causalLinks.push({from:serial,to:ev.serial,kind:'cross-arc collision',arc});}
+ const summary=side==='left'?cross.l:cross.r;
+ st.crossovers[id]={inFlight:false,heard:true,year:sb.year,choice:side,summary};st.crossJournal.push({id,year:sb.year,summary,choice:side,reason:cross.ctx,report:eff.report,serial:ev.serial});
+ sb.history.push({serial:ev.serial,year:sb.year,actor:cross.actor,template:'crossover:'+id,where:cross.where,origin:ev.origin==='deferred'?'deferred-crossover':'story-crossover',side,response:summary,storyCrossover:id});
+ sb.yearTurn++;sb.reactiveCount++;if(sb.yearTurn>=sb.perYear)sbAdvanceYear(s);
+}
+function seApply(s,ev,side,arena){const sb=s.sandbox,st=seInit(s),arc=st.arcs[ev.story.arc],beat=SE_STORIES[ev.story.arc].beats[ev.story.step],effect=side==='left'?beat.le:beat.re;
+ if(effect.authority)sb.royalAuthority=sbClamp(sb.royalAuthority+effect.authority,-8,8);
+ if(effect.credit)sb.credit=sbClamp(sb.credit+effect.credit,-8,8);
+ if(effect.legitimacy)sb.legitimacy=sbClamp(sb.legitimacy+effect.legitimacy,-8,8);
+ for(const [place,delta] of Object.entries(effect.unrest||{}))sb.unrest[place]=sbClamp((sb.unrest[place]||0)+delta,0,9);
+ for(const [actor,change] of Object.entries(effect.people||{}))sbAdjust(sb,actor,change);
+ for(const [key,value] of Object.entries(effect.flags||{}))st.flags[key]=value;
+ if(arena==='up')sb.royalAuthority=sbClamp(sb.royalAuthority+1,-8,8);
+ if(arena==='down')sbAdjust(sb,SE_STORIES[ev.story.arc].lead,{trust:1});
+ // Cross-arc consequences: an award in one dispute becomes a grievance in another.
+ if(ev.story.arc==='north'&&beat.id==='earldom'){
+  if(side==='left'){sbAdjust(sb,'warwick',{grievance:1});const land=dwLand(dwInit(s),'fenwick');if(land&&land.holder!=='percy'){const d=dwInit(s),previous=land.holder;land.holder='percy';land.transfers.push({year:sb.year,from:previous,to:'percy',authority:'fictional illustration of northern title settlement',cause:ev.serial});d.landTransfers++;if(d.personal[previous])d.personal[previous].assets=d.personal[previous].assets.filter(x=>x!==land.id);if(d.personal.percy&&!d.personal.percy.assets.includes(land.id))d.personal.percy.assets.push(land.id);}}
+  else sbAdjust(sb,'percy',{grievance:1});
+ }
+ if(ev.story.arc==='woodville'&&beat.id==='charter'&&side==='right'){
+  const d=dwInit(s),land=dwLand(d,'ashcombe');if(land&&land.holder!=='woodville'){const previous=land.holder;land.holder='woodville';land.transfers.push({year:sb.year,from:previous,to:'woodville',authority:'royal favour in the fictional estate model',cause:ev.serial});d.landTransfers++;if(d.personal[previous])d.personal[previous].assets=d.personal[previous].assets.filter(x=>x!==land.id);if(d.personal.woodville&&!d.personal.woodville.assets.includes(land.id))d.personal.woodville.assets.push(land.id);}
+ }
+ if(ev.story.arc==='caister'){
+  const prop=st.property.caister;
+  if(beat.id==='rents')prop.rents=side==='left'?'protected':'seized';
+  if(beat.id==='muster'&&side==='left')prop.possession='contested under royal protection';
+  if(beat.id==='gate')prop.possession=side==='left'?'royal custody':'disputed possession';
+  if(beat.id==='patent'){prop.title=side==='left'?'royal patent after inquest':'unresolved compromise';prop.possession=side==='left'?'paston':'shared';}
+ }
+ // A political relationship has memory outside the authored story. These
+ // relations also affect the autonomous household dispute engine.
+ const d=dwInit(s);
+ function changeRelation(a,b,feud=0,regard=0){const rel=dwRel(d,a,b),rev=dwRel(d,b,a);for(const row of [rel,rev])if(row){row.feud=sbClamp(row.feud+feud,0,8);row.regard=sbClamp(row.regard+regard,-4,8);}}
+ if(ev.story.arc==='woodville'&&beat.id==='petition')changeRelation('woodville','warwick',side==='left'?1:0,side==='right'?1:0);
+ if(ev.story.arc==='neville'&&beat.id==='terms')changeRelation('warwick','hastings',side==='right'?2:-1,side==='left'?1:0);
+ if(ev.story.arc==='north'&&beat.id==='earldom')changeRelation('montagu','percy',side==='left'?2:1,0);
+ if(ev.story.arc==='diplomacy'&&beat.id==='embassy')changeRelation('warwick','burgundy',side==='right'?1:0,side==='left'?1:0);
+ if(ev.story.arc==='succession'&&beat.id==='marriage'&&side==='left')d.bonds.push({kind:'Clarence–Isabel Neville marriage alliance (alternate chronology)',a:'warwick',b:'clarence',year:sb.year,public:true});
+ if(ev.story.arc==='succession'&&beat.id==='guardians')sb.regency=side==='left'?'council':'household';
+ if(effect.reaction){const {actor,rival,kind}=effect.reaction;if(sb.actors[actor]?.alive&&sb.actors[rival]?.alive){const reaction=dwEvent(s,actor,kind,rival,'retaliation',ev.serial);st.causalLinks.push({from:ev.serial,to:reaction.serial,kind:'household reaction',actor,rival});}}
+ if(effect.report)scheduleReport(s,{id:'story-'+ev.serial,from:beat.who,text:effect.report,delay:1,certainty:'reported'});
+ // The truth ledger is deliberately separate from what Edward has heard.
+ dwFact(d,'story-order:'+ev.serial,`A royal order concerned ${SE_STORIES[ev.story.arc].title}: ${side==='left'?beat.l:beat.r}`,SE_STORIES[ev.story.arc].lead,arena!=='down');
+ const summary=(side==='left'?beat.l:beat.r);return {summary,effect};
+}
+function seResolve(s,ev,side,arena){const sb=s.sandbox,st=seInit(s),id=ev.story.arc,arc=st.arcs[id],beat=SE_STORIES[id].beats[ev.story.step];
+ if(!beat||arc.stage!==ev.story.step)throw new Error('Story continuity mismatch '+id+': '+ev.story.step+'/'+arc.stage);
+ const {summary}=seApply(s,ev,side,arena);
+ st.journal.push({year:sb.year,arc:id,beat:beat.id,part:arc.stage+1,choice:side,arena,summary,serial:ev.serial,parent:arc.lastSerial||null,reason:arc.lastOutcome||'New political pressure',report:side==='left'?beat.le.report:beat.re.report});
+ if(arc.lastSerial)st.causalLinks.push({from:arc.lastSerial,to:ev.serial,kind:'returning political case',arc:id});
+ arc.lastSerial=ev.serial;arc.lastChoice=side;arc.lastYear=sb.year;arc.lastOutcome=summary;arc.stage++;arc.heard++;arc.inFlight=false;
+ const next=SE_STORIES[id].beats[arc.stage];arc.dueYear=next?Math.max(next.year,sb.year+1):9999;
+ st.storyChoices++;
+ sb.history.push({serial:ev.serial,year:sb.year,actor:SE_STORIES[id].lead,template:'story:'+id+':'+beat.id,where:beat.where,origin:ev.origin==='deferred'?'deferred-story':'interwoven-story',side,arena,response:summary,parent:ev.parent||null,storyArc:id,storyBeat:beat.id});
+ sb.feedback.push({year:sb.year,source:ev.serial,actor:SE_STORIES[id].lead,followup:sb.events.length,story:id});
+ sb.reactiveCount++;sb.yearTurn++;
+ if(sb.yearTurn>=sb.perYear)sbAdvanceYear(s);
+}
+function seAnnual(s){const sb=s.sandbox,st=seInit(s),f=st.flags,year=sb.year;
+ // A private political move is not automatically presented as royal knowledge.
+ if(year>=1469&&year<=1472&&sb.actors.warwick.grievance>=5&&f.nevilleTerms!=='negotiated'&&!f.nevilleContacts){
+  f.nevilleContacts='suspected';st.offscreen.push({year,actor:'warwick',kind:'unverified approaches to rival households'});
+  dwFact(dwInit(s),'secret-neville-'+year,'Neville servants approached rival households without a royal warrant.','warwick',false);
+  scheduleReport(s,{id:'secret-neville-'+year,from:'A correspondent at Calais',text:'There are rumours of private Neville approaches to households beyond the Earl’s ordinary service. The names are not verified.',delay:3,certainty:'rumour'});
+ }
+ if(year>=1470&&f.caisterPeace==='abandoned'&&!f.caisterUnprotected){
+  f.caisterUnprotected=true;st.property.caister.possession='norfolk';st.offscreen.push({year,actor:'norfolk',kind:'reported armed possession of Caister'});
+  scheduleReport(s,{id:'caister-seizure-'+year,from:'A Norfolk messenger',text:'A messenger reports that the duke’s men now control Caister’s approaches. His figures are disputed.',delay:2,certainty:'reported'});
+ }
+ if(year>=1476&&f.frenchSettlement==='campaign'&&sb.credit<=-2&&!f.merchantPressure){
+  f.merchantPressure=true;sbAdjust(sb,'london',{grievance:1});st.offscreen.push({year,actor:'london',kind:'merchants tighten credit'});
+  scheduleReport(s,{id:'merchant-credit-'+year,from:'A London alderman',text:'Several merchants will renew the Crown’s credit only against named customs revenues.',delay:2,certainty:'reported'});
+ }
+}
+const _seOldAdvanceYear=sbAdvanceYear;
+sbAdvanceYear=function(s){const previous=s.sandbox.year;_seOldAdvanceYear(s);if(s.sandbox.year!==previous&&!s.sandbox.ended)seAnnual(s);};
+const _seOldEnding=sbEnding;
+sbEnding=function(sb,s){const result=_seOldEnding(sb,s),st=seInit(s),f=st.flags;
+ const lines=[];
+ if(f.nevilleSettlement==='pardon')lines.push('The Neville captains hold conditional pardons; reconciliation rests upon royal enforcement.');
+ else if(f.nevilleTerms==='ultimatum'||f.nevilleContacts)lines.push('The Neville affinity has not accepted an enduring settlement, and the king’s old comrades remain a source of uncertainty.');
+ else if(st.arcs.neville.heard)lines.push('The relationship with Warwick remains defined by bargaining over service, access and royal commissions.');
+ if(f.northEarldom==='percy')lines.push('The Percy restoration has altered northern titles, while the Nevilles remember the compensation promised to them.');
+ else if(f.northEarldom==='neville')lines.push('The Neville title remains in place, and Percy claims persist beneath the recorded settlement.');
+ if(f.caisterOutcome==='patent')lines.push('At Caister a royal patent has settled recorded title, though possession must still be respected locally.');
+ else if(f.caisterOutcome==='shared')lines.push('At Caister the claimants share rents under a fragile compromise rather than an uncontested title.');
+ if(f.frenchSettlement==='payments')lines.push('A French settlement offers financial breathing room, with future instalments still dependent on diplomacy.');
+ else if(f.frenchSettlement==='campaign')lines.push('The continental commitment has tested royal credit and the patience of English merchants.');
+ if(f.successionInstrument==='council')lines.push('A witnessed Council settlement divides the guardianship and treasury, but its success depends on obedience after Edward.');
+ else if(f.successionInstrument==='household')lines.push('A single household has been entrusted with broad succession powers; its rivals retain reasons to challenge it.');
+ result.narrative+=' The unfinished chronicles of this reign: '+lines.join(' ');if(st.crossJournal.length)result.narrative+=' The reign also faced '+st.crossJournal.length+' crises where earlier political settlements collided.';
+ result.story={crossovers:st.crossJournal.map(x=>({id:x.id,year:x.year,choice:x.choice,summary:x.summary})),arcs:Object.fromEntries(Object.entries(st.arcs).map(([id,a])=>[id,{heard:a.heard,completed:a.stage>=SE_STORIES[id].beats.length,lastOutcome:a.lastOutcome}])),flags:{...f},authoredScenes:st.storyChoices,causalLinks:st.causalLinks.length,offscreenActions:st.offscreen.length,notes:lines};
+ return result;
+};
+
 /* DELIBERATION */
 /* A genuine third course, offered only after deliberation in the 1465–1483 sandbox.
  * Delaying is not free: an actor's grievance rises, the Crown loses initiative,
@@ -1508,9 +1999,10 @@ function getNextSituation(s){if(s.finished)return null;
  if(!s.sandbox)sbInit(s);if(s.sandbox.ended){s.finished=true;saveWorld(s);return null;}const generated=sbEvent(s);if(generated){s.currentId=generated.id;saveWorld(s);return generated;}s.finished=true;saveWorld(s);return null;
 }
 function resolveChoice(s,card,option,arena){const selected=arena?card[arena]?.[option]:card[option];if(!selected)throw new Error('Missing choice '+option+' for '+card.id);
+ const decisionYear=card.dynamic?String(s.sandbox.year):CHAPTERS[s.chapterIndex].date;
  s.turn++;const effect=fmt(selected.effects,s);addEffect(s,effect);
  const logText=(effect&&effect.records&&effect.records[0])||selected.label;
- s.visited.push(card.id);s.chronicle.push({turn:s.turn,chapter:card.dynamic?String(s.sandbox.year):CHAPTERS[s.chapterIndex].date,id:card.id,place:card.where,decision:selected.label,summary:logText,arena:arena||'direct'});
+ s.visited.push(card.id);s.chronicle.push({turn:s.turn,chapter:decisionYear,id:card.id,place:card.where,decision:selected.label,summary:logText,arena:arena||'direct'});
  const witnesses=publicOrPrivateWitnesses(s,card,arena);propagateKnowledge(s,card,arena,logText,witnesses);
  autonomousWorld(s);politicalAgents(s);deliverReports(s);
  if(!card.dynamic)s.chapterCount++;s.currentId=null;if(card.dynamic&&s.sandbox)s.sandbox.current=null;saveWorld(s);return getNextSituation(s);
@@ -1541,7 +2033,7 @@ function frame(body,top){return `<div class="header"><div class="logo">EDWARD <e
 function renderCard(){if(!current)return ending();cancelAnimationFrame(lockRAF);locked=true;lockStart=performance.now();closing=false;
  const n=current;const detail=arena?n[arena]:null;const who=detail?detail.who:n.who;const role=detail?detail.role:n.role;const quote=detail?detail.quote:fmt(n.quote,world);const context=detail?'You have changed who hears this matter. A decision is still required.':fmt(n.context,world);
  const hasUp=!arena&&!!n.up,hasDown=!arena&&!!n.down;const latest=world.reports.slice(-1)[0];
- const body=`<div class="deck"><div class="shadow-card"></div><article class="card" id="card" aria-label="Drag left or right to decide"><div class="card-top"><span>${E(n.where)} · ${E(n.when)}</span><span>${String(world.turn+1).padStart(2,'0')} · ${E(n.tag||'THE CROWN')}</span></div>${arena?`<div class="arena-badge">${arena==='up'?'THE INSTITUTIONAL ARENA':'THE PRIVATE ARENA'} · ${E(detail.title)}</div>`:`<div class="kicker">${E(n.caseInfo?'A HISTORICAL DOSSIER':CHAPTERS[world.chapterIndex]?.name||'THE LIVING REIGN')}</div>`}<div class="speaker">${E(who)}</div><div class="role">${E(role)}</div><div class="rule"></div><blockquote class="quote">“${E(quote)}”</blockquote><div class="context"><b>What Edward knows</b>${E(context)}${latest&&world.turn-latest.turn<=2?`<div class="quiet-report">LATEST REPORT · ${E(latest.from)}: ${E(latest.text)}</div>`:''}</div><div class="choice-chip left" id="chipLeft"></div><div class="choice-chip right" id="chipRight"></div>${hasUp?'<div class="choice-chip up" id="chipUp"></div>':''}${hasDown?'<div class="choice-chip down" id="chipDown"></div>':''}</article></div><div class="locktrack"><i id="lockfill"></i></div><div class="help" id="help">READ THE CARD · THE DECISION WILL RELEASE</div>`;
+ const body=`<div class="deck"><div class="shadow-card"></div><article class="card" id="card" aria-label="Drag left or right to decide"><div class="card-top"><span>${E(n.where)} · ${E(n.when)}</span><span>${String(world.turn+1).padStart(2,'0')} · ${E(n.tag||'THE CROWN')}</span></div>${arena?`<div class="arena-badge">${arena==='up'?'THE INSTITUTIONAL ARENA':'THE PRIVATE ARENA'} · ${E(detail.title)}</div>`:`<div class="kicker">${E(n.storyInfo?'AN UNFOLDING CHRONICLE · PART '+n.storyInfo.step+'/'+n.storyInfo.total:n.caseInfo?'A HISTORICAL DOSSIER':CHAPTERS[world.chapterIndex]?.name||'THE LIVING REIGN')}</div>`}<div class="speaker">${E(who)}</div><div class="role">${E(role)}</div><div class="rule"></div><blockquote class="quote">“${E(quote)}”</blockquote><div class="context"><b>What Edward knows</b>${E(context)}${latest&&world.turn-latest.turn<=2?`<div class="quiet-report">LATEST REPORT · ${E(latest.from)}: ${E(latest.text)}</div>`:''}</div><div class="choice-chip left" id="chipLeft"></div><div class="choice-chip right" id="chipRight"></div>${hasUp?'<div class="choice-chip up" id="chipUp"></div>':''}${hasDown?'<div class="choice-chip down" id="chipDown"></div>':''}</article></div><div class="locktrack"><i id="lockfill"></i></div><div class="help" id="help">READ THE CARD · THE DECISION WILL RELEASE</div>`;
  app.innerHTML=frame(body);document.getElementById('chipLeft').textContent=(detail||n).left.label;document.getElementById('chipRight').textContent=(detail||n).right.label;
  if(hasUp)document.getElementById('chipUp').textContent='↑ '+n.up.title;if(hasDown)document.getElementById('chipDown').textContent='↓ '+n.down.title;
  bindNav();document.getElementById('historyIcon').onclick=showHistory;bindDrag(document.getElementById('card'),hasUp,hasDown);tickLock(hasUp,hasDown);
@@ -1640,6 +2132,8 @@ const EDWARD_BIOS=[
  {id:'jacquetta',names:['Jacquetta of Luxembourg','Jacquetta'],title:'Jacquetta of Luxembourg',house:'Woodville kin',summary:'Duchess of Bedford and Elizabeth Woodville’s mother, with experience of high politics and an extensive family network.',stakes:'The position and security of her family.'},
  {id:'somerset',names:['Henry Beaufort','Duke of Somerset','Somerset'],title:'Henry Beaufort · Duke of Somerset',house:'House of Lancaster',summary:'A prominent Lancastrian magnate who was historically pardoned by Edward before returning to rebellion. The game allows a different result if reconciliation holds.',stakes:'Restoration of honour, lands and the survival of Lancastrian connections.'},
  {id:'henry',names:['Henry VI','King Henry','Henry of Lancaster'],title:'Henry VI · Lancastrian king',house:'House of Lancaster',summary:'The deposed king remains a living dynastic claim. His person, treatment and custody affect the legitimacy of Edward’s settlement.',stakes:'Custody, legitimacy and the loyalties of former Lancastrian servants.'},
+ {id:'margaret_paston',names:['Margaret Paston'],title:'Margaret Paston · Norfolk correspondent',house:'The Paston family',summary:'Her surviving family letters are a remarkable window into the legal, financial and personal strain of the Caister inheritance dispute. The royal audiences in this game are fictional.',stakes:'Protection of the family’s title, rents, household and sons.'},
+ {id:'henry_percy',names:['Henry Percy'],title:'Henry Percy · Earl of Northumberland',house:'House of Percy',summary:'The Percy family’s hereditary claims and the Nevilles’ northern power shaped the Yorkist settlement. Henry Percy recovered the earldom in 1470 in recorded history; the game permits a different outcome.',stakes:'Northern inheritance, tenants, service and title.'},
  {id:'margaret',names:['Margaret of Anjou','Margaret'],title:'Margaret of Anjou',house:'House of Lancaster',summary:'Queen consort to Henry VI and a formidable political organizer whose cause survives military defeat.',stakes:'Her family’s claim, French and Scottish contacts, and the protection of her son.'},
  {id:'clarence',names:['George, Duke of Clarence','Duke of Clarence','Clarence','George Plantagenet'],title:'George Plantagenet · Duke of Clarence',house:'House of York',summary:'Edward’s younger brother. As a prince of the blood he has claims to status and lands that make his private choices a matter of state.',stakes:'His rank, estates, marriage and place in the succession.'},
  {id:'gloucester',names:['Richard, Duke of Gloucester','Duke of Gloucester','Gloucester'],title:'Richard · Duke of Gloucester',house:'House of York',summary:'Edward’s younger brother and a major royal figure in northern government in the later reign.',stakes:'Royal service, northern influence and dynastic stability.'},
@@ -1822,6 +2316,35 @@ window.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='w'&&current?.wai
 /* Initial render happened at the end of ui.js, before this enhancement module loaded. */
 if(document.getElementById('card'))edwardDecorateCard();else if(document.getElementById('intro'))edwardDecorateIntro();else if(document.getElementById('outro'))edwardDecorateEnding();
 window.EDWARD_EXTRAS={version:'Living Chronicle demo',get musicOn(){return EDWARD_SCORE.on},openSaves:edwardSaveMenu,selectPlace:edwardMapSelect,openPerson:edwardPeek,get slots(){return [1,2,3].map(edwardReadSlot)}};
+
+/* INTERWOVEN CHRONICLE CASEBOOK */
+/* Readable causal histories. Never display hidden private acts in the public Casebook. */
+const _seOldShowCases=showCases;
+showCases=function(){_seOldShowCases();const st=world.sandbox?.story;
+ if(!st){sheet.insertAdjacentHTML('beforeend','<div class="eyebrow">THE INTERWOVEN CHRONICLES</div><p>The six political chronicles open after 1464. Your early choices shape their starting conditions.</p>');return;}
+ const arcs=Object.entries(SE_STORIES).map(([id,def])=>{
+  const a=st.arcs[id],entries=st.journal.filter(j=>j.arc===id),count=def.beats.length;
+  const label=a.stage>=count?(a.heard?'CONCLUDED':'EARLIER YEARS NOT IN SAVE'):a.inFlight?'BEFORE THE KING':a.heard?'DEVELOPING':a.stage?'STARTS MID-REIGN':'NOT YET HEARD';
+  const latest=entries[entries.length-1],start=entries[0];
+  const rows=entries.slice().reverse().map(j=>'<div class="story-beat"><div class="eyebrow">'+E(j.year)+' · PART '+E(j.part)+' · '+E(SE_STORIES[id].beats[j.part-1].tag)+'</div><div>'+E(j.summary)+'</div><small>'+E(j.report||'The decision entered the royal record.')+'</small></div>').join('');
+  return '<details class="story-case" '+(id==='neville'&&entries.length?'open':'')+'><summary><span class="story-case-title">'+E(def.title)+'</span><span class="story-case-count">'+E(a.heard)+' / '+count+' · '+label+'</span></summary><div class="story-case-body">'+(latest?'<p>Last ruling: '+E(latest.summary)+'</p>':'<p>This story has not yet come before Edward.</p>')+'<p><small>Historical setting: '+E(def.anchor)+'</small></p>'+(rows||'')+'<a target="_blank" rel="noopener noreferrer" href="'+E(def.source)+'">Historical reference ↗</a></div></details>';
+ }).join('');
+ const cross=st.crossJournal.slice().reverse().map(x=>'<div class="row"><div class="eyebrow">'+E(x.year)+' · TWO STORIES COLLIDE</div><b>'+E(SE_CROSSOVERS[x.id].title)+'</b><span>'+E(x.reason)+'</span><span>Your ruling: '+E(x.summary)+'</span></div>').join('');
+ sheet.insertAdjacentHTML('beforeend','<div class="eyebrow" style="margin-top:25px">SIX INTERWOVEN CHRONICLES</div><p>These are ongoing political histories, not a list of fixed quests. Some chapters may never be heard, and another household may act before the next hearing.</p>'+arcs+'<div class="eyebrow" style="margin-top:23px">WHEN TWO STORIES COLLIDE</div>'+(cross||'<p>No overlapping political crisis has reached the Council yet. Such cases appear only when two earlier choices create a shared problem.</p>')+'<p><small>The speeches and individual orders are fictional reconstructions. The casebook shows decisions and reports, not secret information held by other actors.</small></p>');
+ edwardSheetNames();
+};
+const _seOldMapStatus=edwardMapStatus;
+edwardMapStatus=function(id){const base=_seOldMapStatus(id),st=world.sandbox?.story;if(!st)return base;
+ if(id==='caister'){const p=st.property.caister;return base+' In this reign: recorded possession '+p.possession+'; title '+p.title+'; rents '+p.rents+'.';}
+ if(id==='north'||id==='york'){const v=st.flags.northEarldom;return base+(v?' The current northern title settlement favours '+(v==='percy'?'the Percies.':'the Nevilles.'):'');}
+ if(id==='calais'){const v=st.flags.frenchSettlement;return base+(v?' Edward has pursued '+(v==='payments'?'a negotiated French payment settlement.':'a continued continental military commitment.'):'');}
+ return base;
+};
+const _seOldShowChronicle=showChronicle;
+showChronicle=function(){_seOldShowChronicle();const journal=world.sandbox?.story?.journal||[];if(!journal.length)return;
+ const recent=journal.slice(-12).reverse().map(j=>'<div class="row"><div class="eyebrow">'+E(j.year)+' · '+E(SE_STORIES[j.arc].title)+' · PART '+E(j.part)+'</div><b>'+E(j.summary)+'</b><span>'+E(j.report||'A royal order entered the record.')+'</span></div>').join('');
+ sheet.insertAdjacentHTML('beforeend','<div class="eyebrow" style="margin-top:25px">THE INTERWOVEN CHRONICLES · RECENT DECISIONS</div>'+recent);
+};
 
 </script>
 <noscript><p style="padding:25px">EDWARD requires JavaScript. Open the hosted game in Safari, not the iPhone Files or ChatGPT HTML preview.</p></noscript>
