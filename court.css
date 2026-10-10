@@ -1,0 +1,11 @@
+/* Ink, rubrication, vellum and a restrained double-rule manuscript frame. */
+.court-access{display:block;width:100%;min-height:42px;border:1px solid #9e865b;background:#29251e;color:#eadbb9;font-family:Georgia,serif;font-size:15px;letter-spacing:.04em;margin:5px 0;border-radius:4px;flex-shrink:0}
+.court-budget{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-block:1px solid #796c50;color:#ddc590;font-size:13px}.court-small{font-size:12px;line-height:1.5;color:var(--sub)}
+#courtNotice{color:#edb0a1;font-size:14px}#courtForm{display:grid;gap:8px}#courtForm label,.court-office label{display:block;font-size:13px;color:#dac7a1;margin-top:8px}
+#sheet select{width:100%;min-height:44px;border:1px solid #8b795b;border-radius:4px;padding:8px;background:#242822;color:var(--text);font-size:16px}
+.court-primary,.court-tabs button,.court-office button,.reading-detail [data-seat]{min-height:44px;padding:10px 13px;background:#383b2c;color:#f1e6cd;border:1px solid #8b795b;border-radius:4px;font-size:14px;cursor:pointer}
+.court-tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}.court-tabs>*{flex:1}.court-heading{margin:24px 0 10px}.court-row,.court-responses button{display:block;width:100%;text-align:left;min-height:48px;padding:14px;border:1px solid #6d6148;border-radius:4px;background:#25291f;color:var(--text);margin:8px 0;white-space:normal;font:16px/1.45 Georgia,serif}
+.court-row span,.court-responses small{display:block;color:#bdb4a1;font:12px/1.45 sans-serif;margin-top:6px}.court-speech{margin:16px 0;font:21px/1.5 Georgia,serif;color:#eadcba;border-left:3px solid #a0854e;padding-left:16px}.court-office{padding:12px 0;border-bottom:1px solid #655942}.court-office h3{font:20px Georgia,serif;color:#d6bd84}.court-office button:disabled{opacity:.4}
+#card{border-color:#887047}.speaker{font-family:Georgia,serif}.court-responses button:focus-visible,.court-access:focus-visible,#sheet button:focus-visible{outline:3px solid #ddc590;outline-offset:3px}
+@media(max-height:700px){.court-access{min-height:36px;font-size:13px;margin:2px 0}#tapActions button{font-size:12px!important;line-height:1.25!important;padding:7px!important}}
+@media(prefers-reduced-motion:reduce){.court-access,.court-responses button{transition:none}}

@@ -1,0 +1,142 @@
+{
+  "runs": 2000,
+  "failures": [],
+  "avgTurns": 96.98,
+  "avgStory": 30.83,
+  "avgQuiet": 1.93,
+  "avgCrises": 4.29,
+  "triggerCounts": {
+    "parish": 1669,
+    "treasury": 1121,
+    "warwick": 705,
+    "north": 791
+  },
+  "crisisCounts": {
+    "parish:0": 1669,
+    "parish:1": 1002,
+    "treasury:0": 1121,
+    "treasury:1": 1046,
+    "warwick:0": 705,
+    "warwick:1": 705,
+    "north:0": 791,
+    "north:1": 708,
+    "north:resolved-offscreen": 83,
+    "parish:resolved-offscreen": 667,
+    "treasury:resolved-offscreen": 75
+  },
+  "frenchSettlement": {
+    "payments": 155,
+    "trade-truce": 848,
+    "campaign": 824,
+    "divided-trade": 157,
+    "none": 16
+  },
+  "examples": [
+    {
+      "seed": 34000,
+      "turns": 76,
+      "quiet": 3,
+      "crises": [
+        "parish:0",
+        "parish:1"
+      ],
+      "ending": "warwick|hastings|central|settled|other|strained|hastings|crown|alternative royal child"
+    },
+    {
+      "seed": 34001,
+      "turns": 76,
+      "quiet": 4,
+      "crises": [
+        "treasury:0",
+        "treasury:1"
+      ],
+      "ending": "warwick|woodville|central|uneasy|woodville|indebted|percy|hastings|male heir of Edward"
+    },
+    {
+      "seed": 34002,
+      "turns": 139,
+      "quiet": 0,
+      "crises": [
+        "parish:0",
+        "parish:1",
+        "warwick:0",
+        "warwick:1",
+        "north:0",
+        "north:1"
+      ],
+      "ending": "montagu|woodville|delegated|fractured|other|creditworthy|hastings|crown|alternative royal child"
+    },
+    {
+      "seed": 34003,
+      "turns": 76,
+      "quiet": 0,
+      "crises": [
+        "parish:0",
+        "parish:1",
+        "treasury:0",
+        "treasury:1",
+        "north:0",
+        "north:1"
+      ],
+      "ending": "warwick|hastings|central|uneasy|woodville|strained|woodville|warwick|male heir of Edward"
+    }
+  ],
+  "turn47": [
+    {
+      "seed": 34000,
+      "card": {
+        "id": "dw-35",
+        "year": "1476",
+        "who": "John Neville",
+        "tag": "A DISPUTE BETWEEN HOUSEHOLDS",
+        "quote": "John Neville produces a charter and asks you to confirm the claim. A Percy retainer maintains that possession was lawfully obtained.",
+        "context": "Possession: A Percy retainer. Claimant: John Neville. The charters cannot both be decisive. Earlier: John Neville challenged A Lancastrian correspondent over marriage; Edward accepted a limited claim. A Lancastrian correspondent challenged John Neville over intelligence; Edward withheld approval. Reconstructed fictional case; the political institutions and pressures are historical, not the dialogue."
+      }
+    },
+    {
+      "seed": 34001,
+      "card": {
+        "id": "dw-49",
+        "year": "1476",
+        "who": "Richard Neville",
+        "tag": "A DISPUTE BETWEEN HOUSEHOLDS",
+        "quote": "Anthony Woodville argues that wardship would give the rival household both the child's person and the income of the inheritance.",
+        "context": "The heir is not a political agent yet. Guardianship and control of revenue can be separated. Earlier: Richard Neville challenged A London alderman over retinue; Edward accepted a limited claim. A London alderman challenged Richard Neville over intelligence; Edward accepted a limited claim. Reconstructed fictional case; the political institutions and pressures are historical, not the dialogue."
+      }
+    },
+    {
+      "seed": 34002,
+      "card": {
+        "id": "somerset_at_court",
+        "year": "1463",
+        "who": "William Hastings",
+        "tag": "COURT",
+        "quote": "(function)",
+        "context": "Access to the king can signify acceptance more clearly than a legal document."
+      }
+    },
+    {
+      "seed": 34003,
+      "card": {
+        "id": "sb-69",
+        "year": "1476",
+        "who": "A clerk of the royal Exchequer",
+        "tag": "TWO GARRISONS, ONE TREASURY",
+        "quote": "The ships at Calais and the royal men holding disputed English lands draw wages from the same receipt. Both captains have shown me your warrant. The chest will not pay both. Which oath shall I ask them to break?",
+        "context": "The Crown promised an overseas commitment while taking direct responsibility for a domestic garrison. The financial shortage follows those two decisions, not a random annual penalty."
+      }
+    },
+    {
+      "seed": 34004,
+      "card": {
+        "id": "dw-51",
+        "year": "1476",
+        "who": "A London alderman",
+        "tag": "A DISPUTE BETWEEN HOUSEHOLDS",
+        "quote": "William Hastings says the payment was promised against revenues that are already pledged elsewhere.",
+        "context": "The two accounts cannot both be satisfied from the same receipt. The Crown's credit depends on what it actually pays. Earlier: A London alderman challenged A Lancastrian correspondent over intelligence; Edward accepted a limited claim. A Lancastrian correspondent challenged A London alderman over retinue; Edward accepted a limited claim. Reconstructed fictional case; the political institutions and pressures are historical, not the dialogue."
+      }
+    }
+  ],
+  "differentSequences": 80
+}

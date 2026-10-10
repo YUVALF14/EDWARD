@@ -1,0 +1,82 @@
+/* EDWARD — Chronicle atmosphere: offline, Safari-safe, reduced-motion aware. */
+html,body{height:100%;height:100dvh;overscroll-behavior:none}
+body{isolation:isolate;transition:background 1.3s ease}
+body[data-mood="battle"]{background:radial-gradient(ellipse at 50% 8%,#574638 0%,#28251f 40%,#0e1211 95%)}
+body[data-mood="north"]{background:radial-gradient(ellipse at 50% 12%,#324641 0%,#192b2b 48%,#0b1111 96%)}
+body[data-mood="sea"]{background:radial-gradient(ellipse at 50% 8%,#2a4752 0%,#162831 53%,#0b1215 98%)}
+body[data-mood="manor"]{background:radial-gradient(ellipse at 50% 7%,#4c4432 0%,#292a21 49%,#101411 96%)}
+body[data-mood="succession"]{background:radial-gradient(ellipse at 50% 7%,#4b2c3d 0%,#281b29 52%,#0d1012 96%)}
+body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,#22291f 52%,#0d1210 96%)}
+#sceneArt{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:.35;transition:opacity .9s}
+#sceneArt svg{position:absolute;width:max(100%,520px);height:100%;left:50%;transform:translateX(-50%);filter:blur(.3px)}
+#app{position:relative;z-index:1}
+.card{background:linear-gradient(160deg,rgba(38,44,35,.95),rgba(26,32,27,.94) 50%,rgba(21,27,23,.97));border-color:#777961;box-shadow:0 24px 65px #000a,0 0 45px #0004 inset}
+.card:after{content:'✣';position:absolute;right:24px;top:27%;font:115px Georgia,serif;color:#d1b985;opacity:.035;pointer-events:none}
+.card .speaker,.card .quote,.card .context{position:relative;z-index:1}
+.header{gap:5px}.header-actions{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+.header-actions button{width:32px;height:32px;border:1px solid #6c715b;border-radius:50%;background:#1c231edc;color:#e3d1a0;font-size:16px;cursor:pointer;touch-action:manipulation;display:grid;place-items:center;padding:0}
+.header-actions button[aria-pressed="true"]{background:#454333;border-color:#bba76d}
+.header .topinfo{flex:1;font-size:10px}.header .logo{font-size:15px;white-space:nowrap}
+.person-link{appearance:none;-webkit-appearance:none;border:0;background:none;color:inherit;font:inherit;line-height:inherit;text-decoration:underline;text-decoration-color:#c7ad6e90;text-underline-offset:4px;text-decoration-thickness:1px;padding:0;cursor:pointer;touch-action:manipulation;display:inline}
+.person-link:focus-visible{outline:2px solid var(--gold);border-radius:2px}
+.speaker .person-link{color:#f5efdc}.quote .person-link{color:#ead7a3}.context .person-link{color:#d9c79a}
+.person-hint{font-size:9px;color:#b8a57a;margin-top:5px;letter-spacing:.045em}
+.person-peek{position:fixed;inset:0;z-index:65;display:none;align-items:center;justify-content:center;padding:20px;background:#090c0aca;backdrop-filter:blur(6px)}
+.person-peek.open{display:flex}
+.person-panel{width:min(390px,100%);max-height:75dvh;overflow:auto;background:linear-gradient(145deg,#283026,#171d19);border:1px solid #b39a64;border-radius:19px;padding:23px;box-shadow:0 25px 80px #000c;user-select:text;-webkit-user-select:text}
+.person-panel h2{font:normal 29px/1.1 Georgia,serif;margin:6px 0 7px}.person-panel p{font:15px/1.53 Georgia,serif;color:#e1dccd;margin:12px 0}.person-panel .muted{font:12px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;color:#acb5a5}
+.person-panel .peek-top{display:flex;justify-content:space-between;align-items:flex-start}.person-panel .peek-close{background:#2e352b;color:#f3e6c7;border:1px solid #7b755b;border-radius:50%;width:34px;height:34px;font-size:22px;cursor:pointer}
+.person-panel .person-bond{border-top:1px solid #59614f;padding:11px 0 0;font-size:12px;color:#c6c7b8;line-height:1.6}
+.tap-actions{max-height:184px;padding-top:7px}
+.tap-actions button{min-height:40px;font-size:12px}
+.tap-actions button.delayed{grid-column:1/-1;min-height:35px;border:1px solid #a99868;background:#363528;color:#f5dfaa;animation:revealChoice .4s ease}
+.tap-actions button.delayed[hidden]{display:none}
+.tap-actions button.extra{min-height:30px}
+@keyframes revealChoice{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.help{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intro .enter{cursor:pointer;touch-action:manipulation}
+.intro .enter.secondary{margin-top:9px;padding:11px 17px;color:#d6d2c5;border-color:#5a6251;font-size:10px}
+.intro .intro-tools{display:flex;gap:9px;margin-top:16px}
+.intro .intro-tools button{border:1px solid #625f4b;background:#1b241eaa;color:#dccba1;padding:9px 13px;border-radius:9px;font-size:11px;cursor:pointer;touch-action:manipulation}
+.intro{position:relative;z-index:2}.intro p{background:#111a1590;padding:8px 10px;border-radius:10px}
+.save-row{border-top:1px solid #4b5445;padding:13px 0;display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}
+.save-row .save-title{font:16px Georgia,serif;color:#eee5d2}
+.save-row .save-detail{font-size:11px;color:#b4b9a9;margin-top:5px}
+.save-row .save-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.save-row button,.save-tools button,.save-tools label{background:#30392e;color:#eadbb7;border:1px solid #6e745d;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:11px;touch-action:manipulation}
+.save-row button:disabled{opacity:.35;cursor:default}
+.save-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.save-tools input{display:none}
+.save-notice{font-size:12px;color:#c9bd9e;min-height:22px;margin-top:9px}
+.atlas-wrap{position:relative;max-width:420px;margin:12px auto;border:1px solid #887954;border-radius:15px;overflow:hidden;background:linear-gradient(160deg,#283b40,#1a2b30);box-shadow:0 12px 40px #0006}
+.atlas-wrap svg{width:100%;height:auto;display:block;touch-action:manipulation}
+.atlas-wrap .atlas-sea{fill:#b9c6b9;font:italic 13px Georgia,serif;letter-spacing:.08em;opacity:.38}
+.atlas-wrap .atlas-region{fill:#f2dfb2;font:small-caps 16px Georgia,serif;letter-spacing:.15em;opacity:.66}
+.atlas-wrap .atlas-city{fill:#f8eac6;font:11px Georgia,serif;pointer-events:none;text-shadow:0 2px 4px #0b1815}
+.atlas-wrap .atlas-spot{cursor:pointer;outline:none;touch-action:manipulation}
+.atlas-wrap .atlas-spot circle{fill:#d8b66b;stroke:#152822;stroke-width:3;transition:r .15s}
+.atlas-wrap .atlas-spot:focus circle,.atlas-wrap .atlas-spot.active circle{fill:#ffdfa2;stroke:#f8e4a0;stroke-width:2}
+.atlas-wrap .atlas-spot circle.hit{fill:transparent;stroke:none}
+.atlas-wrap .atlas-spot:focus-visible{outline:2px solid #d8b66b}
+.atlas-detail{margin:0 13px 12px;padding:12px;border-top:1px solid #887954;min-height:80px;background:#0c1617a6;border-radius:8px;color:#e8dfc8}
+.atlas-detail h3{font:20px Georgia,serif;margin:0 0 5px}.atlas-detail p{font:12px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;margin:0;color:#c7cbbd}
+.atlas-caption{font-size:10px;color:#aeb7a9;line-height:1.45;margin:9px 0 16px}
+@media(max-height:690px){.header-actions button{width:28px;height:28px;font-size:14px}.header .logo{font-size:14px}.tap-actions button{min-height:32px;font-size:11px}.tap-actions button.delayed{min-height:29px}.person-hint{display:none}}
+@media(max-height:540px){.tap-actions{gap:4px;padding:4px}.tap-actions button{min-height:27px;padding:5px;font-size:10px}.tap-actions button.extra{min-height:23px}.tap-actions button.delayed{min-height:25px}.header-actions button{width:25px;height:25px}}
+@media(prefers-reduced-motion:reduce){body,#sceneArt,.tap-actions button.delayed{transition:none!important;animation:none!important}}
+
+/* Keep the opening and epilogue scrollable on short phones. */
+.intro,.outro{min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+@media(max-height:690px){.intro .ornament{margin-bottom:12px}.intro .enter{margin-top:22px}.intro small{margin-top:11px}.outro{justify-content:flex-start}}
+/* A casebook for the six causally linked chronicles. */
+.story-case{border:1px solid #596554;border-radius:13px;margin:9px 0;background:#19221d;overflow:hidden}
+.story-case summary{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px;cursor:pointer;list-style:none;touch-action:manipulation}
+.story-case summary::-webkit-details-marker{display:none}
+.story-case summary:after{content:'+';color:var(--gold);font-size:19px;order:3}
+.story-case[open] summary:after{content:'−'}
+.story-case-title{font:15px Georgia,serif;color:#eee0bf;letter-spacing:.02em}
+.story-case-count{font-size:10px;line-height:1.3;color:#a5b0a0;text-align:right;margin-left:auto}
+.story-case-body{border-top:1px solid #414e41;padding:10px 14px 16px}
+.story-case-body p{font-size:13px;margin:8px 0 12px}
+.story-beat{border-left:2px solid #857a5c;margin:13px 0;padding:3px 0 5px 11px;font:14px/1.45 Georgia,serif;color:#e3d8c4}
+.story-beat small{display:block;margin-top:6px;color:#aeb6a8;font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}

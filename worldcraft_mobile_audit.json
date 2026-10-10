@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "size": "390x844",
+      "art": true,
+      "history": true,
+      "priest": true,
+      "crisis_resolves": true,
+      "errors": []
+    },
+    {
+      "size": "375x667",
+      "art": true,
+      "history": true,
+      "priest": true,
+      "crisis_resolves": true,
+      "errors": []
+    },
+    {
+      "size": "320x568",
+      "art": true,
+      "history": true,
+      "priest": true,
+      "crisis_resolves": true,
+      "errors": []
+    }
+  ],
+  "note": "Chromium mobile emulation; physical Safari not verified"
+}

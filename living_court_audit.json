@@ -1,0 +1,11 @@
+{
+  "checks": 13,
+  "runs": 280,
+  "failures": [],
+  "pairs": 120,
+  "differentWorlds": 120,
+  "differentEventSequences": 120,
+  "convergentExamples": [],
+  "browser": "Not run: browser-control capability unavailable; physical iPhone Safari unverified.",
+  "fullReignsFrom1461": 40
+}

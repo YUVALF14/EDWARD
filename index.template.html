@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101311">
+<title>EDWARD · The Living Court — Experimental</title>
+<style>
+:root{--bg:#101311;--panel:#1b201c;--panel2:#202620;--text:#f0ece2;--sub:#c1bcb0;--muted:#9b9e92;--line:#41483d;--gold:#c8b17b;--green:#91aa91;--red:#d4a398}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-text-size-adjust:100%;touch-action:pan-x pan-y}button{font:inherit}body{background:radial-gradient(ellipse at 50% 0%,#293027 0%,#141916 48%,#0e110f 100%)}
+#app{height:100%;height:100dvh;max-width:500px;margin:auto;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);display:flex;flex-direction:column;min-height:0}
+.header{flex:0 0 47px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 4px}.logo{font:600 17px Georgia,serif;letter-spacing:.16em}.logo em{font-size:10px;color:var(--gold);font-style:normal;vertical-align:super;letter-spacing:0}.topinfo{font-size:10px;color:var(--muted);text-align:right;line-height:1.4}.history-icon{background:transparent;border:1px solid var(--line);color:var(--gold);border-radius:50%;width:31px;height:31px;font-size:14px;cursor:pointer}
+.deck{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 3px 1px}.shadow-card{position:absolute;inset:15px 11px 10px;background:#111612;border:1px solid #30382e;border-radius:22px;transform:translateY(9px) scale(.97);opacity:.8}
+.card{position:relative;z-index:2;width:100%;height:100%;max-height:650px;min-height:0;overflow:hidden;background:linear-gradient(155deg,#242b23,#1b211c 42%,#171c18);border:1px solid #586052;border-radius:22px;box-shadow:0 25px 60px #0008,0 1px #ffffff0c inset;display:flex;flex-direction:column;padding:clamp(15px,3.7vh,26px);touch-action:none;user-select:none;-webkit-user-select:none;will-change:transform;transition:transform .46s cubic-bezier(.19,1,.22,1),opacity .26s,box-shadow .18s}.card.dragging{transition:none;box-shadow:0 34px 78px #000c}.card:before{content:'';height:2px;position:absolute;left:28%;right:28%;top:0;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+.card-top{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px;line-height:1.4}.kicker{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);margin-top:clamp(17px,3.3vh,28px)}.speaker{font:normal clamp(27px,7.2vw,38px)/1.08 Georgia,'Times New Roman',serif;letter-spacing:-.035em;margin:7px 0 3px}.role{font-size:12px;color:var(--sub)}.rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin:clamp(15px,3vh,25px) 0 clamp(14px,2.6vh,24px)}.quote{font:normal clamp(19px,4.9vw,24px)/1.39 Georgia,'Times New Roman',serif;letter-spacing:-.016em;margin:0;max-height:44%;overflow:auto;scrollbar-width:none}.quote::-webkit-scrollbar{display:none}.context{margin-top:auto;padding-top:15px;border-top:1px solid var(--line);font-size:clamp(12px,3.1vw,13px);line-height:1.48;color:var(--sub);max-height:28%;overflow:auto}.quiet-report{margin-top:9px;padding-top:8px;border-top:1px dashed #465044;color:#b9b7a6;font-size:10px;line-height:1.4}.context b{color:var(--gold);font-weight:500;display:block;font-size:9px;letter-spacing:.16em;margin-bottom:5px;text-transform:uppercase}.arena-badge{font-size:10px;letter-spacing:.17em;color:var(--gold);margin-top:12px;text-transform:uppercase}
+.choice-chip{position:absolute;z-index:5;max-width:74%;padding:9px 11px;background:#172018ee;border:1px solid var(--gold);color:#f5edd8;border-radius:9px;font:16px/1.3 Georgia,serif;pointer-events:none;opacity:0;transition:opacity .1s;box-shadow:0 5px 22px #0009}.choice-chip.on{opacity:1}.choice-chip.left{left:12px;top:42%}.choice-chip.right{right:12px;top:42%;text-align:right}.choice-chip.up{top:14px;left:50%;transform:translateX(-50%);text-align:center}.choice-chip.down{bottom:14px;left:50%;transform:translateX(-50%);text-align:center}
+.locktrack{height:2px;margin:10px 11px 0;background:#32392f;overflow:hidden;border-radius:10px;flex:0 0 2px}.locktrack i{display:block;height:100%;width:0;background:var(--gold)}.help{font-size:11px;line-height:17px;text-align:center;color:var(--muted);height:31px;padding:7px 0 4px;flex:0 0 31px;letter-spacing:.015em}.help strong{font-weight:500;color:var(--gold)}
+.tap-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px 4px 2px;flex:0 0 auto;max-height:136px;overflow:auto;-webkit-overflow-scrolling:touch}.tap-actions button{min-height:43px;padding:8px 9px;border:1px solid #756a50;background:#292e26;color:#f2e9d6;border-radius:11px;font:13px/1.25 Georgia,serif;cursor:pointer;touch-action:manipulation;overflow-wrap:anywhere}.tap-actions button.extra{min-height:30px;background:#1e251f;color:#c8b17b;border-color:#465143;font:11px/1.2 -apple-system,BlinkMacSystemFont,sans-serif}.tap-actions button:disabled{opacity:.43;cursor:default}.tap-actions button:not(:disabled):active{background:#4b503c}.tap-actions button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.nav{display:flex;align-items:center;justify-content:space-around;flex:0 0 51px;border-top:1px solid #343d33;margin:0 3px}.nav button{color:#b3b9ac;background:transparent;border:0;padding:11px 7px;font-size:12px;letter-spacing:.02em;cursor:pointer;min-width:62px}.nav button:active{color:#f1e2bd}
+.overlay{position:fixed;inset:0;z-index:30;background:#080b09bf;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(9px);padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}.overlay.open{display:flex}.sheet{background:#1d241e;color:var(--text);border:1px solid #5b6656;border-radius:22px 22px 0 0;width:min(500px,100%);max-height:87dvh;overflow:auto;padding:18px 21px 30px;overscroll-behavior:contain;user-select:text;-webkit-user-select:text;box-shadow:0 -20px 80px #0009}.sheethead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.sheethead h2{font:normal 26px Georgia,serif;margin:0}.close{background:transparent;border:1px solid #687060;border-radius:50%;color:var(--text);font-size:22px;width:35px;height:35px;cursor:pointer}.eyebrow{font-size:10px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}.sheet p{font:15px/1.6 Georgia,serif;color:#ddd6c8}.sheet small{color:#a6ae9e}.sheet a{color:#dfc98f;word-break:break-word}.row{padding:13px 0;border-top:1px solid #3b453b}.row b{display:block;font-size:14px;font-weight:600}.row span{display:block;color:#b9c0b1;font-size:12px;line-height:1.5;margin-top:4px}.row .eyebrow{margin-bottom:5px}.pill{display:inline-block;border:1px solid #5b6654;padding:4px 8px;border-radius:20px;font-size:11px;color:#d4c8a9;margin:3px 4px 3px 0}.reset-link{background:transparent;border:1px solid #64705d;border-radius:8px;padding:11px 15px;color:var(--text);margin-top:18px;cursor:pointer}
+.map-svg,.network-svg{width:100%;max-width:390px;display:block;margin:0 auto 10px}.map-svg text,.network-svg text{fill:#e8e3d7;font:12px -apple-system,BlinkMacSystemFont,sans-serif}.map-svg path{fill:#313c32;stroke:#82917e;stroke-width:1.6}.map-svg circle{fill:#d1b985}.network-svg line{stroke:#84907c;stroke-width:1.6}.network-svg circle{fill:#39473b;stroke:#c0aa77;stroke-width:1.5}.network-svg .crown{fill:#4e533b}.network-svg .wood{fill:#3d4d42}.network-svg .lanc{fill:#51403f}
+.intro,.outro{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px 15px;cursor:pointer;touch-action:pan-y}.intro .ornament{color:var(--gold);font:30px Georgia,serif;margin-bottom:22px}.intro h1{font:normal clamp(64px,19vw,96px)/.9 Georgia,serif;letter-spacing:-.07em;margin:0}.intro h1 span{font-size:20px;color:var(--gold);letter-spacing:0;vertical-align:top}.intro p{max-width:280px;font:17px/1.6 Georgia,serif;color:#c7c4b9}.intro .enter{margin-top:35px;font-size:12px;letter-spacing:.17em;color:var(--gold);padding:15px 20px;border:1px solid #665b43;border-radius:10px}.intro small{margin-top:16px;color:#8f9688}.outro{align-items:flex-start;text-align:left}.outro h1{font:normal 39px/1.06 Georgia,serif;margin:14px 0}.outro p{font:17px/1.58 Georgia,serif;color:#d4d0c6}.outro .enter{margin-top:20px;color:var(--gold);font-size:12px;letter-spacing:.12em}.outro .chaptertag{font-size:11px;letter-spacing:.17em;color:var(--gold)}
+@media(max-height:690px){.tap-actions button{min-height:35px;padding:6px;font-size:11px}.tap-actions{gap:5px;padding-top:5px}.tap-actions button.extra{min-height:26px;font-size:10px}.header{flex-basis:37px}.nav{flex-basis:43px}.nav button{padding:8px 5px}.help{height:27px;flex-basis:27px;padding-top:5px}.card{padding:15px}.kicker{margin-top:13px}.speaker{font-size:26px}.rule{margin:13px 0}.quote{font-size:19px}.context{padding-top:10px;font-size:12px}}
+@media(max-height:540px){.tap-actions button{min-height:31px;font-size:10px}.tap-actions button.extra{min-height:24px}.speaker{font-size:23px}.quote{font-size:17px}.context{font-size:11px}.card{padding:12px}.rule{margin:9px 0}}
+@media(prefers-reduced-motion:reduce){.card{transition:none!important}}
+__ATMOSPHERE_CSS__
+__FOCUS_CSS__
+__HOME_CSS__
+__SCENE_ART_CSS__
+__COURT_CSS__
+</style>
+</head>
+<body>
+<div id="app"><div class="intro"><h1>EDWARD<span>IV</span></h1><p>Starting the game…</p><small>If this screen stays visible, the file preview is blocking JavaScript. Open the game through a normal HTTPS website in Safari.</small></div></div>
+<div id="overlay" class="overlay" aria-hidden="true"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<script>
+/* DATA */
+__DATA_JS__
+/* REACTIVE SITUATIONS */
+__REACTIVE_JS__
+/* CONTINGENT SITUATIONS */
+__EMERGENT_JS__
+/* LIVING WORLD */
+__SANDBOX_JS__
+__DEEPWORLD_JS__
+__NARRATIVE_JS__
+/* INTERWOVEN NARRATIVE ENGINE */
+__STORY_SCENES_JS__
+__STORY_CROSSOVERS_JS__
+__STORY_ENGINE_JS__
+/* DELIBERATION */
+__DELAYED_JS__
+/* ENGINE */
+__ENGINE_JS__
+/* UI */
+__UI_JS__
+/* ATLAS DATA AND PRESENTATION */
+__MAP_DATA_JS__
+__EXTRAS_JS__
+/* INTERWOVEN CHRONICLE CASEBOOK */
+__STORY_UI_JS__
+/* PROGRESSIVE DISCLOSURE AND PLAIN-LANGUAGE READING */
+__FOCUS_JS__
+/* TITLE SCREEN AND ORIGINAL VECTOR PORTRAITS */
+__ARTWORK_JS__
+__HOME_JS__
+/* WORLD CRISES, HISTORICAL PROVENANCE AND ILLUSTRATIONS */
+__WORLD_PRESSURE_JS__
+__HISTORICAL_WORLD_JS__
+__SUBSTANCE_JS__
+__SCENE_ART_JS__
+__INTEGRATION_JS__
+__LIVING_COURT_JS__
+__COURT_UI_JS__
+</script>
+<noscript><p style="padding:25px">EDWARD requires JavaScript. Open the hosted game in Safari, not the iPhone Files or ChatGPT HTML preview.</p></noscript>
+</body>
+</html>

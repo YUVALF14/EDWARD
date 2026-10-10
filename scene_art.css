@@ -1,0 +1,25 @@
+/* Vignettes stay out of the default Focus reading flow. */
+.scene-art-band{display:none;flex:0 0 auto;height:clamp(58px,9vh,86px);width:100%;margin:-6px 0 10px;overflow:hidden;border-radius:9px;opacity:.87;pointer-events:none}
+.scene-art-band .edward-scene-svg{width:100%;height:100%;object-fit:cover;display:block}
+.card.reading-story .scene-art-band,.card.reading-full .scene-art-band{display:block}
+.card.reading-story .quote,.card.reading-full .quote{max-height:33%}
+.card.reading-story .context,.card.reading-full .context{max-height:24%}
+.reading-tools .scene-art-button{font-size:10px;white-space:nowrap;padding:7px 8px;border-color:#686b52}
+.scene-art-large{margin:9px 0 14px;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px #0005}
+.scene-art-large .edward-scene-svg{display:block;width:100%;height:auto;max-height:270px}
+.history-anchor{border-bottom:1px solid #475144;padding:13px 0}
+.history-anchor b{display:block;color:#e9d9b6;font:17px Georgia,serif;margin:6px 0}
+.history-anchor p{font:13px/1.5 Georgia,serif;margin:5px 0;color:#c9c9bb}
+.history-anchor a{font-size:12px;color:#d4bc84}
+.history-in-your-reign{background:#28362c;border-left:3px solid #a9a078;padding:9px 11px;font:12px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;color:#e2dfd0;margin:9px 0}
+.history-in-your-reign strong{color:#ead19a;display:block;margin-bottom:3px}
+.header-actions .history-world-button{border:1px solid #53624f;background:#1d291f;color:#d8c69b;border-radius:50%;width:31px;height:31px;font-size:15px;cursor:pointer;touch-action:manipulation}
+@media(max-height:690px){.scene-art-band{height:49px;margin:-7px 0 6px}.reading-tools .scene-art-button{padding:5px 6px;font-size:9px}}
+@media(max-height:570px){.card.reading-story .scene-art-band,.card.reading-full .scene-art-band{display:none}}
+@media(max-width:350px){.reading-tools .scene-art-button{font-size:9px;padding:5px}}
+/* On tall screens the unused reading space can carry a quiet manuscript image.
+   It is never allowed to push the actual decision or text downward. */
+@media(min-height:740px){
+ .card.reading-focus .scene-art-band{display:block;position:absolute;left:20%;bottom:26%;width:60%;height:clamp(70px,12vh,120px);margin:0;opacity:.24;z-index:0;pointer-events:none;filter:sepia(.28)}
+ .card.reading-focus .quote,.card.reading-focus .context,.card.reading-focus .reading-tools{position:relative;z-index:1}
+}

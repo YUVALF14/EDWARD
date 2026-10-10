@@ -1,0 +1,56 @@
+/* EDWARD — A proper title screen and character illustrations. */
+.home-screen{position:relative;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;padding:clamp(18px,4vh,42px) 14px max(18px,env(safe-area-inset-bottom));text-align:center;isolation:isolate}
+.home-screen:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 22%,rgba(201,171,103,.15),transparent 58%),linear-gradient(180deg,rgba(18,26,22,.1),rgba(9,14,12,.7))}
+.home-kicker{font:10px/1.2 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.27em;color:#cbb887;text-transform:uppercase}
+.home-title{font:normal clamp(62px,17vw,88px)/.95 Georgia,serif;letter-spacing:-.07em;margin:12px 0 0;color:#f7eedc;text-shadow:0 5px 22px #0008}
+.home-title span{font-size:clamp(19px,4.4vw,26px);letter-spacing:0;vertical-align:top;color:#d4b876}
+.home-subtitle{font:italic 15px/1.4 Georgia,serif;color:#e0d3b6;margin:8px 0 15px}
+.home-portraits{display:flex;justify-content:center;align-items:flex-end;gap:0;height:clamp(140px,23vh,208px);width:100%;max-width:330px;flex:0 0 auto;position:relative;margin:0 0 9px}
+.home-portrait{position:relative;display:flex;flex-direction:column;align-items:center;width:33%;height:84%;filter:drop-shadow(0 10px 12px #0009)}
+.home-portrait:nth-child(2){height:100%;width:39%;z-index:2;filter:drop-shadow(0 12px 18px #000c)}
+.home-portrait:nth-child(1){transform:translate(15px,3px) rotate(-5deg)}
+.home-portrait:nth-child(3){transform:translate(-15px,3px) rotate(5deg)}
+.home-portrait .edward-portrait-svg{height:100%;width:100%;object-fit:contain}
+.home-portrait-caption{font:9px Georgia,serif;letter-spacing:.09em;color:#dbc69c;margin-top:2px}
+.home-copy{font:14px/1.48 Georgia,serif;color:#d3d2c5;max-width:300px;margin:8px 0 13px}
+.home-actions{width:min(305px,100%);display:flex;flex-direction:column;gap:9px;flex:0 0 auto}
+.home-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:45px;border:1px solid #8d7852;border-radius:12px;background:#303b31;color:#f3e8d1;font:15px/1.25 Georgia,serif;cursor:pointer;touch-action:manipulation;padding:9px 12px;box-shadow:0 4px 14px #0003}
+.home-btn.primary{background:linear-gradient(135deg,#d6bb80,#b89a5d);border-color:#e3c88d;color:#19221b;font-weight:bold}
+.home-btn.secondary{background:rgba(28,36,30,.85);border-color:#596651}
+.home-btn.tertiary{background:rgba(19,27,22,.72);border-color:#6e6650;color:#dccfb3}
+.home-btn:disabled{opacity:.4;cursor:default}
+.home-btn:focus-visible,.home-utility button:focus-visible,.menu-choice:focus-visible{outline:2px solid #ffe1a2;outline-offset:3px}
+.home-save-note{font:11px/1.35 -apple-system,BlinkMacSystemFont,sans-serif;color:#9fada0;margin-top:4px}
+.home-utility{display:flex;align-items:center;gap:14px;margin-top:14px}
+.home-utility button{border:0;background:transparent;color:#c7ba97;font-size:12px;cursor:pointer;touch-action:manipulation;padding:7px}
+.home-disclaimer{font:10px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;color:#89958a;max-width:320px;margin:9px 0 0}
+.menu-summary{padding:12px 14px;border:1px solid #657158;border-radius:12px;background:#1b2b22;margin:12px 0 15px;color:#ddd5c1;font:13px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}
+.menu-choice{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;background:#283429;border:1px solid #6d735c;border-radius:12px;color:#f3e8d1;padding:13px 14px;margin:9px 0;cursor:pointer;touch-action:manipulation;font:16px Georgia,serif}
+.menu-choice small{font:11px/1.35 -apple-system,BlinkMacSystemFont,sans-serif;color:#b8c0ae}
+.menu-choice:disabled{opacity:.4;cursor:default}
+.menu-choice.important{background:#403c29;border-color:#bca16a}
+.menu-choice.danger{border-color:#a97768;color:#efc3ae}
+.menu-choice .menu-choice-copy{display:flex;flex-direction:column;gap:4px}
+.menu-divider{height:1px;background:#465342;margin:15px 0}
+.menu-caption{font:12px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;color:#aeb6a8;margin:8px 0}
+.menu-art-note{font:10px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;color:#b2b5a6;margin-top:12px}
+.card-identity{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:58px}
+.card-identity-copy{min-width:0;flex:1}
+.card-identity .speaker{margin-top:0;font-size:clamp(25px,6.6vw,36px);overflow-wrap:break-word}
+.card-identity .role{line-height:1.4}
+.card-portrait{display:block;flex:0 0 64px;width:64px;height:77px;padding:0;border:0;background:transparent;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 3px 8px #0007)}
+.card-portrait .edward-portrait-svg{width:100%;height:100%;display:block}
+.card-portrait:focus-visible{outline:2px solid #d6b77d;border-radius:6px}
+.person-panel .portrait-feature{float:right;width:103px;height:124px;margin:0 0 10px 12px;filter:drop-shadow(0 7px 11px #0009)}
+.person-panel .portrait-feature .edward-portrait-svg{width:100%;height:100%;display:block}
+.people-portrait{float:right;width:49px;height:59px;margin:0 0 5px 10px;filter:drop-shadow(0 4px 7px #0008)}
+.people-portrait .edward-portrait-svg{width:100%;height:100%}
+.people-portrait-row{min-height:63px}
+@media(max-height:700px){.home-screen{padding-top:10px}.home-title{font-size:61px;margin-top:5px}.home-subtitle{margin:3px 0 8px}.home-portraits{height:135px;margin-bottom:4px}.home-copy{margin:4px 0 9px;font-size:13px}.home-actions{gap:6px}.home-btn{min-height:39px;padding:7px}.home-utility{margin-top:7px}.home-disclaimer{margin-top:3px}}
+@media(max-height:560px){.home-portraits{height:100px}.home-title{font-size:53px}.home-copy{font-size:12px}.home-btn{min-height:36px}.home-screen{padding-top:7px}.card-portrait{flex-basis:49px;width:49px;height:59px}.card-identity{min-height:47px}.card-identity .speaker{font-size:24px}}
+@media(max-width:340px){.header .topinfo{display:none}.header-actions button{width:27px;height:27px}.card-portrait{flex-basis:52px;width:52px;height:63px}}
+@media(prefers-reduced-motion:reduce){.home-btn,.menu-choice{transition:none!important}}
+/* Date and chapter are already visible on the card; prioritize touch targets. */
+.header .topinfo{display:none}
+.header .logo{margin-right:auto}
+.home-btn.primary:disabled{background:#202b24;color:#859082;border-color:#455044;box-shadow:none}

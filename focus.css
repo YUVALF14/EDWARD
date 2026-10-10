@@ -1,0 +1,38 @@
+/* Less text by default; the full historical material is available on demand. */
+.card.reading-focus .quote{font-size:clamp(22px,5.55vw,28px);line-height:1.36;max-height:48%;overflow-y:auto;letter-spacing:-.016em}
+.card.reading-focus .rule{margin-top:clamp(15px,2.6vh,23px);margin-bottom:clamp(20px,4vh,32px)}
+.card.reading-focus .context{max-height:25%;font-size:clamp(12px,3.1vw,14px);line-height:1.55;padding-top:13px;margin-top:auto}
+.card.reading-focus .context b{margin-bottom:7px}
+.card.reading-story .quote{max-height:49%;font-size:clamp(19px,4.9vw,24px)}
+.card.reading-full .quote{max-height:46%}
+.card.reading-full .context{max-height:27%}
+.reading-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;min-height:29px;flex:0 0 auto;position:relative;z-index:4}
+.reading-tools button{border:1px solid #837450;background:rgba(25,31,24,.88);color:#ead5a4;border-radius:999px;padding:7px 13px;font:11px/1.1 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.03em;cursor:pointer;touch-action:manipulation}
+.reading-tools button:focus-visible{outline:2px solid #e3ca8a;outline-offset:2px}
+.reading-tools .reading-level-btn{font:10px/1.1 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.11em;color:#cfc3a2;white-space:nowrap;border-color:#495340;background:rgba(22,29,23,.9);padding:7px 10px}
+.header-actions .reading-toggle{font:600 12px Georgia,serif;letter-spacing:-.07em}
+.header-actions .reading-toggle[aria-pressed="true"]{color:#f7e2a7;border-color:#d7b76d}
+.reading-summary{border:1px solid #5d684f;background:linear-gradient(140deg,#263127,#1c251f);padding:14px 15px;border-radius:13px;margin-bottom:16px}
+.reading-summary p{font:19px/1.38 Georgia,serif;margin:9px 0 10px;color:#f2e9d5}
+.reading-stakes{font-size:13px;line-height:1.5;color:#d1c5ab}
+.reading-detail{border:1px solid #485747;border-radius:12px;background:#18211b;margin:10px 0;overflow:hidden}
+.reading-detail summary{list-style:none;cursor:pointer;padding:13px 13px;color:#edddbb;font:16px Georgia,serif;display:flex;flex-direction:column;gap:4px;position:relative;padding-right:35px;touch-action:manipulation}
+.reading-detail summary::-webkit-details-marker{display:none}
+.reading-detail summary:after{content:'+';position:absolute;right:13px;top:13px;font:20px -apple-system,BlinkMacSystemFont,sans-serif;color:#c9b17c}
+.reading-detail[open] summary:after{content:'−'}
+.reading-detail summary span{font:11px -apple-system,BlinkMacSystemFont,sans-serif;color:#a7b3a1}
+.reading-detail-body{padding:4px 13px 14px;border-top:1px solid #3d4c3f}
+.reading-detail-body p{font:14px/1.6 Georgia,serif;color:#ded9cb}
+.reading-detail-body .row{padding:9px 0}
+.reading-detail-body .row b{font-size:12px}
+.reading-detail-body .row span{font-size:12px}
+@media(max-height:690px){.card.reading-focus .quote{font-size:clamp(19px,5vw,23px);line-height:1.3;max-height:47%}.card.reading-focus .rule{margin:11px 0 16px}.reading-tools{margin-top:6px;min-height:26px}.reading-tools button{padding:5px 11px}.card.reading-focus .context{padding-top:8px}}
+@media(max-height:540px){.card.reading-focus .quote{font-size:18px;max-height:42%}.reading-tools .reading-level-btn{font-size:9px;padding:4px 7px}.reading-tools button{font-size:10px;padding:4px 8px}}
+
+.casebook-intro{font:16px/1.55 Georgia,serif;color:#dcd2be;margin:6px 0 18px}
+.casebook-stories{margin-top:9px;margin-bottom:16px}
+.casebook-stories .story-case summary{padding:12px 13px}
+.casebook-stories .story-case-title{font-size:14px}
+.casebook-fold{margin-top:12px}
+.casebook-fold .reading-detail-body>.eyebrow{margin:14px 0 9px}
+.casebook-fold .reading-detail-body>p{font-size:13px}
