@@ -3,7 +3,7 @@ const app=document.getElementById('app');
 const overlay=document.getElementById('overlay');
 const sheet=document.getElementById('sheet');
 const QA=new URLSearchParams(location.search).has('qa');
-const LOCK_MS=QA?0:10000;
+const LOCK_MS=QA?0:5000;
 let world=loadWorld()||newWorld();let current=null,arena=null,locked=true,lockStart=0,lockRAF=0,activePointer=null,closing=false;
 function E(s){return String(s===undefined||s===null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function intro(){cancelAnimationFrame(lockRAF);app.innerHTML=`<div class="intro" id="intro"><div class="ornament">✦</div><h1>EDWARD<span>IV</span></h1><p>England, 1461.<br>History is the starting point.<br>What remains is yours.</p><div class="enter" id="beginFull">TOUCH TO BEGIN · 1461</div><div class="enter" id="jump1465" style="margin-top:12px">ENTER THE LIVING WORLD · 1465</div><small>Swipe decisions · 96 early situations + historical dossiers + living-world continuation · 1461–1483</small></div>`;document.getElementById('beginFull').addEventListener('click',e=>{e.stopPropagation();begin()},{once:true});document.getElementById('jump1465').addEventListener('click',e=>{e.stopPropagation();world=newWorld();world.chapterIndex=CHAPTERS.length;world.facts.marriage='elizabeth';world.facts.somerset_1464='rebels';world.facts.north_rising_1464='active';world.offices.northern_commission='warwick';world.offices.chamberlain='hastings';world.links.warwick=3;world.links.hastings=2;world.links.woodville=2;saveWorld(world);begin()},{once:true});}
