@@ -1,7 +1,7 @@
 /* EDWARD — history lens and conditional-crisis casebook. */
 const _worldOldGameMenu=edwardGameMenu;
 edwardGameMenu=function(){_worldOldGameMenu();const before=sheet.querySelector('.menu-divider');if(!before)return;
- const btn=document.createElement('button');btn.className='menu-choice';btn.type='button';btn.id='menuHistoricalLens';btn.innerHTML='History &amp; your reign <span>⌛</span>';btn.onclick=edwardHistoricalLens;before.before(btn);
+ const btn=document.createElement('button');btn.className='menu-choice';btn.type='button';btn.id='menuHistoricalLens';btn.innerHTML='History &amp; your reign';btn.onclick=edwardHistoricalLens;before.before(btn);
 };
 const _worldOldShowHistory=showHistory;
 showHistory=function(){_worldOldShowHistory();const p=document.createElement('p');p.innerHTML='<button class="reset-link" type="button" id="historyLensFromCard">Compare with recorded history →</button>';sheet.appendChild(p);document.getElementById('historyLensFromCard').onclick=edwardHistoricalLens;};

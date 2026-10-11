@@ -36,7 +36,7 @@ function edwardTitleScreen(){
  '<button class="home-btn '+(saved?'secondary':'primary')+'" id="homeNew">New game</button>'+
  '<button class="home-btn tertiary" id="homeLoad">Load game</button>'+
  (saved?'<div class="home-save-note">Autosave · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'<div class="home-save-note">Your story begins in 1461</div>')+
- '</div><div class="home-utility"><button id="homeMusic" type="button" data-audio-toggle="1" aria-pressed="false">♪ Music</button><button id="homeHow" type="button">How to play</button></div>'+
+ '</div><div class="home-utility"><button id="homeMusic" type="button" data-audio-toggle="1" aria-pressed="false">Music</button><button id="homeHow" type="button">How to play</button></div>'+
  '<p class="home-disclaimer">Historical foundations · fictional dialogue and alternate outcomes. Portraits are artistic interpretations, not historical likenesses.</p></main>';
  document.getElementById('homeContinue').onclick=edwardContinue;
  document.getElementById('homeNew').onclick=edwardNewGameMenu;
@@ -77,7 +77,7 @@ function edwardLoadGameMenu(){
 function edwardGameMenu(){
  openSheet('Game Menu','<div class="eyebrow">EDWARD IV · YOUR REIGN</div><div class="menu-summary">'+E(edwardYear(world))+' · '+E(world.turn)+' decisions · Progress autosaves after each decision.</div>'+
  '<button class="menu-choice" id="menuResume">Return to the court <span>→</span></button>'+
- '<button class="menu-choice" id="menuSave">Save to a slot / export <span>▣</span></button>'+
+ '<button class="menu-choice" id="menuSave">Save to a slot / export</button>'+
  '<button class="menu-choice" id="menuLoad">Load another reign <span>↗</span></button>'+
  '<div class="menu-divider"></div><button class="menu-choice" id="menuHome">Return to title screen <span>⌂</span></button>'+
  '<button class="menu-choice danger" id="menuNew">Start a new game <span>↻</span></button>');
@@ -88,7 +88,7 @@ function edwardGameMenu(){
  document.getElementById('menuNew').onclick=edwardNewGameMenu;
 }
 function edwardInstallMenuButton(){const bar=app.querySelector('.header-actions');if(!bar||bar.querySelector('#gameMenuToggle'))return;
- const b=document.createElement('button');b.id='gameMenuToggle';b.type='button';b.title='Game menu · new game · load';b.setAttribute('aria-label','Game menu, new game or load');b.textContent='☰';b.onclick=edwardGameMenu;bar.appendChild(b);
+ const b=document.createElement('button');b.id='gameMenuToggle';b.type='button';b.title='Game menu · new game · load';b.setAttribute('aria-label','Game menu, new game or load');b.textContent='Menu';b.onclick=edwardGameMenu;bar.appendChild(b);
 }
 function edwardInstallCardPortrait(){
  const card=document.getElementById('card');if(!card||card.querySelector('.card-identity'))return;

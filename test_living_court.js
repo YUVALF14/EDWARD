@@ -1,6 +1,6 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const c={console,Math,EDWARD_SIMULATION:true,localStorage:{getItem(){return null},setItem(){},removeItem(){}}};vm.createContext(c);
-const files=['data','reactive','emergent','sandbox','deepworld','narrative','story_scenes','story_crossovers','story_engine','delayed','engine','world_pressure','historical_world','living_court'];for(const f of files)vm.runInContext(fs.readFileSync(__dirname+'/'+f+'.js','utf8'),c,{filename:f});
+const files=['data','reactive','emergent','sandbox','deepworld','narrative','story_scenes','story_crossovers','story_engine','delayed','engine','world_pressure','historical_world','living_court','life'];for(const f of files)vm.runInContext(fs.readFileSync(__dirname+'/'+f+'.js','utf8'),c,{filename:f});
 vm.runInContext('this.api={newWorld,getNextSituation,resolveChoice,CHAPTERS,lcInit,lcIssue,lcProcess,lcMeeting,lcRespond,lcAppoint,lcDismiss,lcSeat,lcMembers,lcCouncilView,lcAlive,edwardHistoryAudit,lcVoiceCard}',c);
 const A=c.api;function start(seed=10){const s=A.newWorld(seed);s.chapterIndex=A.CHAPTERS.length;s.facts.marriage='elizabeth';s.offices.chamberlain='hastings';A.getNextSituation(s);A.lcInit(s);return s;}
 function reply(s,kind='audience',target='warwick',topic='appointments'){const id=A.lcIssue(s,kind,target,topic);s.court.clock+=5;A.lcProcess(s);return id;}

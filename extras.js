@@ -43,7 +43,7 @@ function edwardPeek(name){const bio=edwardBioFor(name),label=bio?bio.title:name;
  node.classList.add('open');document.getElementById('peekClose').onclick=edwardClosePeek;document.getElementById('peekClose').focus();
 }
 function edwardClosePeek(){document.getElementById('personPeek')?.classList.remove('open');}
-function edwardCardNames(){const card=document.getElementById('card');if(!card||!current)return;const detail=arena?current[arena]:null;const who=detail?detail.who:current.who;const quote=detail?detail.quote:fmt(current.quote,world);const context=detail?'You have changed who hears this matter. A decision is still required.':fmt(current.context,world);
+function edwardCardNames(){const card=document.getElementById('card');if(!card||!current)return;const detail=arena?current[arena]:null;const who=detail?detail.who:current.who;const quote=detail?fmt(detail.quote,world):fmt(current.quote,world);const context=detail?'You have changed who hears this matter. A decision is still required.':fmt(current.context,world);
  const sp=card.querySelector('.speaker');if(sp){let markup=edwardLinkedText(who);if(!markup.includes('data-person='))markup='<button type="button" class="person-link" data-person="'+E(who)+'">'+E(who)+'</button>';sp.innerHTML=markup;}
  const q=card.querySelector('.quote');if(q)q.innerHTML='“'+edwardLinkedText(quote)+'”';
  const ctx=card.querySelector('.context');if(ctx){const textNode=Array.from(ctx.childNodes).find(x=>x.nodeType===3&&x.textContent.trim());if(textNode){const span=document.createElement('span');span.innerHTML=edwardLinkedText(context);textNode.replaceWith(span);}}
@@ -137,20 +137,20 @@ function edwardSceneSvg(mood){const palace='<g fill="#b9a981" opacity=".65"><pat
  return '<svg viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="sceneGlow"><stop stop-color="#d5b889" stop-opacity=".45"/><stop offset="1" stop-color="#d5b889" stop-opacity="0"/></radialGradient></defs><circle cx="300" cy="260" r="280" fill="url(#sceneGlow)"/><path d="M0 760Q300 650 600 760V900H0Z" fill="#151e1b" opacity=".6"/>'+motif+'</svg>';
 }
 function edwardSetMood(mood){document.body.dataset.mood=mood;EDWARD_SCORE.mood=mood;let art=document.getElementById('sceneArt');if(!art){art=document.createElement('div');art.id='sceneArt';art.setAttribute('aria-hidden','true');document.body.insertBefore(art,app);}if(art.dataset.scene!==mood){art.innerHTML=edwardSceneSvg(mood);art.dataset.scene=mood;}}
-/* UI integration. We preserve original swipe mechanics and the ten-second lock. */
+/* UI integration. We preserve original swipe mechanics and the five-second lock. */
 let edwardActionTimer=null;
 function edwardInstallHeader(){const header=app.querySelector('.header');if(!header||header.querySelector('.header-actions'))return;
  const actions=document.createElement('div');actions.className='header-actions';
  const history=header.querySelector('#historyIcon');if(history)actions.appendChild(history);
- const music=document.createElement('button');music.id='musicToggle';music.dataset.audioToggle='1';music.textContent='♪';music.title='Turn music on';music.setAttribute('aria-label','Turn music on');music.onclick=edwardToggleMusic;
- const saves=document.createElement('button');saves.id='saveToggle';saves.textContent='▣';saves.title='Save or load a reign';saves.setAttribute('aria-label','Save or load a reign');saves.onclick=edwardSaveMenu;
+ const music=document.createElement('button');music.id='musicToggle';music.dataset.audioToggle='1';music.textContent='Music';music.title='Turn music on';music.setAttribute('aria-label','Turn music on');music.onclick=edwardToggleMusic;
+ const saves=document.createElement('button');saves.id='saveToggle';saves.textContent='Save';saves.title='Save or load a reign';saves.setAttribute('aria-label','Save or load a reign');saves.onclick=edwardSaveMenu;
  actions.append(music,saves);header.appendChild(actions);edwardSyncAudioButtons();
 }
 function edwardTapControls(){if(edwardActionTimer){clearInterval(edwardActionTimer);edwardActionTimer=null;}
  const help=document.getElementById('help');if(!help||!current)return;
  const choices=arena&&current[arena]?current[arena]:current;
  const bar=document.createElement('div');bar.className='tap-actions';bar.id='tapActions';
- const make=(side,label,extra)=>{const b=document.createElement('button');b.type='button';b.dataset.choice=side;b.textContent=(side==='left'?'← ':side==='right'?'':'↑ ')+label+(side==='right'?' →':'');if(extra)b.classList.add('extra');if(side==='wait'){b.classList.add('delayed');b.hidden=true;b.textContent='⌛ '+label;}b.disabled=true;b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(locked||closing||overlay.classList.contains('open'))return;if(side==='wait'&&performance.now()-lockStart<LOCK_MS+(QA?220:7000))return;if(side==='up'||side==='down')enterArena(side);else decide(side);});bar.appendChild(b);return b;};
+ const make=(side,label,extra)=>{const b=document.createElement('button');b.type='button';b.dataset.choice=side;b.textContent=(side==='left'?'← ':side==='right'?'':side==='down'?'↓ ':'↑ ')+label+(side==='right'?' →':'');if(extra)b.classList.add('extra');if(side==='wait'){b.classList.add('delayed');b.hidden=true;b.textContent='⌛ '+label;}b.disabled=true;b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(locked||closing||overlay.classList.contains('open'))return;if(side==='wait'&&performance.now()-lockStart<LOCK_MS+(QA?220:7000))return;if(side==='up'||side==='down')enterArena(side);else decide(side);});bar.appendChild(b);return b;};
  make('left',choices.left.label,false);make('right',choices.right.label,false);
  if(!arena&&current.up)make('up',current.up.title,true);
  if(!arena&&current.down)make('down',current.down.title,true);

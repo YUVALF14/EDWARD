@@ -1,0 +1,18 @@
+{
+  "checks": 6,
+  "fullRuns": 80,
+  "arenaTestimoniesChecked": 12567,
+  "missingTestimonies": 0,
+  "lifeIncidentCounts": {
+    "fever": 456,
+    "harvest": 346,
+    "wages": 582,
+    "marriage": 257,
+    "cargo": 446,
+    "fire": 315,
+    "fair": 167
+  },
+  "minDecisions": 164,
+  "maxDecisions": 181,
+  "browser": "No browser or iPhone Safari verification; DOM-object regression check only."
+}

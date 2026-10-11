@@ -46,7 +46,7 @@ function edwardAddSceneToCard(){const card=document.getElementById('card');if(!c
  const type=edwardSceneType(current),rule=card.querySelector('.rule');if(!rule)return;
  const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);
  const tools=card.querySelector('.reading-tools');if(tools&&!tools.querySelector('.scene-art-button')){
-  const btn=document.createElement('button');btn.className='scene-art-button';btn.type='button';btn.textContent='✦ Scene';btn.title='View a manuscript-inspired scene illustration';btn.addEventListener('pointerdown',e=>e.stopPropagation());btn.onclick=e=>{e.stopPropagation();edwardOpenScene();};tools.insertBefore(btn,tools.querySelector('.reading-level-btn'));
+  const btn=document.createElement('button');btn.className='scene-art-button';btn.type='button';btn.textContent='Scene';btn.title='View a manuscript-inspired scene illustration';btn.addEventListener('pointerdown',e=>e.stopPropagation());btn.onclick=e=>{e.stopPropagation();edwardOpenScene();};tools.insertBefore(btn,tools.querySelector('.reading-level-btn'));
  }
 }
 const _sceneOldRenderCard=renderCard;

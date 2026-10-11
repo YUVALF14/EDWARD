@@ -142,7 +142,7 @@ function edwardSentenceSummary(raw,max=190){
 function edwardFocusData(){if(!current)return null;const n=current,detail=arena?n[arena]:null;
  const key=n.storyInfo?(n.storyInfo.id.startsWith('cross:')?n.storyInfo.id:n.storyInfo.id+':'+(SE_STORIES[n.storyInfo.id]?.beats[n.storyInfo.step-1]?.id||'')):null;
  const authored=key?EDWARD_FOCUS_SCENES[key]:null;
- const fullQuote=String(detail?detail.quote:fmt(n.quote,world));
+ const fullQuote=String(detail?fmt(detail.quote,world):fmt(n.quote,world));
  const fullContext=String(detail?'You have changed who hears this matter. A decision is still required.':fmt(n.context,world));
  const latest=world.reports.slice(-1)[0];
  const original=detail||n;
