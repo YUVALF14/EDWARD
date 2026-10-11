@@ -219,7 +219,7 @@ function chronologyAllowed(s,x){
  return true;
 }
 function getNextSituation(s){if(s.finished)return null;
- if(s.currentId){if(s.currentId.startsWith('sb-')&&s.sandbox?.current)return sbBuildCard(s,s.sandbox.current);const existing=findSituation(s.currentId);if(existing&&!s.visited.includes(existing.id))return existing;s.currentId=null;}
+ if(s.currentId){if(s.sandbox?.current){const restored=sbBuildCard(s,s.sandbox.current);if(restored.id===s.currentId)return restored;}const existing=findSituation(s.currentId);if(existing&&!s.visited.includes(existing.id))return existing;s.currentId=null;}
  while(s.chapterIndex<CHAPTERS.length){const ch=CHAPTERS[s.chapterIndex];
   if(s.chapterCount>=ch.limit){s.chapterIndex++;s.chapterCount=0;deriveChapterFacts(s);continue;}
   const candidates=SITUATIONS.filter(x=>x.ch===ch.id&&!s.visited.includes(x.id)&&(!x.after||x.after.every(id=>s.visited.includes(id)))&&(!x.requires||x.requires(s))&&chronologyAllowed(s,x)&&!(s.facts.north_rising_1464==='averted'&&['somerset_defection','hedgeley','hexham'].includes(x.id)));

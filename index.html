@@ -250,6 +250,10 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 @media(max-height:550px){.deck{min-height:230px;flex-shrink:0}#app{overflow-y:auto}.card .reading-tools button{padding:5px 8px}}
 
 .header-actions #gameMenuToggle,.header-actions #saveToggle{font-size:10px;width:36px;border-radius:5px}
+/* Chronicle frontispiece: typographic illumination, without a fabricated studio mark. */
+.reign-front{text-align:center;padding:25px 12px;border:3px double #a68c56;background:radial-gradient(ellipse at top,#414737,#19221d 70%);margin-bottom:20px}.reign-seal{margin:20px auto 12px;width:100px;height:100px;border:4px double #b69a5c;border-radius:50%;font:64px Georgia,serif;color:#dec88e;line-height:85px;position:relative}.reign-seal span{font:13px Georgia,serif;position:absolute;bottom:4px;left:0;right:0}.reign-year{font:18px Georgia,serif;letter-spacing:.3em;color:#d4ba82}.reign-front h2{font:clamp(27px,7vw,39px)/1.18 Georgia,serif;color:#e9dcc0}.reign-front p{max-width:430px;margin:15px auto}.reign-entries{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.reign-entry{display:flex;flex-direction:column;gap:8px;text-align:left;padding:18px 14px;background:linear-gradient(135deg,#303c30,#202b25);border:1px solid #877447;border-top:3px solid #b0985e;color:#ede2c7;cursor:pointer}.reign-entry strong{font:32px Georgia,serif;color:#dcc38c}.reign-entry small{color:#c1b796;font-size:11px}.reign-entry:hover,.reign-entry:focus-visible{outline:2px solid #cbb37b;outline-offset:2px;background:#3a4636}.reign-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:15px 0}.reign-stat{display:flex;flex-direction:column;gap:7px;padding:13px;background:#ffffff06;border-left:2px solid #9d8451}.reign-stat span{font:11px/1.4 Georgia,serif;color:#c2bda8}.reign-stat strong{font:16px/1.45 Georgia,serif;color:#eee3c6;overflow-wrap:anywhere}.reign-record{width:100%;text-align:left;border-top:3px double #9c8452;margin:25px 0;padding-top:20px}.reign-record p{font-size:13px!important;line-height:1.6}.outro{overflow-y:auto;max-height:100dvh;padding-bottom:calc(35px + env(safe-area-inset-bottom))}.home-title{ text-shadow:0 2px 0 #0006,0 0 42px #b9953b22}.home-portraits{border-block:3px double #887648;padding-block:14px}.home-kicker{letter-spacing:.16em}.reign-front:before{content:'THE ROYAL CHRONICLE';display:block;font-size:9px;letter-spacing:.3em;color:#bea56f}@media(max-width:360px){.reign-entries,.reign-stats{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.reign-front,.reign-entry{animation:none;transition:none}}
+
+.outro{justify-content:flex-start;flex:1 1 auto}.outro>*{flex-shrink:0}
 
 </style>
 </head>
@@ -2184,7 +2188,7 @@ function chronologyAllowed(s,x){
  return true;
 }
 function getNextSituation(s){if(s.finished)return null;
- if(s.currentId){if(s.currentId.startsWith('sb-')&&s.sandbox?.current)return sbBuildCard(s,s.sandbox.current);const existing=findSituation(s.currentId);if(existing&&!s.visited.includes(existing.id))return existing;s.currentId=null;}
+ if(s.currentId){if(s.sandbox?.current){const restored=sbBuildCard(s,s.sandbox.current);if(restored.id===s.currentId)return restored;}const existing=findSituation(s.currentId);if(existing&&!s.visited.includes(existing.id))return existing;s.currentId=null;}
  while(s.chapterIndex<CHAPTERS.length){const ch=CHAPTERS[s.chapterIndex];
   if(s.chapterCount>=ch.limit){s.chapterIndex++;s.chapterCount=0;deriveChapterFacts(s);continue;}
   const candidates=SITUATIONS.filter(x=>x.ch===ch.id&&!s.visited.includes(x.id)&&(!x.after||x.after.every(id=>s.visited.includes(id)))&&(!x.requires||x.requires(s))&&chronologyAllowed(s,x)&&!(s.facts.north_rising_1464==='averted'&&['somerset_defection','hedgeley','hexham'].includes(x.id)));
@@ -3577,6 +3581,52 @@ const _experienceRender=renderCard;renderCard=function(){_experienceRender();edw
 const _experienceTitle=edwardTitleScreen;edwardTitleScreen=function(){_experienceTitle();document.getElementById('homeHow').onclick=()=>edwardTutorial();const utility=app.querySelector('.home-utility');const b=document.createElement('button');b.textContent='Encyclopedia';b.onclick=edwardEncyclopedia;utility?.appendChild(b);};
 const _experienceBegin=begin;begin=function(){_experienceBegin();let done=false;try{done=!!localStorage.getItem('edward_tutorial_v2');}catch(e){}if(!done&&!QA&&current)edwardTutorial();};
 // The already rendered title was created before this module loaded.
+if(document.getElementById('homeScreen'))edwardTitleScreen();
+
+/* Experimental entry scenarios and factual ledger. No new historical presets.
+   Later entries simulate an explicitly fictional prehistory through the existing engine. */
+const REIGN_ENTRIES=[1461,1465,1469,1471,1475,1480];
+function reignSnapshot(s){return {turn:s.turn,orders:s.court?.orders.length||0,lifeResolved:s.life?.journal.filter(x=>x.stage==='resolved').length||0,authority:s.sandbox?.royalAuthority??null,credit:s.sandbox?.credit??null,unrest:{...s.sandbox?.unrest},offices:{...s.offices}};}
+function reignCreate(year,seed){
+ if(!REIGN_ENTRIES.includes(year))throw Error('Unsupported entry year');
+ const s=newWorld(seed);
+ if(year>1461){s.chapterIndex=CHAPTERS.length;s.facts.marriage='elizabeth';s.facts.somerset_1464='rebels';s.facts.north_rising_1464='active';s.offices.northern_commission='warwick';s.offices.chamberlain='hastings';s.links.warwick=3;s.links.hastings=2;s.links.woodville=2;}
+ // Suppress intermediate autosaves; publish only a complete entry state.
+ const previousSave=saveWorld;saveWorld=function(){};
+ try{let card=getNextSituation(s),guard=0;
+ while(year>1465&&s.sandbox.year<year&&card&&guard++<400){const side=hashScore(s.seed,'entry-history',s.turn)%2?'left':'right';card=resolveChoice(s,card,side,null);}
+ if(year>1465&&(s.finished||s.sandbox.year!==year))throw Error('Unable to prepare this entry');
+ s.reign={schema:1,startYear:year,generatedTurns:s.turn,baseline:reignSnapshot(s),provenance:year===1461?'Full reign':year===1465?'Illustrative 1465 settlement':'Simulated alternate prehistory from 1465'};
+ return s;
+ }finally{saveWorld=previousSave;}
+}
+function reignFacts(s){const b=s.reign?.baseline,sb=s.sandbox,c=s.court;return {
+ startYear:s.reign?.startYear??null,year:Math.min(1483,lcYear(s)),finished:!!s.finished,
+ playerDecisions:b?s.turn-b.turn:null,totalDecisions:s.turn,generatedDecisions:s.reign?.generatedTurns??null,
+ initiatives:b?(c?.orders.length||0)-b.orders:c?.orders.length||0,
+ resolvedLife:b?(s.life?.journal.filter(x=>x.stage==='resolved').length||0)-b.lifeResolved:s.life?.journal.filter(x=>x.stage==='resolved').length||0,
+ promises:{kept:c?.promises.filter(x=>x.status==='kept').length||0,broken:c?.promises.filter(x=>x.status==='broken').length||0,open:c?.promises.filter(x=>x.status==='open').length||0},
+ authority:sb?.royalAuthority??null,credit:sb?.credit??null,unrest:{...sb?.unrest},offices:{...s.offices},
+ ending:sb?.endings?.dimensions||null,baseline:b||null};}
+
+/* Illustrated chapter frontispieces and objective record; artwork remains interpretive. */
+function reignLedgerHTML(s){const r=reignFacts(s),b=r.baseline;
+ const row=(name,value)=>'<div class="reign-stat"><span>'+E(name)+'</span><strong>'+E(value)+'</strong></div>';
+ const change=(value,old)=>value===null?'Not yet modelled':String(value)+(old==null?'':' · '+(value-old>=0?'+':'')+(value-old)+' since entry');
+ return '<div class="eyebrow">'+(r.finished?'CLOSED RECORD':'RECORD TO DATE')+' · '+E(r.startYear??'Unknown entry')+'–'+E(r.year)+'</div><p>Recorded game state, not a moral score or a historical verdict. Numbers are model units, not pounds, people or measured historical quantities.</p><div class="reign-stats">'+
+ row('Your card decisions',r.playerDecisions??'Unknown for this older save')+row('Earlier simulated decisions',r.generatedDecisions??'Not recorded')+row('Royal orders issued',r.initiatives)+row('Local incidents resolved',r.resolvedLife)+row('Promises kept / broken / open',r.promises.kept+' / '+r.promises.broken+' / '+r.promises.open)+row('Royal authority',change(r.authority,b?.authority))+row('Crown credit',change(r.credit,b?.credit))+'</div>'+
+ '<p class="menu-caption">Orders include delegated inquiries. Promise totals cover the whole saved timeline. Older saves retain their records, but cannot reconstruct a missing entry baseline.</p><details class="reading-detail" open><summary>Regional unrest</summary><div class="reign-stats">'+(Object.entries(r.unrest).map(([k,v])=>row(k,change(v,b?.unrest?.[k]))).join('')||'<p>The regional model begins in 1465.</p>')+'</div></details><details class="reading-detail"><summary>Officeholders</summary>'+Object.entries(r.offices).map(([k,v])=>row(LC_OFFICES[k]||k,LC_PEOPLE[v]?.name||v)).join('')+'</details>'+
+ (r.ending?'<details class="reading-detail"><summary>Ending classification</summary>'+Object.entries(r.ending).map(([k,v])=>row(k,SANDBOX_ACTORS[v]?.name||v)).join('')+'<p>The 1484–1485 epilogue is a conditional projection, not an observed event.</p></details>':'');
+}
+function reignSummary(){openSheet('The Record of Your Reign',reignLedgerHTML(world));}
+function reignFrontispiece(){const r=world.reign;const prior=world.chronicle.slice(-3);openSheet('The Reign Opens','<div class="reign-front"><div class="eyebrow">EDWARD · EXPERIMENTAL CHRONICLE</div><div class="reign-seal" aria-hidden="true">E<span>IV</span></div><div class="reign-year">'+E(r.startYear)+'</div><h2>The crown is yours.<br>The kingdom has a past.</h2><p>'+E(r.provenance)+'. '+(r.startYear>1465?'Earlier decisions were generated by the game; this is not a reconstruction of England in this year.':'Your decisions will determine what follows.')+'</p></div>'+(prior.length?'<details class="reading-detail"><summary>What happened before you arrived</summary>'+prior.map(x=>'<div class="row"><span>'+E(x.summary)+'</span></div>').join('')+'<p>The complete generated history remains in the Chronicle.</p></details>':'')+'<button class="home-btn primary" id="reignEnter">Take your place at court</button>');document.getElementById('reignEnter').onclick=()=>{closeSheet();let done=false;try{done=!!localStorage.getItem('edward_tutorial_v2');}catch(e){}if(!QA&&!done)edwardTutorial();};}
+edwardStartNew=function(year){const saved=edwardAutosave();if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!confirm('Start a new reign? Your current autosave will be replaced. Manual save slots will stay safe.'))return;
+ let next;try{next=reignCreate(year);}catch(e){openSheet('Unable to begin','<p>'+E(e.message)+'</p>');return;}
+ edwardStopForMenu();world=next;saveWorld(world);begin();reignFrontispiece();};
+edwardNewGameMenu=function(){openSheet('Choose Your Entry','<div class="eyebrow">A REIGN · MANY POSSIBLE WORLDS</div><p>A new reign replaces your autosave. Manual slots remain. Later entries simulate a fictional past from the 1465 settlement; they do not assume the recorded battles, deaths or treaties occurred.</p><div class="reign-entries">'+REIGN_ENTRIES.map(y=>'<button class="reign-entry" data-reign-year="'+y+'"><strong>'+y+'</strong><span>'+(y===1461?'The full rise to power':y===1465?'The living court · preset settlement':y===1469?'An established court':y===1471?'A kingdom with unfinished disputes':y===1475?'The later reign':'The final years')+'</span><small>'+(y===1461?'Full campaign':y===1465?'Illustrative starting state':'Generated alternate timeline')+'</small></button>').join('')+'</div>');sheet.querySelectorAll('[data-reign-year]').forEach(b=>b.onclick=()=>edwardStartNew(Number(b.dataset.reignYear)));};
+const _reignMenu=edwardGameMenu;edwardGameMenu=function(){_reignMenu();const b=document.createElement('button');b.className='menu-choice';b.textContent='Record of your reign';b.onclick=reignSummary;sheet.appendChild(b);};
+const _reignEnding=ending;ending=function(){_reignEnding();const out=document.getElementById('outro');if(!out)return;const record=document.createElement('section');record.className='reign-record';record.innerHTML='<h2>The Record of Your Reign</h2>'+reignLedgerHTML(world);out.insertBefore(record,out.querySelector('.home-actions'));const tag=out.querySelector('.chaptertag');if(tag)tag.textContent='END OF REIGN · EXPERIMENTAL VERSION';};
+window.EDWARD_HOME.start=edwardStartNew;window.EDWARD_HOME.newGame=edwardNewGameMenu;window.EDWARD_HOME.gameMenu=edwardGameMenu;
 if(document.getElementById('homeScreen'))edwardTitleScreen();
 
 </script>

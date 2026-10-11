@@ -1,0 +1,171 @@
+{
+  "runs": 1000,
+  "failures": [],
+  "starts": {
+    "1461": 168,
+    "1465": 168,
+    "1469": 166,
+    "1471": 166,
+    "1475": 166,
+    "1480": 166
+  },
+  "policies": {
+    "conciliatory": 500,
+    "coercive": 500
+  },
+  "endingKeys": {
+    "warwick|hastings|central|fractured|woodville|indebted|woodville|woodville|male heir of Edward": 27,
+    "warwick|hastings|delegated|fractured|other|indebted|hastings|crown|alternative royal child": 37,
+    "warwick|hastings|central|fractured|woodville|indebted|warwick|hastings|male heir of Edward": 34,
+    "warwick|hastings|delegated|fractured|woodville|indebted|hastings|crown|male heir of Edward": 242,
+    "hastings|woodville|central|fractured|woodville|indebted|woodville|woodville|male heir of Edward": 4,
+    "warwick|hastings|central|fractured|woodville|indebted|hastings|hastings|male heir of Edward": 30,
+    "warwick|hastings|central|fractured|woodville|indebted|hastings|warwick|male heir of Edward": 34,
+    "warwick|hastings|delegated|fractured|woodville|indebted|percy|crown|male heir of Edward": 29,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|hastings|crown|male heir of Edward": 19,
+    "warwick|hastings|central|fractured|woodville|indebted|warwick|woodville|male heir of Edward": 49,
+    "warwick|woodville|central|fractured|woodville|indebted|woodville|woodville|male heir of Edward": 3,
+    "warwick|hastings|central|fractured|woodville|indebted|percy|woodville|male heir of Edward": 28,
+    "warwick|hastings|central|fractured|woodville|indebted|woodville|warwick|male heir of Edward": 39,
+    "warwick|hastings|central|fractured|woodville|indebted|percy|warwick|male heir of Edward": 27,
+    "warwick|hastings|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 47,
+    "hastings|woodville|central|fractured|woodville|indebted|hastings|hastings|male heir of Edward": 5,
+    "woodville|montagu|central|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 14,
+    "warwick|hastings|delegated|fractured|woodville|indebted|woodville|crown|male heir of Edward": 24,
+    "hastings|woodville|central|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 10,
+    "warwick|hastings|delegated|fractured|other|strained|hastings|crown|alternative royal child": 32,
+    "hastings|woodville|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 19,
+    "warwick|hastings|central|fractured|woodville|indebted|woodville|hastings|male heir of Edward": 29,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|percy|crown|male heir of Edward": 12,
+    "warwick|woodville|central|fractured|woodville|indebted|warwick|warwick|male heir of Edward": 3,
+    "warwick|woodville|central|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 1,
+    "warwick|hastings|delegated|fractured|woodville|indebted|warwick|crown|male heir of Edward": 41,
+    "warwick|hastings|central|fractured|woodville|indebted|percy|hastings|male heir of Edward": 21,
+    "warwick|hastings|central|fractured|woodville|indebted|warwick|warwick|male heir of Edward": 22,
+    "warwick|hastings|delegated|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 3,
+    "warwick|hastings|negotiated|fractured|other|strained|hastings|crown|alternative royal child": 3,
+    "warwick|hastings|central|fractured|woodville|indebted|hastings|crown|male heir of Edward": 5,
+    "hastings|woodville|central|fractured|woodville|indebted|percy|woodville|male heir of Edward": 2,
+    "warwick|hastings|central|fractured|woodville|indebted|percy|unsettled|male heir of Edward": 1,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|warwick|crown|male heir of Edward": 8,
+    "woodville|montagu|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 9,
+    "warwick|hastings|negotiated|fractured|woodville|strained|woodville|crown|male heir of Edward": 5,
+    "hastings|woodville|central|fractured|woodville|indebted|warwick|woodville|male heir of Edward": 2,
+    "warwick|hastings|central|fractured|woodville|indebted|woodville|unsettled|male heir of Edward": 2,
+    "warwick|hastings|delegated|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 2,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|woodville|crown|male heir of Edward": 4,
+    "warwick|hastings|negotiated|fractured|other|creditworthy|hastings|crown|alternative royal child": 1,
+    "warwick|woodville|central|fractured|woodville|indebted|warwick|woodville|male heir of Edward": 2,
+    "warwick|hastings|delegated|fractured|woodville|strained|hastings|crown|male heir of Edward": 7,
+    "warwick|woodville|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 2,
+    "warwick|hastings|negotiated|fractured|woodville|strained|percy|crown|male heir of Edward": 2,
+    "warwick|woodville|central|fractured|woodville|indebted|percy|woodville|male heir of Edward": 1,
+    "warwick|hastings|negotiated|fractured|other|indebted|hastings|crown|alternative royal child": 8,
+    "warwick|hastings|central|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 5,
+    "warwick|hastings|central|fractured|woodville|strained|woodville|woodville|male heir of Edward": 1,
+    "warwick|hastings|delegated|fractured|woodville|creditworthy|woodville|crown|male heir of Edward": 1,
+    "montagu|percy|central|fractured|woodville|indebted|montagu|unsettled|male heir of Edward": 1,
+    "hastings|woodville|central|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 2,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|warwick|warwick|male heir of Edward": 1,
+    "woodville|lancaster|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 2,
+    "warwick|hastings|delegated|fractured|woodville|strained|woodville|crown|male heir of Edward": 1,
+    "montagu|percy|central|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 3,
+    "woodville|montagu|central|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 1,
+    "warwick|hastings|delegated|fractured|other|indebted|hastings|unsettled|alternative royal child": 1,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 2,
+    "warwick|hastings|delegated|fractured|woodville|strained|warwick|crown|male heir of Edward": 2,
+    "warwick|hastings|central|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 2,
+    "woodville|montagu|central|fractured|woodville|indebted|warwick|woodville|male heir of Edward": 1,
+    "warwick|hastings|central|fractured|woodville|indebted|woodville|crown|male heir of Edward": 1,
+    "warwick|hastings|negotiated|fractured|woodville|creditworthy|warwick|crown|male heir of Edward": 1,
+    "warwick|hastings|central|fractured|woodville|strained|hastings|crown|male heir of Edward": 1,
+    "montagu|percy|central|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 3,
+    "warwick|hastings|negotiated|fractured|woodville|strained|hastings|crown|male heir of Edward": 3,
+    "woodville|montagu|central|fractured|woodville|indebted|woodville|woodville|male heir of Edward": 2,
+    "warwick|woodville|central|fractured|woodville|indebted|montagu|woodville|male heir of Edward": 1,
+    "warwick|hastings|delegated|fractured|other|strained|hastings|crown|succession uncertain": 1,
+    "woodville|montagu|central|fractured|woodville|indebted|percy|unsettled|male heir of Edward": 1,
+    "woodville|percy|central|fractured|woodville|indebted|hastings|woodville|male heir of Edward": 1,
+    "hastings|woodville|central|fractured|woodville|indebted|warwick|hastings|male heir of Edward": 1,
+    "warwick|woodville|central|fractured|woodville|indebted|hastings|unsettled|male heir of Edward": 1,
+    "warwick|hastings|central|fractured|woodville|indebted|montagu|warwick|male heir of Edward": 2,
+    "warwick|hastings|central|fractured|woodville|indebted|warwick|crown|male heir of Edward": 1,
+    "warwick|hastings|delegated|fractured|other|strained|hastings|unsettled|alternative royal child": 1,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|montagu|unsettled|male heir of Edward": 1,
+    "warwick|hastings|negotiated|fractured|woodville|indebted|warwick|unsettled|male heir of Edward": 1
+  },
+  "endingLabels": {
+    "The King’s Officers · A Fractured Realm": 505,
+    "The Great Households · A Fractured Realm": 424,
+    "A Bargained Crown · A Fractured Realm": 71
+  },
+  "endingDimensions": {
+    "strongest": {
+      "warwick": 917,
+      "hastings": 45,
+      "woodville": 31,
+      "montagu": 7
+    },
+    "second": {
+      "hastings": 903,
+      "woodville": 59,
+      "montagu": 28,
+      "percy": 8,
+      "lancaster": 2
+    },
+    "crown": {
+      "central": 505,
+      "delegated": 424,
+      "negotiated": 71
+    },
+    "peace": {
+      "fractured": 1000
+    },
+    "dynasty": {
+      "woodville": 916,
+      "other": 84
+    },
+    "foreign": {
+      "indebted": 938,
+      "strained": 59,
+      "creditworthy": 3
+    },
+    "landDominance": {
+      "woodville": 143,
+      "hastings": 548,
+      "warwick": 180,
+      "percy": 124,
+      "montagu": 5
+    },
+    "guardianship": {
+      "woodville": 203,
+      "crown": 491,
+      "hastings": 120,
+      "warwick": 128,
+      "unsettled": 58
+    },
+    "heirs": {
+      "0": 1,
+      "1": 83,
+      "2": 916
+    }
+  },
+  "pairs": 500,
+  "differentFinalStates": 500,
+  "differentEndingKeys": 500,
+  "differentEventSequences": 500,
+  "identicalEndingExamples": [],
+  "saveReloadChecks": 3742,
+  "historyAuditChecks": 78720,
+  "missingArenaQuotes": 0,
+  "minDecisions": 17,
+  "maxDecisions": 182,
+  "uniqueEndingKeys": 79,
+  "uniqueEndingLabels": 3,
+  "limitations": [
+    "Node engine simulations; no real browser or iPhone Safari validation.",
+    "Two contrasting decision policies; not exhaustive play coverage.",
+    "Historical audit checks existing model invariants, not a scholarly validation.",
+    "All reigns end at 1483 by design; epilogues are projections."
+  ]
+}

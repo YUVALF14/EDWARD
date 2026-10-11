@@ -1,16 +1,16 @@
 {
   "checks": 6,
   "fullRuns": 80,
-  "arenaTestimoniesChecked": 12567,
+  "arenaTestimoniesChecked": 12490,
   "missingTestimonies": 0,
   "lifeIncidentCounts": {
-    "fever": 456,
-    "harvest": 346,
-    "wages": 582,
+    "fever": 453,
+    "harvest": 341,
+    "wages": 575,
     "marriage": 257,
-    "cargo": 446,
-    "fire": 315,
-    "fair": 167
+    "cargo": 454,
+    "fire": 319,
+    "fair": 170
   },
   "minDecisions": 164,
   "maxDecisions": 181,
