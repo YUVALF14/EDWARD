@@ -86,8 +86,9 @@ sbActorStep=function(s){const sb=s.sandbox,d=dwInit(s);d.cycle++;
   if(kind==='estate'){const l=dwLand(d,ev.deep.landId);l.disputed=true;d.disputes.push({land:l.id,claimant:id,holder:l.holder,year:sb.year,serial:ev.serial});}
   if(kind==='retinue'){sb.unrest[ev.where]=sbClamp((sb.unrest[ev.where]||0)+1,0,9);d.personal[id].security=Math.min(8,d.personal[id].security+1);}
   if(kind==='office'){d.personal[id].standing=Math.min(8,d.personal[id].standing+1);}
-  dwRel(d,id,rival).feud=Math.min(8,dwRel(d,id,rival).feud+1);
-  if(sb.actors[rival])sb.actors[rival].grievance=Math.min(8,sb.actors[rival].grievance+1);
+  // A warning or proposed marriage is not itself a dispossession.
+  if(['estate','retinue','office'].includes(kind)){dwRel(d,id,rival).feud=Math.min(8,dwRel(d,id,rival).feud+1);if(sb.actors[rival])sb.actors[rival].grievance=Math.min(8,sb.actors[rival].grievance+1);}
+  if(kind==='retinue'){sb.disturbances||={};sb.disturbances[ev.where]=sb.year;}
  }
  // Succession is contingent on the royal marriage, not a universal 1470 trigger.
  if(sb.marriage==='elizabeth'){

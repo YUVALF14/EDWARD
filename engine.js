@@ -40,7 +40,7 @@ function deliverReports(s){const ready=s.pending.filter(x=>x.due<=s.turn);s.pend
 }
 function publicOrPrivateWitnesses(s,card,arena){const people=['edward'];const names=card.who+' '+(arena&&card[arena]?card[arena].who:'');
  for(const [id,labels] of Object.entries(CHARACTER_NAMES))if(labels.some(label=>names.includes(label)))people.push(id);
- if(arena==='up'){people.push('george');if(s.offices.chamberlain==='hastings')people.push('hastings');}
+ if(arena==='up'){if(s.offices.chancellor&&s.offices.chancellor!=='unassigned')people.push(s.offices.chancellor);if(s.offices.chamberlain==='hastings')people.push('hastings');}
  return [...new Set(people)];}
 function propagateKnowledge(s,card,arena,logText,witnesses){const privateMatter=arena==='down'||(card.id==='marriage_choice'&&s.facts.marriage==='elizabeth');
  const item={id:card.id,kind:'decision',turn:s.turn,heard:logText,source:'witnessed',certainty:'witnessed',arena:arena||'direct'};

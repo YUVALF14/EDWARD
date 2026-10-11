@@ -8,7 +8,7 @@ The menu and ending now expose the objective record: player card decisions, gene
 
 ## 1,000 additional completed simulations
 
-Reproduce: `node test_reign_1000.js` (Node, no packages). Raw results: `reign_1000_audit.json`.
+Reproduce: `node test_reign_1000.js` (Node, no packages). Original results preserved in `balance_before_audit.json`; current results and the subsequent repairs are documented in `README_STEWARDSHIP.md`.
 
 500 matched seeds, each with two contrasting policies (left choices + conciliatory audiences; right choices + threats). Starts: 168 in 1461, 168 in 1465, and 166 in each of 1469, 1471, 1475, 1480. This is 1,000 runs from selected entries to the ending, not 1,000 complete 1461–1483 campaigns.
 
@@ -22,7 +22,7 @@ Reproduce: `node test_reign_1000.js` (Node, no packages). Raw results: `reign_10
 
 The first test pass exposed an existing persistence bug: only `sb-` cards were recovered from the saved dynamic event. `dw-` and other generated cards could be discarded on repeated selection or load. The engine now rebuilds the saved dynamic event and checks its actual identifier, preserving the currently open hearing regardless of prefix. The failing pass is not counted as successful coverage.
 
-## Balance findings: still unresolved
+## Balance findings at this earlier revision (superseded by the stewardship update)
 
 All 1,000 tested runs reached the broad **fractured realm** category. 938 ended indebted, 59 strained and three creditworthy. Warwick led the household influence ranking in 917 runs. This is strong convergence in broad dimensions despite the other differences; 79 keys do not mean 79 wholly distinct authored endings.
 

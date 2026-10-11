@@ -1,8 +1,8 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
 const ctx={console,Math,EDWARD_SIMULATION:true,localStorage:{getItem(){return null},setItem(){throw Error('Unexpected autosave in simulation')},removeItem(){}}};vm.createContext(ctx);
-for(const f of ['data','reactive','emergent','sandbox','deepworld','narrative','story_scenes','story_crossovers','story_engine','delayed','engine','world_pressure','historical_world','living_court','life','reign'])vm.runInContext(fs.readFileSync(__dirname+'/'+f+'.js','utf8'),ctx,{filename:f});
+for(const f of ['data','reactive','emergent','sandbox','deepworld','narrative','story_scenes','story_crossovers','story_engine','delayed','engine','world_pressure','historical_world','living_court','life','stewardship','reign'])vm.runInContext(fs.readFileSync(__dirname+'/'+f+'.js','utf8'),ctx,{filename:f});
 vm.runInContext('this.A={reignCreate,reignFacts,getNextSituation,resolveChoice,lcIssue,lcRespond,lcAlive,edwardHistoryAudit,REIGN_ENTRIES}',ctx);const A=ctx.A;
-const out={runs:0,failures:[],starts:{},policies:{},endingKeys:{},endingLabels:{},endingDimensions:{},pairs:0,differentFinalStates:0,differentEndingKeys:0,differentEventSequences:0,identicalEndingExamples:[],saveReloadChecks:0,historyAuditChecks:0,missingArenaQuotes:0,minDecisions:Infinity,maxDecisions:0};
+const out={runs:0,failures:[],starts:{},policies:{},policyOutcomes:{},endingKeys:{},endingLabels:{},endingDimensions:{},pairs:0,differentFinalStates:0,differentEndingKeys:0,differentEventSequences:0,identicalEndingExamples:[],saveReloadChecks:0,historyAuditChecks:0,missingArenaQuotes:0,minDecisions:Infinity,maxDecisions:0};
 const digest=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
 function run(seed,year,policy){let s=A.reignCreate(year,seed);assert.equal(A.reignFacts(s).playerDecisions,0);assert.equal(s.reign.startYear,year);let card=A.getNextSituation(s),steps=0,lastYear=0,sequence=[];
  while(card&&steps<420){steps++;const y=s.sandbox?.year||1461;
@@ -15,6 +15,7 @@ function run(seed,year,policy){let s=A.reignCreate(year,seed);assert.equal(A.rei
  const problems=A.edwardHistoryAudit(s);assert.deepEqual(Array.from(problems),[]);out.historyAuditChecks++;
  }
  assert(s.finished&&steps<420,'Run failed to finish');assert(s.sandbox.endings,'Missing ending');assert.equal(A.reignFacts(s).playerDecisions,steps);assert(s.court.purse>=0);const e=s.sandbox.endings;
+ out.policyOutcomes[policy]||={peace:{},credit:{}};for(const [name,dim]of [['peace','peace'],['credit','foreign']]){const v=e.dimensions[dim];out.policyOutcomes[policy][name][v]=(out.policyOutcomes[policy][name][v]||0)+1;}
  out.runs++;out.starts[year]=(out.starts[year]||0)+1;out.policies[policy]=(out.policies[policy]||0)+1;out.endingKeys[e.key]=(out.endingKeys[e.key]||0)+1;out.endingLabels[e.label]=(out.endingLabels[e.label]||0)+1;for(const [k,v]of Object.entries(e.dimensions)){out.endingDimensions[k]||={};out.endingDimensions[k][v]=(out.endingDimensions[k][v]||0)+1;}
  out.minDecisions=Math.min(out.minDecisions,steps);out.maxDecisions=Math.max(out.maxDecisions,steps);
  return {state:digest({actors:s.sandbox.actors,unrest:s.sandbox.unrest,facts:s.facts,offices:s.offices}),sequence:digest(sequence),ending:e.key};}
