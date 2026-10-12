@@ -3754,9 +3754,88 @@ function edwardRecorderPhrase(mood,step,root,scale,tension,when,beat){
  const freq=root*2*Math.pow(2,semitone/12);
  edwardRecorder(freq,when+.13,Math.max(.34,Math.min(beat*1.5,1.65)),mood==='battle'?.0035:.0055);
 }
+/* Folk harp samples are REAL recorded notes from the VCSL CC0 sound library,
+   mirrored by carltesta/vcsl_for_estuary. They load after Music is enabled.
+   A quiet synthesized pluck is a graceful offline/network fallback. */
+const HARP_SAMPLES=[
+ {midi:36,file:'EWHarp_Normal_C2_v2_RR1.wav'},
+ {midi:48,file:'EWHarp_Normal_C3_v2_RR1.wav'},
+ {midi:60,file:'EWHarp_Normal_C4_v2_RR1.wav'},
+ {midi:72,file:'EWHarp_Normal_C5_v2_RR1.wav'}
+];
+const HARP_BASE='https://carltesta.github.io/vcsl_for_estuary/folkharp/';
+const HARP={buffers:new Map(),loading:null,status:'idle',generation:0};
+function edwardHarpLoad(){
+ const a=EDWARD_SCORE;
+ if(!a.ctx||HARP.status==='ready')return Promise.resolve();
+ if(HARP.loading)return HARP.loading;
+ HARP.status='loading';
+ HARP.loading=(async()=>{
+  const available=await Promise.all(HARP_SAMPLES.map(async n=>{
+   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8500);
+   try{
+    const res=await fetch(HARP_BASE+n.file,{cache:'force-cache',signal:controller.signal});
+    if(!res.ok)throw Error('Harp sample HTTP '+res.status);
+    const sound=await a.ctx.decodeAudioData(await res.arrayBuffer());
+    return [n.midi,sound];
+   }catch(e){return null}finally{clearTimeout(timeout)}
+  }));
+  HARP.buffers=new Map(available.filter(Boolean));
+  HARP.status=HARP.buffers.size?'ready':'fallback';
+ })().finally(()=>{HARP.loading=null;});
+ return HARP.loading;
+}
+function edwardHarpNote(freq,when,duration,loud=.035){
+ const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;
+ if(HARP.buffers.size){
+  edwardScoreGraph();
+  const midi=69+12*Math.log2(freq/440),n=HARP_SAMPLES.filter(x=>HARP.buffers.has(x.midi))
+   .reduce((best,x)=>!best||Math.abs(x.midi-midi)<Math.abs(best.midi-midi)?x:best,null);
+  if(n){
+   const buffer=HARP.buffers.get(n.midi),rate=Math.pow(2,(midi-n.midi)/12);
+   const source=a.ctx.createBufferSource(),gain=a.ctx.createGain();
+   const length=Math.max(.1,Math.min(duration,buffer.duration/rate-.05)),end=when+length;
+   source.buffer=buffer;source.playbackRate.setValueAtTime(rate,when);
+   gain.gain.setValueAtTime(.00001,when);
+   gain.gain.linearRampToValueAtTime(loud,when+.016);
+   gain.gain.setValueAtTime(loud*.72,Math.max(when+.025,end-.33));
+   gain.gain.linearRampToValueAtTime(.00001,end);
+   source.connect(gain);gain.connect(a.instrumentBus);gain.connect(a.room);
+   source.start(when);source.stop(end+.02);
+   source.onended=()=>{source.disconnect();gain.disconnect()};
+   return;
+  }
+ }
+ edwardInstrument(freq,when,Math.max(.5,duration),loud*.25,'pluck');
+}
+/* Bass viol-inspired low line; one gentle synthesized bowed bass voice
+   follows the composed harmony in both audio modes. */
+function edwardBassVoice(freq,when,duration,loud=.012){
+ const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;
+ edwardScoreGraph();
+ const ctx=a.ctx,osc=ctx.createOscillator(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
+ osc.type='triangle';osc.frequency.setValueAtTime(Math.max(40,freq),when);
+ filter.type='lowpass';filter.frequency.value=240;
+ const end=when+duration;
+ gain.gain.setValueAtTime(.00001,when);
+ gain.gain.linearRampToValueAtTime(loud,when+.23);
+ gain.gain.setValueAtTime(loud*.8,Math.max(when+.25,end-.4));
+ gain.gain.exponentialRampToValueAtTime(.00001,end);
+ osc.connect(filter);filter.connect(gain);gain.connect(a.instrumentBus);
+ osc.start(when);osc.stop(end+.02);
+ osc.onended=()=>{osc.disconnect();filter.disconnect();gain.disconnect()};
+}
+function edwardHarpBassPhrase(mood,step,root,scale,tension,when,beat){
+ if(step%4)return;
+ const chord=root*Math.pow(2,edwardHarmonyDegree(mood,step,scale)/12);
+ edwardBassVoice(chord/2,when,beat*3.8,.009+tension*.003);
+ if(mood==='battle'&&step%8!==0)return;
+ edwardHarpNote(chord*2,when+.08,Math.min(beat*2.5,3),mood==='manor'?.045:.029);
+ if(step%8===4&&tension<.7)edwardHarpNote(chord*2*Math.pow(2,7/12),when+beat*.55,1.6,.019);
+}
 function edwardTension(){if(typeof world==='undefined'||!world.sandbox)return 0;const sb=world.sandbox;return Math.min(1,(Object.values(sb.unrest).reduce((a,n)=>a+n,0)/35)+Math.max(0,-sb.credit)/20);}
 edwardScoreTick=function(){const a=EDWARD_SCORE;if(!a.on||!a.ctx||a.ctx.state!=='running')return;edwardScoreGraph();const ctx=a.ctx;if(a.next<ctx.currentTime)a.next=ctx.currentTime+.07;const mood=a.mood||'court',phrase=SCORE_PHRASES[mood]||SCORE_PHRASES.court,scale=EDWARD_MODES[mood]||EDWARD_MODES.court,tension=edwardTension(),beat=(mood==='battle'?.68:mood==='succession'?1.45:1.05)*(1-tension*.12),base=mood==='sea'?146.83:mood==='battle'?110:130.81;
- while(a.next<ctx.currentTime+.7){const n=a.step,degree=phrase[n%phrase.length];if(degree>=0){const f=base*Math.pow(2,scale[degree]/12);edwardInstrument(f,a.next,1.7,.023,'pluck');if(n%4===2&&tension<.7)edwardInstrument(f/2,a.next+.15,2.5,.009,'reed');}if(n%4===0){const root=base*Math.pow(2,edwardHarmonyDegree(mood,n,scale)/12);edwardInstrument(root/2,a.next,beat*3.7,.012,'reed');if(n%8===0)edwardInstrument(root*Math.pow(2,7/12)/2,a.next+.2,beat*3.3,.006,'reed');}if(tension>.6&&n%4===0)edwardInstrument(base/4,a.next,.35,.018,'pluck');edwardRecorderPhrase(mood,n,base,scale,tension,a.next,beat);a.step++;a.next+=beat;}
+ while(a.next<ctx.currentTime+.7){const n=a.step,degree=phrase[n%phrase.length];if(degree>=0){const f=base*Math.pow(2,scale[degree]/12);edwardInstrument(f,a.next,1.7,.023,'pluck');if(n%4===2&&tension<.7)edwardInstrument(f/2,a.next+.15,2.5,.009,'reed');}if(n%4===0){const root=base*Math.pow(2,edwardHarmonyDegree(mood,n,scale)/12);edwardInstrument(root/2,a.next,beat*3.7,.012,'reed');if(n%8===0)edwardInstrument(root*Math.pow(2,7/12)/2,a.next+.2,beat*3.3,.006,'reed');}if(tension>.6&&n%4===0)edwardInstrument(base/4,a.next,.35,.018,'pluck');edwardRecorderPhrase(mood,n,base,scale,tension,a.next,beat);edwardHarpBassPhrase(mood,n,base,scale,tension,a.next,beat);a.step++;a.next+=beat;}
 };
 edwardSyncAudioButtons=function(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);b.textContent=EDWARD_SCORE.on?'Music on':'Music off';});};
 function edwardSoundSettings(){openSheet('Music & atmosphere','<p>An original modal score follows the scene. Unrest and strained credit add tension; quieter court business leaves more space between phrases.</p><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><p id="soundDescription" class="court-small">'+E(EDWARD_SCORE.mood)+' · interpretive plucked strings, reeds and room resonance</p>');document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();}
@@ -3782,11 +3861,12 @@ edwardScoreTick=function(){if(scoreInstrument!=='piano')return _pianoSyntheticTi
  if(degree>=0&&!breath)pianoNote(root*2*Math.pow(2,scale[degree]/12),a.next,2.8,velocity);
  if(step%4===0){const chord=root*Math.pow(2,edwardHarmonyDegree(mood,step,scale)/12);pianoNote(chord,a.next+.025,Math.min(beat*3.7,4.7),.082);pianoNote(chord*Math.pow(2,scale[2]/12),a.next+.19,Math.min(beat*3.4,3.9),.041);if(step%8===0)pianoNote(chord*Math.pow(2,scale[4]/12),a.next+.37,Math.min(beat*3.2,3.7),.034);}
  edwardRecorderPhrase(mood,step,root,scale,tension,a.next,beat);
+ edwardHarpBassPhrase(mood,step,root,scale,tension,a.next,beat);
  a.step++;a.next+=beat;}
 };
 edwardSyncAudioButtons=function(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{const busy=EDWARD_SCORE.on&&scoreInstrument==='piano'&&PIANO.status==='loading';b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.textContent=busy?'Loading piano…':EDWARD_SCORE.on?'Music on':'Music off';b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);});const status=document.getElementById('soundStatus');if(status)status.textContent=PIANO.status==='error'?PIANO.error:scoreInstrument==='piano'?(PIANO.status==='loading'?'Loading recorded piano…':PIANO.status==='ready'?'Recorded piano ready.':'Piano loads when you turn music on.'):'Original synthesised plucked strings, reeds and recorder.';};
 edwardToggleMusic=async function(){const a=EDWARD_SCORE,token=++PIANO.generation;if(a.on){a.on=false;clearInterval(a.timer);a.timer=null;pianoStop();edwardSyncAudioButtons();if(a.ctx)await a.ctx.suspend();return;}
- try{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Audio is unavailable');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.connect(a.ctx.destination);}a.on=true;edwardSyncAudioButtons();await a.ctx.resume();if(token!==PIANO.generation||!a.on)return;edwardScoreGraph();a.bus.gain.setTargetAtTime(scoreVolume*.55,a.ctx.currentTime,.12);
+ try{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Audio is unavailable');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.connect(a.ctx.destination);}a.on=true;edwardSyncAudioButtons();await a.ctx.resume();if(token!==PIANO.generation||!a.on)return;edwardScoreGraph();edwardHarpLoad();a.bus.gain.setTargetAtTime(scoreVolume*.55,a.ctx.currentTime,.12);
  if(scoreInstrument==='piano')await pianoLoad();if(token!==PIANO.generation||!a.on)return;if(document.hidden)await a.ctx.suspend();a.next=a.ctx.currentTime+.08;a.timer=setInterval(edwardScoreTick,250);edwardScoreTick();edwardSyncAudioButtons();
  }catch(e){if(token!==PIANO.generation)return;a.on=false;clearInterval(a.timer);a.timer=null;PIANO.error=PIANO.error||'Music could not start. Tap Music again to retry.';PIANO.status='error';edwardSyncAudioButtons();if(!document.getElementById('soundStatus'))edwardSoundSettings();}
 };
@@ -3794,7 +3874,7 @@ let pianoSelection=0;
 async function pianoSelect(value){if(!['piano','chronicle'].includes(value))return;const selection=++pianoSelection,playing=EDWARD_SCORE.on;if(playing)await edwardToggleMusic();if(selection!==pianoSelection)return;scoreInstrument=value;try{localStorage.setItem('edward_instrument_v1',value);}catch(e){}PIANO.error='';if(PIANO.status==='error')PIANO.status='idle';if(playing)await edwardToggleMusic();edwardSyncAudioButtons();}
 const _pianoOldAccent=edwardMusicAccent;
 edwardMusicAccent=function(side){if(scoreInstrument!=='piano')return _pianoOldAccent(side);if(!EDWARD_SCORE.on||!EDWARD_SCORE.ctx)return;if(scoreInstrument==='piano')pianoNote(side==='wait'?196:side==='left'?261.626:293.665,EDWARD_SCORE.ctx.currentTime+.04,1.5,.055);};
-edwardSoundSettings=function(){openSheet('Music & atmosphere','<p>Six original composed themes follow the court, war, journeys, private life and succession. The piano uses recordings of a real acoustic instrument, with a quiet synthetic recorder countermelody.</p><label for="soundInstrument">Sound</label><select id="soundInstrument"><option value="piano">Recorded grand piano</option><option value="chronicle">Chronicle strings · synthesised</option></select><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><p id="soundStatus" role="status" aria-live="polite"></p><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><details class="reading-detail"><summary>Piano recording & credits</summary><p>Salamander Grand Piano — Alexander Holm. Recorded Yamaha C5; MP3 distribution from Tone.js. Seven original samples, pitch-mapped and arranged by EDWARD.</p><p><a href="https://github.com/Tonejs/audio/tree/master/salamander" target="_blank" rel="noopener noreferrer">Sample source</a> · <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a></p><p>A modern interpretive soundtrack, not fifteenth-century music or a recorded pianist’s complete performance.</p></details>');document.getElementById('soundInstrument').value=scoreInstrument;document.getElementById('soundInstrument').onchange=e=>pianoSelect(e.target.value);document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();};
+edwardSoundSettings=function(){openSheet('Music & atmosphere','<p>Six original themes with a recorded folk harp and a quiet bass-viol inspired accompaniment. The harp recordings load when Music starts; if offline, a synthesised pluck replaces them. The piano uses recordings of a real acoustic instrument, with a quiet synthetic recorder countermelody.</p><label for="soundInstrument">Sound</label><select id="soundInstrument"><option value="piano">Recorded grand piano</option><option value="chronicle">Chronicle strings · synthesised</option></select><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><p id="soundStatus" role="status" aria-live="polite"></p><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><details class="reading-detail"><summary>Piano recording & credits</summary><p>Salamander Grand Piano — Alexander Holm. Recorded Yamaha C5; MP3 distribution from Tone.js. Seven original samples, pitch-mapped and arranged by EDWARD.</p><p><a href="https://github.com/Tonejs/audio/tree/master/salamander" target="_blank" rel="noopener noreferrer">Sample source</a> · <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a></p><p>A modern interpretive soundtrack, not fifteenth-century music or a recorded pianist’s complete performance. Harp notes are real recordings from the Versilian Community Sample Library (CC0), mirrored by carltesta/vcsl_for_estuary.</p></details>');document.getElementById('soundInstrument').value=scoreInstrument;document.getElementById('soundInstrument').onchange=e=>pianoSelect(e.target.value);document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();};
 
 /* Guided play, indexed reference and visible consequences. */
 const EDWARD_LESSONS=[
