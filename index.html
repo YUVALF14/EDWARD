@@ -320,6 +320,8 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 .campaign-page[data-reading-page="1"] .campaign-actions{margin-top:14px}
 .campaign-actions .home-btn.tertiary{background:transparent;color:#cbbb9c;border:1px solid #5d533e}
 @media(max-height:640px){.campaign-page-count{margin-bottom:7px}.campaign-page[data-reading-page="1"] .campaign-detail[open]{padding:7px 0}}
+
+.campaign-scene{font:normal clamp(17px,4.3vw,21px)/1.65 Georgia,serif;color:#ded8c9;margin:0 0 20px}.campaign-page[data-reading-page="0"] .campaign-lead{border-left:2px solid #b49a63;padding-left:14px}.campaign-page[data-reading-page="2"] .eyebrow{margin-bottom:15px}.campaign-page-count{margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -3896,12 +3898,12 @@ intro=edwardTitleScreen;window.EDWARD_HOME.open=edwardTitleScreen;window.EDWARD_
 
 /* Campaign framing is presentation only. It never inserts, removes, or resolves a card. */
 const EDWARD_CAMPAIGN_CHAPTERS=[
- {id:'crown',from:1461,to:1464,number:'I',title:'A Crown Is Not Yet a Kingdom',lead:'A victory decides who wears the crown. It does not decide who will obey it.',body:'After Towton, Edward IV must turn victory into government. A pardon, a northern commission, an office and a public oath each reach people the Crown cannot command at once.',recorded:'Edward was proclaimed king in March 1461 and crowned at Westminster on 28 June. Lancastrian resistance and uncertainty in the North remained.',question:'Who may speak and act in the King’s name? Every answer creates a relationship that can outlast the hearing.'},
- {id:'court',from:1465,to:1468,number:'II',title:'The Court Gathers Around the Crown',lead:'Service opens doors. A door can become a source of power.',body:'The royal household, marriage, patronage and diplomacy meet at court. Noble service can strengthen the Crown while bringing a servant’s family and followers closer to its decisions.',recorded:'Edward married Elizabeth Woodville in 1464. The rise of her kin and Warwick’s separate interests became sources of political strain; the particular meetings in this game are imagined.',question:'Which claims will reach the King, and through whose household?'},
- {id:'strain',from:1469,to:1471,number:'III',title:'When Service Becomes a Claim',lead:'A servant may defend the King’s authority and still contest its limits.',body:'Offices, local followers and promises abroad can pull the court in different directions. A grievance may be answered, contained or allowed to gather force. The world does not require one answer.',recorded:'Warwick’s break with Edward, the Readeption of Henry VI in 1470, and Edward’s return in 1471 belong to recorded history. This reign reaches them only if its conditions produce them.',question:'Can an agreement still hold when every household reads it differently?'},
- {id:'settlement',from:1472,to:1475,number:'IV',title:'The Price of Settlement',lead:'Peace has to be carried by people, paid for, and renewed.',body:'The Crown weighs domestic order against revenue, military commitments and relations across the Channel. A promise made abroad can change what the treasury and the shires can bear.',recorded:'Edward led a campaign to France in 1475 and made the Treaty of Picquigny. This simulation does not require the same campaign or treaty.',question:'What can the King afford to promise—and who bears its cost?'},
- {id:'house',from:1476,to:1478,number:'V',title:'The House Behind the Crown',lead:'Inheritance turns private family arrangements into public questions.',body:'Titles, wardships, land and the royal succession converge. A ruling about one household may alter the balance among the great families, the council and the heirs.',recorded:'George, Duke of Clarence, was executed in 1478 in recorded history. His fate and the disputes that could surround it are not imposed on this reign.',question:'Who will inherit the obligations as well as the name?'},
- {id:'legacy',from:1479,to:1483,number:'VI',title:'What Remains After the King',lead:'The Crown outlives the man who wears it.',body:'As the recorded reign nears its end, every office, promise and family settlement acquires another meaning: what will survive Edward, and who will claim to speak for the next reign?',recorded:'Edward IV died on 9 April 1483. The succession that followed is part of recorded history; this world’s forecast follows the conditions created in your playthrough.',question:'What kingdom are you leaving to those who must govern without you?'}
+ {id:'crown',scene:"A messenger waits beyond the council chamber. You have won a crown, but beyond the walls of Westminster, each town and noble household must decide how to answer it.",from:1461,to:1464,number:'I',title:'A Crown Is Not Yet a Kingdom',lead:'A victory decides who wears the crown. It does not decide who will obey it.',body:'After Towton, Edward IV must turn victory into government. A pardon, a northern commission, an office and a public oath each reach people the Crown cannot command at once.',recorded:'Edward was proclaimed king in March 1461 and crowned at Westminster on 28 June. Lancastrian resistance and uncertainty in the North remained.',question:'Who may speak and act in the King’s name? Every answer creates a relationship that can outlast the hearing.'},
+ {id:'court',scene:"A servant opens the chamber doors. A line of petitioners waits outside, each admitted through someone who knows someone at court. Access to the king is already a form of power.",from:1465,to:1468,number:'II',title:'The Court Gathers Around the Crown',lead:'Service opens doors. A door can become a source of power.',body:'The royal household, marriage, patronage and diplomacy meet at court. Noble service can strengthen the Crown while bringing a servant’s family and followers closer to its decisions.',recorded:'Edward married Elizabeth Woodville in 1464. The rise of her kin and Warwick’s separate interests became sources of political strain; the particular meetings in this game are imagined.',question:'Which claims will reach the King, and through whose household?'},
+ {id:'strain',scene:"A sealed letter is set upon your table. Its demands are polite, but the men who delivered it seem to be counting who enters the room and who remains outside.",from:1469,to:1471,number:'III',title:'When Service Becomes a Claim',lead:'A servant may defend the King’s authority and still contest its limits.',body:'Offices, local followers and promises abroad can pull the court in different directions. A grievance may be answered, contained or allowed to gather force. The world does not require one answer.',recorded:'Warwick’s break with Edward, the Readeption of Henry VI in 1470, and Edward’s return in 1471 belong to recorded history. This reign reaches them only if its conditions produce them.',question:'Can an agreement still hold when every household reads it differently?'},
+ {id:'settlement',scene:"The treasurer brings his accounts. Beside them lie a captain’s request for supplies and a dispatch from across the Channel. All three require the king’s answer.",from:1472,to:1475,number:'IV',title:'The Price of Settlement',lead:'Peace has to be carried by people, paid for, and renewed.',body:'The Crown weighs domestic order against revenue, military commitments and relations across the Channel. A promise made abroad can change what the treasury and the shires can bear.',recorded:'Edward led a campaign to France in 1475 and made the Treaty of Picquigny. This simulation does not require the same campaign or treaty.',question:'What can the King afford to promise—and who bears its cost?'},
+ {id:'house',scene:"A clerk unfolds a pedigree beside a claim to disputed land. What looks like a family matter may bind the great households of England to a judgment you have yet to give.",from:1476,to:1478,number:'V',title:'The House Behind the Crown',lead:'Inheritance turns private family arrangements into public questions.',body:'Titles, wardships, land and the royal succession converge. A ruling about one household may alter the balance among the great families, the council and the heirs.',recorded:'George, Duke of Clarence, was executed in 1478 in recorded history. His fate and the disputes that could surround it are not imposed on this reign.',question:'Who will inherit the obligations as well as the name?'},
+ {id:'legacy',scene:"A fresh petition rests on the council table. The offices, seals and obligations of the Crown will outlive any one man. Who will be able to carry them when the time comes?",from:1479,to:1483,number:'VI',title:'What Remains After the King',lead:'The Crown outlives the man who wears it.',body:'As the recorded reign nears its end, every office, promise and family settlement acquires another meaning: what will survive Edward, and who will claim to speak for the next reign?',recorded:'Edward IV died on 9 April 1483. The succession that followed is part of recorded history; this world’s forecast follows the conditions created in your playthrough.',question:'What kingdom are you leaving to those who must govern without you?'}
 ];
 function campaignChapterForYear(year){const n=Number(year)||1461;return EDWARD_CAMPAIGN_CHAPTERS.find(c=>n>=c.from&&n<=c.to)||EDWARD_CAMPAIGN_CHAPTERS[n<1461?0:EDWARD_CAMPAIGN_CHAPTERS.length-1];}
 function campaignCurrentYear(){return Number(world.sandbox?.year)||Number(String(current?.when||'').match(/14\d\d/)?.[0])||world.reign?.startYear||1461;}
@@ -3909,23 +3911,24 @@ let campaignStorageKey='',campaignCurrentChapter='';
 function campaignKeyForWorld(){return 'edward_campaign_seen_v1_'+(world.seed||'saved')+'_'+(world.reign?.startYear||1461);}
 function campaignSeen(){try{return new Set(JSON.parse(localStorage.getItem(campaignStorageKey)||'[]'));}catch(e){return new Set();}}
 function campaignMarkSeen(id){const seen=campaignSeen();seen.add(id);try{localStorage.setItem(campaignStorageKey,JSON.stringify([...seen]));}catch(e){}}
-function campaignHistoryHTML(chapter,opening,page=0){const reign=world.reign,year=campaignCurrentYear(),prior=(world.chronicle||[]).slice(-3);
+function campaignHistoryHTML(chapter,opening,page=0){
+ const reign=world.reign,year=campaignCurrentYear(),prior=(world.chronicle||[]).slice(-3);
  const entryNote=reign&&reign.startYear>1461?'<div class="campaign-origin"><b>This campaign opens in '+E(reign.startYear)+'.</b> '+E(reign.provenance)+'. Earlier decisions were generated by the simulation; they are not a reconstruction of the historical record.</div>':'';
  const priorHTML=prior.length?'<details class="campaign-detail"><summary>What this reign has already inherited</summary>'+prior.map(x=>'<p>'+E(x.summary)+'</p>').join('')+'<p class="campaign-small">The earlier entries remain in the Chronicle.</p></details>':'';
- // New reign openings have two deliberate reading pages; chapter changes remain single-page.
- const count=opening?2:1;
- const marker=opening?'<div class="campaign-page-count" role="status" aria-live="polite">PAGE '+(page+1)+' OF '+count+'</div>':'';
+ const count=3;
+ const marker='<div class="campaign-page-count" role="status" aria-live="polite">PAGE '+(page+1)+' OF '+count+'</div>';
  const heading='<div class="campaign-overline">EDWARD IV · '+E(year)+' · PART '+E(chapter.number)+' OF VI</div><div class="campaign-rule"></div><h1 id="campaignTitle" tabindex="-1">'+E(chapter.title)+'</h1>';
- const story='<p class="campaign-lead">'+E(chapter.lead)+'</p><p class="campaign-body">'+E(chapter.body)+'</p><p class="campaign-question">'+E(chapter.question)+'</p>'+entryNote;
- const history='<details class="campaign-detail" '+(opening?'open':'')+'><summary>What is recorded in history?</summary><p>'+E(chapter.recorded)+'</p><p class="campaign-small">The named events and institutions are historical anchors. Individual dialogue and the path of this reign are fictionalized; later outcomes depend on the world you create.</p></details>'+priorHTML;
- const passage=opening?(page===0?story:history):story+history;
- const footer=opening?(page===0?'History establishes the beginning. Your decisions and other people’s actions shape what follows.':'History is a starting point, not a compulsory outcome.'):'A chapter heading is a reading frame, not a new event. The living world continues under the same rules.';
- const actions=opening&&page===0
-  ?'<button class="home-btn primary" id="campaignNext" type="button">Next page →</button>'
-  :(opening?'<button class="home-btn tertiary" id="campaignBack" type="button">← Previous page</button>':'')+
+ const sections=[
+  '<p class="campaign-scene">'+E(chapter.scene||chapter.lead)+'</p><p class="campaign-lead">'+E(chapter.lead)+'</p>',
+  '<p class="campaign-body">'+E(chapter.body)+'</p><p class="campaign-question">'+E(chapter.question)+'</p>'+entryNote,
+  '<div class="eyebrow">RECORDED HISTORY</div><p class="campaign-body">'+E(chapter.recorded)+'</p><p class="campaign-small">These events and institutions are historical anchors. The dialogue and possible outcomes of this reign are fictionalized; history is not a forced outcome.</p>'+priorHTML
+ ];
+ const footer=page===0?'An imagined moment at court, not a report of what has happened in your reign.':page===1?'The decisions are yours; other people may act without you.':'The world continues under the same rules.';
+ const actions=(page>0?'<button class="home-btn tertiary" id="campaignBack" type="button">← Back</button>':'')+
+  (page<count-1?'<button class="home-btn primary" id="campaignNext" type="button">Next →</button>':
    '<button class="home-btn primary" id="campaignContinue" type="button">'+(opening?'Enter the reign':'Continue the chronicle')+'</button>'+
-   (opening?'<button class="home-btn tertiary" id="campaignHow" type="button">How to make a decision</button>':'');
- return '<div class="campaign-page" aria-labelledby="campaignTitle" data-reading-page="'+page+'">'+marker+heading+passage+'<p class="campaign-footer">'+footer+'</p><div class="campaign-actions">'+actions+'</div></div>';
+   (opening?'<button class="home-btn tertiary" id="campaignHow" type="button">How to make a decision</button>':''));
+ return '<div class="campaign-page" aria-labelledby="campaignTitle" data-reading-page="'+page+'">'+marker+heading+sections[page]+'<p class="campaign-footer">'+footer+'</p><div class="campaign-actions">'+actions+'</div></div>';
 }
 function campaignOpen(chapter,opening=false){
  campaignMarkSeen(chapter.id);
@@ -3933,14 +3936,11 @@ function campaignOpen(chapter,opening=false){
   openSheet('',campaignHistoryHTML(chapter,opening,page));
   overlay.classList.add('campaign-blackout');
   sheet.scrollTop=0;
-  const next=document.getElementById('campaignNext');
-  if(next)next.onclick=()=>showPage(1);
-  const back=document.getElementById('campaignBack');
-  if(back)back.onclick=()=>showPage(0);
+  const next=document.getElementById('campaignNext');if(next)next.onclick=()=>showPage(page+1);
+  const back=document.getElementById('campaignBack');if(back)back.onclick=()=>showPage(page-1);
   const continueButton=document.getElementById('campaignContinue');
   if(continueButton)continueButton.onclick=()=>{closeSheet();if(opening){try{localStorage.setItem('edward_tutorial_v2','done');}catch(e){}}};
-  const guide=document.getElementById('campaignHow');
-  if(guide)guide.onclick=()=>{closeSheet();edwardTutorial();};
+  const guide=document.getElementById('campaignHow');if(guide)guide.onclick=()=>{closeSheet();edwardTutorial();};
  }
  showPage(0);
 }
