@@ -2614,7 +2614,7 @@ function edwardConsequence(before,s,card,selected){
  const changedOffices=Object.keys(s.offices).filter(k=>before.offices[k]!==s.offices[k]);
  const newPrecedents=s.precedents.slice(before.precedents);
  const newObligations=s.obligations.slice(before.obligations);
- const readable=(s2,max=210)=>String(s2||'').replace(/\\s+/g,' ').trim().slice(0,max);
+ const readable=(s2,max=210)=>String(s2||'').replace(/\s+/g,' ').trim().slice(0,max);
  // Prior outcomes are only resurfaced when a specific courier's report explicitly
  // identifies an earlier card; ordinary rumours never create invented causation.
  const newReports=s.reports.slice(before.reports);
