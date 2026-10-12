@@ -3330,7 +3330,23 @@ function edwardOpenScene(){if(!current)return;const type=edwardSceneType(current
  openSheet('An Illustrated Moment','<div class="scene-art-large">'+edwardVignetteSvg(type,label)+'</div><div class="eyebrow">ILLUMINATED CHRONICLE · ARTISTIC INTERPRETATION</div><p>'+E(label)+'. This image evokes a fifteenth-century setting; it is not a documentary depiction of a specific event or a verified likeness.</p><div class="row"><b>Why this scene is here</b><span>'+E(current.insight?.stake||current.context||'The situation follows decisions and pressures in your reign.')+'</span></div><button class="reset-link" id="sceneHistoricalLens">Recorded history vs your reign →</button>');
  document.getElementById('sceneHistoricalLens').onclick=edwardHistoricalLens;
 }
-function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current||card.querySelector('.scene-art-band'))return;
+/* Restrict automatic illustrations to landmark events; keep all artwork available. */
+const EDWARD_ILLUSTRATED_SCENES=new Set(['towton','hedgeley','hexham','marriage_choice','north_command','somerset_defection','warwick_grant']);
+function edwardSceneIsMomentous(card){
+ if(!card)return false;
+ if(EDWARD_ILLUSTRATED_SCENES.has(card.id))return true;
+ if(card.lifeInfo)return false;
+ const type=edwardSceneType(card),tag=String(card.tag||'').toLowerCase();
+ const arc=String(card.storyInfo?.arc||card.storyInfo?.id||'').toLowerCase();
+ const beat=String(card.storyInfo?.beat||'').toLowerCase();
+ if(/^(marriage|coronation|succession|neville|diplomacy)$/.test(arc)&&/^(marriage|coronation|heir|guardians|picquigny|reckoning|terms)$/.test(beat))return true;
+ if(type==='battle'&&/battlefield|battle|siege/.test(tag))return true;
+ if(type==='coronation'&&/coronation|enthronement/.test(tag))return true;
+ if(type==='marriage'&&/royal wedding|royal marriage/.test(tag))return true;
+ if(type==='succession'&&/succession settlement|the king after the king/.test(tag))return true;
+ return false;
+}
+function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current||card.querySelector('.scene-art-band')||!edwardSceneIsMomentous(current))return;
  const type=edwardSceneType(current),rule=card.querySelector('.rule');if(!rule)return;
  const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);
  const tools=card.querySelector('.reading-tools');if(tools&&!tools.querySelector('.scene-art-button')){
