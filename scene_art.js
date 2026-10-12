@@ -2,16 +2,17 @@
    They are interpretive illustrations of political situations, not records of
    a particular historical encounter or authenticated likenesses. */
 const EDWARD_SCENE_LABELS={coronation:'The royal crown',battle:'The muster and the battlefield',castle:'A castle and its moat',diplomacy:'The Channel and the envoy',marriage:'A royal marriage alliance',council:'The king’s council',inheritance:'The disputed deed',parish:'A parish and the harvest road',succession:'The heir and the royal seal',treasury:'The Exchequer and the royal chest'};
-function edwardSceneType(card){if(!card)return 'council';const text=[card.id,card.tag,card.where,card.storyInfo?.id,card.pressureInfo?.id].filter(Boolean).join(' ').toLowerCase();
- if(/coronation|crown|enthrone/.test(text))return 'coronation';
- if(/caister|castle|garrison|gatehouse|siege|keep/.test(text))return 'castle';
- if(/battle|towton|hedgeley|hexham|rebellion|muster|warwick|retinue|armed|bridge/.test(text))return 'battle';
- if(/priest|parish|sanctuary|abbot|meadow|truce/.test(text)||/priest|abbot/i.test(card.who))return 'parish';
- if(/picquigny|france|french|calais|burgund|treaty|envoy|channel|embassy|wool/.test(text))return 'diplomacy';
- if(/marriage|wedding|queen|woodville/.test(text))return 'marriage';
- if(/heir|succession|guardian|clarence|prince/.test(text))return 'succession';
- if(/credit|exchequer|treasury|customs|loan|chest/.test(text))return 'treasury';
- if(/estate|land|charter|inheritance|title|rents|paston|percy/.test(text))return 'inheritance';
+function edwardSceneType(card){if(!card)return 'council';const text=[card.id,card.tag,card.storyInfo?.id,card.pressureInfo?.id,card.lifeInfo?.kind,card.who,card.role].filter(Boolean).join(' ').toLowerCase().replace(/[_-]+/g,' '),place=String(card.where||'').toLowerCase();
+ // Classify the subject, not an incidental place-name or a noble's surname.
+ if(/\b(coronation|crown|enthrone)\b/.test(text))return 'coronation';
+ if(/\b(heirs?|succession|guardians?|clarence|princes?)\b/.test(text))return 'succession';
+ if(/\b(marriage|betrothal|wedding|queen|woodville)\b/.test(text))return 'marriage';
+ if(/\b(credit|exchequer|treasury|customs|loan|chest)\b/.test(text)||(/\bmerchant\b/.test(text)&&/\blondon\b/.test(place)))return 'treasury';
+ if(/\b(battle|towton|hedgeley|hexham|rebellion|muster|retinue|prisoners?|armed|bridge)\b/.test(text)||card.lifeInfo?.kind==='wages')return 'battle';
+ if(/\b(caister|castle|garrison|gatehouse|siege|keep)\b/.test(text))return 'castle';
+ if(/\b(picquigny|france|french|calais|burgundy|burgundian|treaty|envoy|channel|embassy|diplomacy|diplomatic|abroad|wool)\b/.test(text)||/\bcalais\b/.test(place))return 'diplomacy';
+ if(/\b(priest|parish|sanctuary|abbot|meadow)\b/.test(text)||/priest|abbot/i.test(card.who)||['harvest'].includes(card.lifeInfo?.kind))return 'parish';
+ if(/\b(estate|land|charter|inheritance|title|rents|paston|percy)\b/.test(text))return 'inheritance';
  return 'council';
 }
 function edwardSceneFigure(x,y,coat='#6c3039',scale=1){return `<g transform="translate(${x} ${y}) scale(${scale})"><path d="M-15 0q-12 24-20 67h70Q26 22 15 0Z" fill="${coat}" stroke="#201f20" stroke-width="2"/><path d="M-8-9h16v20H-8Z" fill="#b88d6d"/><ellipse cy="-26" rx="17" ry="22" fill="#d2a782" stroke="#715345" stroke-width="2"/><path d="M-18-30q0-28 18-26 20 0 18 27-8-12-20-12-8 8-16 11" fill="#49352b"/><path d="M-28 64h56" stroke="#d6c38c" stroke-width="3"/></g>`;}

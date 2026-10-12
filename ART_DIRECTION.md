@@ -4,6 +4,8 @@ Experimental art direction, study 01. This is a visual language, not the studio 
 
 The governing image is a manuscript page about power exercised through people, letters and seals. Flattened space, expressive ink silhouettes and imperfect gold draw from fifteenth-century English and Burgundian illumination. No cinematic lighting, fantasy armour or theatrical oversized crowns.
 
+The campaign opens and changes chapter on a black text screen, keeping the player's attention on the title, present political condition and next question. That screen carries no illustration yet. Proposed chapter artwork, alongside an audit of every current card vignette, is mapped in ART_COVERAGE_AUDIT.md.
+
 Palette: vellum #eadcc0, ink #24251f, madder #793b37, lapis #344c65, gold #b79a60. Madder identifies the principal title action; thin gold rules frame authority. Do not place decision text over illustrations. Keep figures legible at phone width and illustrations proportional without cropping hands or faces.
 
 The first plate appears at the title, opening of a reign and Art & credits. It is a thematic imagined audience, not a documented event or an age-specific depiction for all starting years. Existing SVG portraits remain accessible and in use. Next studies should establish consistent character silhouettes and age changes before expanding into coronations, marriages, councils and betrayals. No company splash branding has been chosen.

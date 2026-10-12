@@ -1,0 +1,16 @@
+// Scene routing and audit counts; visual-only, no simulation rules run.
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),c={Math};vm.createContext(c);
+for(const f of ['data.js','reactive.js','emergent.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+f,'utf8'),c);
+let extras=fs.readFileSync(__dirname+'/extras.js','utf8');vm.runInContext(extras.slice(0,extras.indexOf('function edwardLinkedText')),c);
+vm.runInContext(fs.readFileSync(__dirname+'/scene_art.js','utf8').split('function edwardSceneFigure')[0],c);
+const counts=JSON.parse(vm.runInContext(`JSON.stringify(SITUATIONS.reduce((o,x)=>{const t=edwardSceneType(x);o[t]=(o[t]||0)+1;return o},{}))`,c));
+assert.deepEqual(counts,{battle:9,council:53,coronation:3,inheritance:8,treasury:3,diplomacy:6,castle:1,parish:3,marriage:8,succession:2});
+const specials=JSON.parse(vm.runInContext(`JSON.stringify(Object.fromEntries(['warwick_grant','warwick_reply','warwick_early_grant','warwick_clients_royal','warwick_discretion_1462','warwick_diplomatic_commitment','scots_border','border_truce','foreign_betrothal','castle_garrison','forfeited_knight_family'].map(id=>[id,edwardSceneType(SITUATIONS.find(x=>x.id===id))])))`,c));
+for(const id of ['warwick_grant','warwick_reply','warwick_early_grant','warwick_clients_royal','warwick_discretion_1462','scots_border'])assert.equal(specials[id],'council',id);
+assert.equal(specials.warwick_diplomatic_commitment,'diplomacy');assert.equal(specials.border_truce,'diplomacy');assert.equal(specials.foreign_betrothal,'marriage');assert.equal(specials.castle_garrison,'castle');assert.equal(specials.forfeited_knight_family,'succession');
+for(const f of ['story_scenes.js','story_crossovers.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+f,'utf8'),c);
+let pressure=fs.readFileSync(__dirname+'/world_pressure.js','utf8');vm.runInContext(pressure.slice(0,pressure.indexOf('const _wpOldNdSchedule')),c);
+let life=fs.readFileSync(__dirname+'/life.js','utf8');vm.runInContext(life.slice(0,life.indexOf('function lifeInit')),c);
+const dynamic=JSON.parse(vm.runInContext(`JSON.stringify((()=>{const a=[];for(const [arc,d] of Object.entries(SE_STORIES))for(const b of d.beats)a.push({kind:'arc',tag:b.tag,where:b.where,who:b.who,role:b.role,storyInfo:{id:arc}});for(const [id,d] of Object.entries(SE_CROSSOVERS))a.push({kind:'cross',tag:d.tag,where:d.where,who:d.who,role:d.role,storyInfo:{id:'cross:'+id}});for(const [id,d] of Object.entries(WP_CASES))for(const b of d.scenes)a.push({kind:'pressure',tag:b.tag,where:d.where,who:b.who,role:b.role,pressureInfo:{id}});for(const [id,d] of Object.entries(LIFE_INCIDENTS))a.push({kind:'life',tag:'LIFE IN THE REALM',where:d.region,who:d.who,lifeInfo:{kind:id}});return a})().reduce((o,x)=>{const t=x.kind+':'+edwardSceneType(x);o[t]=(o[t]||0)+1;return o},{}))`,c));
+assert.deepEqual(dynamic,{'arc:council':6,'arc:diplomacy':8,'arc:battle':1,'arc:marriage':5,'arc:succession':8,'arc:inheritance':2,'arc:castle':6,'cross:council':1,'cross:inheritance':1,'cross:treasury':1,'cross:succession':1,'pressure:council':3,'pressure:battle':1,'pressure:parish':2,'pressure:treasury':2,'life:parish':1,'life:diplomacy':1,'life:council':3,'life:marriage':1,'life:battle':1});
+console.log('PASS: 96 authored card assignments, all six fixed false keyword matches, and 55 dynamic-scene assignments.');

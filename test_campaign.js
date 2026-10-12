@@ -1,0 +1,11 @@
+// Chapter covers and transitions are presentation-only; verify dates and no world mutations.
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),store=new Map(),nodes={};
+const overlay={classes:new Set(),classList:{add(x){overlay.classes.add(x)},remove(x){overlay.classes.delete(x)}}};
+const c={console,Math,Set,Number,String,JSON,window:{EDWARD_HOME:{}},localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},overlay,sheet:{},
+ document:{getElementById(id){return nodes[id]||null}},world:{seed:31,reign:{startYear:1461,provenance:'Full reign',generatedTurns:0},sandbox:{year:1461},chronicle:[]},current:{when:'29 March 1461'},
+ E:x=>String(x??''),openSheet(title,html){c.html=html;for(const id of ['campaignContinue','campaignHow'])nodes[id]={onclick:null};},closeSheet(){},edwardTutorial(){c.tutorialOpened=true},renderCard(){},reignFrontispiece(){},edwardStartNew(){return 'started'}};
+vm.createContext(c);vm.runInContext(fs.readFileSync(__dirname+'/campaign_chapters.js','utf8'),c);
+const years=[1461,1465,1469,1472,1476,1479,1483],expected=['crown','court','strain','settlement','house','legacy','legacy'];assert.deepEqual(years.map(y=>c.window.EDWARD_CAMPAIGN.forYear(y).id),expected);
+const initial=JSON.stringify(c.world);c.reignFrontispiece();assert(c.html.includes('A Crown Is Not Yet a Kingdom'));assert(c.html.includes('What is recorded in history?'));assert.equal(JSON.stringify(c.world),initial);assert(overlay.classes.has('campaign-blackout'));nodes.campaignContinue.onclick();assert(!overlay.classes.has('campaign-blackout'));
+vm.runInContext("campaignStorageKey='edward_campaign_seen_v1_31_1461';campaignCurrentChapter='crown'",c);c.world.sandbox.year=1465;const before=JSON.stringify(c.world);c.renderCard();assert(c.html.includes('The Court Gathers Around the Crown'));assert.equal(JSON.stringify(c.world),before);nodes.campaignContinue.onclick();c.renderCard();assert(!overlay.classes.has('campaign-blackout'));
+vm.runInContext("campaignCurrentChapter='court'",c);c.world.sandbox.year=1469;c.renderCard();assert(c.html.includes('When Service Becomes a Claim'));console.log('PASS six calendar frames, opening and transition screens, chapter shown once, and no world-state changes. UI structure mocked; no browser rendering claim.');
