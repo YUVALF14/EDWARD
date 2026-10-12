@@ -3870,10 +3870,10 @@ function chronicleChapterForEntry(entry){
 function chronicleThread(entry){
  const text=[entry.id,entry.place,entry.decision,entry.summary].join(' ').toLowerCase();
  if(/succession|heir|clarence|gloucester|marriage|wardship|inheritance|prince/.test(text))return 'Succession & households';
+ if(/battle|war|campaign|armed|rebellion|captain|prisoner|towton|hexham/.test(text))return 'War & security';
  if(/warwick|neville|woodville|hastings|council|office|appointment|chancellor/.test(text))return 'Court & council';
  if(/credit|loan|treasury|wage|custom|revenue|merchant|tax/.test(text))return 'Revenue & service';
  if(/france|burgundy|envoy|diplomac|treaty|calais|channel/.test(text))return 'Foreign relations';
- if(/battle|war|campaign|armed|rebellion|captain|prisoner|towton|hexham/.test(text))return 'War & security';
  if(/church|bishop|priest|sanctuary|parish|archbishop/.test(text))return 'Church & sanctuary';
  if(/north|york|caister|nibley|county|village|estate|manor|land/.test(text))return 'Places & local rule';
  return 'The Crown';
@@ -3882,7 +3882,10 @@ function chronicleRecordHTML(entry){
  const chapter=chronicleChapterForEntry(entry),thread=chronicleThread(entry);
  const source=entry.arena==='up'?'Council hearing':entry.arena==='down'?'Private audience':'The King’s decision';
  const date=entry.chapter||('Decision '+entry.turn);
- return '<article class="chronicle-entry" data-chronicle-thread="'+E(thread)+'"><div class="chronicle-meta"><span>'+E(date)+' · '+E(entry.place||'The royal court')+'</span><span>'+E(thread)+'</span></div><h3>'+E(entry.summary||entry.decision||'A royal act was entered in the record.')+'</h3><p><b>'+E(source)+':</b> '+E(entry.decision||'The record does not preserve the exact wording.')+'</p><div class="chronicle-seal">ROYAL RECORD · DECISION '+E(entry.turn)+'</div></article>';
+ const summary=entry.summary||entry.decision||'A royal act was entered in the record.';
+ const decision=entry.decision||'The record does not preserve the exact wording.';
+ const linkNames=typeof edwardLinkedText==='function'?edwardLinkedText:x=>E(x);
+ return '<article class="chronicle-entry" data-chronicle-thread="'+E(thread)+'"><div class="chronicle-meta"><span>'+E(date)+' · '+E(entry.place||'The royal court')+'</span><span>'+E(thread)+'</span></div><h3>'+linkNames(summary)+'</h3><p><b>'+E(source)+':</b> '+linkNames(decision)+'</p><div class="chronicle-seal">ROYAL RECORD · DECISION '+E(entry.turn)+'</div></article>';
 }
 function chronicleReportHTML(report){
  const certainty=String(report.certainty||'reported').replaceAll('_',' ');
