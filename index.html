@@ -2597,8 +2597,63 @@ const _edwardOriginalIntro=intro;
 intro=function(){_edwardOriginalIntro();edwardDecorateIntro();};
 const _edwardOriginalEnding=ending;
 ending=function(){_edwardOriginalEnding();edwardDecorateEnding();};
+/* Consequence notices observe actual changes to the saved world, not dramatic wording.
+   Presentation only: no mutation of facts, offices, memory, reports or mechanics. */
+function edwardNoticeSnapshot(s){
+ return {
+  facts:{...s.facts},offices:{...s.offices},
+  precedents:s.precedents.length,obligations:s.obligations.length,
+  reports:s.reports.length,chronicle:s.chronicle.length
+ };
+}
+function edwardConsequence(before,s,card,selected){
+ if(!before||!selected||!s||!card)return null;
+ const latest=s.chronicle.slice(before.chronicle).find(x=>x.id===card.id);
+ const summary=String(latest?.summary||selected.label||'').trim();
+ const changedFacts=Object.keys(s.facts).filter(k=>before.facts[k]!==s.facts[k]);
+ const changedOffices=Object.keys(s.offices).filter(k=>before.offices[k]!==s.offices[k]);
+ const newPrecedents=s.precedents.slice(before.precedents);
+ const newObligations=s.obligations.slice(before.obligations);
+ const readable=(s2,max=210)=>String(s2||'').replace(/\\s+/g,' ').trim().slice(0,max);
+ // Prior outcomes are only resurfaced when a specific courier's report explicitly
+ // identifies an earlier card; ordinary rumours never create invented causation.
+ const newReports=s.reports.slice(before.reports);
+ for(const report of newReports){
+  const source=String(report.id||''),past=s.chronicle.find(x=>x.turn<s.turn&&x.id&&source.includes(x.id)&&x.id!==card.id);
+  if(past&&source.includes('echo-'))
+   return {title:'The Past Returns',text:readable('A message from '+(report.from||'a messenger')+': '+report.text)};
+ }
+ // Structural changes are rare, auditable and directly observable by the king.
+ const marriage=changedFacts.includes('marriage');
+ if(marriage)return {title:'A Royal Marriage',text:readable(summary)};
+ const succession=changedFacts.some(k=>/^(heir|succession|regency|guardian|legitimacy|royal_heir)(_|$)/.test(k))||
+  changedOffices.some(k=>/^(regent|protector)(_|$)/.test(k));
+ if(succession)return {title:'The Future of the Crown',text:readable(summary)};
+ const majorOffice=changedOffices.find(k=>/^(northern_commission|chancellor|chamberlain|treasurer|protector|regent|captain|constable|keeper)/.test(k));
+ if(majorOffice){
+  const value=String(s.offices[majorOffice]||'unassigned').replace(/_/g,' ');
+  return {title:'Authority Reassigned',text:readable(summary+' The office of '+majorOffice.replace(/_/g,' ')+' now rests with '+value+'.')};
+ }
+ // A written obligation or recognised legal precedent can bind later decisions.
+ const consequentialPromise=newObligations.find(o=>o.visibility==='public'&&/^(royal|oath|land|grant|marriage|treaty|peace|command)/i.test(String(o.reason||'')));
+ if(consequentialPromise)return {title:'A Royal Obligation',text:readable(summary)};
+ const lastingPrecedent=newPrecedents.find(p=>/\b(land|estate|forfeit|pardon|trial|law|court|inherit|oath|parliament|claim|judg|grant|right)\b/i.test(p.text||''));
+ if(lastingPrecedent)return {title:'A Royal Precedent',text:readable(lastingPrecedent.text)};
+ return null;
+}
+let edwardLastConsequenceTurn=-1;
 const _edwardOriginalDecide=decide;
-decide=function(side){edwardMusicAccent(side);_edwardOriginalDecide(side);};
+decide=function(side){
+ const card=current,selected=(arena?card?.[arena]:card)?.[side],snapshot=edwardNoticeSnapshot(world);
+ edwardMusicAccent(side);
+ _edwardOriginalDecide(side);
+ const event=edwardConsequence(snapshot,world,card,selected);
+ if(event&&world.turn!==edwardLastConsequenceTurn){
+  edwardLastConsequenceTurn=world.turn;
+  // Chapter introduction screens take precedence; don't interrupt a reading folio.
+  if(!overlay.classList.contains('open'))edwardDialog(event.text,{title:event.title,notice:true});
+ }
+};
 const _edwardOriginalOpenSheet=openSheet;
 openSheet=function(title,body){_edwardOriginalOpenSheet(title,body);edwardSheetNames();};
 const _edwardOriginalRealm=showRealm;
