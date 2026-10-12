@@ -302,6 +302,8 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 @media(max-height:640px){.campaign-page{min-height:unset;justify-content:flex-start}.campaign-rule{margin:12px 0}.campaign-page h1{margin-bottom:12px}.campaign-body,.campaign-question{font-size:15px;line-height:1.55}.campaign-footer{margin:9px 0}}
 @media(prefers-reduced-motion:reduce){.campaign-blackout *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
+.chronicle-intro{padding:10px 12px 14px;border:1px solid #716344;border-top:3px double #b49a63;background:linear-gradient(145deg,#282a22,#1d241e);margin-bottom:14px}.chronicle-intro p{margin:8px 0 0;font-size:14px}.chronicle-filters{display:flex;gap:6px;overflow:auto;padding:3px 0 12px;scrollbar-width:thin}.chronicle-filters button{flex:0 0 auto;min-height:36px;padding:7px 10px;border:1px solid #655b44;border-radius:4px;background:#222820;color:#d8cba9;font-size:11px}.chronicle-filters button[aria-pressed="true"]{background:#473e2d;border-color:#b59b61;color:#f1e4c2}.chronicle-folio{margin:9px 0;border:1px solid #695d42;background:#e8dcc1;color:#27251f}.chronicle-folio>summary{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:13px;list-style:none;cursor:pointer;font:15px Georgia,serif;color:#332e24}.chronicle-folio>summary:before{content:'❧';color:#927b4e}.chronicle-folio>summary small{font:10px -apple-system,BlinkMacSystemFont,sans-serif;color:#695b3d}.chronicle-leaf{padding:0 13px 10px;background:linear-gradient(90deg,#e8dcc1,#f0e7d2 20%,#f0e7d2 80%,#e5d8bc)}.chronicle-entry,.chronicle-report{position:relative;padding:13px 12px 14px;border-top:1px solid #b5a47f;color:#302c23}.chronicle-entry:before,.chronicle-report:before{content:'';position:absolute;left:-1px;top:13px;bottom:13px;border-left:2px solid #9b8353}.chronicle-entry[hidden]{display:none}.chronicle-meta{display:flex;justify-content:space-between;gap:8px;color:#766846;font:10px/1.4 Georgia,serif}.chronicle-meta span:last-child{text-align:right;text-transform:uppercase;letter-spacing:.06em}.chronicle-entry h3,.chronicle-report h3{font:17px/1.3 Georgia,serif;color:#29271f;margin:8px 0}.chronicle-entry p,.chronicle-report p{font:13px/1.48 Georgia,serif;color:#494335;margin:7px 0}.chronicle-entry p b{color:#6f392f;font-weight:600}.chronicle-seal{margin-top:9px;font:9px Georgia,serif;letter-spacing:.13em;color:#77643e}.chronicle-report{margin:0 0 5px;padding:13px 12px;background:#262c25;border-top:1px solid #555a48}.chronicle-report h3{color:#e0d3b4}.chronicle-report p{color:#d0c9b8}.chronicle-report small,.chronicle-note{display:block;color:#aeb19f;font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}.chronicle-section{margin-top:22px}.chronicle-section>h3{border-bottom:1px solid #756543;padding-bottom:8px;color:#e4d4ac;font:20px Georgia,serif}.chronicle-folio .person-link{color:#51432d;text-decoration-color:#988050}.chronicle-entry .person-link{color:#51432d}
+
 </style>
 </head>
 <body>
@@ -3858,6 +3860,53 @@ const _campaignBaseRender=renderCard;renderCard=function(){_campaignBaseRender()
 const _campaignBaseFrontispiece=reignFrontispiece;reignFrontispiece=function(){const start=Number(world.reign?.startYear)||campaignCurrentYear(),chapter=campaignChapterForYear(start);campaignStorageKey=campaignKeyForWorld();campaignCurrentChapter=chapter.id;campaignOpen(chapter,true);};
 const _campaignBaseStart=edwardStartNew;edwardStartNew=function(...args){campaignStorageKey='';campaignCurrentChapter='';return _campaignBaseStart(...args);};
 window.EDWARD_CAMPAIGN={chapters:EDWARD_CAMPAIGN_CHAPTERS,forYear:campaignChapterForYear};
+
+/* The Chronicle is a readable record produced from the existing saved world.
+   It presents evidence and later reports without inventing causal links. */
+function chronicleChapterForEntry(entry){
+ const year=Number(String(entry.chapter||'').match(/14\d\d/)?.[0])||Number(entry.year)||Number(world.sandbox?.year)||1461;
+ return (window.EDWARD_CAMPAIGN?.forYear(year))||{number:'',title:'The Reign',from:1461,to:1483};
+}
+function chronicleThread(entry){
+ const text=[entry.id,entry.place,entry.decision,entry.summary].join(' ').toLowerCase();
+ if(/succession|heir|clarence|gloucester|marriage|wardship|inheritance|prince/.test(text))return 'Succession & households';
+ if(/warwick|neville|woodville|hastings|council|office|appointment|chancellor/.test(text))return 'Court & council';
+ if(/credit|loan|treasury|wage|custom|revenue|merchant|tax/.test(text))return 'Revenue & service';
+ if(/france|burgundy|envoy|diplomac|treaty|calais|channel/.test(text))return 'Foreign relations';
+ if(/battle|war|campaign|armed|rebellion|captain|prisoner|towton|hexham/.test(text))return 'War & security';
+ if(/church|bishop|priest|sanctuary|parish|archbishop/.test(text))return 'Church & sanctuary';
+ if(/north|york|caister|nibley|county|village|estate|manor|land/.test(text))return 'Places & local rule';
+ return 'The Crown';
+}
+function chronicleRecordHTML(entry){
+ const chapter=chronicleChapterForEntry(entry),thread=chronicleThread(entry);
+ const source=entry.arena==='up'?'Council hearing':entry.arena==='down'?'Private audience':'The King’s decision';
+ const date=entry.chapter||('Decision '+entry.turn);
+ return '<article class="chronicle-entry" data-chronicle-thread="'+E(thread)+'"><div class="chronicle-meta"><span>'+E(date)+' · '+E(entry.place||'The royal court')+'</span><span>'+E(thread)+'</span></div><h3>'+E(entry.summary||entry.decision||'A royal act was entered in the record.')+'</h3><p><b>'+E(source)+':</b> '+E(entry.decision||'The record does not preserve the exact wording.')+'</p><div class="chronicle-seal">ROYAL RECORD · DECISION '+E(entry.turn)+'</div></article>';
+}
+function chronicleReportHTML(report){
+ const certainty=String(report.certainty||'reported').replaceAll('_',' ');
+ return '<article class="chronicle-report"><div class="chronicle-meta"><span>Received after decision '+E(report.turn??'—')+'</span><span>'+E(certainty)+'</span></div><h3>'+E(report.from||'A messenger')+'</h3><p>'+E(report.text)+'</p><small>This is information that reached the Crown, not an omniscient account.</small></article>';
+}
+function showChronicle(){
+ const entries=(world.chronicle||[]).slice().reverse();
+ const years=new Map();
+ for(const entry of entries){const ch=chronicleChapterForEntry(entry),key=ch.id||ch.title;if(!years.has(key))years.set(key,{chapter:ch,entries:[]});years.get(key).entries.push(entry);}
+ const folios=[...years.values()].map((folio,index)=>'<details class="chronicle-folio" '+(index===0?'open':'')+'><summary><span>PART '+E(folio.chapter.number||'')+' · '+E(folio.chapter.title)+'</span><small>'+folio.entries.length+' entries</small></summary><div class="chronicle-leaf">'+folio.entries.map(chronicleRecordHTML).join('')+'</div></details>').join('');
+ const filters=['All entries','The Crown','Court & council','Revenue & service','Foreign relations','War & security','Church & sanctuary','Places & local rule','Succession & households'];
+ const reports=(world.reports||[]).slice(-20).reverse();
+ const dossiers=(world.sandbox?.narrative?.journal||[]).slice(-12).reverse();
+ const dossierHTML=dossiers.map(j=>'<article class="chronicle-report"><div class="chronicle-meta"><span>'+E(j.year)+' · '+E(j.stage==='echo'?'A matter returned':'Dossier entered')+'</span><span>Historical context</span></div><h3>'+E(ND_CASES[j.key]?.title||j.key)+'</h3><p>'+E(j.summary)+'</p><small>Documented dispute; this reign’s encounter and outcome are reconstructed.</small></article>').join('');
+ const incidents=(world.life?.journal||[]).filter(j=>j.stage==='resolved').slice(-8).reverse();
+ const incidentHTML=incidents.map(j=>'<article class="chronicle-report"><div class="chronicle-meta"><span>'+E(j.year)+' · '+E(j.kind)+'</span><span>Life in the realm</span></div><p>'+E(j.text)+'</p><small>Generated incident shaped by local conditions and chance.</small></article>').join('');
+ openSheet('The Royal Chronicle','<div class="chronicle-intro"><div class="eyebrow">A RECORD OF THIS REIGN</div><p>Orders, decisions and reports are entered as the court encounters them. Later reports are preserved here, but are not assigned a cause unless the record says so.</p></div><div class="chronicle-filters" role="group" aria-label="Filter Chronicle entries">'+filters.map((label,i)=>'<button type="button" data-chronicle-filter="'+E(label)+'" aria-pressed="'+(i===0?'true':'false')+'">'+E(label)+'</button>').join('')+'</div><div id="chronicleFolios">'+(folios||'<p>No royal act has yet entered the Chronicle.</p>')+'</div><section class="chronicle-section"><h3>Reports received by the Crown</h3><p class="chronicle-note">Each messenger speaks from a limited point of view. Certainty is shown as the game recorded it.</p>'+(reports.length?reports.map(chronicleReportHTML).join(''):'<p>No reports have yet reached the court.</p>')+'</section><section class="chronicle-section"><h3>Disputes and their returns</h3><p class="chronicle-note">Historical disputes are distinct from the fictional course of this reign.</p>'+(dossierHTML||'<p>No dossier has yet entered this reign.</p>')+'</section><section class="chronicle-section"><h3>Life beyond the council chamber</h3>'+(incidentHTML||'<p>No resolved life incident has yet been recorded.</p>')+'</section><button class="reset-link" id="newReign">Begin a new reign</button>');
+ sheet.querySelectorAll('[data-chronicle-filter]').forEach(button=>button.onclick=()=>{
+  const value=button.dataset.chronicleFilter;
+  sheet.querySelectorAll('[data-chronicle-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+  sheet.querySelectorAll('.chronicle-entry').forEach(item=>item.hidden=value!=='All entries'&&item.dataset.chronicleThread!==value);
+ });
+ document.getElementById('newReign').onclick=()=>{if(confirm('Erase this reign and begin again?')){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro();}};
+}
 
 </script>
 <noscript><p style="padding:25px">EDWARD requires JavaScript. Open the hosted game in Safari, not the iPhone Files or ChatGPT HTML preview.</p></noscript>

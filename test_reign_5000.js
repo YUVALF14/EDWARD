@@ -1,0 +1,23 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
+const ctx={console,Math,EDWARD_SIMULATION:true,localStorage:{getItem(){return null},setItem(){throw Error('Unexpected autosave in simulation')},removeItem(){}}};vm.createContext(ctx);
+for(const f of ['data','reactive','emergent','sandbox','deepworld','narrative','story_scenes','story_crossovers','story_engine','delayed','engine','world_pressure','historical_world','living_court','life','stewardship','reign'])vm.runInContext(fs.readFileSync(__dirname+'/'+f+'.js','utf8'),ctx,{filename:f});
+vm.runInContext('this.A={reignCreate,reignFacts,getNextSituation,resolveChoice,lcIssue,lcRespond,lcAlive,edwardHistoryAudit,REIGN_ENTRIES}',ctx);const A=ctx.A;
+const out={runs:0,failures:[],starts:{},policies:{},policyOutcomes:{},endingKeys:{},endingLabels:{},endingDimensions:{},pairs:0,differentFinalStates:0,differentEndingKeys:0,differentEventSequences:0,identicalEndingExamples:[],saveReloadChecks:0,historyAuditChecks:0,missingArenaQuotes:0,minDecisions:Infinity,maxDecisions:0};
+const digest=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
+function run(seed,year,policy){let s=A.reignCreate(year,seed);assert.equal(A.reignFacts(s).playerDecisions,0);assert.equal(s.reign.startYear,year);let card=A.getNextSituation(s),steps=0,lastYear=0,sequence=[];
+ while(card&&steps<420){steps++;const y=s.sandbox?.year||1461;
+ if(lastYear!==y){lastYear=y;if(A.lcAlive(s,'warwick'))try{A.lcIssue(s,'audience','warwick','appointments');}catch(e){if(!/Insufficient/.test(e.message))throw e;}}
+ for(const meeting of s.court.audiences.filter(m=>m.status==='open'))try{A.lcRespond(s,meeting.id,policy==='conciliatory'?'settle':'threaten');}catch(e){if(!/Insufficient/.test(e.message))throw e;}
+ for(const key of ['up','down'])if(card[key]){const q=typeof card[key].quote==='function'?card[key].quote(s):card[key].quote;if(!q||!q.trim())out.missingArenaQuotes++;}
+ sequence.push({who:card.who,tag:card.tag,story:card.storyInfo,life:card.lifeInfo?.kind});
+ const side=policy==='conciliatory'?'left':'right';card=A.resolveChoice(s,card,side,null);
+ if(steps%19===0){const clone=JSON.parse(JSON.stringify(s));const resumed=A.getNextSituation(clone);assert.equal(resumed?.id,card?.id);assert.deepEqual(A.reignFacts(clone),A.reignFacts(s));s=clone;card=resumed;out.saveReloadChecks++;}
+ const problems=A.edwardHistoryAudit(s);assert.deepEqual(Array.from(problems),[]);out.historyAuditChecks++;
+ }
+ assert(s.finished&&steps<420,'Run failed to finish');assert(s.sandbox.endings,'Missing ending');assert.equal(A.reignFacts(s).playerDecisions,steps);assert(s.court.purse>=0);const e=s.sandbox.endings;
+ out.policyOutcomes[policy]||={peace:{},credit:{}};for(const [name,dim]of [['peace','peace'],['credit','foreign']]){const v=e.dimensions[dim];out.policyOutcomes[policy][name][v]=(out.policyOutcomes[policy][name][v]||0)+1;}
+ out.runs++;out.starts[year]=(out.starts[year]||0)+1;out.policies[policy]=(out.policies[policy]||0)+1;out.endingKeys[e.key]=(out.endingKeys[e.key]||0)+1;out.endingLabels[e.label]=(out.endingLabels[e.label]||0)+1;for(const [k,v]of Object.entries(e.dimensions)){out.endingDimensions[k]||={};out.endingDimensions[k][v]=(out.endingDimensions[k][v]||0)+1;}
+ out.minDecisions=Math.min(out.minDecisions,steps);out.maxDecisions=Math.max(out.maxDecisions,steps);
+ return {state:digest({actors:s.sandbox.actors,unrest:s.sandbox.unrest,facts:s.facts,offices:s.offices}),sequence:digest(sequence),ending:e.key};}
+for(let pair=0;pair<2500;pair++){const seed=31000+pair,year=A.REIGN_ENTRIES[pair%6];try{const a=run(seed,year,'conciliatory'),b=run(seed,year,'coercive');out.pairs++;if(a.state!==b.state)out.differentFinalStates++;if(a.sequence!==b.sequence)out.differentEventSequences++;if(a.ending!==b.ending)out.differentEndingKeys++;else if(out.identicalEndingExamples.length<10)out.identicalEndingExamples.push({seed,year,ending:a.ending});}catch(e){out.failures.push({seed,year,error:e.stack});}if((pair+1)%250===0)console.log('Completed pairs',pair+1);}
+out.uniqueEndingKeys=Object.keys(out.endingKeys).length;out.uniqueEndingLabels=Object.keys(out.endingLabels).length;out.limitations=['Node engine simulations; no real browser or iPhone Safari validation.','Two contrasting decision policies; not exhaustive play coverage.','Historical audit checks existing model invariants, not a scholarly validation.','All reigns end at 1483 by design; epilogues are projections.'];fs.writeFileSync(__dirname+'/reign_5000_audit.json',JSON.stringify(out,null,2));console.log(JSON.stringify({...out,endingKeys:undefined},null,2));if(out.failures.length||out.runs!==5000||out.missingArenaQuotes)process.exitCode=1;
