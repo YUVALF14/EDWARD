@@ -104,6 +104,7 @@ function opts(i){const list=answers[i];const shift=S.cycle%list.length;return li
 function stability(){const m=S.meaning;const source=Math.pow(Math.max(1,m.bond*m.dynasty*m.faith*m.power),.25);return Math.pow(Math.max(1,S.authority*S.order*S.succession*source),.25)}
 function render(){
  if(S.dead)return finish("The King Is Killed","A plot or political breach has taken Edward before 1483. The crown survives the man; the realm must decide whose voice speaks next.");
+ document.querySelectorAll("#game > section:not(.end)").forEach(el=>el.style.display="");
  let i=S.n,c=cards[i],variant=S.cycle?["Earlier answers return with new witnesses.","Your court remembers the precedent; its balance has shifted.","The claim has changed shape as its bearer gathers allies."][(i+S.cycle)%3]:"";
  let is69=i===19&&S.year===1469&&!S.deposed;
  text("date","ENGLAND · "+S.year);text("chapter",["I · The Crown After Towton","II · The Court Gathers","III · Service and Rebellion","IV · The Price of Settlement","V · The House Behind the Crown","VI · The Last Inheritance"][Math.min(5,S.cycle)]);
@@ -173,7 +174,7 @@ function choose(j){
  render();
 }
 function finish(title,desc){
- document.getElementById("game").style.display="none";document.getElementById("end").style.display="block";text("endTitle",title);text("endText",desc);
+ const game=document.getElementById("game");game.style.display="grid";game.querySelectorAll("#game > section:not(.end)").forEach(el=>el.style.display="none");document.getElementById("end").style.display="block";text("endTitle",title);text("endText",desc);
  text("signature", "Ruler’s signature: "+(S.harsh>5?"command sharpened by fear":S.open>6?"a king of bargains and deferrals":S.warwick>22?"rule through a powerful lieutenant":S.woodville>20?"a court built around royal kin":"authority held through changing coalitions")+". A political reading, not a moral verdict.");
 }
 function reset(){Object.assign(S,{n:0,cycle:0,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,mem:[],log:[]});render()}
