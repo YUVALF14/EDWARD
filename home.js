@@ -8,9 +8,9 @@ function edwardStopForMenu(){
  if(typeof edwardClosePeek==='function')edwardClosePeek();
  closeSheet();
 }
-function edwardStartNew(year){
+async function edwardStartNew(year){
  const saved=edwardAutosave();
- if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!confirm('Start a new reign? Your current autosave will be replaced. Manual save slots will stay safe.'))return;
+ if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!(await edwardConfirm('Your current autosave will be replaced. Manual save slots stay safe.',{title:'Begin a new reign?',action:'Begin new reign'})))return;
  edwardStopForMenu();clearWorld();world=newWorld();
  if(year===1465){
   world.chapterIndex=CHAPTERS.length;
@@ -25,17 +25,14 @@ function edwardTitleScreen(){
  edwardStopForMenu();edwardSetMood('court');
  const saved=edwardAutosave();
  const year=saved?edwardYear(saved):null;
- const art=[['warwick','Warwick'],['edward','Edward IV'],['elizabeth','Elizabeth']].map(([id,label])=>'<div class="home-portrait">'+edwardPortraitSvg(id,label)+'<span class="home-portrait-caption">'+E(label)+'</span></div>').join('');
  app.innerHTML='<main class="home-screen" id="homeScreen">'+
- '<div class="home-kicker">THE WARS OF THE ROSES · AN INTERACTIVE CHRONICLE</div>'+
- '<h1 class="home-title">EDWARD<span> IV</span></h1><p class="home-subtitle">A crown is won. A kingdom must be ruled.</p>'+
- '<div class="home-portraits" aria-label="Illustrated portraits of Warwick, Edward IV and Elizabeth Woodville">'+art+'</div>'+
-
+ '<h1 class="home-title">EDWARD<span> IV</span></h1>'+
+ '<p class="home-subtitle">England, 1461. The crown is yours to govern.</p>'+
  '<div class="home-actions">'+
  '<button class="home-btn '+(saved?'primary':'secondary')+'" id="homeContinue" '+(!saved?'disabled':'')+'>'+(saved?(saved.finished?'Read your ending':'Continue reign'):'Continue reign')+'</button>'+
  '<button class="home-btn '+(saved?'secondary':'primary')+'" id="homeNew">New game</button>'+
  '<button class="home-btn tertiary" id="homeLoad">Load game</button>'+
- (saved?'<div class="home-save-note">Autosave · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'<div class="home-save-note">Your story begins in 1461</div>')+
+ (saved?'<div class="home-save-note">Saved reign · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'')+
  '</div><div class="home-utility"><button id="homeMusic" type="button" data-audio-toggle="1" aria-pressed="false">Music</button><button id="homeHow" type="button">How to play</button></div>'+
  '</main>';
  document.getElementById('homeContinue').onclick=edwardContinue;
@@ -65,11 +62,11 @@ function edwardLoadGameMenu(){
  '<div class="menu-divider"></div><div class="save-tools"><label for="homeImport">↑ Import a saved reign<input id="homeImport" type="file" accept="application/json,.json"></label></div><div id="saveNotice" class="save-notice" role="status"></div>'+
  '<p class="menu-caption">Saves are stored in this browser. Export from the in-game save menu to keep a backup outside Safari.</p>';
  openSheet('Load Game',html);
- sheet.querySelectorAll('[data-home-load]').forEach(btn=>btn.onclick=()=>{
+ sheet.querySelectorAll('[data-home-load]').forEach(btn=>btn.onclick=async()=>{
   const key=btn.dataset.homeLoad;
   const data=key==='auto'?edwardAutosave():edwardReadSlot(Number(key))?.world;
   if(!data){edwardNotice('That save is no longer available.');return;}
-  if(!confirm('Load this reign? Current unsaved progress will be replaced.'))return;
+  if(!(await edwardConfirm('Your current autosave will be replaced by this reign.',{title:'Restore this reign?',action:'Load reign'})))return;
   edwardStopForMenu();edwardLoadSnapshot(data);
  });
  document.getElementById('homeImport').addEventListener('change',edwardImport);

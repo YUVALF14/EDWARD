@@ -45,5 +45,5 @@ function showChronicle(){
   sheet.querySelectorAll('[data-chronicle-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
   sheet.querySelectorAll('.chronicle-entry').forEach(item=>item.hidden=value!=='All entries'&&item.dataset.chronicleThread!==value);
  });
- document.getElementById('newReign').onclick=()=>{if(confirm('Erase this reign and begin again?')){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro();}};
+ document.getElementById('newReign').onclick=async()=>{if(await edwardConfirm('Your current autosave will be cleared. Manual save slots stay safe.',{title:'Begin again?',action:'Clear current reign'})){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro();}};
 }

@@ -1,0 +1,18 @@
+# Keep the GitHub Pages output focused on files the browser game uses.
+# Source artwork, duplicate audio encodings, development notes and audit data
+# remain in the repository for maintainers but are not shipped with the game.
+exclude:
+  - "*.md"
+  - "*.json"
+  - "*.js"
+  - "*.css"
+  - "*.py"
+  - "index.template.html"
+  - "node_modules/"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "vendor/"
+  - "assets/art/manifest.json"
+  - "assets/piano/manifest.json"
+  - "assets/art/*.png"
+  - "assets/piano/*.b64"

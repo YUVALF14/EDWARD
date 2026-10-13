@@ -43,9 +43,11 @@ function edwardOpenScene(){if(!current)return;const type=edwardSceneType(current
  openSheet('An Illustrated Moment','<div class="scene-art-large">'+edwardVignetteSvg(type,label)+'</div><div class="eyebrow">ILLUMINATED CHRONICLE · ARTISTIC INTERPRETATION</div><p>'+E(label)+'. This image evokes a fifteenth-century setting; it is not a documentary depiction of a specific event or a verified likeness.</p><div class="row"><b>Why this scene is here</b><span>'+E(current.insight?.stake||current.context||'The situation follows decisions and pressures in your reign.')+'</span></div><button class="reset-link" id="sceneHistoricalLens">Recorded history vs your reign →</button>');
  document.getElementById('sceneHistoricalLens').onclick=edwardHistoricalLens;
 }
-function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current||card.querySelector('.scene-art-band'))return;
+function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current)return;
  const type=edwardSceneType(current),rule=card.querySelector('.rule');if(!rule)return;
- const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);
+ // The fallback council picture does not describe most petitions or messengers.
+ // Keep it available on demand instead of repeating it above every testimony.
+ if(type!=='council'&&!card.querySelector('.scene-art-band')){const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);}
  const tools=card.querySelector('.reading-tools');if(tools&&!tools.querySelector('.scene-art-button')){
   const btn=document.createElement('button');btn.className='scene-art-button';btn.type='button';btn.textContent='Scene';btn.title='View a manuscript-inspired scene illustration';btn.addEventListener('pointerdown',e=>e.stopPropagation());btn.onclick=e=>{e.stopPropagation();edwardOpenScene();};tools.insertBefore(btn,tools.querySelector('.reading-level-btn'));
  }
@@ -54,3 +56,5 @@ const _sceneOldRenderCard=renderCard;
 renderCard=function(){_sceneOldRenderCard();edwardAddSceneToCard();};
 const _sceneOldReadingMore=edwardReadingMore;
 edwardReadingMore=function(){_sceneOldReadingMore();if(!current)return;const type=edwardSceneType(current);const details=document.createElement('details');details.className='reading-detail';details.innerHTML='<summary>Illustrated moment <span>visual context, optional</span></summary><div class="reading-detail-body"><div class="scene-art-large">'+edwardVignetteSvg(type)+'</div><p><small>Original interpretive illustration. Not a documentary depiction of the event.</small></p></div>';const summary=sheet.querySelector('.reading-summary');if(summary)summary.after(details);};
+
+const _sceneReadingRender=edwardReadingRender;edwardReadingRender=function(){_sceneReadingRender();edwardAddSceneToCard();};

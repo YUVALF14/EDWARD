@@ -4,20 +4,21 @@ Audit of the card data and rendering code, 12 October 2026. This is a presentati
 
 ## What “no art” means in the current build
 
-Every one of the 96 authored situation cards currently receives a small scene illustration under its divider. The scene is selected by a keyword heuristic from **10 reusable SVG vignettes**, not drawn for that card. So the answer depends on the standard:
+The 96 authored situation cards retain an optional scene illustration. The automatic band now appears on 43 cards; 53 fallback council illustrations have moved to the optional Scene view because they add little to petitions, reports and household business. The scene is selected by a keyword heuristic from **10 reusable SVG vignettes**, not drawn for that card. So the answer depends on the standard:
 
 | Standard | Cards |
 |---|---:|
-| No scene illustration at all | **0 of 96** in the authored card set |
+| No optional scene illustration available | **0 of 96** in the authored card set |
+| No automatic image band | **53 of 96**; fallback council scenes remain on demand |
 | A scene composed specifically for this individual card | **0 of 96** |
 | Reuse one of ten thematic vignettes | **96 of 96** |
 | Also match a speaker in the portrait catalogue and show their illustrated portrait | **41 of 96** |
 
-The portraits and vignettes are interpretive SVG drawings, not authenticated likenesses. One AI-assisted opening illustration appears on the title screen. The new reign and chapter openings use black text screens instead of repeating that image. The same scene vignette is offered again in the optional “Scene” view; it is not a second, more detailed artwork.
+The scene vignettes remain reusable SVG drawings. The speaker portrait catalogue now uses 24 individual manuscript-inspired WebP miniatures for named characters; they are historical interpretations, not authenticated likenesses. The opening illustration remains on the title screen. The same scene vignette is offered again in the optional “Scene” view; it is not a second, more detailed artwork.
 
 ## The current 96-card map
 
-Groups below show the vignette the current code assigns. **[portrait]** means that the speaker matches a named entry in the portrait catalogue; the rest of the card still has a scene vignette. “Council” is the renderer’s default category, not a claim that the event itself is a council meeting.
+Groups below show the vignette available for each card. The fallback Council group is no longer shown automatically. **[portrait]** means that the speaker matches a named entry in the portrait catalogue; the rest of the card still has a scene vignette. “Council” is the renderer’s default category, not a claim that the event itself is a council meeting.
 
 | Current vignette | Count | Situation IDs; [portrait] marks a speaker portrait |
 |---|---:|---|

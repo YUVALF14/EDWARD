@@ -8,7 +8,7 @@ The campaign opens and changes chapter on a black text screen, keeping the playe
 
 Palette: vellum #eadcc0, ink #24251f, madder #793b37, lapis #344c65, gold #b79a60. Madder identifies the principal title action; thin gold rules frame authority. Do not place decision text over illustrations. Keep figures legible at phone width and illustrations proportional without cropping hands or faces.
 
-The first plate appears at the title, opening of a reign and Art & credits. It is a thematic imagined audience, not a documented event or an age-specific depiction for all starting years. Existing SVG portraits remain accessible and in use. Next studies should establish consistent character silhouettes and age changes before expanding into coronations, marriages, councils and betrayals. No company splash branding has been chosen.
+The first plate appears unchanged at the title and in Art & credits. Reign and chapter openings use a full-screen paged reading room. The People index now pairs a compact political network with distinct portrait miniatures for 22 named characters. Each portrait draws on late medieval English and Burgundian manuscript painting: tempera colours, vellum, gold, heraldic dress and individual status markers. They are imaginative character studies, not verified likenesses. Portrait assets are cropped and compressed into individual WebP files under `assets/art/portraits/` so cards and the People index load only the relevant image. No company splash branding has been chosen.
 
 ## Asset and provenance
 
@@ -17,7 +17,7 @@ Built-in image generation tool; original AI-assisted modern illustration. Not an
 Web asset: assets/art/white-rose-court-v1.webp (1536 × 1024).
 Local master: assets/art/white-rose-court-v1.png.
 Generated source: /workspace/scratch/8c39df50e7fa/generated_images/exec-c15ed00b-ca3d-474f-a09e-f6333ff6c1cc.png.
-The deploy includes the compressed WebP; composition and size were preserved in conversion. The master is retained with the generated artwork, not downloaded by the game.
+The deploy includes the compressed opening WebP and 24 individual character portrait WebPs; the opening master is retained locally with the generated artwork, not downloaded by the game. The opening WebP remains byte-for-byte unchanged in the presentation refresh (SHA-256 2a4f1860987e32f2c7ef647ee3ad9ba58d4bd4b659f6093de503995d5dfb756f).
 
 ## Exact generation prompt
 
