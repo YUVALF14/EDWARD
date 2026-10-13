@@ -201,13 +201,6 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 .header .topinfo{display:none}
 .header .logo{margin-right:auto}
 .home-btn.primary:disabled{background:#202b24;color:#859082;border-color:#455044;box-shadow:none}
-/* People panel: a compact court index with manuscript portrait medallions. */
-.people-intro{max-width:34rem;margin:0 0 12px;color:#d8d1bd;font:italic 15px/1.45 Georgia,serif}
-.people-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 15px;color:#b7b7a6;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif}
-.people-legend span{display:flex;align-items:center;gap:6px}.people-legend i{display:inline-block;width:22px;border-top:2px solid #929d82}.people-legend i.dashed{border-top-style:dashed}
-.people-portrait-row{padding-right:2px}.people-portrait-row .people-affiliation{display:block;margin-top:3px;color:#a9b19f;font-size:12px;line-height:1.4}
-.people-portrait{width:56px;height:66px;margin-left:12px;filter:drop-shadow(0 3px 5px #0007)}
-@media(max-width:380px){.people-intro{font-size:14px}.people-legend{gap:8px;font-size:10px}.people-portrait{width:48px;height:58px}}
 
 /* Vignettes stay out of the default Focus reading flow. */
 .scene-art-band{display:none;flex:0 0 auto;height:clamp(58px,9vh,86px);width:100%;margin:-6px 0 10px;overflow:hidden;border-radius:9px;opacity:.87;pointer-events:none}
@@ -285,18 +278,57 @@ body[data-mood="court"]{background:radial-gradient(ellipse at 50% 7%,#3e4033 0%,
 @media(max-height:740px){.home-screen>.chronicle-plate{max-width:285px}}
 @media(max-width:360px){.chronicle-plate figcaption{font-size:10px}.home-screen{padding-left:10px;padding-right:10px}}
 
+.campaign-blackout{position:fixed!important;inset:0!important;z-index:9999!important;display:grid!important;place-items:center!important;padding:max(20px,env(safe-area-inset-top)) 18px max(20px,env(safe-area-inset-bottom))!important;background:#030404!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.campaign-blackout .sheet{width:min(720px,100%)!important;max-width:720px!important;max-height:100%!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:clamp(12px,4vw,34px)!important;border:0!important;border-radius:0!important;background:#030404!important;color:#e8e3d7!important;box-shadow:none!important}
+.campaign-blackout .sheethead{display:none!important}
+.campaign-page{min-height:min(650px,72vh);display:flex;flex-direction:column;justify-content:center;max-width:590px;margin:auto;font-family:Georgia,'Times New Roman',serif}
+.campaign-overline{font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#bca66e}
+.campaign-rule{width:54px;height:1px;background:#9b804f;margin:22px 0}
+.campaign-page h1{font:normal clamp(34px,8vw,56px)/1.08 Georgia,serif;color:#f0e7d4;margin:0 0 22px;max-width:560px}
+.campaign-lead{font:italic clamp(19px,4.6vw,25px)/1.42 Georgia,serif;color:#e1d1ae;margin:0 0 16px}
+.campaign-body,.campaign-question,.campaign-detail,.campaign-origin{font:16px/1.7 Georgia,serif;color:#d3d1c7}
+.campaign-question{border-left:1px solid #8e794f;padding-left:15px;margin:8px 0 17px;color:#cfc5ad}
+.campaign-detail{border-top:1px solid #393a35;border-bottom:1px solid #393a35;margin:9px 0;padding:9px 0;font-size:14px}
+.campaign-detail summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:#c9b578;font:14px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}
+.campaign-detail p{margin:8px 0}
+.campaign-small,.campaign-origin{font:12px/1.6 -apple-system,BlinkMacSystemFont,sans-serif;color:#a8aa9d}
+.campaign-origin{padding:11px 0}
+.campaign-origin b{color:#ded2b5}
+.campaign-footer{font:12px/1.6 -apple-system,BlinkMacSystemFont,sans-serif;color:#888d84;margin:17px 0}
+.campaign-actions{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.campaign-actions .home-btn{min-height:48px;border-radius:2px}
+.campaign-actions .home-btn.primary{background:#793b37;border-color:#b79a60;color:#f4ead6;box-shadow:inset 0 0 0 2px #392824}
+.campaign-blackout button:focus-visible,.campaign-blackout summary:focus-visible{outline:2px solid #e1c987;outline-offset:4px}
+@media(max-height:640px){.campaign-page{min-height:unset;justify-content:flex-start}.campaign-rule{margin:12px 0}.campaign-page h1{margin-bottom:12px}.campaign-body,.campaign-question{font-size:15px;line-height:1.55}.campaign-footer{margin:9px 0}}
+@media(prefers-reduced-motion:reduce){.campaign-blackout *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
 .chronicle-intro{padding:10px 12px 14px;border:1px solid #716344;border-top:3px double #b49a63;background:linear-gradient(145deg,#282a22,#1d241e);margin-bottom:14px}.chronicle-intro p{margin:8px 0 0;font-size:14px}.chronicle-filters{display:flex;gap:6px;overflow:auto;padding:3px 0 12px;scrollbar-width:thin}.chronicle-filters button{flex:0 0 auto;min-height:36px;padding:7px 10px;border:1px solid #655b44;border-radius:4px;background:#222820;color:#d8cba9;font-size:11px}.chronicle-filters button[aria-pressed="true"]{background:#473e2d;border-color:#b59b61;color:#f1e4c2}.chronicle-folio{margin:9px 0;border:1px solid #695d42;background:#e8dcc1;color:#27251f}.chronicle-folio>summary{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:13px;list-style:none;cursor:pointer;font:15px Georgia,serif;color:#332e24}.chronicle-folio>summary:before{content:'❧';color:#927b4e}.chronicle-folio>summary small{font:10px -apple-system,BlinkMacSystemFont,sans-serif;color:#695b3d}.chronicle-leaf{padding:0 13px 10px;background:linear-gradient(90deg,#e8dcc1,#f0e7d2 20%,#f0e7d2 80%,#e5d8bc)}.chronicle-entry,.chronicle-report{position:relative;padding:13px 12px 14px;border-top:1px solid #b5a47f;color:#302c23}.chronicle-entry:before,.chronicle-report:before{content:'';position:absolute;left:-1px;top:13px;bottom:13px;border-left:2px solid #9b8353}.chronicle-entry[hidden]{display:none}.chronicle-meta{display:flex;justify-content:space-between;gap:8px;color:#766846;font:10px/1.4 Georgia,serif}.chronicle-meta span:last-child{text-align:right;text-transform:uppercase;letter-spacing:.06em}.chronicle-entry h3,.chronicle-report h3{font:17px/1.3 Georgia,serif;color:#29271f;margin:8px 0}.chronicle-entry p,.chronicle-report p{font:13px/1.48 Georgia,serif;color:#494335;margin:7px 0}.chronicle-entry p b{color:#6f392f;font-weight:600}.chronicle-seal{margin-top:9px;font:9px Georgia,serif;letter-spacing:.13em;color:#77643e}.chronicle-report{margin:0 0 5px;padding:13px 12px;background:#262c25;border-top:1px solid #555a48}.chronicle-report h3{color:#e0d3b4}.chronicle-report p{color:#d0c9b8}.chronicle-report small,.chronicle-note{display:block;color:#aeb19f;font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif}.chronicle-section{margin-top:22px}.chronicle-section>h3{border-bottom:1px solid #756543;padding-bottom:8px;color:#e4d4ac;font:20px Georgia,serif}.chronicle-folio .person-link{color:#51432d;text-decoration-color:#988050}.chronicle-entry .person-link{color:#51432d}
 
-.royal-dialog-backdrop{position:fixed;inset:0;z-index:12000;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top)) 18px max(16px,env(safe-area-inset-bottom));background:#070a08d9;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.royal-dialog{width:min(440px,100%);max-height:90dvh;overflow:auto;border:1px solid #b79a60;background:#1d241e;box-shadow:0 20px 80px #000b;padding:26px 24px;color:#eadcc0}
-.royal-dialog h2{font:normal 28px/1.15 Georgia,serif;margin:12px 0}.royal-dialog p{font:16px/1.55 Georgia,serif;color:#d7d0c0}.royal-dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}.royal-dialog .home-btn{min-height:48px;border-radius:3px}.royal-dialog .primary{background:#793b37;color:#f4ead6;border-color:#b79a60}
-.royal-notice{position:fixed;z-index:11000;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(440px,calc(100% - 28px));max-height:32dvh;overflow:auto;padding:14px 46px 14px 17px;background:#242b23;border:1px solid #b79a60;box-shadow:0 10px 32px #0009;color:#eadcc0;text-align:left}.royal-notice strong{font:14px Georgia,serif;color:#e2c98f}.royal-notice p{font:13px/1.45 -apple-system,BlinkMacSystemFont,sans-serif;margin:5px 0 0}.royal-notice-close{position:absolute;right:3px;top:3px;width:44px;height:44px;border:0;background:transparent;color:#d8c69d;font-size:24px;cursor:pointer}.royal-notice-record{background:none;border:0;border-bottom:1px solid #9b804f;color:#dfc98f;padding:10px 0 4px;min-height:38px;cursor:pointer;font-size:12px}
-.reading-fullscreen{position:fixed!important;inset:0!important;z-index:9999!important;display:flex!important;align-items:stretch!important;padding:0!important;background:#080b09!important;backdrop-filter:none!important}
-.reading-fullscreen .sheet{width:100%!important;max-width:none!important;height:100%;max-height:100dvh!important;border:0!important;border-radius:0!important;background:#080b09!important;padding:0!important;overflow:hidden!important;box-shadow:none!important}.reading-fullscreen .sheethead{display:none!important}
-.reading-room{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100%;max-width:720px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) clamp(20px,5vw,46px) max(12px,env(safe-area-inset-bottom));color:#eadcc0}.reader-top{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:44px}.reader-top span{font:10px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.15em;color:#b79a60;text-transform:uppercase}.reader-top button{flex:0 0 44px;width:44px;height:44px;background:none;border:0;color:#cbbd9c;font-size:26px;cursor:pointer}.reader-leaf{align-self:center;max-height:100%;overflow:auto;overscroll-behavior:contain;padding:15px 0 20px}.reader-rule{width:46px;height:1px;background:#b79a60;margin:0 0 22px}.reader-leaf h1{font:normal clamp(28px,6.5vw,46px)/1.13 Georgia,serif;color:#f0e7d4;margin:0 0 24px;outline:none}.reader-leaf p{font:clamp(17px,3.7vw,21px)/1.65 Georgia,serif;color:#dcd4c2;margin:0 0 18px}.reader-leaf .reader-quotation{font-style:italic;color:#e1d1ae}.reader-leaf .reader-small{font:13px/1.65 -apple-system,BlinkMacSystemFont,sans-serif;color:#aeb1a4}.reader-navigation{border-top:1px solid #393c32;padding-top:10px}.reader-navigation>p{font:12px -apple-system,BlinkMacSystemFont,sans-serif;color:#bba66f;text-align:center;margin:0 0 12px;letter-spacing:.15em}.reader-buttons{display:grid;grid-template-columns:1fr 2fr;gap:10px}.reader-buttons .home-btn{min-height:48px;border-radius:2px}.reader-buttons .primary{background:#793b37;border-color:#b79a60;color:#f4ead6;box-shadow:inset 0 0 0 2px #392824}.reader-extra{display:block;margin:8px auto 0;min-height:44px;background:transparent;border:0;color:#d2bb83;font:14px Georgia,serif;cursor:pointer}.reader-launch{display:block;width:100%;min-height:48px;margin:10px 0 18px;padding:10px;border:1px solid #9c8759;background:#282e24;color:#e0cc99;font:15px Georgia,serif;cursor:pointer}.reading-room button:focus-visible,.royal-dialog button:focus-visible,.royal-notice button:focus-visible{outline:2px solid #e1c987;outline-offset:3px}
-@media(max-height:600px){.reader-leaf{align-self:start;padding:8px 0}.reader-leaf h1{font-size:27px;margin-bottom:14px}.reader-leaf p{font-size:16px;line-height:1.5}.reader-rule{margin-bottom:12px}.reader-top{min-height:35px}.reader-navigation{padding-top:5px}.reader-navigation>p{margin-bottom:7px}}
 
-.sound-percussion{display:flex;align-items:center;flex-wrap:wrap;gap:9px;min-height:48px;margin:6px 0 16px;font:15px Georgia,serif;color:#e2d2ae}.sound-percussion input{width:22px;height:22px;accent-color:#b79a60}.sound-percussion small{font:11px -apple-system,BlinkMacSystemFont,sans-serif;color:#aeb1a4}
+.edward-modal-mask{position:fixed;inset:0;z-index:12000;display:flex;align-items:center;justify-content:center;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));background:#050806dc;backdrop-filter:blur(8px)}
+.edward-modal{background:linear-gradient(145deg,#2b3028,#171c18);border:1px solid #b59a63;border-radius:10px;box-shadow:0 25px 70px #000c;color:#ece4d1;width:min(390px,100%);max-height:88dvh;overflow:auto;padding:28px 24px;text-align:center}
+.edward-modal h2{font:normal 28px Georgia,serif;margin:5px 0 14px;color:#efdfbb}.edward-modal p{font:16px/1.55 Georgia,serif;color:#d9d1bd;margin:0 0 24px;white-space:pre-wrap}
+.edward-modal .modal-sigil{font:26px Georgia,serif;color:#c8b17b}.edward-modal-actions{display:flex;gap:10px}
+.edward-modal-actions button{flex:1;min-height:46px;border-radius:5px;padding:9px;border:1px solid #776b4b;background:#283029;color:#eadfc9;font:14px Georgia,serif}
+.edward-modal-actions .modal-yes{background:#5c4930;border-color:#c4a56b}.edward-modal-actions .modal-danger{background:#693632;border-color:#bd8176}
+.edward-modal-actions button:focus-visible{outline:3px solid #eed29a;outline-offset:2px}
+
+/* Focused opening pages with explicit progress and navigation. */
+.campaign-page-count{font:11px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:.19em;color:#bca66e;margin-bottom:14px}
+.campaign-page[data-reading-page="1"] .campaign-detail[open]{border-color:#5d533e;padding:14px 0}
+.campaign-page[data-reading-page="1"] .campaign-detail[open] summary{margin-bottom:9px}
+.campaign-page[data-reading-page="1"] .campaign-actions{margin-top:14px}
+.campaign-actions .home-btn.tertiary{background:transparent;color:#cbbb9c;border:1px solid #5d533e}
+@media(max-height:640px){.campaign-page-count{margin-bottom:7px}.campaign-page[data-reading-page="1"] .campaign-detail[open]{padding:7px 0}}
+
+.campaign-scene{font:normal clamp(17px,4.3vw,21px)/1.65 Georgia,serif;color:#ded8c9;margin:0 0 20px}.campaign-page[data-reading-page="0"] .campaign-lead{border-left:2px solid #b49a63;padding-left:14px}.campaign-page[data-reading-page="2"] .eyebrow{margin-bottom:15px}.campaign-page-count{margin-bottom:12px}
+/* People panel: a compact court index with manuscript portrait medallions. */
+.people-intro{max-width:34rem;margin:0 0 12px;color:#d8d1bd;font:italic 15px/1.45 Georgia,serif}
+.people-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 15px;color:#b7b7a6;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif}
+.people-legend span{display:flex;align-items:center;gap:6px}.people-legend i{display:inline-block;width:22px;border-top:2px solid #929d82}.people-legend i.dashed{border-top-style:dashed}
+.people-portrait-row{padding-right:2px}.people-portrait-row .people-affiliation{display:block;margin-top:3px;color:#a9b19f;font-size:12px;line-height:1.4}
+.people-portrait{width:56px;height:66px;margin-left:12px;filter:drop-shadow(0 3px 5px #0007)}
+@media(max-width:380px){.people-intro{font-size:14px}.people-legend{gap:8px;font-size:10px}.people-portrait{width:48px;height:58px}}
 
 </style>
 </head>
@@ -2271,6 +2303,34 @@ const QA=new URLSearchParams(location.search).has('qa');
 const LOCK_MS=QA?0:5000;
 let world=loadWorld()||newWorld();let current=null,arena=null,locked=true,lockStart=0,lockRAF=0,activePointer=null,closing=false;
 function E(s){return String(s===undefined||s===null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* Shared, accessible non-blocking EDWARD dialogs. Works above any sheet. */
+let activeRoyalDialog=null;
+function edwardDialog(message,{title='The Royal Court',confirmText='Confirm',cancelText='Cancel',danger=false,notice=false}={}){
+ return new Promise(resolve=>{
+  if(activeRoyalDialog)activeRoyalDialog.finish(false);
+  const mask=document.createElement('div');mask.className='edward-modal-mask';
+  const box=document.createElement('section');box.className='edward-modal';box.setAttribute('role',notice?'alertdialog':'dialog');box.setAttribute('aria-modal','true');
+  const heading=document.createElement('h2');heading.id='royalModalTitle';heading.textContent=title;
+  const paragraph=document.createElement('p');paragraph.id='royalModalMessage';paragraph.textContent=String(message);
+  box.setAttribute('aria-labelledby',heading.id);box.setAttribute('aria-describedby',paragraph.id);
+  const sigil=document.createElement('div');sigil.className='modal-sigil';sigil.textContent='✦';sigil.setAttribute('aria-hidden','true');
+  const actions=document.createElement('div');actions.className='edward-modal-actions';
+  const cancel=notice?null:document.createElement('button'),accept=document.createElement('button');
+  if(cancel){cancel.type='button';cancel.textContent=cancelText;actions.appendChild(cancel);}
+  accept.type='button';accept.textContent=notice?'Continue':confirmText;accept.className='modal-yes'+(danger?' modal-danger':'');actions.appendChild(accept);
+  box.append(sigil,heading,paragraph,actions);mask.appendChild(box);
+  const oldFocus=document.activeElement;
+  function finish(ok){if(activeRoyalDialog?.mask!==mask)return;document.removeEventListener('keydown',keyHandler,true);mask.remove();activeRoyalDialog=null;if(oldFocus?.isConnected)oldFocus.focus({preventScroll:true});resolve(ok);}
+  function keyHandler(e){if(e.key==='Escape'){e.preventDefault();e.stopPropagation();finish(false);}else if(e.key==='Tab'){const buttons=cancel?[cancel,accept]:[accept],i=buttons.indexOf(document.activeElement);if((e.shiftKey&&i<=0)||(!e.shiftKey&&i===buttons.length-1)){e.preventDefault();buttons[e.shiftKey?buttons.length-1:0].focus();}}}
+  activeRoyalDialog={mask,finish};document.body.appendChild(mask);document.addEventListener('keydown',keyHandler,true);
+  if(cancel)cancel.onclick=()=>finish(false);accept.onclick=()=>finish(true);mask.onclick=e=>{if(e.target===mask)finish(false);};
+  (cancel||accept).focus({preventScroll:true});
+ });
+}
+function edwardConfirm(message,options){return edwardDialog(message,options);}
+function edwardAlert(message){return edwardDialog(message,{title:'A Message to the Crown',notice:true});}
+
 function intro(){cancelAnimationFrame(lockRAF);app.innerHTML=`<div class="intro" id="intro"><div class="ornament">✦</div><h1>EDWARD<span>IV</span></h1><p>England, 1461.<br>History is the starting point.<br>What remains is yours.</p><div class="enter" id="beginFull">TOUCH TO BEGIN · 1461</div><div class="enter" id="jump1465" style="margin-top:12px">ENTER THE LIVING WORLD · 1465</div><small>Swipe decisions · 96 early situations + historical dossiers + living-world continuation · 1461–1483</small></div>`;document.getElementById('beginFull').addEventListener('click',e=>{e.stopPropagation();begin()},{once:true});document.getElementById('jump1465').addEventListener('click',e=>{e.stopPropagation();world=newWorld();world.chapterIndex=CHAPTERS.length;world.facts.marriage='elizabeth';world.facts.somerset_1464='rebels';world.facts.north_rising_1464='active';world.offices.northern_commission='warwick';world.offices.chamberlain='hastings';world.links.warwick=3;world.links.hastings=2;world.links.woodville=2;saveWorld(world);begin()},{once:true});}
 function begin(){if(closing)return;current=getNextSituation(world);if(!current)return ending();renderCard();}
 function frame(body,top){return `<div class="header"><div class="logo">EDWARD <em>IV</em></div><div class="topinfo">${E(top||CHAPTERS[world.chapterIndex]?.date||(world.sandbox?String(world.sandbox.year):'1461–1483'))}<br>${E(CHAPTERS[world.chapterIndex]?.name||(world.sandbox?'The living reign':'A reign in the making'))}</div><button class="history-icon" id="historyIcon" aria-label="Historical record">◌</button></div>${body}<div class="nav"><button data-view="realm">Realm</button><button data-view="people">People</button><button data-view="council">Council</button><button data-view="chronicle">Chronicle</button><button data-view="cases">Cases</button></div>`;}
@@ -2321,10 +2381,10 @@ function showPeople(){const year=lcYear(world);const marriage=world.facts.marria
 function showCouncil(){const officeRows=[['The Crown','Edward IV'],['Chancellor',world.offices.chancellor==='george'?'George Neville':'Unassigned'],['Lord Chamberlain',world.offices.chamberlain==='hastings'?'William Hastings':'Not yet appointed'],['Captain of Calais','Richard Neville, Earl of Warwick'],['Northern commission',world.offices.northern_commission.replaceAll('_',' ')]];
  const obligations=world.obligations.filter(o=>o.visibility!=='private'||o.from==='edward'||o.to==='edward').slice(-6).reverse();openSheet('Council',`<div class="eyebrow">OFFICES · DELEGATED AUTHORITY</div>${officeRows.map(r=>`<div class="row"><b>${E(r[0])}</b><span>${E(r[1])}</span></div>`).join('')}<div class="eyebrow" style="margin-top:18px">RECENT OBLIGATIONS</div>${obligations.length?obligations.map(o=>`<div class="row"><b>${E(o.from)} → ${E(o.to)}</b><span>${E(o.reason)} · ${E(o.visibility)}</span></div>`).join(''):'<p>No recorded obligations yet.</p>'}<p><small>Not every private promise is known to every councillor. These are obligations Edward has personally created or heard.</small></p>`);
 }
-function showChronicle(){const items=world.chronicle.slice().reverse();openSheet('Chronicle',`<div class="eyebrow">YOUR REIGN · ${world.turn} DECISIONS</div>${items.length?items.map(e=>`<div class="row"><div class="eyebrow">${E(e.chapter)} · ${E(e.place)}</div><b>${E(e.summary)}</b><span>${E(e.arena==='direct'?'Decision':'Through '+(e.arena==='up'?'Council':'a private audience'))}</span></div>`).join(''):'<p>Nothing has yet been entered in your Chronicle.</p>'}<div class="eyebrow" style="margin-top:20px">MESSAGES RECEIVED</div>${world.reports.slice(-6).reverse().map(r=>`<div class="row"><b>${E(r.from)}</b><span>${E(r.text)}</span></div>`).join('')||'<p>Nothing reported yet.</p>'}<div class="eyebrow" style="margin-top:20px">HISTORICAL DOSSIERS</div>${(world.sandbox?.narrative?.journal||[]).slice(-12).reverse().map(j=>`<div class="row"><b>${E(ND_CASES[j.key]?.title||j.key)} · ${E(j.year)}</b><span>${E(j.stage==='echo'?'The earlier decision returned.':'The case entered your reign.')} ${E(j.summary)}</span></div>`).join('')||'<p>No historical dossiers have yet been heard.</p>'}<div class="eyebrow" style="margin-top:20px">PRECEDENTS</div>${world.precedents.length?world.precedents.slice(-7).reverse().map(p=>`<div class="row"><span>${E(p.text)}</span></div>`).join(''):'<p>No precedents recorded yet.</p>'}<button class="reset-link" id="newReign">Begin a new reign</button>`);document.getElementById('newReign').onclick=async()=>{if(await edwardConfirm('Your current autosave will be cleared. Manual save slots stay safe.',{title:'Begin again?',action:'Clear current reign'})){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro()}};}
+function showChronicle(){const items=world.chronicle.slice().reverse();openSheet('Chronicle',`<div class="eyebrow">YOUR REIGN · ${world.turn} DECISIONS</div>${items.length?items.map(e=>`<div class="row"><div class="eyebrow">${E(e.chapter)} · ${E(e.place)}</div><b>${E(e.summary)}</b><span>${E(e.arena==='direct'?'Decision':'Through '+(e.arena==='up'?'Council':'a private audience'))}</span></div>`).join(''):'<p>Nothing has yet been entered in your Chronicle.</p>'}<div class="eyebrow" style="margin-top:20px">MESSAGES RECEIVED</div>${world.reports.slice(-6).reverse().map(r=>`<div class="row"><b>${E(r.from)}</b><span>${E(r.text)}</span></div>`).join('')||'<p>Nothing reported yet.</p>'}<div class="eyebrow" style="margin-top:20px">HISTORICAL DOSSIERS</div>${(world.sandbox?.narrative?.journal||[]).slice(-12).reverse().map(j=>`<div class="row"><b>${E(ND_CASES[j.key]?.title||j.key)} · ${E(j.year)}</b><span>${E(j.stage==='echo'?'The earlier decision returned.':'The case entered your reign.')} ${E(j.summary)}</span></div>`).join('')||'<p>No historical dossiers have yet been heard.</p>'}<div class="eyebrow" style="margin-top:20px">PRECEDENTS</div>${world.precedents.length?world.precedents.slice(-7).reverse().map(p=>`<div class="row"><span>${E(p.text)}</span></div>`).join(''):'<p>No precedents recorded yet.</p>'}<button class="reset-link" id="newReign">Begin a new reign</button>`);document.getElementById('newReign').onclick=async()=>{if(await edwardConfirm('Erase this reign and begin again?',{confirmText:'Erase reign',danger:true})){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro()}};}
 function ending(){cancelAnimationFrame(lockRAF);const outcome=world.sandbox?.endings?{title:world.sandbox.endings.label,text:world.sandbox.endings.narrative}:chapterOutcome(world);const last=world.chronicle.slice(-3).map(x=>x.summary);app.innerHTML=`<div class="outro" id="outro"><div class="chaptertag">END OF THE DEMO · 1483</div><h1>${E(outcome.title)}</h1><p>${E(outcome.text)}</p><p>${world.sandbox?.endings?'Edward’s rule has ended. The world continues into an uncertain succession. The political configuration is recorded below.':'Edward is still king. The next decade remains unwritten.'}</p>${world.sandbox?.endings?.afterworld?'<div class="eyebrow">THE WORLD WITHOUT EDWARD</div>'+world.sandbox.endings.afterworld.map(x=>'<div class="row"><b>'+E(x.year)+'</b><span>'+E(x.text)+'</span></div>').join(''):''}<div class="eyebrow">THE LAST ENTRIES</div>${last.map(x=>`<div class="row"><span>${E(x)}</span></div>`).join('')}<div class="enter">TOUCH TO BEGIN ANOTHER REIGN</div></div>`;document.getElementById('outro').onclick=()=>{clearWorld();world=newWorld();intro()};}
 if(QA){window.EDWARD_TEST={get state(){return world},get card(){return current},get arena(){return arena},get networks(){return politicalNetworks(world)},choose(side){if(current)decide(side)},open(which){if(current&&current[which])enterArena(which)},reset(seed=123){world=newWorld(seed);current=getNextSituation(world);arena=null;renderCard()},advance(){current=getNextSituation(world);renderCard()}};}
-window.addEventListener('keydown',e=>{if(document.getElementById('royalDialog'))return;if(overlay.classList.contains('open')){if(e.key==='Escape')closeSheet();return}if(!current){if(e.key==='Enter')begin();return}if(locked||closing)return;const k={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[e.key];if(!k)return;e.preventDefault();if(k==='up'||k==='down'){if(!arena&&current[k])enterArena(k)}else decide(k)});
+window.addEventListener('keydown',e=>{if(overlay.classList.contains('open')){if(e.key==='Escape')closeSheet();return}if(!current){if(e.key==='Enter')begin();return}if(locked||closing)return;const k={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[e.key];if(!k)return;e.preventDefault();if(k==='up'||k==='down'){if(!arena&&current[k])enterArena(k)}else decide(k)});
 window.addEventListener('error',e=>{if(!app.querySelector('.card')){app.innerHTML='<div class="intro"><h1>EDWARD</h1><p>The game could not start in this viewer. Open the HTML file in a full browser.</p></div>'}console.error(e.message)});
 /* Startup is now handled by the title screen, without advancing an existing autosave. */
 intro();
@@ -2462,20 +2522,20 @@ function edwardSlotMarkup(){return [1,2,3].map(i=>{const obj=edwardReadSlot(i),w
  return '<div class="save-row"><div><div class="save-title">'+(obj?'Reign '+i+' · '+E(edwardYear(w)):'Empty slot '+i)+'</div><div class="save-detail">'+(obj?E(w.turn)+' decisions · '+E(new Date(obj.savedAt).toLocaleDateString())+' · '+E(obj.name||'Edward IV'):'No reign saved here')+'</div></div><div class="save-buttons"><button data-save-slot="'+i+'">Save</button><button data-load-slot="'+i+'" '+(!obj?'disabled':'')+'>Load</button><button data-delete-slot="'+i+'" '+(!obj?'disabled':'')+'>×</button></div></div>';
  }).join('');}
 function edwardSaveMenu(){openSheet('Save your Reign','<div class="eyebrow">AUTOSAVE + THREE MANUAL CHRONICLES</div><p>The current game saves automatically in this browser. Manual slots let you preserve different timelines. Export a file to keep a copy outside Safari.</p><div id="saveSlots">'+edwardSlotMarkup()+'</div><div class="save-tools"><button id="exportReign">↓ Export current reign</button><label for="importReign">↑ Import a saved reign<input id="importReign" type="file" accept="application/json,.json"></label></div><div class="save-notice" id="saveNotice" role="status"></div><p><small>Browser saves are local to this device and website. They are not synchronized between devices. Importing or loading replaces the current autosave, not the other manual slots.</small></p>');
- sheet.querySelectorAll('[data-save-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.saveSlot;const prev=edwardReadSlot(i);if(prev&&!(await edwardConfirm('The reign in slot '+i+' will be replaced with your current game.',{title:'Replace this saved reign?',action:'Overwrite slot'})))return;
+ sheet.querySelectorAll('[data-save-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.saveSlot;const prev=edwardReadSlot(i);if(prev&&!await edwardConfirm('Overwrite saved reign '+i+'?',{confirmText:'Overwrite',danger:true}))return;
   try{localStorage.setItem(EDWARD_SLOT_PREFIX+i,JSON.stringify({schema:1,savedAt:new Date().toISOString(),name:'Edward IV',world:world}));edwardSaveMenu();edwardNotice('Reign '+i+' saved.');}catch(e){edwardNotice('Storage unavailable. Export your reign as a file instead.');}
  });
- sheet.querySelectorAll('[data-load-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.loadSlot,obj=edwardReadSlot(i);if(!obj)return;if(!(await edwardConfirm('Your current autosave will be replaced by the reign in slot '+i+'.',{title:'Restore a saved reign?',action:'Load reign'})))return;edwardLoadSnapshot(obj.world);});
- sheet.querySelectorAll('[data-delete-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.deleteSlot;if(!(await edwardConfirm('The saved reign in slot '+i+' will be deleted. Your current reign stays in place.',{title:'Clear this save slot?',action:'Delete save'})))return;try{localStorage.removeItem(EDWARD_SLOT_PREFIX+i);}catch(e){edwardNotice('This slot could not be cleared.');return;}edwardSaveMenu();edwardNotice('Slot '+i+' cleared.');});
+ sheet.querySelectorAll('[data-load-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.loadSlot,obj=edwardReadSlot(i);if(!obj)return;if(!await edwardConfirm('Load reign '+i+'? Your current unsaved progress will be replaced.',{confirmText:'Load reign'}))return;edwardLoadSnapshot(obj.world);});
+ sheet.querySelectorAll('[data-delete-slot]').forEach(b=>b.onclick=async()=>{const i=b.dataset.deleteSlot;if(!await edwardConfirm('Delete saved reign '+i+'?',{confirmText:'Delete',danger:true}))return;try{localStorage.removeItem(EDWARD_SLOT_PREFIX+i);}catch(e){}edwardSaveMenu();edwardNotice('Slot '+i+' cleared.');});
  document.getElementById('exportReign').onclick=edwardExport;
  document.getElementById('importReign').addEventListener('change',edwardImport);
 }
-function edwardNotice(s){const el=document.getElementById('saveNotice');if(el)el.textContent=s;edwardNotify('Save & restore',s);}
+function edwardNotice(s){const el=document.getElementById('saveNotice');if(el)el.textContent=s;}
 function edwardLoadSnapshot(w){if(!edwardValidSave(w)){edwardNotice('This file does not contain a compatible EDWARD reign.');return;}
- try{world=JSON.parse(JSON.stringify(w));saveWorld(world);current=null;arena=null;closing=false;activePointer=null;edwardClosePeek();closeSheet();if(world.finished)ending();else begin();edwardNotify('Reign restored',edwardYear(world)+' · '+world.turn+' decisions are now active.');}catch(e){edwardNotice('Could not load this reign.');console.error(e);}
+ try{world=JSON.parse(JSON.stringify(w));saveWorld(world);current=null;arena=null;closing=false;activePointer=null;edwardClosePeek();closeSheet();if(world.finished)ending();else begin();}catch(e){edwardNotice('Could not load this reign.');console.error(e);}
 }
 function edwardExport(){try{const payload=JSON.stringify({app:'EDWARD IV',format:1,exportedAt:new Date().toISOString(),world:world},null,2);const blob=new Blob([payload],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='EDWARD-reign-'+edwardYear(world).replace(/[^0-9a-z-]/gi,'-')+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);edwardNotice('Save file prepared. Keep it in Files or another safe location.');}catch(e){edwardNotice('Export failed: '+e.message);}}
-function edwardImport(e){const file=e.target.files?.[0];if(!file)return;if(file.size>6*1024*1024){edwardNotice('Save file too large.');return;}const reader=new FileReader();reader.onload=async()=>{try{const data=JSON.parse(reader.result);if(!edwardValidSave(data.world)){edwardNotice('Incompatible or invalid save file.');return;}if(!(await edwardConfirm('This file will replace your current autosave. Manual slots stay safe.',{title:'Import this reign?',action:'Import reign'})))return;edwardLoadSnapshot(data.world);}catch(err){edwardNotice('Could not read the JSON save file.');}};reader.onerror=()=>edwardNotice('File could not be read.');reader.readAsText(file);}
+function edwardImport(e){const file=e.target.files?.[0];if(!file)return;if(file.size>6*1024*1024){edwardNotice('Save file too large.');return;}const reader=new FileReader();reader.onload=async()=>{try{const data=JSON.parse(reader.result);if(!edwardValidSave(data.world)){edwardNotice('Incompatible or invalid save file.');return;}if(!await edwardConfirm('Import this reign and replace your current autosave?',{confirmText:'Import reign'}))return;edwardLoadSnapshot(data.world);}catch(err){edwardNotice('Could not read the JSON save file.');}};reader.onerror=()=>edwardNotice('File could not be read.');reader.readAsText(file);}
 /* Original adaptive, opt-in score. No audio files or external streaming.
  * Safari requires a direct user gesture to create/resume AudioContext.
  */
@@ -2485,7 +2545,7 @@ function edwardTone(freq,when,duration,loud,type){const a=EDWARD_SCORE,ctx=a.ctx
 function edwardScoreTick(){const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;const ctx=a.ctx;if(a.next<ctx.currentTime)a.next=ctx.currentTime+.07;const scale=EDWARD_MODES[a.mood]||EDWARD_MODES.court;while(a.next<ctx.currentTime+.8){const n=a.step,degree=scale[[0,2,4,1,5,3,2,6][n%8]],base=a.mood==='battle'?110:a.mood==='sea'?146.83:130.81;
  const f=base*Math.pow(2,degree/12);edwardTone(f,a.next,1.3,a.mood==='battle'?.022:.014,'triangle');if(n%4===0){edwardTone(base/2,a.next,4.6,.017,'sine');edwardTone(base*Math.pow(2,7/12)/2,a.next+.08,4.5,.009,'sine');}
  if(n%3===1)edwardTone(f*2,a.next+.25,1.4,.006,'sine');a.step++;a.next+=1.06;}}
-async function edwardToggleMusic(){const a=EDWARD_SCORE;try{if(a.on){a.on=false;clearInterval(a.timer);a.timer=null;if(a.ctx&&a.ctx.state==='running')await a.ctx.suspend();}else{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error('Audio is not supported here');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.gain.value=.38;a.bus.connect(a.ctx.destination);}await a.ctx.resume();a.on=true;a.next=a.ctx.currentTime+.07;a.timer=setInterval(edwardScoreTick,380);edwardScoreTick();}edwardSyncAudioButtons();}catch(e){a.on=false;edwardSyncAudioButtons();edwardNotify('Music could not start',e.message);}}
+async function edwardToggleMusic(){const a=EDWARD_SCORE;try{if(a.on){a.on=false;clearInterval(a.timer);a.timer=null;if(a.ctx&&a.ctx.state==='running')await a.ctx.suspend();}else{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error('Audio is not supported here');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.gain.value=.38;a.bus.connect(a.ctx.destination);}await a.ctx.resume();a.on=true;a.next=a.ctx.currentTime+.07;a.timer=setInterval(edwardScoreTick,380);edwardScoreTick();}edwardSyncAudioButtons();}catch(e){a.on=false;edwardSyncAudioButtons();edwardAlert('Music could not start in this browser: '+e.message);}}
 function edwardSyncAudioButtons(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);b.textContent=EDWARD_SCORE.on?'♫':'♪';});}
 function edwardMusicAccent(side){if(!EDWARD_SCORE.on||!EDWARD_SCORE.ctx)return;const t=EDWARD_SCORE.ctx.currentTime+.04;edwardTone(side==='wait'?196:side==='left'?261.6:293.66,t,.5,.018,'triangle');}
 document.addEventListener('visibilitychange',()=>{const a=EDWARD_SCORE;if(!a.ctx||!a.on)return;if(document.hidden)a.ctx.suspend().catch(()=>{});else a.ctx.resume().then(()=>{a.next=a.ctx.currentTime+.06;}).catch(()=>{});});
@@ -2533,7 +2593,7 @@ function edwardTapControls(){if(edwardActionTimer){clearInterval(edwardActionTim
 function edwardDecorateCard(){edwardClosePeek();edwardInstallHeader();edwardCardNames();edwardTapControls();edwardSetMood(edwardMoodFor(current));}
 function edwardDecorateIntro(){edwardSetMood('court');const introNode=document.getElementById('intro');if(!introNode||introNode.querySelector('.intro-tools'))return;
  const tools=document.createElement('div');tools.className='intro-tools';tools.innerHTML='<button type="button" id="introSaves">▣ Save slots</button><button type="button" id="introMusic" data-audio-toggle="1" aria-pressed="false">♪</button>';
- introNode.querySelector('small')?.remove();introNode.appendChild(tools);
+ const small=introNode.querySelector('small');if(small){small.textContent='A living historical demo · 1461–1483 · No two reigns need end alike.';small.before(tools);}else introNode.appendChild(tools);
  document.getElementById('introSaves').onclick=e=>{e.stopPropagation();edwardSaveMenu();};document.getElementById('introMusic').onclick=e=>{e.stopPropagation();edwardToggleMusic();};edwardSyncAudioButtons();
 }
 function edwardDecorateEnding(){edwardSetMood('succession');const out=document.getElementById('outro');if(!out||out.querySelector('.intro-tools'))return;const tools=document.createElement('div');tools.className='intro-tools';tools.innerHTML='<button type="button" id="endSave">▣ Save ending</button><button type="button" id="endExport">↓ Export Chronicle</button>';out.appendChild(tools);
@@ -2545,8 +2605,63 @@ const _edwardOriginalIntro=intro;
 intro=function(){_edwardOriginalIntro();edwardDecorateIntro();};
 const _edwardOriginalEnding=ending;
 ending=function(){_edwardOriginalEnding();edwardDecorateEnding();};
+/* Consequence notices observe actual changes to the saved world, not dramatic wording.
+   Presentation only: no mutation of facts, offices, memory, reports or mechanics. */
+function edwardNoticeSnapshot(s){
+ return {
+  facts:{...s.facts},offices:{...s.offices},
+  precedents:s.precedents.length,obligations:s.obligations.length,
+  reports:s.reports.length,chronicle:s.chronicle.length
+ };
+}
+function edwardConsequence(before,s,card,selected){
+ if(!before||!selected||!s||!card)return null;
+ const latest=s.chronicle.slice(before.chronicle).find(x=>x.id===card.id);
+ const summary=String(latest?.summary||selected.label||'').trim();
+ const changedFacts=Object.keys(s.facts).filter(k=>before.facts[k]!==s.facts[k]);
+ const changedOffices=Object.keys(s.offices).filter(k=>before.offices[k]!==s.offices[k]);
+ const newPrecedents=s.precedents.slice(before.precedents);
+ const newObligations=s.obligations.slice(before.obligations);
+ const readable=(s2,max=210)=>String(s2||'').replace(/\s+/g,' ').trim().slice(0,max);
+ // Prior outcomes are only resurfaced when a specific courier's report explicitly
+ // identifies an earlier card; ordinary rumours never create invented causation.
+ const newReports=s.reports.slice(before.reports);
+ for(const report of newReports){
+  const source=String(report.id||''),past=s.chronicle.find(x=>x.turn<s.turn&&x.id&&source.includes(x.id)&&x.id!==card.id);
+  if(past&&source.includes('echo-'))
+   return {title:'The Past Returns',text:readable('A message from '+(report.from||'a messenger')+': '+report.text)};
+ }
+ // Structural changes are rare, auditable and directly observable by the king.
+ const marriage=changedFacts.includes('marriage');
+ if(marriage)return {title:'A Royal Marriage',text:readable(summary)};
+ const succession=changedFacts.some(k=>/^(heir|succession|regency|guardian|legitimacy|royal_heir)(_|$)/.test(k))||
+  changedOffices.some(k=>/^(regent|protector)(_|$)/.test(k));
+ if(succession)return {title:'The Future of the Crown',text:readable(summary)};
+ const majorOffice=changedOffices.find(k=>/^(northern_commission|chancellor|chamberlain|treasurer|protector|regent|captain|constable|keeper)/.test(k));
+ if(majorOffice){
+  const value=String(s.offices[majorOffice]||'unassigned').replace(/_/g,' ');
+  return {title:'Authority Reassigned',text:readable(summary+' The office of '+majorOffice.replace(/_/g,' ')+' now rests with '+value+'.')};
+ }
+ // A written obligation or recognised legal precedent can bind later decisions.
+ const consequentialPromise=newObligations.find(o=>o.visibility==='public'&&/^(royal|oath|land|grant|marriage|treaty|peace|command)/i.test(String(o.reason||'')));
+ if(consequentialPromise)return {title:'A Royal Obligation',text:readable(summary)};
+ const lastingPrecedent=newPrecedents.find(p=>/\b(land|estate|forfeit|pardon|trial|law|court|inherit|oath|parliament|claim|judg|grant|right)\b/i.test(p.text||''));
+ if(lastingPrecedent)return {title:'A Royal Precedent',text:readable(lastingPrecedent.text)};
+ return null;
+}
+let edwardLastConsequenceTurn=-1;
 const _edwardOriginalDecide=decide;
-decide=function(side){edwardMusicAccent(side);_edwardOriginalDecide(side);};
+decide=function(side){
+ const card=current,selected=(arena?card?.[arena]:card)?.[side],snapshot=edwardNoticeSnapshot(world);
+ edwardMusicAccent(side);
+ _edwardOriginalDecide(side);
+ const event=edwardConsequence(snapshot,world,card,selected);
+ if(event&&world.turn!==edwardLastConsequenceTurn){
+  edwardLastConsequenceTurn=world.turn;
+  // Chapter introduction screens take precedence; don't interrupt a reading folio.
+  if(!overlay.classList.contains('open'))edwardDialog(event.text,{title:event.title,notice:true});
+ }
+};
 const _edwardOriginalOpenSheet=openSheet;
 openSheet=function(title,body){_edwardOriginalOpenSheet(title,body);edwardSheetNames();};
 const _edwardOriginalRealm=showRealm;
@@ -2887,7 +3002,7 @@ function edwardStopForMenu(){
 }
 async function edwardStartNew(year){
  const saved=edwardAutosave();
- if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!(await edwardConfirm('Your current autosave will be replaced. Manual save slots stay safe.',{title:'Begin a new reign?',action:'Begin new reign'})))return;
+ if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!await edwardConfirm('Start a new reign? Your current autosave will be replaced. Manual save slots will stay safe.',{confirmText:'Begin new reign',danger:true}))return;
  edwardStopForMenu();clearWorld();world=newWorld();
  if(year===1465){
   world.chapterIndex=CHAPTERS.length;
@@ -2902,14 +3017,17 @@ function edwardTitleScreen(){
  edwardStopForMenu();edwardSetMood('court');
  const saved=edwardAutosave();
  const year=saved?edwardYear(saved):null;
+ const art=[['warwick','Warwick'],['edward','Edward IV'],['elizabeth','Elizabeth']].map(([id,label])=>'<div class="home-portrait">'+edwardPortraitSvg(id,label)+'<span class="home-portrait-caption">'+E(label)+'</span></div>').join('');
  app.innerHTML='<main class="home-screen" id="homeScreen">'+
- '<h1 class="home-title">EDWARD<span> IV</span></h1>'+
- '<p class="home-subtitle">England, 1461. The crown is yours to govern.</p>'+
+ '<div class="home-kicker">THE WARS OF THE ROSES · AN INTERACTIVE CHRONICLE</div>'+
+ '<h1 class="home-title">EDWARD<span> IV</span></h1><p class="home-subtitle">A crown is won. A kingdom must be ruled.</p>'+
+ '<div class="home-portraits" aria-label="Illustrated portraits of Warwick, Edward IV and Elizabeth Woodville">'+art+'</div>'+
+
  '<div class="home-actions">'+
  '<button class="home-btn '+(saved?'primary':'secondary')+'" id="homeContinue" '+(!saved?'disabled':'')+'>'+(saved?(saved.finished?'Read your ending':'Continue reign'):'Continue reign')+'</button>'+
  '<button class="home-btn '+(saved?'secondary':'primary')+'" id="homeNew">New game</button>'+
  '<button class="home-btn tertiary" id="homeLoad">Load game</button>'+
- (saved?'<div class="home-save-note">Saved reign · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'')+
+ (saved?'<div class="home-save-note">Autosave · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'<div class="home-save-note">Your story begins in 1461</div>')+
  '</div><div class="home-utility"><button id="homeMusic" type="button" data-audio-toggle="1" aria-pressed="false">Music</button><button id="homeHow" type="button">How to play</button></div>'+
  '</main>';
  document.getElementById('homeContinue').onclick=edwardContinue;
@@ -2943,7 +3061,7 @@ function edwardLoadGameMenu(){
   const key=btn.dataset.homeLoad;
   const data=key==='auto'?edwardAutosave():edwardReadSlot(Number(key))?.world;
   if(!data){edwardNotice('That save is no longer available.');return;}
-  if(!(await edwardConfirm('Your current autosave will be replaced by this reign.',{title:'Restore this reign?',action:'Load reign'})))return;
+  if(!await edwardConfirm('Load this reign? Current unsaved progress will be replaced.',{confirmText:'Load reign'}))return;
   edwardStopForMenu();edwardLoadSnapshot(data);
  });
  document.getElementById('homeImport').addEventListener('change',edwardImport);
@@ -3294,11 +3412,25 @@ function edwardOpenScene(){if(!current)return;const type=edwardSceneType(current
  openSheet('An Illustrated Moment','<div class="scene-art-large">'+edwardVignetteSvg(type,label)+'</div><div class="eyebrow">ILLUMINATED CHRONICLE · ARTISTIC INTERPRETATION</div><p>'+E(label)+'. This image evokes a fifteenth-century setting; it is not a documentary depiction of a specific event or a verified likeness.</p><div class="row"><b>Why this scene is here</b><span>'+E(current.insight?.stake||current.context||'The situation follows decisions and pressures in your reign.')+'</span></div><button class="reset-link" id="sceneHistoricalLens">Recorded history vs your reign →</button>');
  document.getElementById('sceneHistoricalLens').onclick=edwardHistoricalLens;
 }
-function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current)return;
+/* Restrict automatic illustrations to landmark events; keep all artwork available. */
+const EDWARD_ILLUSTRATED_SCENES=new Set(['towton','hedgeley','hexham','marriage_choice','north_command','somerset_defection','warwick_grant']);
+function edwardSceneIsMomentous(card){
+ if(!card)return false;
+ if(EDWARD_ILLUSTRATED_SCENES.has(card.id))return true;
+ if(card.lifeInfo)return false;
+ const type=edwardSceneType(card),tag=String(card.tag||'').toLowerCase();
+ const arc=String(card.storyInfo?.arc||card.storyInfo?.id||'').toLowerCase();
+ const beat=String(card.storyInfo?.beat||'').toLowerCase();
+ if(/^(marriage|coronation|succession|neville|diplomacy)$/.test(arc)&&/^(marriage|coronation|heir|guardians|picquigny|reckoning|terms)$/.test(beat))return true;
+ if(type==='battle'&&/battlefield|battle|siege/.test(tag))return true;
+ if(type==='coronation'&&/coronation|enthronement/.test(tag))return true;
+ if(type==='marriage'&&/royal wedding|royal marriage/.test(tag))return true;
+ if(type==='succession'&&/succession settlement|the king after the king/.test(tag))return true;
+ return false;
+}
+function edwardAddSceneToCard(){const card=document.getElementById('card');if(!card||!current||card.querySelector('.scene-art-band')||!edwardSceneIsMomentous(current))return;
  const type=edwardSceneType(current),rule=card.querySelector('.rule');if(!rule)return;
- // The fallback council picture does not describe most petitions or messengers.
- // Keep it available on demand instead of repeating it above every testimony.
- if(type!=='council'&&!card.querySelector('.scene-art-band')){const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);}
+ const band=document.createElement('div');band.className='scene-art-band';band.setAttribute('aria-hidden','true');band.innerHTML=edwardVignetteSvg(type);rule.after(band);
  const tools=card.querySelector('.reading-tools');if(tools&&!tools.querySelector('.scene-art-button')){
   const btn=document.createElement('button');btn.className='scene-art-button';btn.type='button';btn.textContent='Scene';btn.title='View a manuscript-inspired scene illustration';btn.addEventListener('pointerdown',e=>e.stopPropagation());btn.onclick=e=>{e.stopPropagation();edwardOpenScene();};tools.insertBefore(btn,tools.querySelector('.reading-level-btn'));
  }
@@ -3307,8 +3439,6 @@ const _sceneOldRenderCard=renderCard;
 renderCard=function(){_sceneOldRenderCard();edwardAddSceneToCard();};
 const _sceneOldReadingMore=edwardReadingMore;
 edwardReadingMore=function(){_sceneOldReadingMore();if(!current)return;const type=edwardSceneType(current);const details=document.createElement('details');details.className='reading-detail';details.innerHTML='<summary>Illustrated moment <span>visual context, optional</span></summary><div class="reading-detail-body"><div class="scene-art-large">'+edwardVignetteSvg(type)+'</div><p><small>Original interpretive illustration. Not a documentary depiction of the event.</small></p></div>';const summary=sheet.querySelector('.reading-summary');if(summary)summary.after(details);};
-
-const _sceneReadingRender=edwardReadingRender;edwardReadingRender=function(){_sceneReadingRender();edwardAddSceneToCard();};
 
 /* EDWARD — history lens and conditional-crisis casebook. */
 const _worldOldGameMenu=edwardGameMenu;
@@ -3468,7 +3598,7 @@ const _lcResolve=resolveChoice;resolveChoice=function(s,card,side,arena){const c
 const _lcSandboxInit=sbInit;sbInit=function(s){const existed=!!s.sandbox;const sb=_lcSandboxInit(s);if(!existed&&s.court){for(const [id,p] of Object.entries(s.court.people)){if(sb.actors[id]){sb.actors[id].grievance=Math.max(sb.actors[id].grievance,p.grievance);sb.actors[id].influence=sbClamp(sb.actors[id].influence+Math.max(0,p.influence-2),0,10);}}}return sb;};
 
 /* UI for the persistent court ledger. All player speeches are reconstructed. */
-function lcNotice(fn){try{fn();}catch(e){const el=document.getElementById('courtNotice');if(el)el.textContent=e.message;edwardNotify('The order was not carried out',e.message);}}
+function lcNotice(fn){try{fn();}catch(e){const el=document.getElementById('courtNotice');if(el)el.textContent=e.message;else edwardAlert(e.message);}}
 function lcStatus(){const c=lcInit(world);return '<div class="court-budget"><span>'+Math.max(0,8-(c.spent[lcYear(world)]||0))+' court weeks available</span><span>'+c.purse+' household funds</span></div><p class="court-small">Court business uses a limited allowance within the current year. Travel continues as you decide cases. Orders are paid from this purse; major financial decisions separately affect royal credit. Funds are abstract, not pounds.</p><p id="courtNotice" role="status"></p>';}
 function lcOpen(){const c=lcInit(world),people=Object.keys(LC_PEOPLE).filter(id=>lcAlive(world,id));
  const pending=c.orders.filter(o=>o.status==='travelling');const meetings=c.audiences.filter(m=>m.status==='open');
@@ -3479,7 +3609,7 @@ function lcOpen(){const c=lcInit(world),people=Object.keys(LC_PEOPLE).filter(id=
  '<details class="reading-detail"><summary>Messengers on the road <span>'+pending.length+'</span></summary><div class="reading-detail-body">'+pending.map(o=>'<p>'+E(LC_ACTIONS[o.kind].name)+' · '+E(LC_PEOPLE[o.target]?.name||'Council')+' · at least '+Math.max(0,o.due-c.clock)+' court weeks</p>').join('')+'</div></details>');
  const kind=document.getElementById('courtAction'),target=document.getElementById('courtPerson'),purpose=document.getElementById('courtPurpose');
  function cost(){const a=LC_ACTIONS[kind.value];document.getElementById('courtCost').textContent=a.weeks+' court week(s) · '+a.cost+' funds · reply may be delayed, conditional or refused.';target.disabled=kind.value==='council';if(['mediate','intervene'].includes(kind.value))purpose.value='settlement';if(kind.value==='patronage')purpose.value='patronage';if(['diplomacy','alliance'].includes(kind.value))purpose.value='diplomacy';}kind.onchange=cost;cost();
- document.getElementById('courtForm').onsubmit=e=>{e.preventDefault();lcNotice(()=>{const id=lcIssue(world,kind.value,target.value,purpose.value),order=world.court.orders.find(o=>o.id===id),spec=LC_ACTIONS[kind.value];lcOpen();edwardNotify('Instructions dispatched',spec.name+(order.target?' · '+LC_PEOPLE[order.target].name:'')+'. '+spec.weeks+' court week(s) and '+spec.cost+' funds committed. '+(order.status==='travelling'?'The reply must still travel to court.':'A reply is ready to be heard.'),{record:true});});};
+ document.getElementById('courtForm').onsubmit=e=>{e.preventDefault();lcNotice(()=>{lcIssue(world,kind.value,target.value,purpose.value);lcOpen();});};
  document.getElementById('courtCouncil').onclick=lcCouncil;document.getElementById('courtLedger').onclick=lcLedger;
  sheet.querySelectorAll('[data-audience]').forEach(b=>b.onclick=()=>lcAudience(b.dataset.audience));
 }
@@ -3490,15 +3620,12 @@ function lcAudience(id){const m=lcMeeting(world,id);if(!m)return lcOpen();const 
  (m.views||[]).map(v=>'<div class="row"><b>'+E(LC_PEOPLE[v.id].name)+'</b><span>“'+E(v.text)+'”</span><small>'+E(v.info)+'</small></div>').join('')+
  (m.status==='open'?'<div class="court-responses">'+buttons.map(([move,text])=>'<button data-court-response="'+move+'">“'+E(text)+'”<small>'+E(move==='dismiss'?'End audience · no cost':move==='settle'?'1 week · 2 funds · assent is uncertain':move==='promise'?'1 week · fulfil through a witnessed settlement within 5 court weeks':'1 week')+'</small></button>').join('')+'</div>':'<p><b>This audience has ended.</b></p>')+
  '<details class="reading-detail"><summary>Earlier words & this audience</summary><div class="reading-detail-body">'+[...m.memories.map(x=>x.text),...m.transcript.map(x=>x.text)].map(t=>'<p>'+E(t)+'</p>').join('')+'</div></details><p class="court-small">All dialogue is fictional reconstruction. A hearing does not establish guilt or transfer disputed land.</p><button id="courtBack" class="court-primary">Return to royal business</button>');
- sheet.querySelectorAll('[data-court-response]').forEach(b=>b.onclick=()=>lcNotice(()=>{const move=b.dataset.courtResponse;lcRespond(world,id,move);const heard=world.court.audiences.find(x=>x.id===id),result=heard.transcript.at(-1)?.text||'Your answer has been entered.';lcAudience(id);edwardNotify(move==='promise'?'A royal promise is recorded':move==='question'?'Evidence requested':'Your answer is entered',move==='promise'?'Seek a witnessed settlement within five court weeks to honour this promise.'+(heard.topic==='appointments'?' Another appointment before the settlement will break it.':''):result,{record:true});}));document.getElementById('courtBack').onclick=lcOpen;
+ sheet.querySelectorAll('[data-court-response]').forEach(b=>b.onclick=()=>lcNotice(()=>{lcRespond(world,id,b.dataset.courtResponse);lcAudience(id);}));document.getElementById('courtBack').onclick=lcOpen;
 }
 function lcCouncil(){const members=lcMembers(world),c=lcInit(world);openSheet('The Royal Council',lcStatus()+'<p>Your officers and invited servants offer counsel through their own interests and connections. Removing an officer does not strip his hereditary lands or Church dignity.</p><button class="court-primary" id="conveneCouncil">Convene the Council · 1 week / 1 fund</button>'+
  Object.entries(LC_OFFICES).map(([office,title])=>'<div class="court-office"><h3>'+E(title)+'</h3><p>'+E(LC_PEOPLE[lcOfficeHolder(world.offices[office])]?.name||world.offices[office].replaceAll('_',' '))+'</p><label for="candidate-'+office+'">Eligible replacement</label><select id="candidate-'+office+'">'+Object.keys(LC_PEOPLE).filter(id=>lcAlive(world,id)&&LC_PEOPLE[id].offices.includes(office)).map(id=>'<option value="'+id+'">'+E(LC_PEOPLE[id].name)+'</option>').join('')+'</select><div class="court-tabs"><button data-appoint="'+office+'">Appoint · 1 week / 1 fund</button><button data-dismiss="'+office+'" '+(!LC_PEOPLE[lcOfficeHolder(world.offices[office])]?'disabled':'')+'>Dismiss · 1 week</button></div></div>').join('')+
  '<div class="eyebrow court-heading">PERSONAL COUNSEL</div>'+Object.keys(LC_PEOPLE).filter(id=>lcAlive(world,id)&&LC_PEOPLE[id].offices.length).map(id=>'<details class="reading-detail"><summary>'+E(LC_PEOPLE[id].name)+' <span>'+E(members.includes(id)?'in council':'outside council')+'</span></summary><div class="reading-detail-body"><p>'+E(LC_PEOPLE[id].goal)+'</p><p><b>Connections:</b> '+E(LC_PEOPLE[id].family)+'; '+E(LC_PEOPLE[id].kin.map(k=>LC_PEOPLE[k]?.name||k).join(', ')||'individual royal service')+'</p><p><b>Information:</b> '+E(LC_PEOPLE[id].info)+'</p>'+c.people[id].memory.slice(-2).map(m=>'<p>'+E(m.text)+'</p>').join('')+'<button data-seat="'+id+'" data-invite="'+(!members.includes(id))+'">'+(members.includes(id)?'Exclude from counsel':'Invite to counsel')+' · 1 week</button></div></details>').join('')+'<p class="court-small">Alternate appointments are gameplay developments. The office of Chancellor requires an experienced clerical administrator in this model. Documented battle deaths are not imposed on a reign where that battle never occurred.</p>');
- sheet.querySelectorAll('[data-appoint]').forEach(b=>b.onclick=async()=>{const office=b.dataset.appoint,id=document.getElementById('candidate-'+office).value,previous=lcOfficeHolder(world.offices[office]);if(!LC_PEOPLE[id]){edwardNotify('No appointment made','No eligible candidate is available for this office.');return;}if(world.offices[office]===id){edwardNotify('No appointment needed',LC_PEOPLE[id].name+' already holds this office.');return;}if(!await edwardConfirm('Appoint '+LC_PEOPLE[id].name+' as '+LC_OFFICES[office]+'? This costs one court week and one fund. Any unfulfilled promise to hear a claim before another appointment will be broken.',{title:'Seal this appointment?',action:'Appoint'}))return;lcNotice(()=>{lcAppoint(world,office,id);lcCouncil();edwardNotify('Appointment sealed',LC_PEOPLE[id].name+' now holds the office of '+LC_OFFICES[office]+'.'+(LC_PEOPLE[previous]?' '+LC_PEOPLE[previous].name+' remembers being replaced.':''),{record:true});});});
- sheet.querySelectorAll('[data-dismiss]').forEach(b=>b.onclick=async()=>{const office=b.dataset.dismiss,name=LC_PEOPLE[lcOfficeHolder(world.offices[office])]?.name||'The officer';if(!await edwardConfirm('Remove '+name+' from the office of '+LC_OFFICES[office]+'? This uses one court week and leaves the office vacant.',{title:'Dismiss this officer?',action:'Dismiss'}))return;lcNotice(()=>{lcDismiss(world,office);lcCouncil();edwardNotify('Officer dismissed',name+' has lost the royal office. The vacancy and his grievance are recorded.',{record:true});});});
- sheet.querySelectorAll('[data-seat]').forEach(b=>b.onclick=()=>lcNotice(()=>{const invited=b.dataset.invite==='true';lcSeat(world,b.dataset.seat,invited);lcCouncil();edwardNotify('Council membership changed',LC_PEOPLE[b.dataset.seat].name+(invited?' has been invited into your personal counsel.':' is now excluded from your personal counsel.'),{record:true});}));
- document.getElementById('conveneCouncil').onclick=()=>lcNotice(()=>{const id=lcIssue(world,'council',null,'appointments');lcAudience(id);edwardNotify('The Council is convened','One court week and one fund committed. Hear the councillors before entering your ruling.',{record:true});});
+ sheet.querySelectorAll('[data-appoint]').forEach(b=>b.onclick=()=>lcNotice(()=>{lcAppoint(world,b.dataset.appoint,document.getElementById('candidate-'+b.dataset.appoint).value);lcCouncil();}));sheet.querySelectorAll('[data-dismiss]').forEach(b=>b.onclick=()=>lcNotice(()=>{lcDismiss(world,b.dataset.dismiss);lcCouncil();}));sheet.querySelectorAll('[data-seat]').forEach(b=>b.onclick=()=>lcNotice(()=>{lcSeat(world,b.dataset.seat,b.dataset.invite==='true');lcCouncil();}));document.getElementById('conveneCouncil').onclick=()=>lcNotice(()=>{const id=lcIssue(world,'council',null,'appointments');lcAudience(id);});
 }
 function lcLedger(){const c=lcInit(world);openSheet('Words the Court Remembers','<div class="eyebrow">PROMISES · REPORTS · ROYAL ORDERS</div>'+c.promises.slice().reverse().map(p=>'<div class="row"><b>'+E(LC_PEOPLE[p.target]?.name)+' · '+E(p.status)+'</b><span>A hearing before another grant · '+E(p.topic)+(p.status==='open'?' · '+Math.max(0,p.due-c.clock)+' court weeks remain':'')+'</span></div>').join('')+'<details class="reading-detail" open><summary>Royal business <span>'+c.journal.length+' entries</span></summary><div class="reading-detail-body">'+c.journal.slice(-25).reverse().map(j=>'<div class="row"><b>'+E(j.year)+'</b><span>'+E(j.text)+'</span></div>').join('')+'</div></details><details class="reading-detail"><summary>The king’s spoken decisions <span>'+c.spoken.length+'</span></summary><div class="reading-detail-body">'+c.spoken.slice(-20).reverse().map(j=>'<p>'+E(j.year)+' · '+E(j.register)+'<br>“'+E(j.text)+'”</p>').join('')+'</div></details>');}
 function lcInstall(){if(!current||!document.getElementById('card'))return;let bar=document.getElementById('courtAccess');if(!bar){bar=document.createElement('button');bar.id='courtAccess';bar.type='button';bar.className='court-access';bar.onclick=lcOpen;const anchor=document.getElementById('tapActions')||app.querySelector('.nav');if(anchor)anchor.before(bar);}
@@ -3553,44 +3680,147 @@ for(const name of ['lcIssue','lcRespond','lcAppoint','lcDismiss','lcSeat']){cons
 
 /* Original modal synthesis, inspired by courtly plucked strings, soft reeds and drones.
    This is interpretive music, not a recording or reconstruction of a surviving score. */
-const SCORE_PHRASES={court:[0,2,4,3,2,1,0,-1,0,3,4,5,4,2,1,0],battle:[0,0,1,0,3,2,1,-1,0,3,2,0,1,0,-1,0],north:[0,2,3,2,0,-1,1,2,4,3,2,1,0,-1,0,0],sea:[0,2,4,5,4,2,3,-1,1,3,5,4,2,1,0,-1],manor:[0,1,2,4,3,2,0,-1,0,2,1,3,2,1,0,-1],succession:[0,-1,1,2,0,-1,3,2,1,-1,0,-1,2,1,0,-1]};
+/* Six original 32-beat melodies. Each tells a different part of the reign:
+   court = measured ascent; battle = interrupted urgency; north = open roads;
+   sea = restless horizon; manor = intimacy; succession = unresolved elegy.
+   -1 means silence. The eight-bar bass progression is scored separately. */
+const SCORE_PHRASES={
+ court:[0,2,4,5,4,2,3,-1,2,3,4,6,5,4,2,-1,3,4,5,4,2,1,0,-1,2,4,3,1,2,1,0,-1],
+ battle:[0,0,4,3,2,1,0,-1,0,2,3,4,3,1,2,-1,4,5,4,2,3,4,2,-1,1,3,2,0,1,0,-1,-1],
+ north:[0,2,3,4,3,2,0,-1,1,2,4,5,4,3,2,-1,3,5,4,2,1,2,3,-1,4,3,2,1,0,1,0,-1],
+ sea:[0,2,4,6,5,4,2,-1,3,4,5,6,4,3,1,-1,2,4,6,5,3,2,4,-1,5,4,2,3,1,2,0,-1],
+ manor:[0,1,2,4,3,2,1,-1,2,3,4,3,2,0,1,-1,0,2,3,5,4,3,1,-1,2,4,3,2,1,0,0,-1],
+ succession:[0,-1,2,1,0,-1,3,2,1,-1,4,3,2,1,0,-1,3,-1,5,4,2,-1,1,0,2,-1,3,1,0,-1,0,-1]
+};
+const SCORE_HARMONY={
+ court:[0,3,4,0,5,3,4,0],battle:[0,4,5,4,3,5,4,0],
+ north:[0,3,5,4,0,5,3,0],sea:[0,4,3,5,4,3,1,0],
+ manor:[0,5,3,4,0,3,4,0],succession:[0,3,5,4,3,1,4,0]
+};
+function edwardHarmonyDegree(mood,step,scale){
+ const changes=SCORE_HARMONY[mood]||SCORE_HARMONY.court;
+ return scale[changes[Math.floor(step/4)%changes.length]]||0;
+}
+
 let scoreVolume=.45;try{const v=Number(localStorage.getItem('edward_music_volume'));if(localStorage.getItem('edward_music_volume')!==null&&Number.isFinite(v))scoreVolume=Math.max(0,Math.min(1,v));}catch(e){}
 function edwardScoreGraph(){const a=EDWARD_SCORE;if(a.instrumentBus)return;const ctx=a.ctx,compressor=ctx.createDynamicsCompressor();compressor.threshold.value=-24;compressor.ratio.value=4;compressor.connect(a.bus);a.instrumentBus=compressor;
  const room=ctx.createConvolver(),buffer=ctx.createBuffer(2,Math.floor(ctx.sampleRate*1.7),ctx.sampleRate);for(let ch=0;ch<2;ch++){const data=buffer.getChannelData(ch);let n=31+ch;for(let i=0;i<data.length;i++){n=(Math.imul(n,1664525)+1013904223)>>>0;data[i]=(n/4294967296*2-1)*Math.pow(1-i/data.length,3)*.22;}}room.buffer=buffer;const wet=ctx.createGain();wet.gain.value=.22;room.connect(wet);wet.connect(compressor);a.room=room;a.bus.gain.setTargetAtTime(scoreVolume*.55,ctx.currentTime,.15);}
 function edwardInstrument(freq,when,duration,loud,kind='pluck'){const a=EDWARD_SCORE;if(!a.ctx)return;edwardScoreGraph();const ctx=a.ctx,osc=ctx.createOscillator(),gain=ctx.createGain(),filter=ctx.createBiquadFilter();osc.type=kind==='reed'?'triangle':'sawtooth';osc.frequency.setValueAtTime(freq,when);filter.type='lowpass';filter.frequency.setValueAtTime(kind==='pluck'?2100:850,when);filter.frequency.exponentialRampToValueAtTime(420,when+duration);gain.gain.setValueAtTime(.00001,when);gain.gain.exponentialRampToValueAtTime(loud,when+(kind==='pluck'?.012:.25));gain.gain.exponentialRampToValueAtTime(.00001,when+duration);osc.connect(filter);filter.connect(gain);gain.connect(a.instrumentBus);gain.connect(a.room);osc.start(when);osc.stop(when+duration+.05);osc.onended=()=>{osc.disconnect();filter.disconnect();gain.disconnect();};}
+/* Breath-driven recorder line: a restrained third timbre above the
+   strings/reeds or sampled piano, built locally with the Web Audio API. */
+function edwardRecorder(freq,when,duration,loud=.007){
+ const a=EDWARD_SCORE;if(!a.on||!a.ctx||!a.instrumentBus)return;
+ const ctx=a.ctx,voice=ctx.createOscillator(),breath=ctx.createOscillator(),gain=ctx.createGain(),filter=ctx.createBiquadFilter(),breathGain=ctx.createGain();
+ voice.type='sine';voice.frequency.setValueAtTime(freq,when);
+ breath.type='triangle';breath.frequency.setValueAtTime(freq*2,when);
+ filter.type='lowpass';filter.frequency.setValueAtTime(Math.max(700,Math.min(1600,freq*3)),when);
+ const attack=Math.min(.16,duration*.22),end=when+duration;
+ gain.gain.setValueAtTime(.00001,when);
+ gain.gain.linearRampToValueAtTime(loud,when+attack);
+ gain.gain.setValueAtTime(loud*.85,Math.max(when+attack,end-.22));
+ gain.gain.linearRampToValueAtTime(.00001,end);
+ breathGain.gain.value=.18;
+ voice.connect(filter);breath.connect(breathGain);breathGain.connect(filter);
+ filter.connect(gain);gain.connect(a.instrumentBus);
+ voice.start(when);breath.start(when);voice.stop(end+.03);breath.stop(end+.03);
+ voice.onended=()=>{voice.disconnect();breath.disconnect();breathGain.disconnect();filter.disconnect();gain.disconnect();};
+}
+function edwardRecorderPhrase(mood,step,root,scale,tension,when,beat){
+ // Sparse countermelody, not a duplicate of the principal tune.
+ // A phrase's end is deliberately silent so dialogue retains breathing room.
+ if(step%8!==3&&step%8!==6)return;
+ if(tension>.8&&step%8===6)return;
+ const degree=step%8===3?4:2;
+ const semitone=scale[degree];if(!Number.isFinite(semitone))return;
+ const freq=root*2*Math.pow(2,semitone/12);
+ edwardRecorder(freq,when+.13,Math.max(.34,Math.min(beat*1.5,1.65)),mood==='battle'?.0035:.0055);
+}
+/* Folk harp samples are REAL recorded notes from the VCSL CC0 sound library,
+   mirrored by carltesta/vcsl_for_estuary. They load after Music is enabled.
+   A quiet synthesized pluck is a graceful offline/network fallback. */
+const HARP_SAMPLES=[
+ {midi:36,file:'EWHarp_Normal_C2_v2_RR1.wav'},
+ {midi:48,file:'EWHarp_Normal_C3_v2_RR1.wav'},
+ {midi:60,file:'EWHarp_Normal_C4_v2_RR1.wav'},
+ {midi:72,file:'EWHarp_Normal_C5_v2_RR1.wav'}
+];
+const HARP_BASE='https://carltesta.github.io/vcsl_for_estuary/folkharp/';
+const HARP={buffers:new Map(),loading:null,status:'idle',generation:0};
+function edwardHarpLoad(){
+ const a=EDWARD_SCORE;
+ if(!a.ctx||HARP.status==='ready')return Promise.resolve();
+ if(HARP.loading)return HARP.loading;
+ HARP.status='loading';
+ HARP.loading=(async()=>{
+  const available=await Promise.all(HARP_SAMPLES.map(async n=>{
+   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8500);
+   try{
+    const res=await fetch(HARP_BASE+n.file,{cache:'force-cache',signal:controller.signal});
+    if(!res.ok)throw Error('Harp sample HTTP '+res.status);
+    const sound=await a.ctx.decodeAudioData(await res.arrayBuffer());
+    return [n.midi,sound];
+   }catch(e){return null}finally{clearTimeout(timeout)}
+  }));
+  HARP.buffers=new Map(available.filter(Boolean));
+  HARP.status=HARP.buffers.size?'ready':'fallback';
+ })().finally(()=>{HARP.loading=null;});
+ return HARP.loading;
+}
+function edwardHarpNote(freq,when,duration,loud=.035){
+ const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;
+ if(HARP.buffers.size){
+  edwardScoreGraph();
+  const midi=69+12*Math.log2(freq/440),n=HARP_SAMPLES.filter(x=>HARP.buffers.has(x.midi))
+   .reduce((best,x)=>!best||Math.abs(x.midi-midi)<Math.abs(best.midi-midi)?x:best,null);
+  if(n){
+   const buffer=HARP.buffers.get(n.midi),rate=Math.pow(2,(midi-n.midi)/12);
+   const source=a.ctx.createBufferSource(),gain=a.ctx.createGain();
+   const length=Math.max(.1,Math.min(duration,buffer.duration/rate-.05)),end=when+length;
+   source.buffer=buffer;source.playbackRate.setValueAtTime(rate,when);
+   gain.gain.setValueAtTime(.00001,when);
+   gain.gain.linearRampToValueAtTime(loud,when+.016);
+   gain.gain.setValueAtTime(loud*.72,Math.max(when+.025,end-.33));
+   gain.gain.linearRampToValueAtTime(.00001,end);
+   source.connect(gain);gain.connect(a.instrumentBus);gain.connect(a.room);
+   source.start(when);source.stop(end+.02);
+   source.onended=()=>{source.disconnect();gain.disconnect()};
+   return;
+  }
+ }
+ edwardInstrument(freq,when,Math.max(.5,duration),loud*.25,'pluck');
+}
+/* Bass viol-inspired low line; one gentle synthesized bowed bass voice
+   follows the composed harmony in both audio modes. */
+function edwardBassVoice(freq,when,duration,loud=.012){
+ const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;
+ edwardScoreGraph();
+ const ctx=a.ctx,osc=ctx.createOscillator(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
+ osc.type='triangle';osc.frequency.setValueAtTime(Math.max(40,freq),when);
+ filter.type='lowpass';filter.frequency.value=240;
+ const end=when+duration;
+ gain.gain.setValueAtTime(.00001,when);
+ gain.gain.linearRampToValueAtTime(loud,when+.23);
+ gain.gain.setValueAtTime(loud*.8,Math.max(when+.25,end-.4));
+ gain.gain.exponentialRampToValueAtTime(.00001,end);
+ osc.connect(filter);filter.connect(gain);gain.connect(a.instrumentBus);
+ osc.start(when);osc.stop(end+.02);
+ osc.onended=()=>{osc.disconnect();filter.disconnect();gain.disconnect()};
+}
+function edwardHarpBassPhrase(mood,step,root,scale,tension,when,beat){
+ if(step%4)return;
+ const chord=root*Math.pow(2,edwardHarmonyDegree(mood,step,scale)/12);
+ edwardBassVoice(chord/2,when,beat*3.8,.009+tension*.003);
+ if(mood==='battle'&&step%8!==0)return;
+ edwardHarpNote(chord*2,when+.08,Math.min(beat*2.5,3),mood==='manor'?.045:.029);
+ if(step%8===4&&tension<.7)edwardHarpNote(chord*2*Math.pow(2,7/12),when+beat*.55,1.6,.019);
+}
 function edwardTension(){if(typeof world==='undefined'||!world.sandbox)return 0;const sb=world.sandbox;return Math.min(1,(Object.values(sb.unrest).reduce((a,n)=>a+n,0)/35)+Math.max(0,-sb.credit)/20);}
 edwardScoreTick=function(){const a=EDWARD_SCORE;if(!a.on||!a.ctx||a.ctx.state!=='running')return;edwardScoreGraph();const ctx=a.ctx;if(a.next<ctx.currentTime)a.next=ctx.currentTime+.07;const mood=a.mood||'court',phrase=SCORE_PHRASES[mood]||SCORE_PHRASES.court,scale=EDWARD_MODES[mood]||EDWARD_MODES.court,tension=edwardTension(),beat=(mood==='battle'?.68:mood==='succession'?1.45:1.05)*(1-tension*.12),base=mood==='sea'?146.83:mood==='battle'?110:130.81;
- while(a.next<ctx.currentTime+.7){const n=a.step,degree=phrase[n%phrase.length];if(degree>=0){const f=base*Math.pow(2,scale[degree]/12);edwardInstrument(f,a.next,1.7,.023,'pluck');if(n%4===2&&tension<.7)edwardInstrument(f/2,a.next+.15,2.5,.009,'reed');}if(n%8===0){edwardInstrument(base/2,a.next,beat*7,.017,'reed');edwardInstrument(base*.75,a.next+.13,beat*6,.008,'reed');}if(tension>.6&&n%4===0)edwardInstrument(base/4,a.next,.35,.018,'pluck');edwardPercussionBeat(n,a.next,mood,tension);edwardHarpBassPhrase(mood,n,base,scale,tension,a.next,beat);a.step++;a.next+=beat;}
+ while(a.next<ctx.currentTime+.7){const n=a.step,degree=phrase[n%phrase.length];if(degree>=0){const f=base*Math.pow(2,scale[degree]/12);edwardInstrument(f,a.next,1.7,.023,'pluck');if(n%4===2&&tension<.7)edwardInstrument(f/2,a.next+.15,2.5,.009,'reed');}if(n%4===0){const root=base*Math.pow(2,edwardHarmonyDegree(mood,n,scale)/12);edwardInstrument(root/2,a.next,beat*3.7,.012,'reed');if(n%8===0)edwardInstrument(root*Math.pow(2,7/12)/2,a.next+.2,beat*3.3,.006,'reed');}if(tension>.6&&n%4===0)edwardInstrument(base/4,a.next,.35,.018,'pluck');edwardRecorderPhrase(mood,n,base,scale,tension,a.next,beat);edwardHarpBassPhrase(mood,n,base,scale,tension,a.next,beat);a.step++;a.next+=beat;}
 };
 edwardSyncAudioButtons=function(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);b.textContent=EDWARD_SCORE.on?'Music on':'Music off';});};
 function edwardSoundSettings(){openSheet('Music & atmosphere','<p>An original modal score follows the scene. Unrest and strained credit add tension; quieter court business leaves more space between phrases.</p><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><p id="soundDescription" class="court-small">'+E(EDWARD_SCORE.mood)+' · interpretive plucked strings, reeds and room resonance</p>');document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();}
 const _scoreToggle=edwardToggleMusic;edwardToggleMusic=async function(){await _scoreToggle();if(EDWARD_SCORE.on){edwardScoreGraph();EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);}};
-
-/* A quiet frame-drum accompaniment, synthesized locally. No sample download.
-   An interpretive score: neither this drum nor the piano is a surviving court performance. */
-const EDWARD_DRUM={voices:new Set(),noise:null,context:null};
-let scorePercussion=true;try{scorePercussion=localStorage.getItem('edward_percussion_v1')!=='off';}catch(e){}
-function edwardDrumStop(){for(const node of [...EDWARD_DRUM.voices]){try{node.stop();}catch(e){}node.disconnect();}EDWARD_DRUM.voices.clear();}
-function edwardFrameDrum(when,level=.05,slap=false){
- const a=EDWARD_SCORE;if(!a.on||!a.ctx||!scorePercussion)return;edwardScoreGraph();const ctx=a.ctx;
- if(EDWARD_DRUM.context!==ctx){const buffer=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.22),ctx.sampleRate),data=buffer.getChannelData(0);let seed=7941;for(let i=0;i<data.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;data[i]=(seed/4294967296*2-1)*Math.exp(-i/(ctx.sampleRate*.065));}EDWARD_DRUM.noise=buffer;EDWARD_DRUM.context=ctx;}
- const body=ctx.createOscillator(),bodyGain=ctx.createGain(),skin=ctx.createBufferSource(),skinGain=ctx.createGain(),filter=ctx.createBiquadFilter();
- body.type='sine';body.frequency.setValueAtTime(slap?145:104,when);body.frequency.exponentialRampToValueAtTime(slap?88:61,when+.11);
- bodyGain.gain.setValueAtTime(.00001,when);bodyGain.gain.linearRampToValueAtTime(level,when+.006);bodyGain.gain.exponentialRampToValueAtTime(.00001,when+.5);
- skin.buffer=EDWARD_DRUM.noise;filter.type='bandpass';filter.frequency.setValueAtTime(slap?1500:700,when);filter.Q.value=.7;
- skinGain.gain.setValueAtTime(.00001,when);skinGain.gain.linearRampToValueAtTime(level*(slap?1.4:.7),when+.003);skinGain.gain.exponentialRampToValueAtTime(.00001,when+.2);
- body.connect(bodyGain);skin.connect(filter);filter.connect(skinGain);bodyGain.connect(a.instrumentBus);skinGain.connect(a.instrumentBus);skinGain.connect(a.room);
- for(const node of [body,skin])EDWARD_DRUM.voices.add(node);
- body.onended=()=>{EDWARD_DRUM.voices.delete(body);body.disconnect();bodyGain.disconnect();};skin.onended=()=>{EDWARD_DRUM.voices.delete(skin);skin.disconnect();filter.disconnect();skinGain.disconnect();};
- body.start(when);body.stop(when+.52);skin.start(when);skin.stop(when+.22);
-}
-function edwardPercussionBeat(step,when,mood,tension){
- if(!scorePercussion)return;const urgent=mood==='battle'||tension>.65;
- if(step%(mood==='succession'?8:4)===0)edwardFrameDrum(when,urgent?.075:.042);
- else if(urgent&&step%4===2)edwardFrameDrum(when,.03,true);
- else if(mood==='sea'&&step%8===6)edwardFrameDrum(when,.024,true);
-}
-function edwardSetPercussion(on){scorePercussion=!!on;try{localStorage.setItem('edward_percussion_v1',on?'on':'off');}catch(e){}if(!on)edwardDrumStop();edwardSyncAudioButtons();}
 
 /* Real acoustic recordings: Salamander Grand Piano, Alexander Holm, CC BY 3.0.
    A small self-hosted sample bank; no external sound service or tracking. */
@@ -3600,38 +3830,32 @@ let scoreInstrument='piano';try{const v=localStorage.getItem('edward_instrument_
 function pianoNearest(freq){const midi=69+12*Math.log2(freq/440);return PIANO_NOTES.reduce((a,b)=>Math.abs(b.midi-midi)<Math.abs(a.midi-midi)?b:a);}
 async function pianoLoad(){if(PIANO.buffers.size===PIANO_NOTES.length)return;if(PIANO.loading)return PIANO.loading;PIANO.status='loading';PIANO.error='';edwardSyncAudioButtons();
  PIANO.loading=(async()=>{const decoded=await Promise.all(PIANO_NOTES.map(async n=>{const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),20000);try{const response=await fetch('assets/piano/'+n.note+'.mp3',{signal:ctrl.signal,cache:'force-cache'});if(!response.ok)throw Error('Piano sample could not be downloaded');const bytes=await response.arrayBuffer();const buffer=await EDWARD_SCORE.ctx.decodeAudioData(bytes);if(!buffer.duration)throw Error('Empty piano sample');return [n.note,buffer];}finally{clearTimeout(timer);}}));PIANO.buffers=new Map(decoded);PIANO.status='ready';})().catch(e=>{PIANO.status='error';PIANO.error='Piano could not load. Check your connection, then try Music again, or choose the synthesised score.';throw e;}).finally(()=>{PIANO.loading=null;edwardSyncAudioButtons();});return PIANO.loading;}
-function pianoStop(){edwardDrumStop();for(const node of [...PIANO.voices,...HARP.voices]){try{node.stop();}catch(e){}node.disconnect();}PIANO.voices.clear();HARP.voices.clear();}
+function pianoStop(){for(const node of [...PIANO.voices]){try{node.stop();}catch(e){}node.disconnect();}PIANO.voices.clear();}
 function pianoNote(freq,when,duration,loud){const a=EDWARD_SCORE;if(!a.on||!a.ctx||PIANO.status!=='ready')return;edwardScoreGraph();const n=pianoNearest(freq),buffer=PIANO.buffers.get(n.note);if(!buffer)return;
  const ctx=a.ctx,source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;const rate=freq/(440*Math.pow(2,(n.midi-69)/12));source.playbackRate.setValueAtTime(rate,when);const end=when+Math.min(duration+.65,buffer.duration/rate-.02);
  gain.gain.setValueAtTime(0,when);gain.gain.linearRampToValueAtTime(loud,when+.008);gain.gain.setValueAtTime(loud,Math.max(when+.01,end-.65));gain.gain.linearRampToValueAtTime(0,end);source.connect(gain);gain.connect(a.instrumentBus);gain.connect(a.room);PIANO.voices.add(source);source.onended=()=>{PIANO.voices.delete(source);source.disconnect();gain.disconnect();};source.start(when);source.stop(end+.01);
 }
-/* Recorded folk-harp notes add a plucked voice to the composed court score. */
-const HARP_SAMPLES=[{midi:36,file:'EWHarp_Normal_C2_v2_RR1.wav'},{midi:48,file:'EWHarp_Normal_C3_v2_RR1.wav'},{midi:60,file:'EWHarp_Normal_C4_v2_RR1.wav'},{midi:72,file:'EWHarp_Normal_C5_v2_RR1.wav'}];
-const HARP_BASE='https://carltesta.github.io/vcsl_for_estuary/folkharp/';
-const HARP={buffers:new Map(),loading:null,status:'idle',voices:new Set()};
-function edwardHarpLoad(){const a=EDWARD_SCORE;if(!a.ctx||HARP.status==='ready')return Promise.resolve();if(HARP.loading)return HARP.loading;HARP.status='loading';HARP.loading=(async()=>{const available=await Promise.all(HARP_SAMPLES.map(async n=>{const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8500);try{const res=await fetch(HARP_BASE+n.file,{cache:'force-cache',signal:controller.signal});if(!res.ok)throw Error('Harp sample HTTP '+res.status);return [n.midi,await a.ctx.decodeAudioData(await res.arrayBuffer())];}catch(e){return null;}finally{clearTimeout(timeout);}}));HARP.buffers=new Map(available.filter(Boolean));HARP.status=HARP.buffers.size?'ready':'fallback';})().finally(()=>{HARP.loading=null;});return HARP.loading;}
-function edwardHarpNote(freq,when,duration,loud=.035){const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;if(HARP.buffers.size){edwardScoreGraph();const midi=69+12*Math.log2(freq/440),sample=HARP_SAMPLES.filter(x=>HARP.buffers.has(x.midi)).reduce((best,x)=>!best||Math.abs(x.midi-midi)<Math.abs(best.midi-midi)?x:best,null);if(sample){const buffer=HARP.buffers.get(sample.midi),rate=Math.pow(2,(midi-sample.midi)/12),source=a.ctx.createBufferSource(),gain=a.ctx.createGain(),length=Math.max(.1,Math.min(duration,buffer.duration/rate-.05)),end=when+length;source.buffer=buffer;source.playbackRate.setValueAtTime(rate,when);gain.gain.setValueAtTime(.00001,when);gain.gain.linearRampToValueAtTime(loud,when+.016);gain.gain.setValueAtTime(loud*.72,Math.max(when+.025,end-.33));gain.gain.linearRampToValueAtTime(.00001,end);source.connect(gain);gain.connect(a.instrumentBus);gain.connect(a.room);HARP.voices.add(source);source.start(when);source.stop(end+.02);source.onended=()=>{HARP.voices.delete(source);source.disconnect();gain.disconnect();};return;}}edwardInstrument(freq,when,Math.max(.5,duration),loud*.25,'pluck');}
-function edwardBassVoice(freq,when,duration,loud=.012){const a=EDWARD_SCORE;if(!a.on||!a.ctx)return;edwardScoreGraph();const ctx=a.ctx,osc=ctx.createOscillator(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();osc.type='triangle';osc.frequency.setValueAtTime(Math.max(40,freq),when);filter.type='lowpass';filter.frequency.value=240;const end=when+duration;gain.gain.setValueAtTime(.00001,when);gain.gain.linearRampToValueAtTime(loud,when+.23);gain.gain.setValueAtTime(loud*.8,Math.max(when+.25,end-.4));gain.gain.exponentialRampToValueAtTime(.00001,end);osc.connect(filter);filter.connect(gain);gain.connect(a.instrumentBus);HARP.voices.add(osc);osc.start(when);osc.stop(end+.02);osc.onended=()=>{HARP.voices.delete(osc);osc.disconnect();filter.disconnect();gain.disconnect();};}
-function edwardHarpBassPhrase(mood,step,root,scale,tension,when,beat){if(step%4)return;const chord=root*Math.pow(2,edwardHarmonyDegree(mood,step,scale)/12);edwardBassVoice(chord/2,when,beat*3.8,.009+tension*.003);if(mood==='battle'&&step%8!==0)return;edwardHarpNote(chord*2,when+.08,Math.min(beat*2.5,3),mood==='manor'?.045:.029);if(step%8===4&&tension<.7)edwardHarpNote(chord*2*Math.pow(2,7/12),when+beat*.55,1.6,.019);}
 const _pianoSyntheticTick=edwardScoreTick;
 edwardScoreTick=function(){if(scoreInstrument!=='piano')return _pianoSyntheticTick();const a=EDWARD_SCORE;if(!a.on||!a.ctx||a.ctx.state!=='running'||PIANO.status!=='ready')return;
  const ctx=a.ctx;if(a.next<ctx.currentTime)a.next=ctx.currentTime+.07;const mood=a.mood||'court',phrase=SCORE_PHRASES[mood]||SCORE_PHRASES.court,scale=EDWARD_MODES[mood]||EDWARD_MODES.court,tension=edwardTension(),beat=(mood==='battle'?.82:mood==='succession'?1.6:1.25)*(1-tension*.08),root=mood==='sea'?146.83:mood==='battle'?110:130.8128;
  while(a.next<ctx.currentTime+.7){const step=a.step,degree=phrase[step%phrase.length],breath=step%16===15;const velocity=.14+(step%4===0?.025:0)-tension*.015;
  if(degree>=0&&!breath)pianoNote(root*2*Math.pow(2,scale[degree]/12),a.next,2.8,velocity);
- if(step%4===0){pianoNote(root,a.next+.025,4.7,.10);pianoNote(root*Math.pow(2,scale[2]/12),a.next+.19,3.7,.06);pianoNote(root*Math.pow(2,scale[4]/12),a.next+.37,3.6,.05);}
- edwardPercussionBeat(step,a.next,mood,tension);edwardHarpBassPhrase(mood,step,root,scale,tension,a.next,beat);a.step++;a.next+=beat;}
+ if(step%4===0){const chord=root*Math.pow(2,edwardHarmonyDegree(mood,step,scale)/12);pianoNote(chord,a.next+.025,Math.min(beat*3.7,4.7),.082);pianoNote(chord*Math.pow(2,scale[2]/12),a.next+.19,Math.min(beat*3.4,3.9),.041);if(step%8===0)pianoNote(chord*Math.pow(2,scale[4]/12),a.next+.37,Math.min(beat*3.2,3.7),.034);}
+ edwardRecorderPhrase(mood,step,root,scale,tension,a.next,beat);
+ edwardHarpBassPhrase(mood,step,root,scale,tension,a.next,beat);
+ a.step++;a.next+=beat;}
 };
-edwardSyncAudioButtons=function(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{const busy=EDWARD_SCORE.on&&scoreInstrument==='piano'&&PIANO.status==='loading';b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.textContent=busy?'Loading piano…':EDWARD_SCORE.on?'Music on':'Music off';b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);});const status=document.getElementById('soundStatus');if(status)status.textContent=PIANO.status==='error'?PIANO.error:scoreInstrument==='piano'?(PIANO.status==='loading'?'Loading recorded piano…':PIANO.status==='ready'?'Recorded piano ready'+(scorePercussion?' · with frame drum.':'.'):'Piano loads when you turn music on.'):'Synthesised plucked strings and reeds'+(scorePercussion?' · with frame drum.':'.');};
+edwardSyncAudioButtons=function(){document.querySelectorAll('[data-audio-toggle]').forEach(b=>{const busy=EDWARD_SCORE.on&&scoreInstrument==='piano'&&PIANO.status==='loading';b.setAttribute('aria-pressed',EDWARD_SCORE.on?'true':'false');b.textContent=busy?'Loading piano…':EDWARD_SCORE.on?'Music on':'Music off';b.title=EDWARD_SCORE.on?'Turn music off':'Turn music on';b.setAttribute('aria-label',b.title);});const status=document.getElementById('soundStatus');if(status)status.textContent=PIANO.status==='error'?PIANO.error:scoreInstrument==='piano'?(PIANO.status==='loading'?'Loading recorded piano…':PIANO.status==='ready'?'Recorded piano ready.':'Piano loads when you turn music on.'):'Original synthesised plucked strings, reeds and recorder.';};
 edwardToggleMusic=async function(){const a=EDWARD_SCORE,token=++PIANO.generation;if(a.on){a.on=false;clearInterval(a.timer);a.timer=null;pianoStop();edwardSyncAudioButtons();if(a.ctx)await a.ctx.suspend();return;}
- try{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Audio is unavailable');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.connect(a.ctx.destination);}a.on=true;edwardSyncAudioButtons();await a.ctx.resume();if(token!==PIANO.generation||!a.on)return;edwardScoreGraph();a.bus.gain.setTargetAtTime(scoreVolume*.55,a.ctx.currentTime,.12);
- edwardHarpLoad();if(scoreInstrument==='piano')await pianoLoad();if(token!==PIANO.generation||!a.on)return;if(document.hidden)await a.ctx.suspend();a.next=a.ctx.currentTime+.08;a.timer=setInterval(edwardScoreTick,250);edwardScoreTick();edwardSyncAudioButtons();
+ try{if(!a.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Audio is unavailable');a.ctx=new AC();a.bus=a.ctx.createGain();a.bus.connect(a.ctx.destination);}a.on=true;edwardSyncAudioButtons();await a.ctx.resume();if(token!==PIANO.generation||!a.on)return;edwardScoreGraph();edwardHarpLoad();a.bus.gain.setTargetAtTime(scoreVolume*.55,a.ctx.currentTime,.12);
+ if(scoreInstrument==='piano')await pianoLoad();if(token!==PIANO.generation||!a.on)return;if(document.hidden)await a.ctx.suspend();a.next=a.ctx.currentTime+.08;a.timer=setInterval(edwardScoreTick,250);edwardScoreTick();edwardSyncAudioButtons();
  }catch(e){if(token!==PIANO.generation)return;a.on=false;clearInterval(a.timer);a.timer=null;PIANO.error=PIANO.error||'Music could not start. Tap Music again to retry.';PIANO.status='error';edwardSyncAudioButtons();if(!document.getElementById('soundStatus'))edwardSoundSettings();}
 };
 let pianoSelection=0;
 async function pianoSelect(value){if(!['piano','chronicle'].includes(value))return;const selection=++pianoSelection,playing=EDWARD_SCORE.on;if(playing)await edwardToggleMusic();if(selection!==pianoSelection)return;scoreInstrument=value;try{localStorage.setItem('edward_instrument_v1',value);}catch(e){}PIANO.error='';if(PIANO.status==='error')PIANO.status='idle';if(playing)await edwardToggleMusic();edwardSyncAudioButtons();}
 const _pianoOldAccent=edwardMusicAccent;
 edwardMusicAccent=function(side){if(scoreInstrument!=='piano')return _pianoOldAccent(side);if(!EDWARD_SCORE.on||!EDWARD_SCORE.ctx)return;if(scoreInstrument==='piano')pianoNote(side==='wait'?196:side==='left'?261.626:293.665,EDWARD_SCORE.ctx.currentTime+.04,1.5,.055);};
-edwardSoundSettings=function(){openSheet('Music & atmosphere','<p>The score now combines recorded piano and folk harp with a bowed bass line and frame drum.</p><label for="soundInstrument">Sound</label><select id="soundInstrument"><option value="piano">Recorded grand piano</option><option value="chronicle">Chronicle strings · synthesised</option></select><label class="sound-percussion"><input type="checkbox" id="soundPercussion"> Frame drum accompaniment</label><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><p id="soundStatus" role="status" aria-live="polite"></p><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><details class="reading-detail"><summary>Recording credits</summary><p>Salamander Grand Piano — Alexander Holm (CC BY 3.0). Folk harp — Versilian Community Sample Library (CC0), mirrored by carltesta/vcsl_for_estuary.</p></details>');document.getElementById('soundPercussion').checked=scorePercussion;document.getElementById('soundPercussion').onchange=e=>edwardSetPercussion(e.target.checked);document.getElementById('soundInstrument').value=scoreInstrument;document.getElementById('soundInstrument').onchange=e=>pianoSelect(e.target.value);document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();};
+edwardSoundSettings=function(){openSheet('Music & atmosphere','<p>Six original themes with a recorded folk harp and a quiet bass-viol inspired accompaniment. The harp recordings load when Music starts; if offline, a synthesised pluck replaces them. The piano uses recordings of a real acoustic instrument, with a quiet synthetic recorder countermelody.</p><label for="soundInstrument">Sound</label><select id="soundInstrument"><option value="piano">Recorded grand piano</option><option value="chronicle">Chronicle strings · synthesised</option></select><button class="court-primary" id="soundEnable" data-audio-toggle="1">Music</button><p id="soundStatus" role="status" aria-live="polite"></p><label class="sound-label" for="soundVolume">Volume</label><input id="soundVolume" type="range" min="0" max="100" value="'+Math.round(scoreVolume*100)+'"><details class="reading-detail"><summary>Piano recording & credits</summary><p>Salamander Grand Piano — Alexander Holm. Recorded Yamaha C5; MP3 distribution from Tone.js. Seven original samples, pitch-mapped and arranged by EDWARD.</p><p><a href="https://github.com/Tonejs/audio/tree/master/salamander" target="_blank" rel="noopener noreferrer">Sample source</a> · <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a></p><p>A modern interpretive soundtrack, not fifteenth-century music or a recorded pianist’s complete performance. Harp notes are real recordings from the Versilian Community Sample Library (CC0), mirrored by carltesta/vcsl_for_estuary.</p></details>');document.getElementById('soundInstrument').value=scoreInstrument;document.getElementById('soundInstrument').onchange=e=>pianoSelect(e.target.value);document.getElementById('soundEnable').onclick=edwardToggleMusic;document.getElementById('soundVolume').oninput=e=>{scoreVolume=Number(e.target.value)/100;try{localStorage.setItem('edward_music_volume',scoreVolume);}catch(err){}if(EDWARD_SCORE.ctx)EDWARD_SCORE.bus.gain.setTargetAtTime(scoreVolume*.55,EDWARD_SCORE.ctx.currentTime,.12);};edwardSyncAudioButtons();};
 
 /* Guided play, indexed reference and visible consequences. */
 const EDWARD_LESSONS=[
@@ -3733,7 +3957,7 @@ function reignLedgerHTML(s){const r=reignFacts(s),b=r.baseline;
 }
 function reignSummary(){openSheet('The Record of Your Reign',reignLedgerHTML(world));}
 function reignFrontispiece(){const r=world.reign;const prior=world.chronicle.slice(-3);openSheet('The Reign Opens','<div class="reign-front"><div class="eyebrow">EDWARD · EXPERIMENTAL CHRONICLE</div><div class="reign-seal" aria-hidden="true">E<span>IV</span></div><div class="reign-year">'+E(r.startYear)+'</div><h2>The crown is yours.<br>The kingdom has a past.</h2><p>'+E(r.provenance)+'. '+(r.startYear>1465?'Earlier decisions were generated by the game; this is not a reconstruction of England in this year.':'Your decisions will determine what follows.')+'</p></div>'+(prior.length?'<details class="reading-detail"><summary>What happened before you arrived</summary>'+prior.map(x=>'<div class="row"><span>'+E(x.summary)+'</span></div>').join('')+'<p>The complete generated history remains in the Chronicle.</p></details>':'')+'<button class="home-btn primary" id="reignEnter">Take your place at court</button>');document.getElementById('reignEnter').onclick=()=>{closeSheet();let done=false;try{done=!!localStorage.getItem('edward_tutorial_v2');}catch(e){}if(!QA&&!done)edwardTutorial();};}
-edwardStartNew=async function(year){const saved=edwardAutosave();if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!(await edwardConfirm('Your current autosave will be replaced. Manual save slots stay safe.',{title:'Begin a new reign?',action:'Begin new reign'})))return;
+edwardStartNew=async function(year){const saved=edwardAutosave();if(saved&&(saved.turn>0||saved.currentId||saved.finished)&&!await edwardConfirm('Start a new reign? Your current autosave will be replaced. Manual save slots will stay safe.',{confirmText:'Begin new reign',danger:true}))return;
  let next;try{next=reignCreate(year);}catch(e){openSheet('Unable to begin','<p>'+E(e.message)+'</p>');return;}
  edwardStopForMenu();world=next;saveWorld(world);begin();reignFrontispiece();};
 edwardNewGameMenu=function(){openSheet('Choose Your Entry','<div class="eyebrow">A REIGN · MANY POSSIBLE WORLDS</div><p>A new reign replaces your autosave. Manual slots remain. Later entries simulate a fictional past from the 1465 settlement; they do not assume the recorded battles, deaths or treaties occurred.</p><div class="reign-entries">'+REIGN_ENTRIES.map(y=>'<button class="reign-entry" data-reign-year="'+y+'"><strong>'+y+'</strong><span>'+(y===1461?'The full rise to power':y===1465?'The living court · preset settlement':y===1469?'An established court':y===1471?'A kingdom with unfinished disputes':y===1475?'The later reign':'The final years')+'</span><small>'+(y===1461?'Full campaign':y===1465?'Illustrative starting state':'Generated alternate timeline')+'</small></button>').join('')+'</div>');sheet.querySelectorAll('[data-reign-year]').forEach(b=>b.onclick=()=>edwardStartNew(Number(b.dataset.reignYear)));};
@@ -3831,86 +4055,22 @@ window.EDWARD_HOME.gameMenu=edwardGameMenu;
 
 /* White Rose Chronicle — first original art study, modern interpretation. */
 const CHRONICLE_ART='assets/art/white-rose-court-v1.webp';
-function chroniclePlate(){return '<figure class="chronicle-plate"><img src="'+CHRONICLE_ART+'" width="1536" height="1024" alt="Manuscript-style interpretation of Edward IV hearing councillors, with a letter and sealed petition"><figcaption>The White Rose Chronicle · an imagined royal audience</figcaption></figure>';}
-function chronicleGallery(){const portraits=[['warwick','Warwick'],['edward','Edward IV'],['elizabeth','Elizabeth']].map(([id,label])=>'<div class="home-portrait">'+edwardPortraitSvg(id,label)+'<span class="home-portrait-caption">'+E(label)+'</span></div>').join('');openSheet('The White Rose Chronicle',chroniclePlate()+'<details class="chronicle-portraits"><summary>Portrait studies</summary><div class="home-portraits">'+portraits+'</div></details>'+'<p>Portrait miniatures in tempera colours, ink and restrained gold place Edward’s court in the visual world of late medieval England and Burgundy.</p><div class="chronicle-palette" aria-label="Palette: vellum, ink, madder, lapis and gold"><i></i><i></i><i></i><i></i><i></i></div>');}
-function chronicleInstallTitle(){const home=document.getElementById('homeScreen');if(!home)return;if(!home.querySelector('.chronicle-plate'))home.querySelector('.home-subtitle')?.insertAdjacentHTML('afterend',chroniclePlate());const utility=home.querySelector('.home-utility');if(utility&&!utility.querySelector('[data-art-gallery]')){const b=document.createElement('button');b.dataset.artGallery='1';b.textContent='Art & credits';b.onclick=chronicleGallery;utility.appendChild(b);}}
+function chroniclePlate(showCaption=true){return '<figure class="chronicle-plate"><img src="'+CHRONICLE_ART+'" width="1536" height="1024" alt="Manuscript-style interpretation of Edward IV hearing councillors, with a letter and sealed petition">'+(showCaption?'<figcaption>The White Rose Chronicle · an imagined royal audience</figcaption>':'')+'</figure>';}
+function chronicleGallery(){openSheet('The White Rose Chronicle',chroniclePlate()+'<p>A crown is held through people, letters and promises. Our developing visual language draws on English and Burgundian manuscript illumination: ink silhouettes, flat colour, vellum and restrained gold.</p><div class="chronicle-palette" aria-label="Palette: vellum, ink, madder, lapis and gold"><i></i><i></i><i></i><i></i><i></i></div><p class="court-small">Original AI-assisted artwork made for EDWARD. An artistic interpretation, not an authentic historical image, documented meeting or reliable portrait. Existing character illustrations remain in the game. Experimental art direction, study 01.</p><details class="reading-detail"><summary>Developing the style</summary><p>Letters and seals show royal agency. Figures carry the tension; gold marks authority. Full illustrations belong at chapter openings and major turning points, while decisions remain clear and readable.</p><p>This first plate is a thematic opening for every starting year, not a portrait of Edward at each age. Period-specific scenes and character studies are the next stage.</p></details>');}
+function chronicleInstallTitle(){const home=document.getElementById('homeScreen');if(!home||home.querySelector('.chronicle-plate'))return;const portraits=home.querySelector('.home-portraits');if(portraits){const archive=document.createElement('details');archive.className='chronicle-portraits';const summary=document.createElement('summary');summary.textContent='Portrait studies';portraits.before(archive);archive.appendChild(summary);archive.appendChild(portraits);archive.insertAdjacentHTML('beforebegin',chroniclePlate(false));}const utility=home.querySelector('.home-utility');if(utility){const b=document.createElement('button');b.textContent='Art & credits';b.onclick=chronicleGallery;utility.appendChild(b);}home.querySelectorAll('.chronicle-plate img').forEach(img=>img.onerror=()=>img.closest('figure').remove());}
 const _chronicleTitle=edwardTitleScreen;edwardTitleScreen=function(){_chronicleTitle();chronicleInstallTitle();};
+const _chronicleFront=reignFrontispiece;reignFrontispiece=function(){_chronicleFront();sheet.querySelector('.reign-front')?.insertAdjacentHTML('afterbegin',chroniclePlate());};
 const _chronicleMenu=edwardGameMenu;edwardGameMenu=function(){_chronicleMenu();const b=document.createElement('button');b.className='menu-choice';b.textContent='Art & credits';b.onclick=chronicleGallery;sheet.appendChild(b);};
 intro=edwardTitleScreen;window.EDWARD_HOME.open=edwardTitleScreen;window.EDWARD_HOME.gameMenu=edwardGameMenu;chronicleInstallTitle();
 
-/* In-game acknowledgements and reading room. Presentation only: no world mutations. */
-let edwardPendingDialog=false,edwardNoticeTimer=null;
-function edwardConfirm(message,{title='Confirm your action',action='Confirm'}={}){
- if(edwardPendingDialog)return Promise.resolve(false);
- edwardPendingDialog=true;
- return new Promise(resolve=>{
-  const previous=document.activeElement,backdrop=document.createElement('div');
-  backdrop.id='royalDialog';backdrop.className='royal-dialog-backdrop';
-  backdrop.innerHTML='<section class="royal-dialog" role="alertdialog" aria-modal="true" aria-labelledby="royalDialogTitle" aria-describedby="royalDialogText"><div class="eyebrow">EDWARD IV</div><h2 id="royalDialogTitle">'+E(title)+'</h2><p id="royalDialogText">'+E(message)+'</p><div class="royal-dialog-actions"><button type="button" class="home-btn secondary" data-dialog-cancel>Cancel</button><button type="button" class="home-btn primary" data-dialog-confirm>'+E(action)+'</button></div></section>';
-  const surfaces=[app,overlay],oldInert=surfaces.map(x=>x.inert);surfaces.forEach(x=>x.inert=true);
-  document.body.appendChild(backdrop);
-  const cancel=backdrop.querySelector('[data-dialog-cancel]'),yes=backdrop.querySelector('[data-dialog-confirm]');
-  const finish=value=>{document.removeEventListener('keydown',keys,true);backdrop.remove();surfaces.forEach((x,i)=>x.inert=oldInert[i]);edwardPendingDialog=false;if(previous?.isConnected)previous.focus();resolve(value);};
-  const keys=e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();finish(false);}else if(e.key==='Tab'){e.preventDefault();e.stopPropagation();(document.activeElement===cancel?yes:cancel).focus();}else if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))e.stopPropagation();};
-  cancel.onclick=()=>finish(false);yes.onclick=()=>finish(true);backdrop.onclick=e=>{if(e.target===backdrop)finish(false);};document.addEventListener('keydown',keys,true);cancel.focus();
- });
-}
-function edwardNotify(title,text,{record=false}={}){
- clearTimeout(edwardNoticeTimer);document.getElementById('royalNotice')?.remove();
- const notice=document.createElement('aside');notice.id='royalNotice';notice.className='royal-notice';
- notice.innerHTML='<div class="royal-notice-copy" role="status" aria-live="polite"><strong>'+E(title)+'</strong><p>'+E(text)+'</p></div><button class="royal-notice-close" type="button" aria-label="Dismiss notification">×</button>'+(record?'<button class="royal-notice-record" type="button">View Chronicle</button>':'');
- notice.querySelector('.royal-notice-close').onclick=()=>notice.remove();
- if(record)notice.querySelector('.royal-notice-record').onclick=()=>{notice.remove();showChronicle();};
- document.body.appendChild(notice);edwardNoticeTimer=setTimeout(()=>notice.remove(),9000);
-}
-const _presentationDecide=decide;
-decide=function(side){
- const card=current,choice=(arena?card?.[arena]:card)?.[side],before=world.chronicle.length;
- _presentationDecide(side);
- const e=choice?.effects,significant=card&&(card.priority>=90||card.storyInfo||card.caseInfo||card.lifeInfo||e?.offices||e?.obligations||e?.facts);
- const entry=world.chronicle.slice(before).find(x=>x.id===card?.id);
- if(significant&&entry)edwardNotify('Your decision is entered',entry.summary,{record:true});
-};
-function edwardTextPages(text,limit=(window.innerHeight<650||window.innerWidth<350)?42:65){
- const words=String(text||'').trim().split(/\s+/).filter(Boolean),pages=[];
- while(words.length){let count=Math.min(limit,words.length);if(count<words.length){for(let i=count-1;i>=Math.floor(limit*.55);i--){if(/[.!?][”’"']?$/.test(words[i])){count=i+1;break;}}}pages.push(words.splice(0,count).join(' '));}
- return pages;
-}
-function edwardOpenReader({pages,eyebrow='',doneLabel='Return to the court',onDone=()=>{},extraLabel='',onExtra=()=>{},closeLabel='Close reading'}={}){
- if(!pages?.length)return;let page=0;
- function leave(callback){closeSheet();callback();}
- function render(move=false){const p=pages[page],last=page===pages.length-1;
-  openSheet('','<main class="reading-room" aria-labelledby="readerTitle"><header class="reader-top"><span>'+E(eyebrow)+'</span><button type="button" id="readerClose" aria-label="'+E(closeLabel)+'">×</button></header><article class="reader-leaf"><div class="reader-rule"></div><h1 id="readerTitle" tabindex="-1">'+E(p.title)+'</h1>'+p.html+'</article><footer class="reader-navigation"><p id="readerPosition" aria-live="polite">'+(page+1)+' / '+pages.length+'</p><div class="reader-buttons"><button class="home-btn secondary" id="readerBack" type="button" '+(page===0?'disabled':'')+'>Back</button><button class="home-btn primary" id="readerNext" type="button">'+E(last?doneLabel:'Next page')+'</button></div>'+(last&&extraLabel?'<button class="reader-extra" id="readerExtra" type="button">'+E(extraLabel)+'</button>':'')+'</footer></main>');
-  overlay.classList.add('reading-fullscreen');sheet.scrollTop=0;sheet.setAttribute('aria-labelledby','readerTitle');
-  document.getElementById('readerClose').onclick=()=>leave(()=>{});
-  document.getElementById('readerBack').onclick=()=>{if(page){page--;render(true);}};
-  document.getElementById('readerNext').onclick=()=>{if(last)leave(onDone);else{page++;render(true);}};
-  const extra=document.getElementById('readerExtra');if(extra)extra.onclick=()=>leave(onExtra);
-  sheet.onkeydown=e=>{if(e.key==='ArrowLeft'&&page){e.preventDefault();page--;render(true);}else if(e.key==='ArrowRight'&&!last){e.preventDefault();page++;render(true);}else if(e.key==='Tab'){const buttons=[...sheet.querySelectorAll('.reading-room button:not(:disabled)')],first=buttons[0],lastButton=buttons.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();lastButton.focus();}else if(!e.shiftKey&&document.activeElement===lastButton){e.preventDefault();first.focus();}}};
-  if(move)document.getElementById('readerTitle').focus();else document.getElementById('readerNext').focus();
- }
- render();
-}
-const _presentationClose=closeSheet;
-closeSheet=function(){overlay.classList.remove('reading-fullscreen');sheet.removeAttribute('aria-labelledby');sheet.onkeydown=null;_presentationClose();};
-function edwardCardReader(){
- const d=edwardFocusData();if(!d)return;const pages=[];
- function section(title,text,quote=false){for(const part of edwardTextPages(text))pages.push({title,html:'<p class="'+(quote?'reader-quotation':'reader-prose')+'">'+(quote?'“':'')+E(part)+(quote?'”':'')+'</p>'});}
- section((arena?current[arena]?.who:current.who)||'At court',d.fullQuote,true);section('What Edward knows',d.fullContext);section('The decision before you',d.stake);
- section('Your first possible answer',d.original.left.label,true);section('Your other possible answer',d.original.right.label,true);if(current.wait&&!arena)section('Wait for more evidence',current.wait.label);
- edwardOpenReader({pages,eyebrow:current.where+' · '+current.when,doneLabel:'Return to the decision',extraLabel:'Context & sources',onExtra:edwardReadingMore});
-}
-const _presentationReadingMore=edwardReadingMore;
-edwardReadingMore=function(){_presentationReadingMore();if(!current)return;const b=document.createElement('button');b.className='reader-launch';b.textContent='Read this scene in pages';b.onclick=edwardCardReader;sheet.querySelector('.reading-summary')?.after(b);};
-
 /* Campaign framing is presentation only. It never inserts, removes, or resolves a card. */
 const EDWARD_CAMPAIGN_CHAPTERS=[
- {id:'crown',from:1461,to:1464,number:'I',title:'A Crown Is Not Yet a Kingdom',lead:'A victory decides who wears the crown. It does not decide who will obey it.',body:'After Towton, Edward IV must turn victory into government. A pardon, a northern commission, an office and a public oath each reach people the Crown cannot command at once.',recorded:'Edward was proclaimed king in March 1461 and crowned at Westminster on 28 June. Lancastrian resistance and uncertainty in the North remained.',question:'Who may speak and act in the King’s name? Every answer creates a relationship that can outlast the hearing.'},
- {id:'court',from:1465,to:1468,number:'II',title:'The Court Gathers Around the Crown',lead:'Service opens doors. A door can become a source of power.',body:'The royal household, marriage, patronage and diplomacy meet at court. Noble service can strengthen the Crown while bringing a servant’s family and followers closer to its decisions.',recorded:'Edward married Elizabeth Woodville in 1464. The rise of her kin and Warwick’s separate interests became sources of political strain; the particular meetings in this game are imagined.',question:'Which claims will reach the King, and through whose household?'},
- {id:'strain',from:1469,to:1471,number:'III',title:'When Service Becomes a Claim',lead:'A servant may defend the King’s authority and still contest its limits.',body:'Offices, local followers and promises abroad can pull the court in different directions. A grievance may be answered, contained or allowed to gather force. The world does not require one answer.',recorded:'Warwick’s break with Edward, the Readeption of Henry VI in 1470, and Edward’s return in 1471 belong to recorded history. This reign reaches them only if its conditions produce them.',question:'Can an agreement still hold when every household reads it differently?'},
- {id:'settlement',from:1472,to:1475,number:'IV',title:'The Price of Settlement',lead:'Peace has to be carried by people, paid for, and renewed.',body:'The Crown weighs domestic order against revenue, military commitments and relations across the Channel. A promise made abroad can change what the treasury and the shires can bear.',recorded:'Edward led a campaign to France in 1475 and made the Treaty of Picquigny. This simulation does not require the same campaign or treaty.',question:'What can the King afford to promise—and who bears its cost?'},
- {id:'house',from:1476,to:1478,number:'V',title:'The House Behind the Crown',lead:'Inheritance turns private family arrangements into public questions.',body:'Titles, wardships, land and the royal succession converge. A ruling about one household may alter the balance among the great families, the council and the heirs.',recorded:'George, Duke of Clarence, was executed in 1478 in recorded history. His fate and the disputes that could surround it are not imposed on this reign.',question:'Who will inherit the obligations as well as the name?'},
- {id:'legacy',from:1479,to:1483,number:'VI',title:'What Remains After the King',lead:'The Crown outlives the man who wears it.',body:'As the recorded reign nears its end, every office, promise and family settlement acquires another meaning: what will survive Edward, and who will claim to speak for the next reign?',recorded:'Edward IV died on 9 April 1483. The succession that followed is part of recorded history; this world’s forecast follows the conditions created in your playthrough.',question:'What kingdom are you leaving to those who must govern without you?'}
+ {id:'crown',scene:"A messenger waits beyond the council chamber. You have won a crown, but beyond the walls of Westminster, each town and noble household must decide how to answer it.",from:1461,to:1464,number:'I',title:'A Crown Is Not Yet a Kingdom',lead:'A victory decides who wears the crown. It does not decide who will obey it.',body:'After Towton, Edward IV must turn victory into government. A pardon, a northern commission, an office and a public oath each reach people the Crown cannot command at once.',recorded:'Edward was proclaimed king in March 1461 and crowned at Westminster on 28 June. Lancastrian resistance and uncertainty in the North remained.',question:'Who may speak and act in the King’s name? Every answer creates a relationship that can outlast the hearing.'},
+ {id:'court',scene:"A servant opens the chamber doors. A line of petitioners waits outside, each admitted through someone who knows someone at court. Access to the king is already a form of power.",from:1465,to:1468,number:'II',title:'The Court Gathers Around the Crown',lead:'Service opens doors. A door can become a source of power.',body:'The royal household, marriage, patronage and diplomacy meet at court. Noble service can strengthen the Crown while bringing a servant’s family and followers closer to its decisions.',recorded:'Edward married Elizabeth Woodville in 1464. The rise of her kin and Warwick’s separate interests became sources of political strain; the particular meetings in this game are imagined.',question:'Which claims will reach the King, and through whose household?'},
+ {id:'strain',scene:"A sealed letter is set upon your table. Its demands are polite, but the men who delivered it seem to be counting who enters the room and who remains outside.",from:1469,to:1471,number:'III',title:'When Service Becomes a Claim',lead:'A servant may defend the King’s authority and still contest its limits.',body:'Offices, local followers and promises abroad can pull the court in different directions. A grievance may be answered, contained or allowed to gather force. The world does not require one answer.',recorded:'Warwick’s break with Edward, the Readeption of Henry VI in 1470, and Edward’s return in 1471 belong to recorded history. This reign reaches them only if its conditions produce them.',question:'Can an agreement still hold when every household reads it differently?'},
+ {id:'settlement',scene:"The treasurer brings his accounts. Beside them lie a captain’s request for supplies and a dispatch from across the Channel. All three require the king’s answer.",from:1472,to:1475,number:'IV',title:'The Price of Settlement',lead:'Peace has to be carried by people, paid for, and renewed.',body:'The Crown weighs domestic order against revenue, military commitments and relations across the Channel. A promise made abroad can change what the treasury and the shires can bear.',recorded:'Edward led a campaign to France in 1475 and made the Treaty of Picquigny. This simulation does not require the same campaign or treaty.',question:'What can the King afford to promise—and who bears its cost?'},
+ {id:'house',scene:"A clerk unfolds a pedigree beside a claim to disputed land. What looks like a family matter may bind the great households of England to a judgment you have yet to give.",from:1476,to:1478,number:'V',title:'The House Behind the Crown',lead:'Inheritance turns private family arrangements into public questions.',body:'Titles, wardships, land and the royal succession converge. A ruling about one household may alter the balance among the great families, the council and the heirs.',recorded:'George, Duke of Clarence, was executed in 1478 in recorded history. His fate and the disputes that could surround it are not imposed on this reign.',question:'Who will inherit the obligations as well as the name?'},
+ {id:'legacy',scene:"A fresh petition rests on the council table. The offices, seals and obligations of the Crown will outlive any one man. Who will be able to carry them when the time comes?",from:1479,to:1483,number:'VI',title:'What Remains After the King',lead:'The Crown outlives the man who wears it.',body:'As the recorded reign nears its end, every office, promise and family settlement acquires another meaning: what will survive Edward, and who will claim to speak for the next reign?',recorded:'Edward IV died on 9 April 1483. The succession that followed is part of recorded history; this world’s forecast follows the conditions created in your playthrough.',question:'What kingdom are you leaving to those who must govern without you?'}
 ];
 function campaignChapterForYear(year){const n=Number(year)||1461;return EDWARD_CAMPAIGN_CHAPTERS.find(c=>n>=c.from&&n<=c.to)||EDWARD_CAMPAIGN_CHAPTERS[n<1461?0:EDWARD_CAMPAIGN_CHAPTERS.length-1];}
 function campaignCurrentYear(){return Number(world.sandbox?.year)||Number(String(current?.when||'').match(/14\d\d/)?.[0])||world.reign?.startYear||1461;}
@@ -3918,18 +4078,38 @@ let campaignStorageKey='',campaignCurrentChapter='';
 function campaignKeyForWorld(){return 'edward_campaign_seen_v1_'+(world.seed||'saved')+'_'+(world.reign?.startYear||1461);}
 function campaignSeen(){try{return new Set(JSON.parse(localStorage.getItem(campaignStorageKey)||'[]'));}catch(e){return new Set();}}
 function campaignMarkSeen(id){const seen=campaignSeen();seen.add(id);try{localStorage.setItem(campaignStorageKey,JSON.stringify([...seen]));}catch(e){}}
-function campaignReadingPages(chapter,opening){
- const reign=world.reign,prior=(world.chronicle||[]).slice(-3),pages=[{title:chapter.title,html:'<p class="reader-quotation">'+E(chapter.lead)+'</p>'}];
- function add(title,text){for(const part of edwardTextPages(text))pages.push({title,html:'<p>'+E(part)+'</p>'});}
- add('The kingdom before you',chapter.body+' '+chapter.question);
- if(opening&&reign&&reign.startYear>1461)add('The reign you inherit','This campaign opens in '+reign.startYear+'. '+reign.provenance+'. '+(reign.generatedTurns?'Earlier decisions were generated by the simulation; they are not a reconstruction of the historical record.':'This is an illustrative political settlement, ready for your own decisions.'));
- add('What is recorded in history?',chapter.recorded+' The named events and institutions are historical anchors. Individual dialogue and the path of this reign are fictionalized; later outcomes depend on the world you create. '+(opening?'History establishes the beginning. Your decisions and other people’s actions shape what follows.':'A chapter heading is a reading frame, not a new event. The living world continues under the same rules.'));
- if(prior.length)add('Already in your Chronicle',prior.map(x=>x.summary).join(' ')+' The earlier entries remain in the Chronicle.');
- return pages;
+function campaignHistoryHTML(chapter,opening,page=0){
+ const reign=world.reign,year=campaignCurrentYear(),prior=(world.chronicle||[]).slice(-3);
+ const entryNote=reign&&reign.startYear>1461?'<div class="campaign-origin"><b>This campaign opens in '+E(reign.startYear)+'.</b> '+E(reign.provenance)+'. Earlier decisions were generated by the simulation; they are not a reconstruction of the historical record.</div>':'';
+ const priorHTML=prior.length?'<details class="campaign-detail"><summary>What this reign has already inherited</summary>'+prior.map(x=>'<p>'+E(x.summary)+'</p>').join('')+'<p class="campaign-small">The earlier entries remain in the Chronicle.</p></details>':'';
+ const count=3;
+ const marker='<div class="campaign-page-count" role="status" aria-live="polite">PAGE '+(page+1)+' OF '+count+'</div>';
+ const heading='<div class="campaign-overline">EDWARD IV · '+E(year)+' · PART '+E(chapter.number)+' OF VI</div><div class="campaign-rule"></div><h1 id="campaignTitle" tabindex="-1">'+E(chapter.title)+'</h1>';
+ const sections=[
+  '<p class="campaign-scene">'+E(chapter.scene||chapter.lead)+'</p><p class="campaign-lead">'+E(chapter.lead)+'</p>',
+  '<p class="campaign-body">'+E(chapter.body)+'</p><p class="campaign-question">'+E(chapter.question)+'</p>'+entryNote,
+  '<div class="eyebrow">RECORDED HISTORY</div><p class="campaign-body">'+E(chapter.recorded)+'</p><p class="campaign-small">These events and institutions are historical anchors. The dialogue and possible outcomes of this reign are fictionalized; history is not a forced outcome.</p>'+priorHTML
+ ];
+ const footer=page===0?'An imagined moment at court, not a report of what has happened in your reign.':page===1?'The decisions are yours; other people may act without you.':'The world continues under the same rules.';
+ const actions=(page>0?'<button class="home-btn tertiary" id="campaignBack" type="button">← Back</button>':'')+
+  (page<count-1?'<button class="home-btn primary" id="campaignNext" type="button">Next →</button>':
+   '<button class="home-btn primary" id="campaignContinue" type="button">'+(opening?'Enter the reign':'Continue the chronicle')+'</button>'+
+   (opening?'<button class="home-btn tertiary" id="campaignHow" type="button">How to make a decision</button>':''));
+ return '<div class="campaign-page" aria-labelledby="campaignTitle" data-reading-page="'+page+'">'+marker+heading+sections[page]+'<p class="campaign-footer">'+footer+'</p><div class="campaign-actions">'+actions+'</div></div>';
 }
 function campaignOpen(chapter,opening=false){
  campaignMarkSeen(chapter.id);
- edwardOpenReader({pages:campaignReadingPages(chapter,opening),eyebrow:'EDWARD IV · '+campaignCurrentYear()+' · PART '+chapter.number+' OF VI',doneLabel:opening?'Enter the reign':'Continue the chronicle',closeLabel:'Return to the court',onDone:()=>{if(opening){try{localStorage.setItem('edward_tutorial_v2','done');}catch(e){}}},extraLabel:opening?'How to make a decision':'',onExtra:()=>edwardTutorial()});
+ function showPage(page){
+  openSheet('',campaignHistoryHTML(chapter,opening,page));
+  overlay.classList.add('campaign-blackout');
+  sheet.scrollTop=0;
+  const next=document.getElementById('campaignNext');if(next)next.onclick=()=>showPage(page+1);
+  const back=document.getElementById('campaignBack');if(back)back.onclick=()=>showPage(page-1);
+  const continueButton=document.getElementById('campaignContinue');
+  if(continueButton)continueButton.onclick=()=>{closeSheet();if(opening){try{localStorage.setItem('edward_tutorial_v2','done');}catch(e){}}};
+  const guide=document.getElementById('campaignHow');if(guide)guide.onclick=()=>{closeSheet();edwardTutorial();};
+ }
+ showPage(0);
 }
 const _campaignBaseClose=closeSheet;closeSheet=function(){overlay.classList.remove('campaign-blackout');_campaignBaseClose();};
 const _campaignBaseRender=renderCard;renderCard=function(){_campaignBaseRender();if(!current)return;const key=campaignKeyForWorld(),chapter=campaignChapterForYear(campaignCurrentYear());if(key!==campaignStorageKey){campaignStorageKey=key;campaignCurrentChapter=chapter.id;return;}if(chapter.id!==campaignCurrentChapter){campaignCurrentChapter=chapter.id;if(!campaignSeen().has(chapter.id))campaignOpen(chapter,false);}};
@@ -3984,7 +4164,7 @@ function showChronicle(){
   sheet.querySelectorAll('[data-chronicle-filter]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
   sheet.querySelectorAll('.chronicle-entry').forEach(item=>item.hidden=value!=='All entries'&&item.dataset.chronicleThread!==value);
  });
- document.getElementById('newReign').onclick=async()=>{if(await edwardConfirm('Your current autosave will be cleared. Manual save slots stay safe.',{title:'Begin again?',action:'Clear current reign'})){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro();}};
+ document.getElementById('newReign').onclick=async()=>{if(await edwardConfirm('Erase this reign and begin again?',{confirmText:'Erase reign',danger:true})){clearWorld();world=newWorld();current=null;arena=null;closeSheet();intro();}};
 }
 
 </script>
