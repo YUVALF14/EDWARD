@@ -54,24 +54,29 @@ const cards=[
 const S={n:0,cycle:0,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,mem:[],log:[]};
 const clamp=(x)=>Math.max(0,Math.min(100,x));
 function text(id,v){document.getElementById(id).textContent=v}
-function opts(i){
- if(i===1||i===17)return [
- {t:"Offer terms and pardon",d:"Keep a path open; credible promises can bind.",k:"pardon"},
- {t:"Order an execution",d:"A sentence may deter; kin and clients remember.",k:"execute"},
- {t:"Delay judgment",d:"Buy time; unresolved claims gather weight.",k:"delay"}];
- if([4,8,11,12].includes(i))return [
- {t:"Share access through the Queen’s household",d:"Build royal kinship; unsettle established servants.",k:"queen"},
- {t:"Keep the old servants in place",d:"Reassure the court; leave another claim waiting.",k:"court"},
- {t:"Create a joint office",d:"Balance access if both houses accept its terms.",k:"joint"}];
- if(i===19&&S.year>=1469&&S.year<1483)return [
- {t:"Negotiate a guarded settlement",d:"Preserve a route back to authority; legitimise rivals.",k:"settle"},
- {t:"Let the plot mature",d:"An attempt on Edward becomes possible as danger compounds.",k:"plot"},
- {t:"Confront the captains",d:"Recover order—or face deposition if authority is thin.",k:"confront"}];
- return [
- {t:"Bind the answer to council and record",d:"Share responsibility; make a precedent.",k:"council"},
- {t:"Decide directly in the king’s name",d:"Strengthen royal authority; concentrate blame.",k:"direct"},
- {t:"Defer and hear another account",d:"Reduce immediate risk; delay can become grievance.",k:"defer"}]
-}
+const answers=[
+[{t:"Pursue Henry while the road is open",d:"Use Warwick’s strength now; the army and treasury bear the cost.",k:"pursue"},{t:"Gather the army before moving north",d:"Protect the Crown’s command; give the fugitives time.",k:"hold"},{t:"Send a smaller force under a royal captain",d:"Share the risk and keep the decision in Edward’s name.",k:"bounded"}],
+[{t:"Offer pardon under a new oath",d:"Turn a defeated rival toward service; leave his lands intact.",k:"pardon"},{t:"Order the chief prisoner executed",d:"Deter resistance; bind his kin to a lasting grievance.",k:"execute"},{t:"Release the lesser captives and keep the leaders",d:"Ease the burden of custody while preserving leverage.",k:"oath"}],
+[{t:"Pay wages from the royal chest",d:"Answer service plainly; spend money the Crown may need later.",k:"pay"},{t:"Reward the captains with land",d:"Bind their households to the Crown; create future claims.",k:"land"},{t:"Promise rewards after the northern campaign",d:"Keep resources now; make loyalty depend on a promise.",k:"promise"}],
+[{t:"Give Warwick the northern commission",d:"Use his network quickly; deepen the Crown’s dependence on him.",k:"commission"},{t:"Divide the commission between Warwick and royal officers",d:"Balance access; risk disagreement over who commands.",k:"joint"},{t:"Send the king’s own officers north",d:"Keep authority central; build a slower royal presence.",k:"direct"}],
+[{t:"Recognise the Queen’s family publicly",d:"Make the marriage a visible settlement; alter the court’s balance.",k:"queen"},{t:"Keep the marriage private for now",d:"Avoid an immediate court struggle; let uncertainty spread.",k:"defer"}],
+[{t:"Give the Queen a full public reception",d:"Establish her place at court; invite comparison with older servants.",k:"queen"},{t:"Keep the ceremony restrained",d:"Limit the contest over precedence; risk seeming to diminish her.",k:"court"}],
+[{t:"Accept the French offer as written",d:"Secure a quick agreement; make the Crown answer for its terms.",k:"direct"},{t:"Ask Burgundy to counterbalance the French terms",d:"Keep another route open; complicate the negotiation.",k:"burgundy"},{t:"Delay the answer until the council has heard the envoys",d:"Buy room to manoeuvre; weaken the appearance of resolve.",k:"defer"}],
+[{t:"Admit the Queen’s kin to royal service",d:"Give family loyalty a place in government; unsettle existing clients.",k:"queen"},{t:"Require them to earn office through ordinary service",d:"Protect the court’s existing terms; leave the Queen waiting.",k:"court"}],
+[{t:"Give Warwick a formal seat before the council",d:"Honour his service; make his influence part of the Crown’s machinery.",k:"warwick"},{t:"Hear him with the full council present",d:"Keep counsel shared; make private trust harder to maintain.",k:"council"},{t:"Refuse to summon him on demand",d:"Defend the king’s discretion; turn grievance into a public test.",k:"direct"}],
+[{t:"Keep petitions behind Hastings’s household door",d:"Make access orderly; give one servant control over the path to Edward.",k:"court"},{t:"Allow petitions through several trusted households",d:"Reduce dependence on one gatekeeper; make court harder to coordinate.",k:"council"},{t:"Let the petitioners wait for a formal hearing",d:"Avoid an immediate choice; let frustration travel outside court.",k:"defer"}],
+[{t:"Keep Henry under strict royal guard",d:"Protect the settlement; make custody a visible act of power.",k:"secure"},{t:"Move him to a household beyond the Tower",d:"Reduce the burden on London; trust another lord with the risk.",k:"delegate"},{t:"Allow a more lenient household",d:"Ease the appearance of captivity; increase the chance of escape or rescue.",k:"loosen"}],
+[{t:"Give the vacant office to a Neville ally",d:"Reward existing service; strengthen the network the Crown already relies on.",k:"commission"},{t:"Give it to a member of the Queen’s family",d:"Open a new route to power; deepen rivalry at court.",k:"queen"},{t:"Create a shared office with written limits",d:"Keep both claims in view; make cooperation depend on the terms.",k:"joint"}],
+[{t:"Give Clarence a defined office and income",d:"Recognise his place; give his ambition a public shape.",k:"direct"},{t:"Set his role through the council",d:"Include the king’s brother; surround his authority with witnesses.",k:"council"},{t:"Keep his power limited until the court settles",d:"Protect the Crown’s discretion; leave a brother’s claim unresolved.",k:"court"}],
+[{t:"Make the council’s advice binding in this matter",d:"Share responsibility; teach the court that advice carries weight.",k:"council"},{t:"Hear the council, then issue the king’s own order",d:"Keep the final choice visible; concentrate blame on Edward.",k:"direct"}],
+[{t:"Negotiate terms with the northern households",d:"Seek submission without battle; make the Crown answer their grievances.",k:"pardon"},{t:"Place a royal garrison on the road",d:"Show the king’s reach; demand men and supplies from the region.",k:"mobilize"},{t:"Leave enforcement to Warwick’s officers",d:"Use local influence; let his clients define royal order.",k:"commission"}],
+[{t:"Send a trusted investigator to verify the report",d:"Separate evidence from rumour; spend time before acting.",k:"investigate"},{t:"Summon the named households and demand an answer",d:"Show that the warning is heard; risk turning doubt into open defiance.",k:"assert"},{t:"Wait for a second messenger",d:"Avoid acting on uncertain news; allow the situation to develop.",k:"defer"}],
+[{t:"Open a hearing outside the councillors’ household",d:"Give petitioners a route to the king; challenge those who control access.",k:"council"},{t:"Dismiss the accusation and defend the counsellors",d:"Protect the court’s machinery; leave the complaint without remedy.",k:"direct"}],
+[{t:"Offer terms before the gathering becomes an army",d:"Preserve a path back to obedience; spend authority on negotiation.",k:"settle"},{t:"Muster the royal force and secure the roads",d:"Make resistance costly; ask the shires to supply the Crown.",k:"mobilize"},{t:"Seize the leaders before they can unite",d:"Break the gathering early; risk making martyrs of its captains.",k:"execute"}],
+[{t:"Negotiate with the victors and recover the king’s freedom",d:"Trade concessions for room to rule; accept that defeat has changed the court.",k:"settle"},{t:"Punish the captains who failed the Crown",d:"Make command answer for defeat; deepen fear among future commanders.",k:"execute"},{t:"Gather loyal forces and reopen communication with Edward",d:"Protect a route back to royal authority; leave the settlement uncertain.",k:"mobilize"}],
+[{t:"Negotiate a guarded settlement",d:"Preserve a route back to authority; recognise rivals’ place at court.",k:"settle"},{t:"Let the plot mature",d:"A possible attempt on Edward; danger compounds with isolation and unrest.",k:"plot"},{t:"Confront the leading captains",d:"Try to recover command; a failed stand may end in deposition.",k:"confront"}]
+];
+function opts(i){const list=answers[i];const shift=S.cycle%list.length;return list.slice(shift).concat(list.slice(0,shift))}
 function render(){
  if(S.dead)return finish("The King Is Killed","A plot or political breach has taken Edward before 1483. The crown survives the man; the realm must decide whose voice speaks next.");
  let i=S.n,c=cards[i],variant=S.cycle?["Earlier answers return with new witnesses.","Your court remembers the precedent; its balance has shifted.","The claim has changed shape as its bearer gathers allies."][(i+S.cycle)%3]:"";
@@ -99,11 +104,27 @@ function render(){
 function choose(j){
  let i=S.n,o=opts(i)[j],imbalance=Math.abs(S.warwick-S.woodville)/30;
  switch(o.k){
+ case"pursue":S.authority+=1;S.order-=3;S.warwick+=5;S.risk+=1;S.mem.push("northern pursuit");break;
+ case"hold":S.authority+=2;S.order+=4;S.warwick-=1;S.mem.push("army gathered before pursuit");break;
+ case"bounded":S.authority+=2;S.order+=2;S.warwick+=2;S.mem.push("limited royal commission");break;
+ case"oath":S.authority+=2;S.order+=1;S.succession+=1;S.mem.push("captives bound by oath");break;
+ case"pay":S.order+=5;S.authority-=3;S.succession+=2;S.mem.push("service paid in coin");break;
+ case"land":S.order+=1;S.succession-=3;S.warwick+=2;S.mem.push("service rewarded with land");break;
+ case"promise":S.authority-=2;S.order-=1;S.open++;S.mem.push("reward promised after campaign");break;
+ case"commission":S.warwick+=7;S.order+=3;S.authority-=2;S.mem.push("Neville commission");break;
+ case"burgundy":S.authority+=1;S.order+=1;S.succession+=1;S.mem.push("Burgundian counterweight");break;
+ case"warwick":S.warwick+=8;S.authority+=2;S.order-=1;S.mem.push("Warwick given a formal voice");break;
+ case"secure":S.authority+=3;S.order+=2;S.succession-=1;S.mem.push("strict royal custody");break;
+ case"delegate":S.order+=2;S.authority-=1;S.risk+=4;S.mem.push("custody delegated");break;
+ case"loosen":S.authority-=2;S.order+=1;S.risk+=8;S.mem.push("lenient royal custody");break;
+ case"mobilize":S.authority+=3;S.order+=3;S.warwick+=2;S.mem.push("royal force mustered");break;
+ case"investigate":S.authority+=1;S.order+=2;S.mem.push("warning investigated");break;
+ case"assert":S.authority+=4;S.order-=2;S.warwick-=2;S.mem.push("households summoned");break;
+ case"execute":S.authority+=3;S.order+=1;S.succession-=7;S.warwick-=7;S.harsh++;S.executions++;S.mem.push("public sentence");break;
  case"pardon":S.authority-=2;S.order+=5;S.succession+=2;S.warwick-=2;S.open++;S.mem.push("conditional pardon");break;
- case"execute":S.authority+=3;S.order+=1;S.succession-=7;S.warwick-=9;S.harsh++;S.executions++;S.mem.push("public sentence");break;
  case"delay":S.authority-=3;S.order-=4;S.warwick-=2;S.open++;S.mem.push("deferred judgment");break;
- case"queen":S.woodville+=9;S.warwick-=4;S.order-=1;S.mem.push("queen’s kin admitted");break;
- case"court":S.woodville-=3;S.warwick+=4;S.order+=2;S.mem.push("old servants retained");break;
+ case"queen":S.woodville+=8;S.warwick-=3;S.order-=1;S.mem.push("queen’s kin admitted");break;
+ case"court":S.woodville-=4;S.warwick+=4;S.order+=2;S.mem.push("old servants retained");break;
  case"joint":S.woodville+=3;S.warwick+=2;S.order+=4;S.mem.push("shared office");break;
  case"council":S.authority+=2;S.order+=4;S.succession+=2;S.mem.push("council precedent");break;
  case"direct":S.authority+=5;S.order-=1;S.mem.push("royal command");break;
