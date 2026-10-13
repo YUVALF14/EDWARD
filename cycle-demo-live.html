@@ -107,7 +107,7 @@ function render(){
  let i=S.n,c=cards[i],variant=S.cycle?["Earlier answers return with new witnesses.","Your court remembers the precedent; its balance has shifted.","The claim has changed shape as its bearer gathers allies."][(i+S.cycle)%3]:"";
  let is69=i===19&&S.year===1469&&!S.deposed;
  text("date","ENGLAND · "+S.year);text("chapter",["I · The Crown After Towton","II · The Court Gathers","III · Service and Rebellion","IV · The Price of Settlement","V · The House Behind the Crown","VI · The Last Inheritance"][Math.min(5,S.cycle)]);
- text("step",String(i+1).padStart(2,"0")+" / 20");text("kicker",c[3]);text("heading",is69?"The King Under Guard":c[0]);text("role",c[1]);
+ text("step",String(i+1).padStart(2,"0")+" / 20");text("cycleText","This period · "+S.n+" / 20");text("kicker",c[3]);text("heading",is69?"The King Under Guard":c[0]);text("role",c[1]);
  const speaker=c[1].toLowerCase();const face=speaker.includes("warwick")?"warwick":speaker.includes("elizabeth")?"elizabeth":speaker.includes("jacquetta")?"jacquetta":speaker.includes("hastings")?"hastings":speaker.includes("henry vi")?"henry":speaker.includes("clarence")?"clarence":speaker.includes("burgundian")?"burgundy":speaker.includes("northern")?"henry_percy":"paston";document.getElementById("portrait").innerHTML='<img src="assets/art/portraits/'+face+'.webp" alt="'+c[1]+'">';
  text("quote",is69?"The king’s household is under guard. Some say Edward must be removed; others ask whether he can still rule through settlement.":c[4]);
  let ctx=c[5]+(variant?" "+variant:"");
@@ -123,7 +123,7 @@ function render(){
  text("mood",S.deposed?"King under restraint · not formally deposed":S.authority<30?"The crown is contested":S.authority>66?"Authority holds, but loyalty has a price":"The victorious king · authority still forming");
  text("mapNote",S.deposed?"Edward is under guard; the succession is open.":"The court watches the North as royal authority takes shape.");
  document.getElementById("mapDot").setAttribute("cx",S.year<1469?153:S.deposed?157:153);
- document.getElementById("cycleBar").style.width=(S.n*5)+"%";text("cycleText","This period · "+S.n+" / 20");
+ document.getElementById("cycleBar").style.width=(S.n*5)+"%";
  document.getElementById("chronicle").innerHTML=S.log.slice(-5).reverse().map(x=>"<div>"+x.year+" · "+x.title+" — "+x.choice+"</div>").join("")||"<div>The crown is won; the terms of rule remain open.</div>";
  document.getElementById("end").style.display="none";document.getElementById("game").style.display="grid";
 }
