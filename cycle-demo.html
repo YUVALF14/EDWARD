@@ -174,7 +174,7 @@ function choose(j){
  render();
 }
 function finish(title,desc){
- const game=document.getElementById("game");game.style.display="grid";game.querySelectorAll("#game > section:not(.end)").forEach(el=>el.style.display="none");document.getElementById("end").style.display="block";text("endTitle",title);text("endText",desc);
+ const game=document.getElementById("game");game.style.display="grid";game.querySelectorAll(":scope > section:not(.end)").forEach(el=>el.style.display="none");document.getElementById("end").style.display="block";text("endTitle",title);text("endText",desc);
  text("signature", "Ruler’s signature: "+(S.harsh>5?"command sharpened by fear":S.open>6?"a king of bargains and deferrals":S.warwick>22?"rule through a powerful lieutenant":S.woodville>20?"a court built around royal kin":"authority held through changing coalitions")+". A political reading, not a moral verdict.");
 }
 function reset(){Object.assign(S,{n:0,cycle:0,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,mem:[],log:[]});render()}
