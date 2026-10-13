@@ -54,3 +54,10 @@
 .header .topinfo{display:none}
 .header .logo{margin-right:auto}
 .home-btn.primary:disabled{background:#202b24;color:#859082;border-color:#455044;box-shadow:none}
+/* People panel: a compact court index with manuscript portrait medallions. */
+.people-intro{max-width:34rem;margin:0 0 12px;color:#d8d1bd;font:italic 15px/1.45 Georgia,serif}
+.people-legend{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 15px;color:#b7b7a6;font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif}
+.people-legend span{display:flex;align-items:center;gap:6px}.people-legend i{display:inline-block;width:22px;border-top:2px solid #929d82}.people-legend i.dashed{border-top-style:dashed}
+.people-portrait-row{padding-right:2px}.people-portrait-row .people-affiliation{display:block;margin-top:3px;color:#a9b19f;font-size:12px;line-height:1.4}
+.people-portrait{width:56px;height:66px;margin-left:12px;filter:drop-shadow(0 3px 5px #0007)}
+@media(max-width:380px){.people-intro{font-size:14px}.people-legend{gap:8px;font-size:10px}.people-portrait{width:48px;height:58px}}

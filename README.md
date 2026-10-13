@@ -37,3 +37,9 @@ The Node simulation checks validate model invariants and variation across seeded
 Documented dates, relationships and disputes establish the starting conditions. Individual dialogue is fictional reconstruction, never an authentic historical quotation. Later events depend on simulated conditions and can differ from the recorded reign. Composite messengers and representatives are identified in the Encyclopedia where applicable. Campaign chapter screens are presentation only; they do not insert decisions or force outcomes.
 
 For detailed art, source and development notes, see `ART_DIRECTION.md`, `ART_COVERAGE_AUDIT.md`, `README_PIANO_ART.md`, `README_LIVING_COURT.md`, `README_STORY_ENGINE.md`, `README_REIGN.md` and `README_WORLDCRAFT.md`.
+
+## Presentation update · 13 October 2026
+
+Published individual manuscript-inspired WebP portraits and a compact People panel explaining offices, family ties and rival claims. Removed redundant home-screen copy. The opening illustration is unchanged. The deployed HTML retains the newer composed soundtrack, harp, recorder, bass accompaniment, custom dialogs, decision notices and chapter folios.
+
+The portrait images are original AI-assisted modern interpretations, not archival likenesses. Run `node test_artwork.js` to verify portrait asset mapping. Some recent presentation and music changes exist directly in `index.html`; do not rebuild it from the older split sources until those changes have been reconciled.

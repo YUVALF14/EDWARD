@@ -30,14 +30,14 @@ function edwardTitleScreen(){
  '<div class="home-kicker">THE WARS OF THE ROSES · AN INTERACTIVE CHRONICLE</div>'+
  '<h1 class="home-title">EDWARD<span> IV</span></h1><p class="home-subtitle">A crown is won. A kingdom must be ruled.</p>'+
  '<div class="home-portraits" aria-label="Illustrated portraits of Warwick, Edward IV and Elizabeth Woodville">'+art+'</div>'+
- '<p class="home-copy">England, 1461. Every promise has a price. Every family remembers.</p>'+
+
  '<div class="home-actions">'+
  '<button class="home-btn '+(saved?'primary':'secondary')+'" id="homeContinue" '+(!saved?'disabled':'')+'>'+(saved?(saved.finished?'Read your ending':'Continue reign'):'Continue reign')+'</button>'+
  '<button class="home-btn '+(saved?'secondary':'primary')+'" id="homeNew">New game</button>'+
  '<button class="home-btn tertiary" id="homeLoad">Load game</button>'+
  (saved?'<div class="home-save-note">Autosave · '+E(year)+' · '+E(saved.turn)+' decisions</div>':'<div class="home-save-note">Your story begins in 1461</div>')+
  '</div><div class="home-utility"><button id="homeMusic" type="button" data-audio-toggle="1" aria-pressed="false">Music</button><button id="homeHow" type="button">How to play</button></div>'+
- '<p class="home-disclaimer">Historical foundations · fictional dialogue and alternate outcomes. Portraits are artistic interpretations, not historical likenesses.</p></main>';
+ '</main>';
  document.getElementById('homeContinue').onclick=edwardContinue;
  document.getElementById('homeNew').onclick=edwardNewGameMenu;
  document.getElementById('homeLoad').onclick=edwardLoadGameMenu;
