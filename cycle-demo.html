@@ -111,6 +111,7 @@ function render(){
  const speaker=c[1].toLowerCase();const face=speaker.includes("warwick")?"warwick":speaker.includes("elizabeth")?"elizabeth":speaker.includes("jacquetta")?"jacquetta":speaker.includes("hastings")?"hastings":speaker.includes("henry vi")?"henry":speaker.includes("clarence")?"clarence":speaker.includes("burgundian")?"burgundy":speaker.includes("northern")?"henry_percy":"paston";document.getElementById("portrait").innerHTML='<img src="assets/art/portraits/'+face+'.webp" alt="'+c[1]+'">';
  text("quote",is69?"The king’s household is under guard. Some say Edward must be removed; others ask whether he can still rule through settlement.":c[4]);
  let ctx=c[5]+(variant?" "+variant:"");
+ if(S.cycle){const prior=[...S.log].reverse().find(x=>x.title===c[0]);if(prior)ctx+=" Last cycle, you chose “"+prior.choice+".” The court now reads this answer against that precedent."}
  if(is69)ctx+=S.order>38&&S.authority>40?" Warwick’s challenge is real, but enough of the realm still recognises Edward. Deposition is possible, not required.":"The court is divided. Weak authority makes deposition possible, not certain.";
  text("context",ctx);text("foot","The court remembers "+S.mem.length+" rulings; outcomes emerge from their combination.");
  document.getElementById("choices").innerHTML=opts(i).map((o,j)=>'<button class="choice" data-i="'+j+'" data-dir="'+o.dir+'"><span class="arrow">'+({left:"←",right:"→",up:"↑",down:"↓"}[o.dir])+'</span>'+o.t+'<em>'+o.d+'</em></button>').join("");
