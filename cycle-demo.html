@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDWARD · The Living Reign · Cycle Demo</title>
+<style>
+:root{--ink:#25251f;--vellum:#eadcc0;--vellum2:#d8c7a2;--red:#793b37;--blue:#344c65;--gold:#b79a60;--panel:#202620;--line:#675e47;--muted:#bdb5a1}
+*{box-sizing:border-box}body{margin:0;background:#171a17;color:var(--vellum);font:15px Georgia,serif}.wrap{max-width:1120px;margin:auto;padding:16px}.head{display:flex;justify-content:space-between;align-items:center;padding:4px 2px 13px;border-bottom:1px solid var(--line);margin-bottom:14px}.brand{font:small-caps 21px Georgia;letter-spacing:.18em}.sub{font:10px Arial;letter-spacing:.12em;color:#c7b982}.date{font:11px Arial;color:var(--muted);text-align:right}.grid{display:grid;grid-template-columns:1fr 1.3fr .85fr;gap:13px;align-items:start}.panel{padding:13px;background:var(--panel);border:1px solid var(--line)}h2{font:small-caps 14px Georgia;letter-spacing:.12em;color:#d4bd81;margin:0 0 10px}h3{font:25px/1.1 Georgia;margin:7px 0}.map{width:100%;display:block;background:#32484a;border:1px solid #8b7c54}.map .land{fill:#889071;stroke:#d4c292;stroke-width:2}.map text{font:12px Georgia;fill:#f0e5c8}.map .route{stroke:#e0c885;stroke-width:2;stroke-dasharray:4 4;fill:none}.map .dot{fill:#793b37;stroke:#f0dfb6;stroke-width:1.5}.map .now{fill:#f1d287;stroke:#fff2cc;stroke-width:2}.small{font:11px/1.45 Arial;color:#c2baa8;margin:9px 0 0}.obj{padding:9px 0;border-top:1px solid #444a3d}.obj b{display:block;font:14px Georgia}.obj span{font:10px Arial;color:#bdb5a1}.bar{height:4px;background:#42473c;margin-top:6px}.bar i{display:block;height:100%;background:var(--gold);transition:width .2s}.card{position:relative;background:linear-gradient(145deg,var(--vellum),var(--vellum2));color:var(--ink);border:5px double #8c774e;padding:18px;min-height:500px;box-shadow:0 14px 36px #0008}.card:after{content:"";position:absolute;inset:7px;border:1px solid #a48b58;pointer-events:none}.cardtop{display:flex;justify-content:space-between;font:10px Arial;letter-spacing:.13em;color:#695f49;text-transform:uppercase}.portrait{width:76px;height:76px;float:right;margin:16px 3px 9px 13px;border:3px double #856f45;border-radius:50%;display:grid;place-items:center;text-align:center;color:#f5e8c8;background:radial-gradient(circle at 50% 35%,#d8c48e 0 19%,#344c65 20% 46%,#793b37 47% 71%,#b79a60 72%);font:bold 22px Georgia;text-shadow:0 1px 2px #222}.portrait small{display:block;font:8px Arial;letter-spacing:.08em}.kicker{font:10px Arial;letter-spacing:.15em;color:#806d42;text-transform:uppercase;margin-top:18px}.role{font:11px Arial;color:#6e634c;margin-top:7px}.title{min-height:139px}.rule{height:1px;background:linear-gradient(90deg,#90794b,transparent);margin:14px 0}.quote{font:21px/1.38 Georgia;min-height:86px}.context{font:13px/1.48 Georgia;color:#504b3e;border-top:1px solid #b8a77f;padding-top:10px;margin-top:11px}.choices{display:grid;gap:7px;margin-top:15px}.choice{border:1px solid #78694a;background:#f2e7cf;color:#25251f;text-align:left;padding:10px;font:14px/1.25 Georgia}.choice:hover{background:#fff2d8;border-color:var(--red)}.choice em{display:block;font:10px Arial;color:#74694f;margin-top:4px}.person{text-align:center;padding:3px 0 12px}.person .portrait{float:none;margin:0 auto 8px;width:68px;height:68px}.person strong{display:block;font:18px Georgia}.person small{font:10px Arial;color:#bdb5a1}.readout{border-top:1px solid #444a3d;padding-top:10px;margin-top:9px}.readout p{font:12px/1.5 Arial;color:#c3bba8;margin:6px 0}.readout strong{color:#e0cb91;font-weight:normal}.chron{font:11px/1.5 Arial;color:#c2baa8;max-height:120px;overflow:auto}.chron div{border-top:1px solid #41463b;padding:5px 0}.cyclebar{height:5px;background:#41463b}.cyclebar i{display:block;height:100%;background:var(--gold)}button{cursor:pointer;color:inherit}.restart{font:11px Arial;background:#2b3029;border:1px solid #71674e;padding:7px 9px;margin-top:10px}.foot{font:10px Arial;color:#8e8979;margin-top:9px}.end{display:none;grid-column:1/-1;text-align:center;min-height:70vh;padding:30px;background:var(--vellum);color:var(--ink);border:5px double #8c774e}.end h1{font:40px Georgia}.end p{font:17px/1.5 Georgia;max-width:650px;margin:12px auto}.end button{background:var(--red);border:0;padding:11px 16px;margin-top:12px}
+@media(max-width:780px){.wrap{padding:10px}.grid{grid-template-columns:1fr}.map-panel{order:2}.card-panel{order:1}.side-panel{order:3}.card{min-height:0}.quote{min-height:0}.title{min-height:115px}.person .portrait{float:right;margin:0 0 8px 10px}.person{text-align:left}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="head"><div class="brand">EDWARD <span class="sub">THE LIVING COURT · CYCLE STUDY</span></div><div class="date" id="date">ENGLAND · 1461</div></header>
+<main class="grid" id="game">
+<section class="panel map-panel"><h2>The realm</h2>
+<svg class="map" viewBox="0 0 300 360" aria-label="A stylised map of England"><rect width="300" height="360" fill="#32484a"/><path class="land" d="M120 20l31 12 22 23-6 20 18 17-8 24 18 21-8 22 16 23-9 18 16 24-10 21-21 13-4 23-23 8-10 24-22-7-14-22-24-11 4-27-15-14 8-21-17-15 8-22-9-19 14-18-3-26 17-12-4-25 18-17-1-21z"/><path class="route" d="M157 80Q137 155 153 223T159 309"/><circle class="dot" cx="157" cy="80" r="5"/><text x="169" y="83">York</text><circle class="dot" cx="145" cy="177" r="5"/><text x="87" y="174">Coventry</text><circle class="now" id="mapDot" cx="153" cy="270" r="6"/><text x="165" y="273">London</text><text x="14" y="330">THE CHANNEL</text></svg>
+<p class="small" id="mapNote">The court watches the North as royal authority takes shape.</p>
+<div style="margin-top:15px"><h2>Objectives of the Crown</h2>
+<div class="obj"><b>Keep the crown</b><span>Retain authority enough to govern.</span><div class="bar"><i id="aBar"></i></div></div>
+<div class="obj"><b>Keep the realm governable</b><span>Balance households, offices and local order.</span><div class="bar"><i id="oBar"></i></div></div>
+<div class="obj"><b>Secure the succession</b><span>Leave a settlement others may accept.</span><div class="bar"><i id="sBar"></i></div></div></div></section>
+<section class="panel card-panel"><div class="card"><div class="cardtop"><span id="chapter">I · The Crown After Towton</span><span id="step">01 / 20</span></div>
+<div class="portrait" id="portrait">RN<small>NEVILLE</small></div><div class="title"><div class="kicker" id="kicker">A question of command</div><h3 id="heading"></h3><div class="role" id="role"></div></div>
+<div class="rule"></div><div class="quote" id="quote"></div><div class="context" id="context"></div><div class="choices" id="choices"></div><div class="foot" id="foot"></div></div></section>
+<section class="panel side-panel"><div class="person"><div class="portrait">EIV<small>THE KING</small></div><strong>Edward IV</strong><small id="mood">The victorious king · authority still forming</small></div>
+<div class="readout"><h2>Political memory</h2><p>Warwick <strong id="warwick">uneasy ally</strong></p><p>Queen’s household <strong id="woodville">newly admitted</strong></p><p>Open promises <strong id="promises">0</strong></p><p>Prior rulings remembered <strong id="memory">0</strong></p></div>
+<div class="readout"><h2>Decision cycle</h2><div class="cyclebar"><i id="cycleBar"></i></div><p id="cycleText">Cycle 1 · 0 / 20</p></div>
+<div class="readout"><h2>Chronicle</h2><div class="chron" id="chronicle"></div></div>
+<button class="restart" id="restart">Begin another reign</button><div class="foot">The events are historical anchors; this path is a simulation.</div></section>
+<section class="end" id="end"><div class="kicker">The record closes</div><h1 id="endTitle"></h1><p id="endText"></p><p id="signature"></p><button id="again">Begin another reign</button></section></main></div>
+<script>
+const cards=[
+["The Crown After Towton","Richard Neville · Earl of Warwick","RN","A question of command","The field is yours. The northern roads are not. Give me men and I can pursue Henry’s party before it gathers strength.","Warwick offers the speed of a powerful ally. The army is weary; pursuit costs coin and allegiance."],
+["The Remaining Opponents","A royal clerk","RC","A question of clemency","The prisoners wait for judgment. Their lands could reward your servants; their release could persuade their neighbours to submit.","A sentence may deter resistance. It may also bind the families who survive it to another claimant."],
+["The Cost of Loyalty","A captain from the shires","CS","A question of service","The men ask what their service earns. Land, wages and pardon cannot all be promised without limit.","Rewards secure support now and create claims the Crown must answer later."],
+["Who Governs for the Crown?","The royal council","EC","A question of office","A commission in the king’s name can settle the North. Whoever carries it will gather clients as well as duties.","An office strengthens the realm and its holder at the same time."],
+["A Marriage Has Happened","Elizabeth Woodville · Queen","EW","A question of recognition","You chose me in private. The court now asks whether my family will have a place beside the Crown.","Recognition makes a private bond public. The household gains access; other servants measure what they have lost."],
+["A Queen in Public","A court usher","CU","A question of ceremony","The court asks how the Queen shall be presented. Ceremony tells the realm which household stands nearest the king.","A visible settlement can reassure the Queen and provoke a rival reading."],
+["France Changes Its Terms","A Burgundian envoy","BE","A question of diplomacy","A promise abroad is worth only what the shires believe the Crown can pay.","Foreign policy reaches the realm through credit, ports and the expectations of men who serve at home."],
+["The Queen’s Kin","Jacquetta of Luxembourg · Duchess of Bedford","JL","A question of patronage","My daughter’s kin ask for service. They will remember whether the Crown hears them as family or petitioners.","Patronage creates a household; a household creates another route to power."],
+["Warwick Seeks a Larger Voice","Richard Neville · Earl of Warwick","RN","A question of counsel","I carried your cause when the crown was uncertain. Let me speak before the council settles matters in my absence.","The request concerns a voice at court, but its answer will be read through earlier appointments."],
+["Who May Approach the King?","William Hastings · royal household","WH","A question of access","Petitions wait outside the chamber. Shall they pass through one trusted door, or reach you by several paths?","One channel is efficient. It also makes its keeper harder to replace."],
+["Henry VI in Custody","A keeper of the Tower","HK","A question of custody","The former king lives under guard. A change to his household could ease the burden—or expose how fragile his confinement is.","Custody is government. It carries risk even when no one intends a release."],
+["One Appointment, Two Claims","A chancery clerk","CC","A question of office","Two households ask the same vacant place. The office can settle one claim today; the other will remain in the room.","An appointment makes a winner and a witness. The witness becomes part of the next decision."],
+["Clarence’s Place","George, Duke of Clarence","GC","A question of kinship","I am your brother. Let my place at court be written plainly, before other men define it for me.","Kinship does not erase the need for power, income and a recognised role."],
+["Advice Becomes Command","A royal councillor","RC","A question of authority","The council can advise. It can also learn to expect its advice to become the king’s answer.","Consultation can distribute responsibility or conceal who actually decides."],
+["The Northern Order","A northern sheriff","NS","A question of local order","The villages will submit to a known hand. They ask whether that hand answers to York, London, or both.","Local obedience depends on who enforces an order and who hears complaints."],
+["A Warning from the North","A messenger","ME","A question of warning","Households are delaying their oaths. I cannot say whether it is fear, calculation, or a promise made elsewhere.","A report can be incomplete and still demand a response."],
+["Good Government, Bad Counsellors","A petitioner","PT","A question of redress","They say the king would hear us, if only his counsellors let him. Will the Crown open a path for our complaint?","The accusation may be true, useful, or both. A hearing gives it a place in the record."],
+["The Rebellion Approaches","A northern rider","NR","A question of control","The gathering is larger than a quarrel between neighbours. You can meet it with terms, force, or delay.","Today’s response is judged against the promises and offices already given."],
+["The Battle of Edgcote","A royal commander","RC","A question of command","The royal force is beaten. The victors demand a settlement, and the road to the king is no longer secure.","Defeat changes who can act in the king’s name. Edward may have to answer for earlier choices."],
+["The King Under Guard","A chamberlain","CH","A question of survival","You are not formally deposed. But men have begun to decide which letters reach you, and which orders leave the chamber.","The crown remains on Edward’s head. The question is whether it still changes what happens."]
+];
+const S={n:0,cycle:0,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,mem:[],log:[]};
+const clamp=(x)=>Math.max(0,Math.min(100,x));
+function text(id,v){document.getElementById(id).textContent=v}
+function opts(i){
+ if(i===1||i===17)return [
+ {t:"Offer terms and pardon",d:"Keep a path open; credible promises can bind.",k:"pardon"},
+ {t:"Order an execution",d:"A sentence may deter; kin and clients remember.",k:"execute"},
+ {t:"Delay judgment",d:"Buy time; unresolved claims gather weight.",k:"delay"}];
+ if([4,8,11,12].includes(i))return [
+ {t:"Share access through the Queen’s household",d:"Build royal kinship; unsettle established servants.",k:"queen"},
+ {t:"Keep the old servants in place",d:"Reassure the court; leave another claim waiting.",k:"court"},
+ {t:"Create a joint office",d:"Balance access if both houses accept its terms.",k:"joint"}];
+ if(i===19&&S.year>=1469&&S.year<1483)return [
+ {t:"Negotiate a guarded settlement",d:"Preserve a route back to authority; legitimise rivals.",k:"settle"},
+ {t:"Let the plot mature",d:"An attempt on Edward becomes possible as danger compounds.",k:"plot"},
+ {t:"Confront the captains",d:"Recover order—or face deposition if authority is thin.",k:"confront"}];
+ return [
+ {t:"Bind the answer to council and record",d:"Share responsibility; make a precedent.",k:"council"},
+ {t:"Decide directly in the king’s name",d:"Strengthen royal authority; concentrate blame.",k:"direct"},
+ {t:"Defer and hear another account",d:"Reduce immediate risk; delay can become grievance.",k:"defer"}]
+}
+function render(){
+ if(S.dead)return finish("The King Is Killed","A plot or political breach has taken Edward before 1483. The crown survives the man; the realm must decide whose voice speaks next.");
+ let i=S.n,c=cards[i],variant=S.cycle?["Earlier answers return with new witnesses.","Your court remembers the precedent; its balance has shifted.","The claim has changed shape as its bearer gathers allies."][(i+S.cycle)%3]:"";
+ let is69=i===19&&S.year===1469&&!S.deposed;
+ text("date","ENGLAND · "+S.year);text("chapter",["I · The Crown After Towton","II · The Court Gathers","III · Service and Rebellion","IV · The Price of Settlement","V · The House Behind the Crown","VI · The Last Inheritance"][Math.min(5,S.cycle)]);
+ text("step",String(i+1).padStart(2,"0")+" / 20");text("kicker",c[3]);text("heading",is69?"The King Under Guard":c[0]);text("role",c[1]);
+ document.getElementById("portrait").innerHTML=c[2]+"<small>"+c[1].split("·")[0].toUpperCase().slice(0,12)+"</small>";
+ text("quote",is69?"The king’s household is under guard. Some say Edward must be removed; others ask whether he can still rule through settlement.":c[4]);
+ let ctx=c[5]+(variant?" "+variant:"");
+ if(is69)ctx+=S.order>38&&S.authority>40?" Warwick’s challenge is real, but enough of the realm still recognises Edward. Deposition is possible, not required.":"The court is divided. Weak authority makes deposition possible, not certain.";
+ text("context",ctx);text("foot","The court remembers "+S.mem.length+" rulings; outcomes emerge from their combination.");
+ document.getElementById("choices").innerHTML=opts(i).map((o,j)=>'<button class="choice" data-i="'+j+'">'+o.t+'<em>'+o.d+'</em></button>').join("");
+ document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>choose(+b.dataset.i));
+ document.getElementById("aBar").style.width=S.authority+"%";document.getElementById("oBar").style.width=S.order+"%";document.getElementById("sBar").style.width=S.succession+"%";
+ text("warwick",S.warwick>24?"powerful, watchful ally":S.warwick< -20?"open rival":"uneasy ally");
+ text("woodville",S.woodville>18?"growing royal household":S.woodville< -15?"kept at the edge":"newly admitted");
+ text("promises",S.open+" open · "+S.broken+" broken");text("memory",S.mem.length);
+ text("mood",S.deposed?"King under restraint · not formally deposed":S.authority<30?"The crown is contested":S.authority>66?"Authority holds, but loyalty has a price":"The victorious king · authority still forming");
+ text("mapNote",S.deposed?"Edward is under guard; the succession is open.":"The court watches the North as royal authority takes shape.");
+ document.getElementById("mapDot").setAttribute("cx",S.year<1469?153:S.deposed?157:153);
+ document.getElementById("cycleBar").style.width=(S.n*5)+"%";text("cycleText","Cycle "+(S.cycle+1)+" · "+S.n+" / 20");
+ document.getElementById("chronicle").innerHTML=S.log.slice(-5).reverse().map(x=>"<div>"+x.year+" · "+x.title+" — "+x.choice+"</div>").join("")||"<div>The crown is won; the terms of rule remain open.</div>";
+ document.getElementById("end").style.display="none";document.getElementById("game").style.display="grid";
+}
+function choose(j){
+ let i=S.n,o=opts(i)[j],imbalance=Math.abs(S.warwick-S.woodville)/30;
+ switch(o.k){
+ case"pardon":S.authority-=2;S.order+=5;S.succession+=2;S.warwick-=2;S.open++;S.mem.push("conditional pardon");break;
+ case"execute":S.authority+=3;S.order+=1;S.succession-=7;S.warwick-=9;S.harsh++;S.executions++;S.mem.push("public sentence");break;
+ case"delay":S.authority-=3;S.order-=4;S.warwick-=2;S.open++;S.mem.push("deferred judgment");break;
+ case"queen":S.woodville+=9;S.warwick-=4;S.order-=1;S.mem.push("queen’s kin admitted");break;
+ case"court":S.woodville-=3;S.warwick+=4;S.order+=2;S.mem.push("old servants retained");break;
+ case"joint":S.woodville+=3;S.warwick+=2;S.order+=4;S.mem.push("shared office");break;
+ case"council":S.authority+=2;S.order+=4;S.succession+=2;S.mem.push("council precedent");break;
+ case"direct":S.authority+=5;S.order-=1;S.mem.push("royal command");break;
+ case"defer":S.authority-=2;S.order-=3;S.open++;S.mem.push("deferred hearing");break;
+ case"settle":S.authority+=2;S.order+=8;S.succession+=4;S.warwick+=5;S.mem.push("guarded settlement");break;
+ case"plot":S.risk+=14+imbalance*8+(100-S.order)*.22+(100-S.authority)*.17+S.broken*3;S.order-=7;S.authority-=3;S.mem.push("plot left unchallenged");break;
+ case"confront":S.authority+=4;S.order+=4;if(S.authority<28)S.risk+=38;S.mem.push("captains confronted");break;
+ }
+ S.authority=clamp(S.authority+(S.warwick< -28?-3:0)+(S.order>70?2:0));S.order=clamp(S.order-imbalance*2+(S.broken>2?-2:0));S.succession=clamp(S.succession+(S.woodville>16&&S.warwick< -15?-4:0));S.warwick=Math.max(-60,Math.min(60,S.warwick));S.woodville=Math.max(-60,Math.min(60,S.woodville));
+ if(S.open>3&&S.open%3===0){S.broken++;S.open=2}
+ if(S.year>=1469&&S.year<1483&&!S.deposed&&S.authority<24&&S.order<25&&o.k==="confront")S.deposed=true;
+ if(o.k==="plot"&&S.risk>=42)S.dead=true;
+ S.log.push({year:S.year,title:cards[i][0],choice:o.t});S.n++;
+ if(S.n===20){S.n=0;S.cycle++;S.year=Math.min(1483,S.year+4);S.mem=S.mem.slice(-16);
+ if(S.year>=1483)return finish("Edward Dies · 1483","Edward’s death closes the reign in 1483 if no earlier plot or crisis has killed him. The offices, promises and rival households you shaped now become the terms of succession.");
+ }
+ render();
+}
+function finish(title,desc){
+ document.getElementById("game").style.display="none";document.getElementById("end").style.display="block";text("endTitle",title);text("endText",desc);
+ text("signature", "Ruler’s signature: "+(S.harsh>5?"command sharpened by fear":S.open>6?"a king of bargains and deferrals":S.warwick>22?"rule through a powerful lieutenant":S.woodville>20?"a court built around royal kin":"authority held through changing coalitions")+". A political reading, not a moral verdict.");
+}
+function reset(){Object.assign(S,{n:0,cycle:0,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,mem:[],log:[]});render()}
+document.getElementById("restart").onclick=reset;document.getElementById("again").onclick=reset;render();
+</script></body></html>
