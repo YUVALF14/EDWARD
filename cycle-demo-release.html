@@ -123,7 +123,6 @@ function render(){
  text("promises",S.open+" open · "+S.broken+" broken");text("memory",S.mem.length);
  text("mood",S.deposed?"King under restraint · not formally deposed":S.authority<30?"The crown is contested":S.authority>66?"Authority holds, but loyalty has a price":"The victorious king · authority still forming");
  text("mapNote",S.deposed?"Edward is under guard; the succession is open.":"The court watches the North as royal authority takes shape.");
- document.getElementById("mapDot").setAttribute("cx",S.year<1469?153:S.deposed?157:153);
  document.getElementById("cycleBar").style.width=(S.n*5)+"%";
  document.getElementById("chronicle").innerHTML=S.log.slice(-5).reverse().map(x=>"<div>"+x.year+" · "+x.title+" — "+x.choice+"</div>").join("")||"<div>The crown is won; the terms of rule remain open.</div>";
  document.getElementById("end").style.display="none";document.getElementById("game").style.display="grid";
