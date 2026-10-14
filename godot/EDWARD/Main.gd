@@ -60,6 +60,7 @@ var dead := false
 var deposed := false
 var page: VBoxContainer
 var card_text: RichTextLabel
+var card_heading: Label
 var audio_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
 var music_on := false
@@ -146,10 +147,17 @@ func _show_title() -> void:
 	copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	page.add_child(copy)
 	var new_game := _button("New Game", "Begin Edward’s reign", false)
-	new_game.pressed.connect(func(): _play_sfx(); _start_new_game())
+	new_game.pressed.connect(func() -> void:
+		_play_sfx()
+		_start_new_game()
+	)
 	page.add_child(new_game)
 	var sound := _button(_music_button_label(), "A quiet instrumental drone and lyre motif", true)
-	sound.pressed.connect(func(): _play_sfx(); _toggle_music(); sound.text = _music_button_label())
+	sound.pressed.connect(func() -> void:
+		_play_sfx()
+		_toggle_music()
+		sound.text = _music_button_label()
+	)
 	page.add_child(sound)
 	var footer := _label("A political reading of the reign, not a verdict on the king.", 11, MUTED, false, HORIZONTAL_ALIGNMENT_CENTER)
 	page.add_child(footer)
@@ -202,7 +210,10 @@ func _show_intro() -> void:
 	body.add_child(separator)
 	body.add_child(_label("The Wars of the Roses · Yorkist rule begins at Towton", 14, Color("#655b48"), false))
 	var next := _button("Continue", "The account appears before the first decision", false)
-	next.pressed.connect(func(): _play_sfx(); _advance_intro())
+	next.pressed.connect(func() -> void:
+		_play_sfx()
+		_advance_intro()
+	)
 	page.add_child(next)
 	_add_footer("The history frames the choices; the court will remember what you make of them.")
 	var tween := create_tween()
@@ -248,8 +259,17 @@ func _show_game() -> void:
 		layout.add_child(card_panel)
 		layout.add_child(map_panel)
 		layout.add_child(court_panel)
+	if card_heading != null:
+		card_heading.grab_focus()
+	var scroll := page.get_parent() as ScrollContainer
+	if scroll != null:
+		scroll.scroll_vertical = 0
 	var music := _button(_music_button_label(), "Instrumental ambience", true)
-	music.pressed.connect(func(): _play_sfx(); _toggle_music(); music.text = _music_button_label())
+	music.pressed.connect(func() -> void:
+		_play_sfx()
+		_toggle_music()
+		music.text = _music_button_label()
+	)
 	page.add_child(music)
 
 func _build_map_panel() -> PanelContainer:
@@ -289,6 +309,7 @@ func _build_quick_state() -> Control:
 		box.add_child(values_row)
 		var bar := ProgressBar.new()
 		bar.custom_minimum_size = Vector2(0, 4)
+		_style_progress(bar)
 		bar.show_percentage = false
 		bar.max_value = 100
 		bar.value = values[entry[1]]
@@ -309,8 +330,15 @@ func _build_card_panel(period: Dictionary) -> PanelContainer:
 	row.add_child(spacer)
 	row.add_child(_label("%02d / 20" % (decision_index + 1), 10, Color("#695f49"), false))
 	box.add_child(row)
-	var card: Dictionary = DECK[decision_index % DECK.size()]
+	var available: Array[int] = []
+	for card_index in range(DECK.size()):
+		if DECK[card_index].title == "The King Under Guard" and period.year != 1469:
+			continue
+		available.append(card_index)
+	var card: Dictionary = DECK[available[decision_index % available.size()]]
 	var quote := _label(card.title, 28, INK, true)
+	card_heading = quote
+	quote.focus_mode = Control.FOCUS_ALL
 	quote.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(quote)
 	var speaker := _label(card.speaker, 13, Color("#6e634c"), false)
@@ -341,12 +369,12 @@ func _build_card_panel(period: Dictionary) -> PanelContainer:
 		box.add_child(feedback)
 	var choices: Array = card.choices.duplicate(true)
 	if choices.size() == 3 and (decision_index + period_index) % 2 == 0:
-		choices = choices.slice(0, 2)
+		choices = [choices[0], choices[1]]
 	for option in choices:
 		var effect_line := _effect_summary(option.effect)
 		var button := _button("%s\n%s" % [option.label, effect_line], option.line, false)
 		button.custom_minimum_size.y = 76
-		button.pressed.connect(func(): _play_sfx(); _choose(option, card))
+		button.pressed.connect(_on_option_selected.bind(option, card))
 		box.add_child(button)
 	var relation := _label("Court alignment · %s   |   Faction pressure · %s" % [_alignment_label(), roundi(_faction_pressure())], 11, Color("#6e634c"), false)
 	relation.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -379,6 +407,10 @@ func _build_court_panel() -> PanelContainer:
 	chron.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(chron)
 	return panel
+
+func _on_option_selected(option: Dictionary, card: Dictionary) -> void:
+	_play_sfx()
+	_choose(option, card)
 
 func _choose(option: Dictionary, card: Dictionary) -> void:
 	var old_gap: float = absf(values.warwick - values.woodville)
@@ -455,8 +487,14 @@ func _finish(title: String, text: String) -> void:
 	profile.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	page.add_child(profile)
 	var again := _button("Begin another reign", "The court remembers a new set of twenty rulings", false)
-	again.pressed.connect(func(): _play_sfx(); _start_new_game())
+	again.pressed.connect(func() -> void:
+		_play_sfx()
+		_start_new_game()
+	)
 	page.add_child(again)
+	var scroll := page.get_parent() as ScrollContainer
+	if scroll != null:
+		scroll.scroll_vertical = 0
 
 func _faction_pressure() -> float:
 	var gap: float = absf(values.warwick - values.woodville)
@@ -499,11 +537,20 @@ func _stat_row(title: String, key: String) -> Control:
 	box.add_child(line)
 	var bar := ProgressBar.new()
 	bar.show_percentage = false
+	_style_progress(bar)
 	bar.max_value = 100
 	bar.value = values[key]
 	bar.custom_minimum_size = Vector2(0, 4)
 	box.add_child(bar)
 	return box
+
+func _style_progress(bar: ProgressBar) -> void:
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color("#42473c")
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = GOLD
+	bar.add_theme_stylebox_override("background", background)
+	bar.add_theme_stylebox_override("fill", fill)
 
 func _relation_row(title: String, key: String) -> Control:
 	var line := HBoxContainer.new()
