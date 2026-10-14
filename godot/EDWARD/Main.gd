@@ -42,7 +42,7 @@ const DECK := [
 	{"title":"The King Under Guard","speaker":"A royal captain","quote":"The king’s household is under guard. Some lords ask whether Edward can still command; others are ready to accept a settlement.","context":"At this point Edward’s position depends on the same claims built across the court. Deposition is possible, but the crisis does not decide itself.","choices":[{"label":"Yield the seal and accept the lords’ judgment","line":"End Edward’s rule by deliberate settlement.","effect":{"authority":-12,"order":4,"warwick":8,"woodville":-8},"record":"Edward gives up the royal seal.","depose":true},{"label":"Call the lords who still hold faith","line":"Resist removal; make the strength of each bond visible.","effect":{"authority":5,"order":-2,"warwick":-5,"woodville":3,"power":3},"record":"Edward calls his remaining supporters to court."},{"label":"Negotiate a guarded settlement","line":"Buy time with shared terms; leave the Crown constrained.","effect":{"authority":-2,"order":5,"warwick":2,"woodville":2,"succession":3},"record":"A guarded settlement keeps Edward on the throne."}]},
 	{"title":"A Warning at the Door","speaker":"A captain of the guard","quote":"Two armed men were seen asking after the king’s chamber. The guard asks whether to change the watch or leave the report alone.","context":"Plots become more likely when the Crown is exposed and rival households can act without trust. The warning is visible before the danger takes effect.","choices":[{"label":"Strengthen the king’s guard","line":"Spend authority and attention to reduce immediate exposure.","effect":{"authority":2,"order":1,"plot_exposure":-15},"record":"The king’s guard changes the watch."},{"label":"Question the captain before the council","line":"Test the report; the delay leaves the chamber exposed.","effect":{"authority":1,"order":-1,"plot_exposure":5},"record":"The captain is questioned before the council."},{"label":"Dismiss the report as factional noise","line":"Preserve the peace of court; risk a real breach.","effect":{"authority":-2,"order":-4,"plot_exposure":20},"record":"The warning is dismissed without inquiry."}]},
 	{"title":"The Terms of Succession","speaker":"The Archbishop’s envoy","quote":"A marriage may bind a house to the Crown. An heir may give that bond a future, if the realm accepts the line.","context":"Dynastic security is made from marriage, inheritance and recognition. None can guarantee the others.","choices":[
-		{"label":"Publish the heir’s place before the court","line":"Give the succession public shape; invite scrutiny.","effect":{"succession":8,"authority":2,"faith":1},"record":"The heir’s place is proclaimed before the court."},
+		{"label":"Publish the heir’s place before the court","line":"Give the succession public shape; invite scrutiny.","effect":{"inheritance":8,"succession":2,"authority":2},"record":"The heir’s place is proclaimed before the court."},
 		{"label":"Keep the settlement within the royal council","line":"Preserve room to negotiate; leave the claim less visible.","effect":{"succession":2,"authority":1,"order":1},"record":"Succession is reserved for a private council."},
 		{"label":"Seek the Church’s witness","line":"Strengthen recognition; allow clerical authority a voice.","effect":{"faith":7,"succession":4,"authority":1},"record":"The Church witnesses the royal settlement."}]},
 	{"title":"The Crown’s Due","speaker":"A keeper of the royal accounts","quote":"The treasury can meet the cost of one more campaign. It cannot do so without drawing upon the king’s future income.","context":"Revenue buys action. Repeated demands weaken trust in royal promises and make every later decision more expensive.","choices":[
@@ -396,6 +396,7 @@ func _build_court_panel() -> PanelContainer:
 	box.add_child(_label("SOURCES OF MEANING", 13, GOLD, true))
 	for entry in [["Marriage","marriage"],["Inheritance","inheritance"],["Faith","faith"],["Royal power","power"]]:
 		box.add_child(_stat_row(entry[0], entry[1]))
+	box.add_child(_stat_row("Royal treasury", "treasury"))
 	box.add_child(HSeparator.new())
 	box.add_child(_label("POLITICAL MEMORY", 13, GOLD, true))
 	box.add_child(_relation_row("Warwick’s affinity", "warwick"))
@@ -424,13 +425,15 @@ func _choose(option: Dictionary, card: Dictionary) -> void:
 	values.authority = clampf(values.authority + (shared_affinity - 36.0) * 0.018, 0.0, 100.0)
 	values.succession = clampf(values.succession + (values.marriage - 50.0) * 0.018 + (values.inheritance - 45.0) * 0.022, 0.0, 100.0)
 	values.authority = clampf(values.authority + (values.faith - 50.0) * 0.008, 0.0, 100.0)
+	values.authority = clampf(values.authority + (values.power - 50.0) * 0.006 + (values.treasury - 48.0) * 0.012, 0.0, 100.0)
+	values.order = clampf(values.order - maxf(0.0, values.power - 68.0) * 0.035, 0.0, 100.0)
 	values.power = clampf(values.power + (values.authority - 50.0) * 0.01, 0.0, 100.0)
 	decision_index += 1
 	var consequence := _consequence(option, old_gap, new_gap, household_strain)
 	last_feedback = consequence
 	if option.get("depose", false) and PERIODS[period_index].year == 1469:
 		deposed = true
-		_finish("Edward Deposed · 1469", "The lords take the seal after a political settlement. Edward’s deposition follows the choices that made it possible; it was not the only outcome of the crisis.")
+		_finish("Edward Deposed · 1469", "The lords take the seal after a political settlement. Edward’s deposition follows the choices that made it possible; it was not the only outcome of the crisis.", 1469)
 		return
 	if PERIODS[period_index].year >= 1469 and values.plot_exposure >= 38.0 and _faction_pressure() >= 58.0:
 		dead = true
@@ -466,7 +469,7 @@ func _consequence(option: Dictionary, old_gap: float, new_gap: float, strain: fl
 func _advance_period() -> void:
 	decision_index = 0
 	if period_index + 1 >= PERIODS.size() or PERIODS[period_index + 1].year >= 1483:
-		_finish("Edward Dies · 1483", "If Edward survives earlier political violence, his death in 1483 closes the reign. The court’s offices, promises and alliances become the terms of succession.")
+		_finish("Edward Dies · 1483", "If Edward survives earlier political violence, his death in 1483 closes the reign. The court’s offices, promises and alliances become the terms of succession.", 1483)
 		return
 	period_index += 1
 	last_feedback = "Twenty rulings have entered the court’s memory. Earlier choices now shape the next period."
@@ -474,10 +477,11 @@ func _advance_period() -> void:
 		last_feedback += " Warwick’s position makes deposition a live possibility, not an automatic result."
 	_show_game()
 
-func _finish(title: String, text: String) -> void:
+func _finish(title: String, text: String, end_year: int = -1) -> void:
 	phase = "end"
 	_clear_page()
-	_add_topline("THE RECORD CLOSES", "ENGLAND · 1483")
+	var closing_year := PERIODS[period_index].year if end_year < 0 else end_year
+	_add_topline("THE RECORD CLOSES", "ENGLAND · %d" % closing_year)
 	var title_label := _label(title, 36, VELLUM, true, HORIZONTAL_ALIGNMENT_CENTER)
 	page.add_child(title_label)
 	var explanation := _label(text, 19, MUTED, false, HORIZONTAL_ALIGNMENT_CENTER)
