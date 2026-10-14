@@ -178,7 +178,7 @@ func _start_new_game() -> void:
 func _show_intro() -> void:
 	phase = "intro"
 	_clear_page()
-	_add_topline("THE CROWN AFTER TOWTON", "HISTORICAL PROLOGUE")
+	_add_topline("THE CROWN AFTER TOWTON", "PROLOGUE · %d / %d" % [intro_index + 1, INTRO_PAGES.size()])
 	var panel := _panel(Color("#e5d6b8"), Color("#8c774e"), 5)
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	page.add_child(panel)
@@ -324,7 +324,7 @@ func _build_card_panel(period: Dictionary) -> PanelContainer:
 	box.add_theme_constant_override("separation", 11)
 	panel.add_child(_padded(box, 18))
 	var row := HBoxContainer.new()
-	row.add_child(_label("I · %s" % period.name.to_upper(), 10, Color("#695f49"), false))
+	row.add_child(_label("PERIOD %02d · %s" % [period_index + 1, period.name.to_upper()], 10, Color("#695f49"), false))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
