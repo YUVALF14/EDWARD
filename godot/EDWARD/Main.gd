@@ -103,6 +103,7 @@ func _build_shell() -> void:
 	theme = ambient_theme
 	audio_player = AudioStreamPlayer.new()
 	audio_player.bus = "Master"
+	audio_player.volume_db = 5.0
 	add_child(audio_player)
 	audio_player.stream = _make_music()
 	audio_player.finished.connect(_on_music_finished)
@@ -565,7 +566,15 @@ func _relation_row(title: String, key: String) -> Control:
 	return line
 
 func _portrait(speaker: String) -> TextureRect:
-	var filename := "warwick" if "Warwick" in speaker else ("elizabeth" if "Elizabeth" in speaker else "edward")
+	var filename := ""
+	if "Warwick" in speaker:
+		filename = "warwick"
+	elif "Elizabeth" in speaker:
+		filename = "elizabeth"
+	elif "Edward" in speaker:
+		filename = "edward"
+	else:
+		return null
 	var encoded := FileAccess.get_file_as_string("res://assets/portraits/%s.webp.b64" % filename)
 	if encoded.is_empty(): return null
 	var image := Image.new()
