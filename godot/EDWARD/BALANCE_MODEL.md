@@ -2,32 +2,28 @@
 
 ## Design intent
 
-The model should show a ruler making choices inside a court where claims reinforce and undermine one another. It should not reduce the reign to a moral score or a simple sum of independent meters.
+The model treats the court as a set of claims that reinforce or strain one another. It does not produce a moral score or add independent meters into a single ruler rating.
 
 ## State
 
-The playable slice uses 0–100 values for royal authority, realm order, succession security, faith, marriage, inheritance, treasury, and royal power. Warwick’s affinity and the queen’s household range from −100 to 100. Higher affinity means a stronger bond to Edward’s court; negative values mean estrangement.
+Most values run from 0 to 100: royal authority (A), realm order (O), succession security (S), faith (F), marriage (M), inheritance (I), treasury, royal power, and plot exposure. Warwick’s affinity (W) and the queen’s household (Q) run from −100 to 100. Positive affinity means a stronger bond to Edward’s court; negative affinity means estrangement.
 
-A choice has a direct vector of effects, then the court applies interactions:
+A choice applies its direct effects, then the court applies cross-effects:
 
-- Let (g=|W-Q|), the distance between Warwick’s affinity (W) and the queen’s household (Q). When that gap widens, order falls by (0.055\max(0,g_{new}-g_{old})).
-- Shared support affects authority: (A\leftarrow A+0.018(\min(W,Q)-36)). This rewards a court whose major households both accept the crown, while a single dominant affinity does not provide the same stability.
-- Succession responds to the dynastic foundations: (S\leftarrow S+0.018(M-50)+0.022(I-45)), where (M) is marriage and (I) is inheritance.
-- Faith has a smaller legitimacy effect on authority: (A\leftarrow A+0.008(F-50)).
-- Faction pressure combines household distance, weakness in authority and order, uncertain succession, open promises, and the leverage of the strongest affinity:
+- Household distance is g = |W − Q|. A widening gap reduces order by 0.055 × max(0, g_new − g_old). This means a choice that strengthens one household while alienating another can weaken governability.
+- Shared support changes authority by 0.018 × (min(W, Q) − 36). Both households accepting the Crown provides more stability than one household dominating it.
+- Succession changes by 0.018 × (M − 50) + 0.022 × (I − 45). Marriage and inheritance therefore work together.
+- Faith changes authority by 0.008 × (F − 50).
+- Faction pressure is: P = clamp(0.42g + 0.24(100 − A) + 0.22(100 − O) + 0.16(100 − S) + 2.8U + 0.12 max(W, Q), 0, 100), where U is the number of open promises.
 
-[
-P=\operatorname{clamp}(0.42g+0.24(100-A)+0.22(100-O)+0.16(100-S)+2.8U+0.12\max(W,Q),0,100)
-]
+The interface shows current household alignment and faction pressure on the decision card. After each choice, the next card explains any visible cross-effect. A warning about the king’s safety appears once plot exposure reaches 18.
 
-where (U) is open promises.
+## Crisis and endings
 
-## Reading the results
+At 1469, the player can explicitly yield the royal seal. This ends Edward’s rule by choice; the game never deposes him automatically. Resisting or negotiating keeps the period open to other outcomes.
 
-A high pressure value means a challenge is plausible, not inevitable. At 1469 the player can face deposition as one possible response to accumulated conditions. A particular choice or state threshold should never depose Edward automatically. Reaching 1483 ends the reign with Edward’s death if no earlier plot has killed him.
-
-Early death should be driven by a specific exposed plot, failed inquiry or force imbalance, rather than a hidden random roll. The probability must be legible from the scene and its political warnings.
+An early death can occur from 1469 onward if plot exposure reaches 38 while faction pressure is at least 58. The guard warning and threat value are visible before that threshold. Reaching the 1483 boundary ends the reign with Edward’s death if no earlier plot has killed him.
 
 ## Calibration
 
-Treat the starting values as a playable hypothesis, not historical measurements. During playtests, record the state before and after each decision, how often each response is selected, and whether the displayed relationship consequence matches the player’s expectation. Tune one coefficient at a time and keep a plain-language explanation beside each threshold.
+These starting values and coefficients are a playable hypothesis, not historical measurements. During playtests, record state before and after each decision, response selection, and whether the player anticipated the resulting political effect. Tune one coefficient at a time and keep a plain-language explanation beside each threshold.
