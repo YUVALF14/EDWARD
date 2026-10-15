@@ -48,6 +48,10 @@
 - Desktop: 1440 × 1000. Mobile touch emulation: 390 × 844, 375 × 844, 320 × 568. Reviewed screenshots of title, audience, court, act changes and ending. No horizontal overflow, missing runtime assets or page exceptions. Browser-dispatched touch input selects exactly one response on a horizontal seal swipe and card swipe; vertical scrolling makes no decision.
 - `node --check` on active scripts and `git diff --check` — pass.
 
+## Published hosting check
+
+The first live deployment exposed an older Pages configuration that excluded every JavaScript, CSS and JSON file. It had been suitable for the earlier single-file build. The release configuration now excludes individual archived sources while shipping the active modules and data. The build validates that no runtime dependency is excluded. In-game recording credits use a plain-text file so Markdown conversion cannot change their URL.
+
 ## Second critical review
 
 The opening now establishes Edward and the court before showing the political measures. Each act changes the people, stakes and place; the dossier supports the audience rather than dominating it. Intimate scenes interrupt campaigns and appointments. Short consequences and the final signature give a through-line to the decisions.

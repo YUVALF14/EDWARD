@@ -58,7 +58,7 @@
       "sha256": "2a4f1860987e32f2c7ef647ee3ad9ba58d4bd4b659f6093de503995d5dfb756f"
     },
     {
-      "path": "assets/audio/ATTRIBUTION.md",
+      "path": "assets/audio/ATTRIBUTION.txt",
       "bytes": 1927,
       "sha256": "1ce44f30167b199ab390416bee10c06a0ad9dd0803f33c14c83538d9684cefae"
     },
@@ -99,8 +99,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 59933,
-      "sha256": "42c65e293b137cc6d92113f7a86d03eaa1beafd68a9d3de050e18a6c20b80398"
+      "bytes": 59934,
+      "sha256": "4d48becb6b92e5bb6a52a210b42d853a3e75ee90f526554295eb45b20a52dcff"
     },
     {
       "path": "edward-reign-data.js",
@@ -119,8 +119,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 59933,
-      "sha256": "42c65e293b137cc6d92113f7a86d03eaa1beafd68a9d3de050e18a6c20b80398"
+      "bytes": 59934,
+      "sha256": "4d48becb6b92e5bb6a52a210b42d853a3e75ee90f526554295eb45b20a52dcff"
     }
   ]
 }

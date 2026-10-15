@@ -4,14 +4,20 @@ The earlier simulation remains in source control. Its archived assembler is
 `python tools/build_legacy.py` and writes legacy-index.html, never this release.
 """
 from pathlib import Path
-import hashlib, json, re
+import hashlib, json, re, fnmatch
 ROOT=Path(__file__).resolve().parent
 html=(ROOT/'edward-loop-demo.html').read_text()
 required=set(re.findall(r'(?:src|href)="([^"#]+)"',html))
 required={p for p in required if not p.startswith(('https:','http:'))}
 required.update(re.findall(r"url\(['\"]?([^)'\"]+)", (ROOT/'edward-reign.css').read_text()))
-required.update(['edward-loop-demo.html','assets/audio/court-samples.mp3','assets/audio/court-samples.json','assets/audio/ATTRIBUTION.md','assets/audio/VCSL-LICENSE.txt','assets/fonts/OFL.txt'])
+required.update(['edward-loop-demo.html','assets/audio/court-samples.mp3','assets/audio/court-samples.json','assets/audio/ATTRIBUTION.txt','assets/audio/VCSL-LICENSE.txt','assets/fonts/OFL.txt'])
 required.update('assets/art/portraits/'+p+'.webp' for p in re.findall(r"portrait:'([^']+)'",(ROOT/'edward-court.js').read_text()))
+config=ROOT/'_config.yml'
+if config.exists():
+ patterns=[json.loads(line.strip()[2:]) for line in config.read_text().splitlines() if line.strip().startswith('- ')]
+ for asset in required:
+  if any(fnmatch.fnmatchcase(asset,pattern) or pattern.endswith('/') and asset.startswith(pattern) for pattern in patterns):
+   raise SystemExit('Required runtime asset excluded by Pages: '+asset)
 for p in sorted(required):
  if not (ROOT/p).is_file():raise SystemExit('Missing required release asset: '+p)
 (ROOT/'index.html').write_text(html)
