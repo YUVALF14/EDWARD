@@ -1,12 +1,21 @@
+"""Validate and assemble the released Living Court campaign for static hosting.
+
+The earlier simulation remains in source control. Its archived assembler is
+`python tools/build_legacy.py` and writes legacy-index.html, never this release.
+"""
 from pathlib import Path
-p=Path(__file__).parent
-s=(p/'index.template.html').read_text().replace('__ATMOSPHERE_CSS__',(p/'atmosphere.css').read_text()).replace('__FOCUS_CSS__',(p/'focus.css').read_text()).replace('__HOME_CSS__',(p/'home.css').read_text()).replace('__SCENE_ART_CSS__',(p/'scene_art.css').read_text())
-s=s.replace('__CHRONICLE_ART_CSS__',(p/'chronicle_art.css').read_text())
-s=s.replace('__ROYAL_CHRONICLE_CSS__',(p/'royal_chronicle.css').read_text())
-s=s.replace('__PRESENTATION_CSS__',(p/'presentation.css').read_text()).replace('__PRESENTATION_JS__',(p/'presentation.js').read_text())
-s=s.replace('__PERCUSSION_JS__',(p/'percussion.js').read_text())
-s=s.replace('__COURT_CSS__',(p/'court.css').read_text()).replace('__EXPERIENCE_CSS__',(p/'experience.css').read_text())
-for tag,filename in [('__DATA_JS__','data.js'),('__REACTIVE_JS__','reactive.js'),('__EMERGENT_JS__','emergent.js'),('__SANDBOX_JS__','sandbox.js'),('__DEEPWORLD_JS__','deepworld.js'),('__NARRATIVE_JS__','narrative.js'),('__STORY_SCENES_JS__','story_scenes.js'),('__STORY_CROSSOVERS_JS__','story_crossovers.js'),('__STORY_ENGINE_JS__','story_engine.js'),('__DELAYED_JS__','delayed.js'),('__ENGINE_JS__','engine.js'),('__UI_JS__','ui.js'),('__MAP_DATA_JS__','map_data.js'),('__EXTRAS_JS__','extras.js'),('__STORY_UI_JS__','story_ui.js'),('__FOCUS_JS__','focus.js'),('__ARTWORK_JS__','artwork.js'),('__HOME_JS__','home.js'),('__WORLD_PRESSURE_JS__','world_pressure.js'),('__HISTORICAL_WORLD_JS__','historical_world.js'),('__SUBSTANCE_JS__','substance.js'),('__SCENE_ART_JS__','scene_art.js'),('__INTEGRATION_JS__','integration.js'),('__LIVING_COURT_JS__','living_court.js'),('__COURT_UI_JS__','court_ui.js'),('__LIFE_JS__','life.js'),('__SOUNDSCAPE_JS__','soundscape.js'),('__PIANO_JS__','piano.js'),('__EXPERIENCE_JS__','experience.js'),('__STEWARDSHIP_JS__','stewardship.js'),('__REIGN_JS__','reign.js'),('__REIGN_UI_JS__','reign_ui.js'),('__LEGACY_JS__','legacy.js'),('__LEGACY_UI_JS__','legacy_ui.js'),('__GUIDANCE_JS__','guidance.js'),('__GUIDANCE_UI_JS__','guidance_ui.js'),('__CHRONICLE_ART_JS__','chronicle_art.js'),('__CAMPAIGN_CHAPTERS_JS__','campaign_chapters.js'),('__ROYAL_CHRONICLE_JS__','royal_chronicle.js')]:
- s=s.replace(tag,(p/filename).read_text())
-(p/'index.html').write_text(s)
-print('Built',p/'index.html',len(s.encode('utf-8')),'bytes')
+import hashlib, json, re
+ROOT=Path(__file__).resolve().parent
+html=(ROOT/'edward-loop-demo.html').read_text()
+required=set(re.findall(r'(?:src|href)="([^"#]+)"',html))
+required={p for p in required if not p.startswith(('https:','http:'))}
+required.update(re.findall(r"url\(['\"]?([^)'\"]+)", (ROOT/'edward-reign.css').read_text()))
+required.update(['edward-loop-demo.html','assets/audio/court-samples.mp3','assets/audio/court-samples.json','assets/audio/ATTRIBUTION.md','assets/audio/VCSL-LICENSE.txt','assets/fonts/OFL.txt'])
+required.update('assets/art/portraits/'+p+'.webp' for p in re.findall(r"portrait:'([^']+)'",(ROOT/'edward-court.js').read_text()))
+for p in sorted(required):
+ if not (ROOT/p).is_file():raise SystemExit('Missing required release asset: '+p)
+(ROOT/'index.html').write_text(html)
+required.add('index.html')
+manifest={'release':'EDWARD IV — The Living Court 1.0','entry':'index.html','assets':[{'path':p,'bytes':(ROOT/p).stat().st_size,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sorted(required)]}
+(ROOT/'release-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+print('Built index.html; verified',len(required),'runtime assets;',sum(a['bytes'] for a in manifest['assets']),'bytes including opt-in audio.')

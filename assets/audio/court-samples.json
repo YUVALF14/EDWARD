@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "sourceCommit": "c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e",
+  "license": "CC0-1.0",
+  "samples": [
+    {
+      "id": "harp-C2",
+      "kind": "harp",
+      "note": "C2",
+      "midi": 48,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_C2_v2_RR1.wav",
+      "offset": 0.0,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-D2",
+      "kind": "harp",
+      "note": "D2",
+      "midi": 50,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_D2_v2_RR1.wav",
+      "offset": 5.18,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-E2",
+      "kind": "harp",
+      "note": "E2",
+      "midi": 52,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_E2_v2_RR1.wav",
+      "offset": 10.36,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-Fs2",
+      "kind": "harp",
+      "note": "F#2",
+      "midi": 54,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_F#2_v2_RR1.wav",
+      "offset": 15.54,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-Gs2",
+      "kind": "harp",
+      "note": "G#2",
+      "midi": 56,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_G#2_v2_RR1.wav",
+      "offset": 20.72,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-As2",
+      "kind": "harp",
+      "note": "A#2",
+      "midi": 58,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_A#2_v2_RR1.wav",
+      "offset": 25.9,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-C3",
+      "kind": "harp",
+      "note": "C3",
+      "midi": 60,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_C3_v2_RR1.wav",
+      "offset": 31.08,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-D3",
+      "kind": "harp",
+      "note": "D3",
+      "midi": 62,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_D3_v2_RR1.wav",
+      "offset": 36.26,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-E3",
+      "kind": "harp",
+      "note": "E3",
+      "midi": 64,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_E3_v2_RR1.wav",
+      "offset": 41.44,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-Fs3",
+      "kind": "harp",
+      "note": "F#3",
+      "midi": 66,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_F#3_v2_RR1.wav",
+      "offset": 46.62,
+      "duration": 5.0
+    },
+    {
+      "id": "harp-Gs3",
+      "kind": "harp",
+      "note": "G#3",
+      "midi": 68,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_G#3_v2_RR1.wav",
+      "offset": 51.8,
+      "duration": 4.070781
+    },
+    {
+      "id": "harp-As3",
+      "kind": "harp",
+      "note": "A#3",
+      "midi": 70,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_A#3_v2_RR1.wav",
+      "offset": 56.050781,
+      "duration": 3.917531
+    },
+    {
+      "id": "harp-C4",
+      "kind": "harp",
+      "note": "C4",
+      "midi": 72,
+      "source": "Chordophones/Composite Chordophones/Folk Harp/EWHarp_Normal_C4_v2_RR1.wav",
+      "offset": 60.148313,
+      "duration": 4.393937
+    },
+    {
+      "id": "recorder-C3",
+      "kind": "recorder",
+      "note": "C3",
+      "midi": 60,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_C3_rr1_Main.wav",
+      "offset": 64.72225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-D3",
+      "kind": "recorder",
+      "note": "D3",
+      "midi": 62,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_D3_rr1_Main.wav",
+      "offset": 69.70225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-E3",
+      "kind": "recorder",
+      "note": "E3",
+      "midi": 64,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_E3_rr1_Main.wav",
+      "offset": 74.68225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-Fs3",
+      "kind": "recorder",
+      "note": "F#3",
+      "midi": 66,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_F#3_rr1_Main.wav",
+      "offset": 79.66225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-Gs3",
+      "kind": "recorder",
+      "note": "G#3",
+      "midi": 68,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_G#3_rr1_Main.wav",
+      "offset": 84.64225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-As3",
+      "kind": "recorder",
+      "note": "A#3",
+      "midi": 70,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_A#3_rr1_Main.wav",
+      "offset": 89.62225,
+      "duration": 4.8
+    },
+    {
+      "id": "recorder-C4",
+      "kind": "recorder",
+      "note": "C4",
+      "midi": 72,
+      "source": "Aerophones/Edge-blown Aerophones/Baroque Tenor Recorder/Sustain/TenRecorder_Sus_C4_rr1_Main.wav",
+      "offset": 94.60225,
+      "duration": 4.8
+    },
+    {
+      "id": "drum",
+      "kind": "drum",
+      "midi": 0,
+      "source": "Membranophones/Struck Membranophones/Frame Drum/HDrumL_HitMuted_v2_rr1_Sum.wav",
+      "offset": 99.58225,
+      "duration": 1.5
+    },
+    {
+      "id": "drum2",
+      "kind": "drum2",
+      "midi": 0,
+      "source": "Membranophones/Struck Membranophones/Frame Drum/HDrumL_HitMuted_v2_rr2_Sum.wav",
+      "offset": 101.26225,
+      "duration": 1.5
+    },
+    {
+      "id": "click",
+      "kind": "click",
+      "midi": 0,
+      "source": "Idiophones/Struck Idiophones/Woodblock/wood_click_pp_rr1.wav",
+      "offset": 102.94225,
+      "duration": 0.404969
+    }
+  ]
+}

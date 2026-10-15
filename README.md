@@ -1,50 +1,53 @@
-# EDWARD · The Living Court
+# EDWARD IV · The Living Court
 
-EDWARD is an experimental political role-playing game about Edward IV's reign, 1461–1483. It combines authored historical situations with a persistent court simulation in which appointments, promises, council advice, delayed reports, local pressure and player initiatives shape later events.
+A historical narrative strategy game about the personal and political experience of kingship, 1461–1471.
 
-**Play:** [yuvalf14.github.io/EDWARD](https://yuvalf14.github.io/EDWARD/)  
-**Stage:** experimental development build. It is playable, but its abstract political model is not a scholarly reconstruction of every English institution and has not received a full physical iPhone Safari test.
+**Play:** https://yuvalf14.github.io/EDWARD/
 
-## Play and systems
+## The released campaign
 
-- Start in 1461 for the full authored opening, or enter later years in explicitly generated alternate histories.
-- Read the situation, what Edward knows, and the stakes. A new decision waits five seconds before it can be made.
-- Swipe left or right, or use the on-screen choice buttons. Some matters offer a formal council hearing or a private audience.
-- Royal Initiative, appointments, council advice, promises and personal meetings can affect money, authority, relationships, unrest, reports and subsequent crises. Characters may refuse, delay or act independently.
-- Focus, Story and Full reading levels control how much context appears. The Encyclopedia distinguishes historical anchors, interpretation and simulation rules.
-- Autosave and three manual save slots are available, with JSON export/import for backups.
-- Music is opt-in because browsers require a user gesture. The adaptive score combines seven acoustic Yamaha C5 piano samples, recorded folk harp, a synthesized bass-viol line, recorder and frame drum. The player can mute the drum separately; the full band responds to the kingdom's mood.
-- The Royal Chronicle records decisions, their setting, whether they arose in council or a private audience, reports received by the Crown, historical dossiers and incidents from life in the realm. Filters organize acts by political subject. Reports preserve their source and uncertainty; the interface does not invent a causal connection where the simulation has not recorded one.
+Four acts of twenty concise decisions follow Edward from Towton through the crises of 1465–1469 to exile and restoration in 1470–1471. Authority, order, succession, personal relationships, competing affinities, promises, and the four sources of legitimacy shape the terms of each settlement. Responses have costs as well as benefits; repeated methods lose effectiveness. Some third responses are available only after earlier decisions build the necessary trust or religious standing. The final account describes the ruler’s political signature.
 
-## Presentation refresh · 12 October 2026
+The marriage, exile, restoration and major military events follow the recorded reign. Edward can surrender the crown in 1469, die in a political trap or failed escape, or recover the crown in 1471. Brief story cards mark the passage to Grafton and the final battles at Barnet and Tewkesbury. Conversations and representative officers are fictional reconstructions. Historical pop-ups distinguish documented anchors from these scenes.
 
-- The existing opening illustration is unchanged (including its 1536 × 1024 WebP file). Repeated fallback council vignettes are now optional on 53 of the 96 authored cards; the Scene button keeps them available.
-- The People index brings political ties, offices and rival claims together, with distinct manuscript-inspired portraits for the named court. The portraits use small, locally served WebP files; the original opening plate is unchanged.
-- Significant card decisions show the outcome actually entered in the Chronicle. Orders, promises, council changes and appointments have contextual acknowledgements. A dispatched order remains distinct from a successful outcome.
-- Save replacement, loading, import, deletion, new games and officer changes use styled in-game confirmations. Cancel preserves the current state. No native alert, confirm or prompt calls remain in the runtime.
-- Chapter openings use full-screen pages with Back, Next and a page count. Short screens receive smaller text portions. Full testimony also has a “Read this scene in pages” option; Context & sources returns to the existing reference panels.
+The court changes with the date. Elizabeth enters as a widowed petitioner before the 1464 marriage and May 1465 coronation. Children do not receive adult commands. Dead characters leave the living network; exiled companions, opponents, regional affinities and the prince’s household are identified separately.
 
-## Build and test
+## Controls and saves
 
-The hosted game is a single compiled `index.html`. Its source is split into JavaScript and CSS modules in this directory.
+- Choose a response by button, or use number keys 1–3.
+- On touch screens, swipe the card or the small seal left for response 1 or right for response 2. Vertical scrolling remains free. Every response is also available as a button.
+- Tap a speaker or court portrait for a short profile. Underlined historical references open a brief source-backed note.
+- On mobile, Audience, The realm and The court keep secondary information accessible.
+- Each new act saves its opening automatically. Manual quick save is available at that opening; loading returns there. Saves are local to the browser. Older experimental save formats remain separately stored and are not silently converted.
+- Music is opt-in. Real acoustic harp, recorder, frame-drum and woodblock recordings supply the score and interface sounds. Five original modal arrangements respond to scenes, with pauses and transitions. Settings include music volume and interface sound control.
 
-The Pages build excludes source modules, development notes, tests, audit files and artwork masters or duplicate audio encodings. The browser uses the compiled HTML, the original opening WebP, selected character portrait WebPs and seven MP3 samples. Source files remain available in the repository; the opening-art master is retained outside the published game.
+## Build and verify
+
+The site is static HTML, CSS and JavaScript, with self-hosted images, font and acoustic recordings. It needs no runtime package installation or third-party service.
 
 ```sh
-python3 build.py
-node test_reign_5000.js
-node test_living_court.js
-node test_stewardship.js
-node test_life.js
-node test_chronicle.js
-node test_artwork.js
-node test_piano.js
+python build.py
+node test_release.js
+node test_release_browser.cjs
 ```
 
-The Node simulation checks validate model invariants and variation across seeded runs. They do not prove historical accuracy, human musical quality, or iPhone Safari rendering. The run report lists assumptions and any limitations. `test_presentation_browser.js` uses Playwright WebKit for real UI checks (install the optional test dependency with `npm install --no-save playwright`, then `npx playwright install --with-deps webkit`). It checks reading layouts at 390 × 844 and 320 × 568, unchanged state while reading/cancelling, custom confirmations, court actions, real MP3 decoding and percussion cleanup. This is browser-engine emulation, not a physical iPhone or a human listening assessment.
+The browser check requires Playwright and Chromium. Set `CHROMIUM_EXECUTABLE` to use an installed browser and `EDWARD_TEST_URL` to test the deployed build. `EDWARD_SCREENSHOTS` selects the screenshot directory. `build.py` validates the runtime files, copies `edward-loop-demo.html` to `index.html`, and writes the SHA-256 release manifest.
 
-## Historical and creative framing
+Active source:
 
-Documented dates, relationships and disputes establish the starting conditions. Individual dialogue is fictional reconstruction, never an authentic historical quotation. Later events depend on simulated conditions and can differ from the recorded reign. Composite messengers and representatives are identified in the Encyclopedia where applicable. Campaign chapter screens are presentation only; they do not insert decisions or force outcomes.
+- `edward-loop-demo.html` — interface and established map.
+- `edward-reign-data.js` — four authored acts.
+- `edward-court.js` — dated profiles, household network and historical notes.
+- `edward-reign.js` — existing political model, decisions, progression, saves and interface.
+- `edward-acoustic.js` — recorded-instrument playback and arrangements.
+- `edward-reign.css` — the manuscript-inspired visual framework.
 
-For detailed art, source and development notes, see `ART_DIRECTION.md`, `ART_COVERAGE_AUDIT.md`, `README_PIANO_ART.md`, `README_LIVING_COURT.md`, `README_STORY_ENGINE.md`, `README_REIGN.md` and `README_WORLDCRAFT.md`.
+Earlier simulation modules and design notes remain in source control as project history. Their assembler is `python tools/build_legacy.py`, which writes `legacy-index.html` and cannot overwrite the released entry point. Earlier test suites target that earlier simulation; the release checks above target this campaign.
+
+## Credits and verification limits
+
+The established opening plate, map and character illustrations are retained. The portraits and opening plate are modern artistic interpretations, not authenticated likenesses. EB Garamond is distributed under the SIL Open Font License. Acoustic recordings are CC0 VCSL assets from Versilian Studios; see `assets/audio/ATTRIBUTION.md` for the pinned source and processing details.
+
+The music is a modern arrangement from recorded acoustic instruments, including a Baroque-model recorder; it is not an exact reconstruction of a fifteenth-century ensemble. Lute, viol and shawm have not been imitated with synthetic substitutes.
+
+Release checks cover Chromium on desktop and mobile touch emulation at 390, 375 and 320 CSS pixels. Physical iPhone Safari/WebKit and listening on different speakers remain unverified. See `RELEASE_NOTES.md` for the review findings and test evidence.

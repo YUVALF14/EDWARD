@@ -1,0 +1,126 @@
+{
+  "release": "EDWARD IV \u2014 The Living Court 1.0",
+  "entry": "index.html",
+  "assets": [
+    {
+      "path": "assets/art/portraits/bourchier.webp",
+      "bytes": 29602,
+      "sha256": "10646106f84ba7da597adc91b5f4f00a90661987f3cb8e6041e0e376cedd6974"
+    },
+    {
+      "path": "assets/art/portraits/clarence.webp",
+      "bytes": 36434,
+      "sha256": "59a8681f5dc61dad8c2516d9edeab07173f6d2f8d32ca6a4a62eea0fcb65b2c2"
+    },
+    {
+      "path": "assets/art/portraits/edward.webp",
+      "bytes": 33724,
+      "sha256": "937207c036e35c2bfab8cf4389412d029243281fb8d3ae0f0b1d0b0d272efb84"
+    },
+    {
+      "path": "assets/art/portraits/elizabeth.webp",
+      "bytes": 34038,
+      "sha256": "96424af49db2e832802eabeb31de370e57cfe994254ae41ad9e99a38586b78fa"
+    },
+    {
+      "path": "assets/art/portraits/gloucester.webp",
+      "bytes": 28818,
+      "sha256": "0de9175601c02be2a967c1809b8a36919be1747969ddab5bf96d5b889cde0a47"
+    },
+    {
+      "path": "assets/art/portraits/hastings.webp",
+      "bytes": 32250,
+      "sha256": "76efdb895de68589eb0f29d2aaf60bd5fb073adb930a24a49ea22da7563c69db"
+    },
+    {
+      "path": "assets/art/portraits/henry.webp",
+      "bytes": 31446,
+      "sha256": "422ed1f4353225798d2ca747a240997b417875233d9203a5c40c81abbb54b6e7"
+    },
+    {
+      "path": "assets/art/portraits/henry_percy.webp",
+      "bytes": 29568,
+      "sha256": "9beb55e63527f895bbd5a40097d6c83ec09fdda5e7c045d2f4fccb9c6b32243e"
+    },
+    {
+      "path": "assets/art/portraits/jacquetta.webp",
+      "bytes": 33258,
+      "sha256": "fd2edaf14c98625b039cfd239a712cde71b79e7e9f4ecca336188e6a368e52e0"
+    },
+    {
+      "path": "assets/art/portraits/warwick.webp",
+      "bytes": 33734,
+      "sha256": "94bf94ae1cdd61b37e7e07eed630f18342b047f1d496dbeedc5d3635f80a2105"
+    },
+    {
+      "path": "assets/art/white-rose-court-v1.webp",
+      "bytes": 587696,
+      "sha256": "2a4f1860987e32f2c7ef647ee3ad9ba58d4bd4b659f6093de503995d5dfb756f"
+    },
+    {
+      "path": "assets/audio/ATTRIBUTION.md",
+      "bytes": 1927,
+      "sha256": "1ce44f30167b199ab390416bee10c06a0ad9dd0803f33c14c83538d9684cefae"
+    },
+    {
+      "path": "assets/audio/VCSL-LICENSE.txt",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "assets/audio/court-samples.json",
+      "bytes": 5727,
+      "sha256": "3ee6b77bced1f18c56d0b76ad36efc446d98aa24b401bafb29a84788d7a0b9fe"
+    },
+    {
+      "path": "assets/audio/court-samples.mp3",
+      "bytes": 1243341,
+      "sha256": "d9f5c55225a5305d6118dedfb780abad544e7a7c4d6654c6ebbcc38c0686c9ef"
+    },
+    {
+      "path": "assets/fonts/OFL.txt",
+      "bytes": 4397,
+      "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8"
+    },
+    {
+      "path": "assets/fonts/court.woff",
+      "bytes": 49272,
+      "sha256": "c82e84d9dbcad01883c35944d0ed30ac693bca0a6497073d4fe326012532e8b2"
+    },
+    {
+      "path": "edward-acoustic.js",
+      "bytes": 6641,
+      "sha256": "882593983b21b98e7058238fe20d51502d4fbdbc80e99a34051a63ded7ce854a"
+    },
+    {
+      "path": "edward-court.js",
+      "bytes": 15920,
+      "sha256": "4a66fa37228598aac1ada4a508d295f83d1496897c089d0bdd4a8d6dd1e27278"
+    },
+    {
+      "path": "edward-loop-demo.html",
+      "bytes": 59933,
+      "sha256": "42c65e293b137cc6d92113f7a86d03eaa1beafd68a9d3de050e18a6c20b80398"
+    },
+    {
+      "path": "edward-reign-data.js",
+      "bytes": 47687,
+      "sha256": "817307f8e29962cd7ed51b551530468fcd608f661770b680bf41a2c5ade09817"
+    },
+    {
+      "path": "edward-reign.css",
+      "bytes": 20038,
+      "sha256": "23c20d8cb330c4f063b0f913f435a68284d8c273ebcb4adccbef485e2d276044"
+    },
+    {
+      "path": "edward-reign.js",
+      "bytes": 28146,
+      "sha256": "54061a3d70b4f23ec49233a9f0ca7ec15f9a3d0048b6b658514aa8722336af59"
+    },
+    {
+      "path": "index.html",
+      "bytes": 59933,
+      "sha256": "42c65e293b137cc6d92113f7a86d03eaa1beafd68a9d3de050e18a6c20b80398"
+    }
+  ]
+}
