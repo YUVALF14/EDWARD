@@ -48,6 +48,10 @@
 - Desktop: 1440 × 1000. Mobile touch emulation: 390 × 844, 375 × 844, 320 × 568. Reviewed screenshots of title, audience, court, act changes and ending. No horizontal overflow, missing runtime assets or page exceptions. Browser-dispatched touch input selects exactly one response on a horizontal seal swipe and card swipe; vertical scrolling makes no decision.
 - `node --check` on active scripts and `git diff --check` — pass.
 
+## Reachable response check
+
+The early northern commission originally required more Hastings trust than the preceding scenes could grant. Its threshold now matches the earlier chamber appointment. The browser test earns the additional response by choosing Hastings, then replays the same route without that favour and verifies that only two responses remain.
+
 ## Published hosting check
 
 The first live deployment exposed an older Pages configuration that excluded every JavaScript, CSS and JSON file. It had been suitable for the earlier single-file build. The release configuration now excludes individual archived sources while shipping the active modules and data. The build validates that no runtime dependency is excluded. In-game recording credits use a plain-text file so Markdown conversion cannot change their URL.
