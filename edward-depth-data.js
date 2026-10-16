@@ -379,3 +379,19 @@ const CROSS_COURT_MEMORY={
 };
 const guardCard=SCENES.flat().find(c=>c.title==='The men nearest you');
 guardCard.choices.push({...O('bounded','Check the watch against the named livery roll','Use the household identities established years ago; keep the king’s guard accountable.',{intelligence:2,readiness:2}),requiresFlag:{key:'thread:badge:1',value:0},result:'The earlier livery roll now identifies the men admitted to the king’s watch.'});
+
+// Selective scene plates: reconstruction, not a claim to a surviving likeness.
+for(const [thread,part,file,alt] of [
+ ['kitchen',1,'household-hall','Servants share bread and conversation in the royal household hall.'],
+ ['householdvoices',4,'household-hall','A manuscript-style view of the everyday household behind the court.'],
+]){const c=SCENES.flat().find(c=>c.thread===thread&&c.part===part);c.art='assets/art/transitions/'+file+'.webp';c.artAlt=alt;}
+const shippingPlate=SCENES.flat().find(c=>c.title==='The ships are ready');
+shippingPlate.art='assets/art/transitions/channel-quay.webp';
+shippingPlate.artAlt='A shipmaster, messenger and porters prepare a vessel on a wintry Channel quay.';
+for(const c of SCENES.flat()){
+ if(['The first reinforcements','Your youngest brother stands'].includes(c.title)||(c.thread==='barneteve'&&c.part===1))c.worldSound='muster';
+ for(const e of c.events||[]){
+  if(e.history==='barnet'){e.art='assets/art/transitions/barnet-mist.webp';e.artAlt='Men-at-arms and an archer struggle to recognise their company in battle mist.';e.worldSound='battle';}
+  if(e.history==='tewkesbury')e.worldSound='arrows';
+ }
+}

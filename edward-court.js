@@ -89,3 +89,10 @@ const NOTES={
  return:['March–April 1471','Edward’s return','Edward landed at Ravenspur in March 1471 and gathered support as he advanced. Clarence rejoined his brother before the decisive battles. The return depended upon personal affinities as well as military force.','English Heritage','https://www.english-heritage.org.uk/visit/places/kirby-muxloe-castle/history-unfinished-castle/'],
  barnet:['14 April; 4 May 1471','Barnet and Tewkesbury','Warwick was killed at Barnet. At Tewkesbury, the Lancastrian army was defeated and Henry VI’s son died. These victories restored Edward’s military supremacy; surviving loyalties still had to be governed.','Historic England','https://historicengland.org.uk/listing/the-list/list-entry/1000001'],
 };
+
+// Fictional household faces share one atlas; coordinates keep each identity fixed.
+const HOUSEHOLD_FACES=['clerk','captain','merchant','messenger','sheriff','envoy','keeper','petitioner','chaplain'];
+for(const [i,id] of HOUSEHOLD_FACES.entries()){
+ PEOPLE[id].portrait='court-faces';PEOPLE[id].portraitCell=[(i%3)*512,Math.floor(i/3)*1024/3,512,1024/3];
+ PEOPLE[id].portraitSheet=[1536,1024];
+}

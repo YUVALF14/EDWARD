@@ -1,0 +1,31 @@
+EDWARD IV — Recorded battle and muster sound effects
+
+RPG Sound Pack — artisticdude
+https://opengameart.org/content/rpg-sound-pack
+Source: https://opengameart.org/sites/default/files/rpg_sound_pack.zip
+License selected: CC0 1.0 Universal.
+The asset page identifies CC0. The author confirms in the 21 March 2013
+comment that all sounds in the pack are CC0 and permit commercial use.
+Only recorded armour, chainmail and sword/metal foley are used.
+
+Battle Sound Effects — artisticdude (submitted by Ogrebane)
+https://opengameart.org/content/battle-sound-effects
+Source: https://opengameart.org/sites/default/files/battle_sound_effects_0.zip
+License selected: CC0 1.0 Universal (one of the offered alternative licenses).
+Bow and weapon swishes only.
+
+RPG Audio — Kenney Vleugels / Kenney.nl
+https://kenney.nl/assets/rpg-audio
+License: CC0 1.0 Universal. Original pack license: PAPER-LICENSE.txt.
+Footstep recordings only.
+
+CC0 text: VCSL-LICENSE.txt (same CC0 1.0 legal instrument).
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Recordings were converted to mono 32 kHz, mixed into three short cues,
+level limited, gently faded and encoded as MP3. Exact archive SHA-256,
+source file names and mixing times are in war-sources.json.
+Rebuild with python tools/build_war_audio.py (NumPy and FFmpeg).
+These are modern recorded foley interpretations, not recordings of historical
+battles. No synthetic music, generated voices or modern gunfire is included.
+License declarations checked 17 October 2026.

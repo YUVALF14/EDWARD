@@ -67,7 +67,13 @@ function validDocumentHistory(v){
 
 function dateLabel(date){const y=Math.floor(date/10000),m=Math.floor(date/100)%100;return ['Winter','Winter','Spring','Spring','Spring','Summer','Summer','Summer','Autumn','Autumn','Autumn','Winter'][m-1]+' '+y;}
 function roman(i){return ['I','II','III','IV','V','VI','VII'][i];}
-function portrait(p,small=false){const young=(p.id==='gloucester'&&S.date<14690101)||(p.id==='clarence'&&S.date<14650101);return p.portrait&&!young?'<img src="assets/art/portraits/'+p.portrait+'.webp" alt="" '+(small?'loading="lazy"':'')+'>':'<span class="initials" aria-hidden="true">'+esc(p.initials||p.short.slice(0,2).toUpperCase())+'</span>';}
+function portrait(p,small=false){
+ const young=(p.id==='gloucester'&&S.date<14690101)||(p.id==='clarence'&&S.date<14650101);
+ let art=p.portrait,cell=p.portraitCell,sheet=p.portraitSheet;
+ if(young){art='young-brothers';cell=[p.id==='gloucester'?0:768,0,768,1024];sheet=[1536,1024];}
+ if(cell)return '<svg class="portrait-atlas" viewBox="'+cell.join(' ')+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><image href="assets/art/portraits/'+art+'.webp" width="'+sheet[0]+'" height="'+sheet[1]+'"/></svg>';
+ return art?'<img src="assets/art/portraits/'+art+'.webp" alt="" '+(small?'loading="lazy"':'')+'>':'<span class="initials" aria-hidden="true">'+esc(p.initials||p.short.slice(0,2).toUpperCase())+'</span>';
+}
 function relation(value){return value>28?'powerful, expectant':value< -18?'trust is strained':value>10?'trusted, with claims':'loyalty still negotiated';}
 function updateDate(){const old=S.date;S.date=campaignScenes()[S.n].date;S.year=Math.floor(S.date/10000);
  if(old<14640515&&S.date>=14640515){S.factions.queen=22;S.woodville=Math.max(0,S.woodville);}
@@ -186,7 +192,7 @@ function render(){
  if(S.ended||S.dead||S.deposed)return finish();
  updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];receiveDocuments(c);
  document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(ACTS[S.cycle].tone);
- text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / '+actLength());text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);text('quote',c.quote);
+ text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / '+actLength());text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);paintIllustration('audienceArt',c.art,c.artAlt);CourtAudio.world(c.worldSound,'audience:'+S.cycle+':'+S.n);text('quote',c.quote);
  $('portrait').innerHTML=portrait(p);$('portrait').dataset.person=c.person;$('portrait').setAttribute('aria-label','Who is '+p.name+'?');
  const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:'')+' '+depthContext(c));
  $('historyLink').hidden=!c.history;if(c.history){$('historyLink').textContent=NOTES[c.history][1];$('historyLink').onclick=()=>openHistory(c.history);}
@@ -221,7 +227,7 @@ function makeRecap(){const recent=S.log.slice(-actLength()),keys=['authority','o
 function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This audience is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
 let storyQueue=[];
 function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();openDialog('storyDialog');}
-function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
+function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);CourtAudio.world(c.worldSound,'story:'+c.title);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
 function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui();}
 function closeDialog(id){$(id).close();if(id!=='documentDialog')CourtAudio.ui();}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
@@ -248,8 +254,8 @@ function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended
 function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this act.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
 function startNew(){Object.assign(S,fresh());prepareAct();unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
-function returnToTitle(){$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
-function finish(){
+function returnToTitle(){CourtAudio.stopWorld();$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
+function finish(){CourtAudio.stopWorld();
  $('game').hidden=true;$('end').hidden=false;setView('audience');
  const dead=S.dead,deposed=S.deposed;const title=dead?'The king is killed':deposed?'A crown surrendered':'The crown regained';
  const desc=dead?'The untested opening has ended Edward’s life. His household survives him with the debts, loyalties and quarrels of this reign.':deposed?'Edward accepts safe conduct and yields the throne in 1469. The king lives; the authority you inhabited passes to other hands.':'May 1471. You have returned from exile and recovered your crown. Warwick and Henry VI are dead. Your son lives, your household gathers again, and the people who served you bring their claims into the peace.';
@@ -285,7 +291,7 @@ document.addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.meta
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(d.returnFocus?.isConnected&&!d.returnFocus.closest('[hidden]'))d.returnFocus.focus({preventScroll:true});}));
 $('documentUnfold').onclick=unfoldDocument;
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDialog(b.dataset.close));
-$('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{closeDialog('storyDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();}};
+$('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{CourtAudio.stopWorld();closeDialog('storyDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();}};
 $('storyDialog').addEventListener('cancel',e=>{e.preventDefault();$('storyNext').click();});
 $('portrait').onclick=()=>openProfile($('portrait').dataset.person);
 $('newGame').onclick=()=>{CourtAudio.unlock();if(started||getSaved())openDialog('newDialog');else openDialog('introDialog');};
@@ -305,9 +311,10 @@ $('titleButton').onclick=()=>{closeDialog('menuDialog');returnToTitle();};
 $('restart').onclick=()=>{closeDialog('menuDialog');openDialog('newDialog');};
 $('again').onclick=()=>openDialog('newDialog');
 $('musicToggle').onclick=()=>CourtAudio.toggle();$('titleMusic').onclick=()=>CourtAudio.toggle();$('settingsMusic').onclick=()=>CourtAudio.toggle();
+$('worldSoundToggle').onclick=()=>CourtAudio.toggleWorld();$('worldVolume').oninput=e=>CourtAudio.setWorldVolume(Number(e.target.value)/100);
 $('soundToggle').onclick=()=>CourtAudio.toggleSfx();$('volume').oninput=e=>CourtAudio.setVolume(Number(e.target.value)/100);
 $('settingsButton').onclick=()=>{closeDialog('menuDialog');openDialog('settingsDialog');};$('titleSettings').onclick=()=>openDialog('settingsDialog');
-CourtAudio.subscribe(a=>{for(const id of ['musicToggle','titleMusic','settingsMusic']){$(id).textContent=a.status==='loading'?'Loading music…':a.status==='unavailable'?'Retry music':a.on?'Music on':'Music off';$(id).setAttribute('aria-pressed',String(a.on));}text('soundToggle',a.sfx?'Interface sounds on':'Interface sounds off');$('soundToggle').setAttribute('aria-pressed',String(a.sfx));$('volume').value=Math.round(a.volume*100);text('audioStatus',a.status==='unavailable'?'The acoustic recordings could not load. Check your connection and retry.':a.status==='loading'?'Loading the acoustic recordings…':a.on?'Acoustic harp · recorder · frame drum':'Music waits for you.');});
+CourtAudio.subscribe(a=>{for(const id of ['musicToggle','titleMusic','settingsMusic']){$(id).textContent=a.status==='loading'?'Loading music…':a.status==='unavailable'?'Retry music':a.on?'Music on':'Music off';$(id).setAttribute('aria-pressed',String(a.on));}text('worldSoundToggle',a.worldEnabled?'Battle & world sounds on':'Battle & world sounds off');$('worldSoundToggle').setAttribute('aria-pressed',String(a.worldEnabled));$('worldVolume').value=Math.round(a.worldVolume*100);text('worldAudioStatus',a.worldStatus==='unavailable'?'World sounds could not load. Toggle them off and on to retry.':'Recorded battle and muster effects · separate from music and interface sounds.');text('soundToggle',a.sfx?'Interface sounds on':'Interface sounds off');$('soundToggle').setAttribute('aria-pressed',String(a.sfx));$('volume').value=Math.round(a.volume*100);text('audioStatus',a.status==='unavailable'?'The acoustic recordings could not load. Check your connection and retry.':a.status==='loading'?'Loading the acoustic recordings…':a.on?'Acoustic harp · recorder · frame drum':'Music waits for you.');});
 syncSaveControls();$('newGame').focus();
 
 initDepth();

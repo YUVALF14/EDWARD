@@ -22,6 +22,14 @@ Under The realm, general and act objectives sit beside reserve, debt, credit, re
 
 The score holds an arrangement across an act. Changes wait for a phrase boundary; card rendering, stories and papers do not stop scheduled notes or restart a phrase. Existing recorded acoustic samples and credits are retained. See [HISTORICAL_DEPTH.md](HISTORICAL_DEPTH.md) for sources, reconstruction boundaries and system definitions.
 
+## Additional faces, scene plates and recorded war cues
+
+Every current speaker has a portrait, including nine fictional household roles. Richard and George have imagined childhood portraits during their earlier years. The same face appears on a card and in its profile; these are modern interpretations, not surviving likenesses.
+
+Three new manuscript illustrations accompany selected household and Channel audiences and the Barnet story. Short recorded-foley cues mark military musters, the Barnet battle story and bow fire in the Tewkesbury story. World sounds have their own on/off switch and volume, stop when leaving a battle story or hiding the page, and never restart the music. Re-rendering the same audience does not replay its cue. The clips contain no modern gunfire or generated audio.
+
+Audio sources are artisticdude’s RPG Sound Pack and Battle Sound Effects (OpenGameArt), plus Kenney’s RPG Audio; all selected under CC0. `assets/audio/WAR-LICENSE.txt` and `war-sources.json` record credit, licenses, source paths, archive hashes and mixing instructions. Rebuild with `python tools/build_war_audio.py`. Art provenance is in `assets/art/world-assets.json`.
+
 ## Controls and saves
 
 - Choose a response by button, or use number keys 1–3.
@@ -68,3 +76,5 @@ The established opening plate, map and character illustrations are retained. The
 The music is a modern arrangement from recorded acoustic instruments, including a Baroque-model recorder; it is not an exact reconstruction of a fifteenth-century ensemble. Lute, viol and shawm have not been imitated with synthetic substitutes.
 
 Release checks cover Chromium on desktop and mobile touch emulation at 390, 375 and 320 CSS pixels. Physical iPhone Safari/WebKit and listening on different speakers remain unverified. See `RELEASE_NOTES.md` for the review findings and test evidence.
+
+Media browser verification: `CHROMIUM_EXECUTABLE=/path/to/chromium node test_world_media_browser.cjs`.

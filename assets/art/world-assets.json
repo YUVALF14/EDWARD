@@ -1,0 +1,30 @@
+{
+  "provenance": "Generated for EDWARD IV using OpenAI ImageGen, 17 October 2026. Modern imagined manuscript illustrations, not surviving historical portraits. Converted and resized to WebP for the browser; atlas cells cropped at display time without stretching.",
+  "assets": [
+    {
+      "file": "portraits/court-faces.webp",
+      "sha256": "5d98984965a8df5d400e11d539d8189d16e9dbf9960f865dadbb80f5a6e6f79b",
+      "description": "Nine fictional officers and ordinary servants, arranged in a 3 by 3 atlas."
+    },
+    {
+      "file": "portraits/young-brothers.webp",
+      "sha256": "2554443deb0ecd7000a9060ea2956cdbeefe3eaed4591c03f0cc066075b38022",
+      "description": "Imagined Richard and George as children, displayed before their adult portraits."
+    },
+    {
+      "file": "transitions/household-hall.webp",
+      "sha256": "e53f9c409342d83704075a599c1703345c8175fe239fc9b4fb3fc7b25db2376e",
+      "description": "Everyday service and supper in an imagined royal household."
+    },
+    {
+      "file": "transitions/channel-quay.webp",
+      "sha256": "438baf40fdde411981b522a686823ffd0d3fcbad8a6131a79b2a1ef773c4bb31",
+      "description": "Representative Low Countries quay and ship provisioning, not a documented royal itinerary."
+    },
+    {
+      "file": "transitions/barnet-mist.webp",
+      "sha256": "92ded81e4b0eb2cf604cbf0374d4f4e9e29c3c9b5b6a88bad628434d7754f7a6",
+      "description": "Interpretation of confusion in battle mist, not a reconstruction of individual combatants."
+    }
+  ]
+}

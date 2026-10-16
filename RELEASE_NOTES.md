@@ -97,3 +97,10 @@ Browser checks used Playwright with headless Chromium 153. This verifies interac
 - Side-story selection uses weighted sampling without replacement at the start of each act. Regional and household needs, relationships and earlier choices influence odds, while guaranteed human and practical interludes preserve emotional variety. Unselected stories remain in reserve for another reign.
 - Selections persist with saves; all four beats and their documents stay together in chronological order. Optional cross-act callbacks appear only when their originating story was played. Existing v4 saves continue with their original full itinerary. Political drift scales to actual act length.
 - Verification: 100 sampled complete itineraries cover all 40 threads, central cards and intact chronological chains; a browser route exercises 176 decisions and save validation after each, 36 received documents, council actions, music continuity and reload stability. The original 240-card route remains under the exhaustive legacy regression.
+
+## More faces, scene artwork and licensed war effects
+
+- Nine fictional officers/servants now have consistent illustrated faces. Richard and George use separate imagined young portraits before their adult appearances. All active speaker IDs have art.
+- Three manuscript scene illustrations: the household hall, the winter Channel quay and Barnet in mist. Selected audiences show a compact scene plate; the Barnet story has its own illustration.
+- Three small recorded-foley cues use armour, marching steps, weapon clashes, swishes and a bow. CC0 sources: artisticdude and Kenney, with source receipts, hashes, exact input paths and a reproducible audio mixing script.
+- Battle/world effects have an independent switch and volume. The same audience does not replay a cue, scene changes stop the old cue, hiding/leaving the page stops effects, and leaving battle narration returns to quiet. Music scheduling remains continuous.
