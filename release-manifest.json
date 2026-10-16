@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.0",
+  "release": "EDWARD IV \u2014 The Living Court 1.1 \u00b7 Inhabit the Crown",
   "entry": "index.html",
   "assets": [
     {
@@ -139,8 +139,8 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 6972,
-      "sha256": "e549416ce2e9054d6b0e5f4e2232ccaa9da9b13e73e27ef42e84f421235fef01"
+      "bytes": 7145,
+      "sha256": "60b0aa3748bba04e882391913d00fc43e3b0e29ee607ce17cc93864851ac4756"
     },
     {
       "path": "edward-court.js",
@@ -148,29 +148,39 @@
       "sha256": "0683a42dd489b5018f30712d99fb17aa398b5748b9c6c25083151a7172b477f9"
     },
     {
+      "path": "edward-depth-data.js",
+      "bytes": 107577,
+      "sha256": "d58604777d47f5d31ba9a9ff15d02c3958765cda1731eb7961ee1ca483fc5dbb"
+    },
+    {
+      "path": "edward-depth.js",
+      "bytes": 18035,
+      "sha256": "25b43b441b4a4baf08f6ee15736dc97c80b084a4df0073356f558211491f05f1"
+    },
+    {
       "path": "edward-loop-demo.html",
-      "bytes": 61598,
-      "sha256": "f00703ff615c74ffdd91e59e4c13f5da8c59f7a83221cc63b4f17fd5699cb538"
+      "bytes": 65089,
+      "sha256": "4ae26dac6ebb4ad31d6479fc160447c3beed450b308cfe414904c6f0d96a0021"
     },
     {
       "path": "edward-reign-data.js",
-      "bytes": 62038,
-      "sha256": "e444d8a365169877bedba7ef264510fac999579d24c6e984b7b2aef8dac9ee3c"
+      "bytes": 62039,
+      "sha256": "65f962d1f728c98afd1b261c7324279acc4d4ec44d7786bf944e15c2f834d8ca"
     },
     {
       "path": "edward-reign.css",
-      "bytes": 23600,
-      "sha256": "a4d456e68e07a8f32e18995d0fee995a0a4dff53193f271d4b4177009bce84db"
+      "bytes": 26346,
+      "sha256": "486125b7adf98a5836735ad9d24a71e39e18715cbb5a8d4d4f93ea52d0adbd07"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 34630,
-      "sha256": "bfe59535887416f3321a4c956263120b0f7eef03a830d997f19d50ca0ee267ba"
+      "bytes": 36276,
+      "sha256": "cdbe870ab67eaca53154213259ab16256189297ad97794028d6ead9c19bb0a9a"
     },
     {
       "path": "index.html",
-      "bytes": 61598,
-      "sha256": "f00703ff615c74ffdd91e59e4c13f5da8c59f7a83221cc63b4f17fd5699cb538"
+      "bytes": 65089,
+      "sha256": "4ae26dac6ebb4ad31d6479fc160447c3beed450b308cfe414904c6f0d96a0021"
     }
   ]
 }

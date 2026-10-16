@@ -1,9 +1,9 @@
 'use strict';
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
-const x={};vm.createContext(x);vm.runInContext(fs.readFileSync('edward-reign-data.js','utf8')+'\n'+fs.readFileSync('edward-court.js','utf8')+'\nthis.data={ACTS,SCENES,PEOPLE,DOCUMENTS};',x);
+const x={};vm.createContext(x);vm.runInContext(fs.readFileSync('edward-reign-data.js','utf8')+'\n'+fs.readFileSync('edward-court.js','utf8')+'\n'+fs.readFileSync('edward-depth-data.js','utf8')+'\nthis.data={ACTS,SCENES,PEOPLE,DOCUMENTS};',x);
 const {ACTS,SCENES,PEOPLE,DOCUMENTS}=x.data;
 for(const id of ['cecily','anthony','margaretYork'])assert(PEOPLE[id].portrait, id+' has a portrait');
-const scenes=SCENES.flat();assert.equal(scenes.length,80);
+const scenes=SCENES.flat();assert.equal(scenes.length,240);
 const required=['A widow’s petition','The price of splendour','A complaint under seal','Letters under watch','A letter from the queen','Your sister’s influence','Behind sanctuary walls'];
 for(const title of required)assert(scenes.find(c=>c.title===title).documents.length,title+' delivers a document');
 for(const c of scenes){

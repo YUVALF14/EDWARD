@@ -65,3 +65,28 @@ This release deliberately closes with the restoration in May 1471. The principal
 ## Final scope
 
 Four acts and 80 decisions cover 1461–1471. Eighteen of the cards offer a third response, with three additional third responses conditional on earned trust or faith. Story folios bridge Grafton, Barnet and Tewkesbury. No later campaign years are playable. Reliable sources were checked again for the final battles and restoration: Historic England’s Tewkesbury battlefield report and the Royal Household’s accounts of Edward IV and Henry VI.
+
+## 1.1 · Inhabit the Crown — 16 October 2026
+
+This expansion turns the fixed 80-decision campaign into 240 distinct base decisions across the same four acts. It preserves the existing card interface, artwork and political relationships. Forty four-part stories add royal work, amusement, recreation, grief, fear and family life. Forty new household papers bring the received archive to 52 documents during a complete route.
+
+Earlier decisions change subsequent context and conditional responses, including connections between acts: a livery roll becomes useful for the king’s guard; a financial inquiry follows the king into a credit negotiation; a private channel to Margaret matters in exile. Selected third choices require credit, information or readiness. Gloucester takes part in 1469 and the restoration, using the existing working portrait and age-aware profile.
+
+The royal council allows two initiatives per act. A short local progress offers a route, an encounter and a return to the current audience. Accounts, military inspection, messengers, petitions and debt settlement make room for the king to initiate business. Custody constrains physical actions. General and act objectives, five operational measures, regional cooperation and a cause-labelled ledger sit in the optional realm view. Calendar-month upkeep and ageing intelligence require continued maintenance.
+
+The original map now includes continental orientation and an enlarged view, with explanatory place panels for France, Calais and the Burgundian lands. The score holds its arrangement across ordinary cards and story dialogs; changes are queued at musical phrase boundaries without stopping scheduled notes or resetting the phrase. The pulse and gaps between phrases have been revised using the existing licensed recorded acoustic samples.
+
+Expanded version-4 saves use a separate key and retain older version-3 saves unchanged. Autosaving follows decisions and completed initiatives rather than requiring a sixty-card act to be replayed. See HISTORICAL_DEPTH.md for source choices, fictional reconstruction boundaries, and the distinction between a local excursion and a fully simulated travel system.
+
+### Fresh verification
+
+- `python build.py`: verified 36 runtime assets and rebuilt the static entry and SHA-256 manifest.
+- `node test_release.js`: 240 unique chronological scenes, two or three authored answers, living speakers, dated court and portrait assets.
+- `node test_living_documents.js`: document delivery, existing choice callbacks, provenance and local assets.
+- `node test_depth.js`: forty four-part threads, act lengths, historical-note references and Gloucester participation.
+- `node test_release_browser.cjs`: two complete 240-decision governing styles, death and deposition, reachable successful and failed escapes, all 546 authored answers, acoustic decoding/playback/failure recovery, menus, saves, keyboard and touch controls. Desktop plus 390/375/320 CSS-pixel mobile views.
+- `node test_living_documents_browser.cjs`: inert document reading, unfolding, receipt snapshots, actual-choice variants, archive/reload and small-screen folios.
+- `node test_depth_browser.cjs`: council limits and persistence, local progress, map enlargement and place context, objectives, actual earlier-choice branches, phrase continuity, every autosave across 240 decisions, 52 received papers, forty completed stories, resource-dependent options, debt recording and the visible Gloucester portrait. Prior version-3 save preservation is checked.
+- `git diff --check`: clean.
+
+Browser checks used Playwright with headless Chromium 153. This verifies interaction and audio scheduling, not subjective enjoyment, listening quality on speakers, or physical iPhone Safari/WebKit. Those remain human/device review tasks. No claim is made that 240 scenes are 240 documented historical incidents, that every response produces an exclusive campaign, or that the map is a free-travel strategic simulation.

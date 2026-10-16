@@ -1,10 +1,10 @@
 'use strict';
 const $=id=>document.getElementById(id),clamp=n=>Math.max(0,Math.min(100,n)),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const SAVE_KEY='edward-living-court-act-v3',VERSION=3;
-const fresh=()=>({version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
+const SAVE_KEY='edward-living-court-depth-v4',VERSION=4;
+const fresh=()=>({...depthFresh(),version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
 const S=fresh();let started=false,choosing=false,activeView='audience',saveError=false;
 function text(id,v){$(id).textContent=v;}
-function scene(){return {...SCENES[S.cycle][S.n]};}
+function scene(){return depthScene(SCENES[S.cycle][S.n]);}
 
 // Receipt is separate from reading. Snapshot prose and context before the next
 // choice can change the state; archive views never regenerate correspondence.
@@ -54,14 +54,14 @@ function openDocument(id){
 function unfoldDocument(){if(!activeDocument)return;unfoldedDocuments.add(activeDocument);$('documentFold').hidden=true;$('documentContents').hidden=false;CourtAudio.paper();$('documentSalutation').focus({preventScroll:true});}
 function paintIllustration(id,art,alt){const img=$(id);img.hidden=!art;img.onerror=()=>{img.hidden=true;};if(art){img.alt=alt||'';img.src=art;}else{img.removeAttribute('src');img.alt='';}}
 function validDocumentHistory(v){
- if(v.documents===undefined)return true; // Existing v3 act saves remain loadable.
+ if(!Array.isArray(v.documents))return false;
  const str=x=>typeof x==='string'&&x.length<12000;
  const strings=x=>Array.isArray(x)&&x.length<=20&&x.every(str);
  return Array.isArray(v.documents)&&v.documents.length<=Object.keys(DOCUMENTS).length&&new Set(v.documents.map(d=>d?.id)).size===v.documents.length&&v.documents.every(d=>
   d&&Object.hasOwn(DOCUMENTS,d.id)&&Object.hasOwn(DOCUMENT_TYPES,d.type)&&['title','author','origin','delivery','material','salutation','closing','sceneTitle','court'].every(k=>str(d[k]))&&strings(d.paragraphs)&&
   (!d.extra||strings(d.extra))&&(!d.rows||Array.isArray(d.rows)&&d.rows.length<=20&&d.rows.every(r=>Array.isArray(r)&&str(r[0])&&str(r[1])&&(r[2]===undefined||typeof r[2]==='boolean')))&&
   (!d.seal||['kind','label','device'].every(k=>str(d.seal[k])))&&(d.response===undefined||str(d.response))&&
-  Number.isInteger(d.act)&&d.act>=0&&d.act<=v.cycle&&Number.isInteger(d.scene)&&d.scene>=0&&d.scene<20&&d.act*20+d.scene<=v.cycle*20&&
+  Number.isInteger(d.act)&&d.act>=0&&d.act<=v.cycle&&Number.isInteger(d.scene)&&d.scene>=0&&d.scene<actLength(d.act)&&decisionsBefore(d.act)+d.scene<=decisionsBefore(v.cycle)+v.n&&
   SCENES[d.act][d.scene].documents?.includes(d.id)&&d.receivedDate===SCENES[d.act][d.scene].date);
 }
 
@@ -91,18 +91,21 @@ const ACTION={
  burgundy:{a:1,o:0,s:1,open:1},mobilize:{a:3,o:1,s:-2,r:2},oath:{a:1,o:1,s:-1,b:-1},assert:{a:3,o:-2,b:-1,p:2},
  settle:{a:-2,o:3,s:1,b:1,p:-1,open:1},plot:{a:1,o:-4,r:24,p:2},escape:{a:2,o:-4,r:10,p:2},depose:{a:0}
 };
-function getChoices(){return scene().choices.filter(o=>!o.requires||(o.requires.stat==='faith'?S.meaning.faith:S[o.requires.stat])>=o.requires.min).map(o=>({...o}));}
+function getChoices(){return scene().choices.filter(choiceAllowed).map(o=>({...o}));}
 function applyChoice(o,c){
  const before={authority:S.authority,order:S.order,succession:S.succession};
- const a=ACTION[o.k];if(!a)throw Error('Unknown decision '+o.k);
+ const source=ACTION[o.k];if(!source)throw Error('Unknown decision '+o.k);
+ // The expanded campaign has three times as many decisions; political drift
+ // is normalised so a longer act is not three times as punishing.
+ const weight=1/3,a=Object.fromEntries(Object.entries(source).map(([k,v])=>[k,typeof v==='number'&&!['open','r'].includes(k)?v*weight:v]));
  const streak=S.log.slice(-3).filter(x=>x.key===o.k).length,scale=1-streak*.12;
  for(const [short,key] of [['a','authority'],['o','order'],['s','succession']]){const delta=a[short]||0;S[key]+=delta>0?delta*scale*(.45+.55*(1-S[key]/100)):delta;}
  for(const [short,key] of [['b','bond'],['d','dynasty'],['h','faith'],['p','power']])S.meaning[key]=clamp(S.meaning[key]+(a[short]||0));
  for(const [key,delta] of Object.entries(a.rel||{})){
   if(key==='warwick'&&S.date>=14710414)continue;
-  S[key]=Math.max(-60,Math.min(60,S[key]+delta));
+  S[key]=Math.max(-60,Math.min(60,S[key]+delta*weight));
  }
- for(const [key,delta] of Object.entries(a.f||{}))if(key!=='queen'||S.date>=14640515)S.factions[key]=clamp(S.factions[key]+delta*(delta>0?(100-S.factions[key])/100:S.factions[key]/100));
+ for(const [key,delta] of Object.entries(a.f||{}))if(key!=='queen'||S.date>=14640515)S.factions[key]=clamp(S.factions[key]+delta*weight*(delta>0?(100-S.factions[key])/100:S.factions[key]/100));
  S.open+=a.open||0;S.risk+=a.r||0;
  if(o.k==='execute'){S.harsh++;S.executions++;}
  if(o.k==='pay'&&S.open){S.open--;S.mem.push('a promise paid');}
@@ -111,12 +114,12 @@ function applyChoice(o,c){
  if(S.open>=5){S.broken++;S.open-=3;S.order-=2;}
  const f=S.factions,gap=Math.max(0,Math.max(f.neville,f.queen,f.brothers,f.lancastrian)-f.crown-15);
  const rivalry=S.date<14710414?Math.abs(S.warwick-S.woodville)/80:Math.abs(S.hastings-S.gloucester)/110;
- S.order+=(stability()-52)*.018-gap*.018-rivalry*.22-.25;
- S.authority-=.15;
+ S.order+=((stability()-52)*.018-gap*.018-rivalry*.22-.25)*weight;
+ S.authority-=.15*weight;
  // Government requires maintenance: a high position gradually loses its edge,
  // while low standing can recover. This prevents every successful reign from
  // reaching three perfect bars regardless of its political choices.
- for(const key of ['authority','order','succession'])S[key]+=(50-S[key])*.012;
+ for(const key of ['authority','order','succession'])S[key]+=(50-S[key])*.012*weight;
  for(const key of ['authority','order','succession'])S[key]=clamp(S[key]);
  S.risk=Math.max(0,S.risk-(o.k==='investigate'?7:o.k==='secure'?3:o.k==='faith'?1:0));
  Object.assign(S.flags,o.set||{});
@@ -126,9 +129,10 @@ function applyChoice(o,c){
   if(danger>=42)S.dead=true;
  }
  if(o.k==='escape'){
-  const danger=(100-S.order)*.32+(100-S.authority)*.28+Math.max(0,-S.hastings)*.5+S.broken*2;
+  const danger=(100-S.order)*.32+(100-S.authority)*.28+Math.max(0,-S.hastings)*.5+S.broken*2+(50-S.realm.readiness)*.16-(S.realm.intelligence-40)*.08;
   if(danger>40)S.dead=true;else{S.authority=clamp(S.authority+4);S.flags.escaped=true;}
  }
+ depthApply(o,c);
  const change=Object.fromEntries(Object.keys(before).map(k=>[k,Math.round(S[k]-before[k])]));
  for(const d of S.documents)if(d.act===S.cycle&&d.scene===S.n&&!d.noReply)d.response=o.t;
  const entry={date:S.date,year:S.year,title:c.title,choice:o.t,key:o.k,person:c.person,change,result:o.result||''};S.log.push(entry);S.last=entry;
@@ -181,20 +185,20 @@ function paintMap(c){const where=courtLocation(c),coords={York:[263,270],Westmin
 function render(){
  if(S.ended||S.dead||S.deposed)return finish();
  updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];receiveDocuments(c);
- document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(c.mood);
- text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / 20');text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);text('quote',c.quote);
+ document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(ACTS[S.cycle].tone);
+ text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / '+actLength());text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);text('quote',c.quote);
  $('portrait').innerHTML=portrait(p);$('portrait').dataset.person=c.person;$('portrait').setAttribute('aria-label','Who is '+p.name+'?');
- const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:''));
+ const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:'')+' '+depthContext(c));
  $('historyLink').hidden=!c.history;if(c.history){$('historyLink').textContent=NOTES[c.history][1];$('historyLink').onclick=()=>openHistory(c.history);}
- $('choices').innerHTML=getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-number" aria-hidden="true">'+(j+1)+'</span><span class="choice-title">'+esc(o.t)+'</span><em>'+esc(o.d)+'</em></button>').join('');
+ $('choices').innerHTML=getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-number" aria-hidden="true">'+(j+1)+'</span><span class="choice-title">'+esc(o.t)+'</span><em>'+esc(o.d)+(Object.keys(choiceEffect(o)).length?'<small class="choice-impact">'+esc(effectText(choiceEffect(o)))+'</small>':'')+'</em></button>').join('');
  $('choices').querySelectorAll('button').forEach(b=>b.onclick=()=>choose(Number(b.dataset.choice)));
  text('objective',act.goal);text('mood',S.date>=14701001&&S.date<14710411?'An exiled household; a crown to recover.':S.authority<30?'Your authority is fragile.':S.order<30?'Orders travel farther than obedience.':'Authority held through personal bonds.');
  for(const [key,id] of [['authority','Authority'],['order','Order'],['succession','Succession']]){const n=Math.round(S[key]);text('quick'+id,n);$('quick'+id+'Bar').style.width=S[key]+'%';$('quick'+id+'Meter').setAttribute('aria-valuenow',n);}
  for(const [key,id] of [['bond','mBond'],['dynasty','mDynasty'],['faith','mFaith'],['power','mPower']]){$(id).style.width=S.meaning[key]+'%';text(id+'N',Math.round(S.meaning[key]));}
- text('promises',S.open+' awaiting fulfilment · '+S.broken+' broken');text('cycleText',S.n+' decisions entered');$('cycleBar').style.width=(S.n*5)+'%';
+ text('promises',S.open+' awaiting fulfilment · '+S.broken+' broken');text('cycleText',S.n+' decisions entered');$('cycleBar').style.width=(S.n/actLength()*100)+'%';
  $('chronicle').innerHTML=S.log.slice(-8).reverse().map(x=>'<li><small>'+dateLabel(x.date)+'</small><b>'+esc(x.title)+'</b><span>'+esc(x.choice)+'</span></li>').join('')||'<li>The first page has yet to be written.</li>';
  text('lastDecision',consequence());$('lastDecision').hidden=!S.last;
- paintCourt();paintFactions();paintMap(c);paintDocuments(c);syncSaveControls();
+ paintCourt();paintFactions();paintMap(c);paintDocuments(c);paintDepth(c);syncSaveControls();
  $('card').classList.remove('arriving');void $('card').offsetWidth;$('card').classList.add('arriving');
 }
 function choose(index){
@@ -203,21 +207,21 @@ function choose(index){
  applyChoice(o,c);
  if(S.dead||S.deposed){S.ended=true;finish();choosing=false;return;}
  S.n++;
- if(S.n===20){
-  if(S.cycle===ACTS.length-1){S.date=14710522;S.year=1471;S.ended=true;finish();choosing=false;return;}
+ if(S.n===actLength()){
+  if(S.cycle===ACTS.length-1){S.date=Math.max(14710522,S.date);S.year=1471;S.ended=true;finish();choosing=false;return;}
   const recap=makeRecap();S.cycle++;S.n=0;updateDate();receiveDocuments();S.actStart={authority:S.authority,order:S.order,succession:S.succession};persistAct(true);render();showAct(recap);
- }else{render();if(scene().events)showStories(scene().events);else focusAudience();}
+ }else{render();persistAct(true);if(scene().events)showStories(scene().events);else focusAudience();}
  choosing=false;
 }
 function focusAudience(){setView('audience');$('heading').focus({preventScroll:true});if(matchMedia('(max-width:800px)').matches)$('audience').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}
-function makeRecap(){const recent=S.log.slice(-20),keys=['authority','order','succession'],labels={authority:'authority',order:'order',succession:'succession'};
+function makeRecap(){const recent=S.log.slice(-actLength()),keys=['authority','order','succession'],labels={authority:'authority',order:'order',succession:'succession'};
  const shifts=keys.map(k=>({k,d:S[k]-S.actStart[k]})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));const shift=shifts[0],trend=Math.abs(shift.d)<3?'The Crown’s position remains closely balanced.':'Your '+labels[shift.k]+' has '+(shift.d>0?'strengthened':'weakened')+' through this period.';
  const key=recent.filter(x=>['queen','warwick','hastings','gloucester','execute','promise'].includes(x.key)).at(-1);return trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(S.open?' '+S.open+' promises still await fulfilment.':'');
 }
-function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This act’s opening is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
+function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This audience is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
 let storyQueue=[];
 function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();openDialog('storyDialog');}
-function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(c.mood||'reflection');text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
+function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
 function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui();}
 function closeDialog(id){$(id).close();if(id!=='documentDialog')CourtAudio.ui();}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
@@ -225,13 +229,23 @@ function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portr
 function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('historyPopupTitle',h[1]);text('historyPopupText',h[2]);text('historyPopupSource','Read the source · '+h[3]);$('historyPopupSource').href=h[4];openDialog('historyDialog');}
 function validSave(v){
  const scores=['authority','order','succession'],meaning=['bond','dynasty','faith','power'],factions=['crown','neville','queen','brothers','lancastrian'];
- const within=n=>Number.isFinite(n)&&n>=0&&n<=100;
- return !!(v?.version===VERSION&&v.n===0&&Number.isInteger(v.cycle)&&v.cycle>=0&&v.cycle<ACTS.length&&v.date===SCENES[v.cycle][0].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&Array.isArray(v.log)&&v.log.length===v.cycle*20&&v.log.every(l=>l&&Number.isInteger(l.date)&&typeof l.title==='string'&&typeof l.choice==='string'&&ACTION[l.key])&&v.flags&&typeof v.flags==='object'&&v.actStart&&scores.every(k=>within(v.actStart[k]))&&validDocumentHistory(v));
+ const within=n=>Number.isFinite(n)&&n>=0&&n<=100,str=x=>typeof x==='string'&&x.length<12000;
+ if(!v||v.version!==VERSION||!Number.isInteger(v.cycle)||v.cycle<0||v.cycle>=ACTS.length||!Number.isInteger(v.n)||v.n<0||v.n>=actLength(v.cycle))return false;
+ const count=decisionsBefore(v.cycle)+v.n;
+ return !!(v.date===SCENES[v.cycle][v.n].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&
+  scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&
+  ['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&
+  Array.isArray(v.log)&&v.log.length===count&&v.log.every((l,i)=>{const c=SCENES.flat()[i];return l&&l.date===c.date&&l.title===c.title&&str(l.choice)&&ACTION[l.key]&&c.choices.some(o=>o.k===l.key&&o.t===l.choice);})&&
+  v.flags&&typeof v.flags==='object'&&!Array.isArray(v.flags)&&Object.keys(v.flags).length<400&&Object.values(v.flags).every(x=>typeof x==='boolean'||Number.isFinite(x))&&
+  v.actStart&&scores.every(k=>within(v.actStart[k]))&&validDocumentHistory(v)&&
+  v.realm&&REALM_KEYS.every(k=>within(v.realm[k]))&&v.regions&&['north','midlands','wales','london','channel'].every(k=>within(v.regions[k]))&&
+  v.journey===null&&Array.isArray(v.council)&&v.council.length<=8&&v.council.every(l=>l&&Number.isInteger(l.act)&&l.act>=0&&l.act<=v.cycle&&INITIATIVES.some(i=>i.id===l.id)&&str(l.title)&&str(l.result))&&
+  Array.isArray(v.ledger)&&v.ledger.length<=40&&v.ledger.every(l=>l&&str(l.cause)&&str(l.changes)&&Number.isInteger(l.date)));
 }
 function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));return validSave(v)?v:null;}catch{return null;}}
-function persistAct(silent=false){if(S.n!==0||S.ended)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Act opening saved · '+ACTS[S.cycle].years);text('actSaveStatus','This act’s opening is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
-function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.n!==0||S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load act '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',S.n===0?'Save at this act’s opening.':'Next save at the end of this act.');}
-function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[]});unfoldedDocuments.clear();started=true;enterGame();render();showAct('You return to the saved opening of this act.');}
+function persistAct(silent=false){if(S.ended||S.journey)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Reign saved · '+dateLabel(S.date)+' · '+(S.n+1)+' / '+actLength());text('actSaveStatus','This audience is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
+function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load act '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',saveError?'Storage unavailable; keep this page open.':'Autosaved after each decision. Manual save keeps this audience.');}
+function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[]});unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this act.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
 function startNew(){Object.assign(S,fresh());unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
 function returnToTitle(){$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
@@ -251,6 +265,7 @@ function finish(){
  ].sort((a,b)=>b[0]-a[0]);
  const style=S.harsh>=5?'A king whose commands carried fear.':S.broken>=4?'A king whose promises outgrew their means.':signatures[0][1];
  text('signature',style+' '+labels[lead]+' held the greatest reach at the close.');text('endLegacy',S.flags.escaped?'You escaped confinement through a household you had helped to build. The return has given that service a lasting claim.':S.open?'The crown is restored. '+S.open+' promises still wait to be fulfilled. A second reign begins with the obligations of the first.':'The crown is restored. The loyalties you cultivated will now have to sustain its peace. A second reign begins.');
+ if(!dead&&!deposed)text('endLegacy',depthEnding());
  $('endRecord').innerHTML=S.log.slice(-5).map(l=>'<li><b>'+esc(l.title)+'</b><span>'+esc(l.choice)+'</span></li>').join('');CourtAudio.setMood('reflection');$('endTitle').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
 }
 // Horizontal swipes are optional; vertical movement belongs to page scrolling.
@@ -270,17 +285,17 @@ document.addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.meta
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(d.returnFocus?.isConnected&&!d.returnFocus.closest('[hidden]'))d.returnFocus.focus({preventScroll:true});}));
 $('documentUnfold').onclick=unfoldDocument;
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDialog(b.dataset.close));
-$('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{closeDialog('storyDialog');CourtAudio.setMood(scene().mood);focusAudience();}};
+$('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{closeDialog('storyDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();}};
 $('storyDialog').addEventListener('cancel',e=>{e.preventDefault();$('storyNext').click();});
 $('portrait').onclick=()=>openProfile($('portrait').dataset.person);
 $('newGame').onclick=()=>{CourtAudio.unlock();if(started||getSaved())openDialog('newDialog');else openDialog('introDialog');};
 $('confirmNew').onclick=()=>{closeDialog('newDialog');openDialog('introDialog');};
 $('beginReign').onclick=()=>{closeDialog('introDialog');startNew();};
-$('enterAct').onclick=()=>{closeDialog('actDialog');CourtAudio.setMood(scene().mood);focusAudience();};
-$('actDialog').addEventListener('cancel',()=>{CourtAudio.setMood(scene().mood);setTimeout(focusAudience,0);});
+$('enterAct').onclick=()=>{closeDialog('actDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();};
+$('actDialog').addEventListener('cancel',()=>{CourtAudio.setMood(ACTS[S.cycle].tone);setTimeout(focusAudience,0);});
 $('actSave').onclick=()=>{persistAct();CourtAudio.ui('decision');};
 $('saveAct').onclick=()=>{persistAct();CourtAudio.ui('decision');};
-$('loadAct').onclick=()=>{text('loadWarning','Return to the saved act opening? Decisions made since that opening will be lost.');openDialog('loadDialog');};
+$('loadAct').onclick=()=>{text('loadWarning','Return to your most recent saved audience? Unsaved council business will be lost.');openDialog('loadDialog');};
 $('confirmLoad').onclick=()=>{closeDialog('loadDialog');loadAct();};
 $('resumeGame').onclick=()=>{CourtAudio.unlock();loadAct();};
 $('liveReturn').onclick=()=>{enterGame();if(S.ended)finish();else render();};
@@ -294,3 +309,5 @@ $('soundToggle').onclick=()=>CourtAudio.toggleSfx();$('volume').oninput=e=>Court
 $('settingsButton').onclick=()=>{closeDialog('menuDialog');openDialog('settingsDialog');};$('titleSettings').onclick=()=>openDialog('settingsDialog');
 CourtAudio.subscribe(a=>{for(const id of ['musicToggle','titleMusic','settingsMusic']){$(id).textContent=a.status==='loading'?'Loading music…':a.status==='unavailable'?'Retry music':a.on?'Music on':'Music off';$(id).setAttribute('aria-pressed',String(a.on));}text('soundToggle',a.sfx?'Interface sounds on':'Interface sounds off');$('soundToggle').setAttribute('aria-pressed',String(a.sfx));$('volume').value=Math.round(a.volume*100);text('audioStatus',a.status==='unavailable'?'The acoustic recordings could not load. Check your connection and retry.':a.status==='loading'?'Loading the acoustic recordings…':a.on?'Acoustic harp · recorder · frame drum':'Music waits for you.');});
 syncSaveControls();$('newGame').focus();
+
+initDepth();
