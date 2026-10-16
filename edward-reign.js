@@ -1,10 +1,69 @@
 'use strict';
 const $=id=>document.getElementById(id),clamp=n=>Math.max(0,Math.min(100,n)),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SAVE_KEY='edward-living-court-act-v3',VERSION=3;
-const fresh=()=>({version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],last:null,actStart:{authority:52,order:50,succession:35}});
-const S=fresh();let started=false,choosing=false,activeView='audience',modalTrigger=null,saveError=false;
+const fresh=()=>({version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
+const S=fresh();let started=false,choosing=false,activeView='audience',saveError=false;
 function text(id,v){$(id).textContent=v;}
 function scene(){return {...SCENES[S.cycle][S.n]};}
+
+// Receipt is separate from reading. Snapshot prose and context before the next
+// choice can change the state; archive views never regenerate correspondence.
+function courtLocation(c){return c.courtPlace||c.place.split(' · ')[0];}
+function receiveDocuments(c=scene()){
+ for(const id of c.documents||[]){
+  if(S.documents.some(d=>d.id===id))continue;
+  const source=DOCUMENTS[id],copy=JSON.parse(JSON.stringify(source));
+  copy.paragraphs.push(...(source.variants||[]).filter(v=>S.log.some(l=>l.title===v.scene&&l.key===v.choice)).map(v=>v.text));
+  delete copy.variants;
+  S.documents.push({...copy,id,receivedDate:S.date,act:S.cycle,scene:S.n,sceneTitle:c.title,court:courtLocation(c)});
+ }
+}
+const DOCUMENT_TYPES={letter:'Letter',petition:'Petition',account:'Account',appeal:'Religious appeal',dispatch:'Military dispatch',memorandum:'Memorandum',extract:'Chronicle extract'};
+function paintDocuments(c){
+ const received=S.documents.filter(d=>(c.documents||[]).includes(d.id));
+ $('documentDelivery').hidden=!received.length;
+ $('documentDelivery').innerHTML=received.map(d=>'<p>'+esc(d.delivery)+'</p><button class="document-link" data-document="'+d.id+'" aria-haspopup="dialog"><span>'+esc(DOCUMENT_TYPES[d.type])+'</span>'+esc(d.title)+'<small>'+esc(d.sealed?'Open the folded letter':'Read the paper')+'</small></button>').join('');
+ $('documentArchive').innerHTML=S.documents.length?S.documents.slice().reverse().map(d=>'<li><button class="archive-letter" data-document="'+d.id+'" aria-haspopup="dialog"><small>'+dateLabel(d.receivedDate)+' · '+esc(d.origin)+'</small><b>'+esc(d.title)+'</b><span>'+esc(d.author)+'</span></button></li>').join(''):'<li class="small">Letters and papers received will be kept here.</li>';
+ for(const container of [$('documentDelivery'),$('documentArchive')])container.querySelectorAll('[data-document]').forEach(b=>b.onclick=()=>openDocument(b.dataset.document));
+}
+function sealMarkup(seal){
+ if(!seal)return '';
+ // Schematic devices identify the issuer, not facsimiles of surviving matrices.
+ const paths={shield:'M17 12H43V29Q42 40 30 47Q18 40 17 29Z M30 15V42 M20 25H40',lozenge:'M30 10L45 29L30 48L15 29Z M30 17V41 M21 29H39',cross:'M26 13H34V24H42V32H34V45H26V32H18V24H26Z',crown:'M15 22L23 29L30 17L37 29L45 22L41 40H19Z M20 44H40'};
+ return '<div class="document-seal" data-seal="'+esc(seal.kind)+'"><svg viewBox="0 0 60 60" aria-hidden="true"><path d="'+(paths[seal.device]||paths.shield)+'"/></svg><span>'+esc(seal.label)+'</span></div>';
+}
+let activeDocument=null;const unfoldedDocuments=new Set();
+function openDocument(id){
+ const d=S.documents.find(d=>d.id===id);if(!d)return;activeDocument=id;
+ $('documentDialog').dataset.form=d.type;
+ text('documentType',DOCUMENT_TYPES[d.type]);text('documentTitle',d.title);text('documentAuthor',d.author);
+ text('documentOrigin','From '+d.origin);text('documentReceipt','Received '+dateLabel(d.receivedDate)+' · Edward at '+d.court);
+ text('documentRoute',d.delivery);text('documentMaterial',d.material);
+ $('documentSeal').innerHTML=sealMarkup(d.seal);
+ text('documentSalutation',d.salutation);
+ $('documentParagraphs').innerHTML=d.paragraphs.map(p=>'<p>'+esc(p)+'</p>').join('');
+ $('documentAccount').hidden=!d.rows;
+ $('documentAccount').innerHTML=d.rows?'<caption>Delivered to the household</caption><thead><tr><th scope="col">Particulars</th><th scope="col">Charge</th></tr></thead><tbody>'+d.rows.map(r=>'<tr'+(r[2]?' class="corrected"':'')+'><td>'+esc(r[0])+(r[2]?'<span class="sr-only"> (cancelled)</span>':'')+'</td><td>'+esc(r[1])+'</td></tr>').join('')+'</tbody>':'';
+ $('documentMore').hidden=!d.extra?.length;$('documentMore').open=false;
+ $('documentExtra').innerHTML=(d.extra||[]).map(p=>'<p>'+esc(p)+'</p>').join('');
+ text('documentClosing',d.closing);text('documentResponse',d.response?'Your answer: '+d.response:d.noReply?'Kept among the household papers.':'Your answer belongs to the audience.');
+ const folded=d.sealed&&!unfoldedDocuments.has(id);$('documentFold').hidden=!folded;$('documentContents').hidden=folded;
+ openDialog('documentDialog',false);$('documentDialog').scrollTop=0;
+ if(!folded)CourtAudio.paper();
+}
+function unfoldDocument(){if(!activeDocument)return;unfoldedDocuments.add(activeDocument);$('documentFold').hidden=true;$('documentContents').hidden=false;CourtAudio.paper();$('documentSalutation').focus({preventScroll:true});}
+function paintIllustration(id,art,alt){const img=$(id);img.hidden=!art;img.onerror=()=>{img.hidden=true;};if(art){img.alt=alt||'';img.src=art;}else{img.removeAttribute('src');img.alt='';}}
+function validDocumentHistory(v){
+ if(v.documents===undefined)return true; // Existing v3 act saves remain loadable.
+ const str=x=>typeof x==='string'&&x.length<12000;
+ const strings=x=>Array.isArray(x)&&x.length<=20&&x.every(str);
+ return Array.isArray(v.documents)&&v.documents.length<=Object.keys(DOCUMENTS).length&&new Set(v.documents.map(d=>d?.id)).size===v.documents.length&&v.documents.every(d=>
+  d&&Object.hasOwn(DOCUMENTS,d.id)&&Object.hasOwn(DOCUMENT_TYPES,d.type)&&['title','author','origin','delivery','material','salutation','closing','sceneTitle','court'].every(k=>str(d[k]))&&strings(d.paragraphs)&&
+  (!d.extra||strings(d.extra))&&(!d.rows||Array.isArray(d.rows)&&d.rows.length<=20&&d.rows.every(r=>Array.isArray(r)&&str(r[0])&&str(r[1])&&(r[2]===undefined||typeof r[2]==='boolean')))&&
+  (!d.seal||['kind','label','device'].every(k=>str(d.seal[k])))&&(d.response===undefined||str(d.response))&&
+  Number.isInteger(d.act)&&d.act>=0&&d.act<=v.cycle&&Number.isInteger(d.scene)&&d.scene>=0&&d.scene<20&&d.act*20+d.scene<=v.cycle*20&&
+  SCENES[d.act][d.scene].documents?.includes(d.id)&&d.receivedDate===SCENES[d.act][d.scene].date);
+}
 
 function dateLabel(date){const y=Math.floor(date/10000),m=Math.floor(date/100)%100;return ['Winter','Winter','Spring','Spring','Spring','Summer','Summer','Summer','Autumn','Autumn','Autumn','Winter'][m-1]+' '+y;}
 function roman(i){return ['I','II','III','IV','V','VI','VII'][i];}
@@ -71,6 +130,7 @@ function applyChoice(o,c){
   if(danger>40)S.dead=true;else{S.authority=clamp(S.authority+4);S.flags.escaped=true;}
  }
  const change=Object.fromEntries(Object.keys(before).map(k=>[k,Math.round(S[k]-before[k])]));
+ for(const d of S.documents)if(d.act===S.cycle&&d.scene===S.n&&!d.noReply)d.response=o.t;
  const entry={date:S.date,year:S.year,title:c.title,choice:o.t,key:o.k,person:c.person,change,result:o.result||''};S.log.push(entry);S.last=entry;
  S.mem.push(o.k);S.mem=S.mem.slice(-20);
 }
@@ -115,13 +175,13 @@ function paintFactions(){const labels=factionLabels(),active=Object.keys(labels)
  $('factions').innerHTML=active.map(k=>'<div class="faction-row"><div><span>'+labels[k]+'</span><b>'+Math.round(S.factions[k])+'</b></div><div class="faction-meter" role="meter" aria-label="'+labels[k]+' reach" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(S.factions[k])+'"><i style="width:'+S.factions[k]+'%"></i></div></div>').join('');
  const rival=active.filter(k=>k!=='crown').sort((a,b)=>S.factions[b]-S.factions[a])[0];text('factionBalance',S.factions[rival]>S.factions.crown+12?labels[rival]+' can rival the Crown’s reach.':'The Crown can still mediate between these interests.');
 }
-function paintMap(c){const where=c.place.split(' · ')[0],coords={York:[263,270],Westminster:[284,359],London:[284,359],Grafton:[273,338],Reading:[272,361],Nottingham:[270,319],Middleham:[251,263],'Low Countries':[376,338],Aire:[340,391],Bruges:[358,370],Ravenspur:[286,278],Coventry:[260,335],Ludlow:[229,340],Calais:[334,397],Amiens:[347,436],Picquigny:[344,437],Windsor:[277,361]};
- const xy=coords[where]||[284,359];$('courtPin').setAttribute('cx',xy[0]);$('courtPin').setAttribute('cy',xy[1]);text('mapLocation',where);text('mapNote',c.place.includes('letter')?'A letter reaches Edward from '+where+'.':'The household’s present horizon: '+where+'.');
+function paintMap(c){const where=courtLocation(c),coords={York:[263,270],Westminster:[284,359],London:[284,359],Grafton:[273,338],Reading:[272,361],Nottingham:[270,319],Middleham:[251,263],'Low Countries':[376,338],Aire:[340,391],Bruges:[358,370],Ravenspur:[286,278],Coventry:[260,335],Ludlow:[229,340],Calais:[334,397],Amiens:[347,436],Picquigny:[344,437],Windsor:[277,361]};
+ const xy=coords[where]||[284,359];$('courtPin').setAttribute('cx',xy[0]);$('courtPin').setAttribute('cy',xy[1]);text('mapLocation',where);const origins=(c.documents||[]).map(id=>DOCUMENTS[id].origin).filter(origin=>origin!==where);text('mapNote','The household’s present horizon: '+where+'.'+(origins.length?' Papers received from '+origins.join(' and ')+'.':''));
 }
 function render(){
  if(S.ended||S.dead||S.deposed)return finish();
- updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];
- document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(c.mood);
+ updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];receiveDocuments(c);
+ document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(c.mood);
  text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / 20');text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);text('quote',c.quote);
  $('portrait').innerHTML=portrait(p);$('portrait').dataset.person=c.person;$('portrait').setAttribute('aria-label','Who is '+p.name+'?');
  const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:''));
@@ -134,7 +194,7 @@ function render(){
  text('promises',S.open+' awaiting fulfilment · '+S.broken+' broken');text('cycleText',S.n+' decisions entered');$('cycleBar').style.width=(S.n*5)+'%';
  $('chronicle').innerHTML=S.log.slice(-8).reverse().map(x=>'<li><small>'+dateLabel(x.date)+'</small><b>'+esc(x.title)+'</b><span>'+esc(x.choice)+'</span></li>').join('')||'<li>The first page has yet to be written.</li>';
  text('lastDecision',consequence());$('lastDecision').hidden=!S.last;
- paintCourt();paintFactions();paintMap(c);syncSaveControls();
+ paintCourt();paintFactions();paintMap(c);paintDocuments(c);syncSaveControls();
  $('card').classList.remove('arriving');void $('card').offsetWidth;$('card').classList.add('arriving');
 }
 function choose(index){
@@ -145,7 +205,7 @@ function choose(index){
  S.n++;
  if(S.n===20){
   if(S.cycle===ACTS.length-1){S.date=14710522;S.year=1471;S.ended=true;finish();choosing=false;return;}
-  const recap=makeRecap();S.cycle++;S.n=0;updateDate();S.actStart={authority:S.authority,order:S.order,succession:S.succession};persistAct(true);render();showAct(recap);
+  const recap=makeRecap();S.cycle++;S.n=0;updateDate();receiveDocuments();S.actStart={authority:S.authority,order:S.order,succession:S.succession};persistAct(true);render();showAct(recap);
  }else{render();if(scene().events)showStories(scene().events);else focusAudience();}
  choosing=false;
 }
@@ -154,26 +214,26 @@ function makeRecap(){const recent=S.log.slice(-20),keys=['authority','order','su
  const shifts=keys.map(k=>({k,d:S[k]-S.actStart[k]})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));const shift=shifts[0],trend=Math.abs(shift.d)<3?'The Crown’s position remains closely balanced.':'Your '+labels[shift.k]+' has '+(shift.d>0?'strengthened':'weakened')+' through this period.';
  const key=recent.filter(x=>['queen','warwick','hastings','gloucester','execute','promise'].includes(x.key)).at(-1);return trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(S.open?' '+S.open+' promises still await fulfilment.':'');
 }
-function showAct(recap=''){const a=ACTS[S.cycle];text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This act’s opening is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
+function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This act’s opening is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
 let storyQueue=[];
 function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();openDialog('storyDialog');}
-function paintStory(){const c=storyQueue[0];CourtAudio.setMood(c.mood||'reflection');text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
-function openDialog(id){modalTrigger=document.activeElement;$(id).showModal();CourtAudio.ui();}
-function closeDialog(id){$(id).close();CourtAudio.ui();if(modalTrigger?.isConnected)modalTrigger.focus({preventScroll:true});}
+function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(c.mood||'reflection');text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
+function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui();}
+function closeDialog(id){$(id).close();if(id!=='documentDialog')CourtAudio.ui();}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
  const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);openDialog('personDialog');}
 function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('historyPopupTitle',h[1]);text('historyPopupText',h[2]);text('historyPopupSource','Read the source · '+h[3]);$('historyPopupSource').href=h[4];openDialog('historyDialog');}
 function validSave(v){
  const scores=['authority','order','succession'],meaning=['bond','dynasty','faith','power'],factions=['crown','neville','queen','brothers','lancastrian'];
  const within=n=>Number.isFinite(n)&&n>=0&&n<=100;
- return !!(v?.version===VERSION&&v.n===0&&Number.isInteger(v.cycle)&&v.cycle>=0&&v.cycle<ACTS.length&&v.date===SCENES[v.cycle][0].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&Array.isArray(v.log)&&v.log.length===v.cycle*20&&v.log.every(l=>l&&Number.isInteger(l.date)&&typeof l.title==='string'&&typeof l.choice==='string'&&ACTION[l.key])&&v.flags&&typeof v.flags==='object'&&v.actStart&&scores.every(k=>within(v.actStart[k])));
+ return !!(v?.version===VERSION&&v.n===0&&Number.isInteger(v.cycle)&&v.cycle>=0&&v.cycle<ACTS.length&&v.date===SCENES[v.cycle][0].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&Array.isArray(v.log)&&v.log.length===v.cycle*20&&v.log.every(l=>l&&Number.isInteger(l.date)&&typeof l.title==='string'&&typeof l.choice==='string'&&ACTION[l.key])&&v.flags&&typeof v.flags==='object'&&v.actStart&&scores.every(k=>within(v.actStart[k]))&&validDocumentHistory(v));
 }
 function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));return validSave(v)?v:null;}catch{return null;}}
 function persistAct(silent=false){if(S.n!==0||S.ended)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Act opening saved · '+ACTS[S.cycle].years);text('actSaveStatus','This act’s opening is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
 function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.n!==0||S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load act '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',S.n===0?'Save at this act’s opening.':'Next save at the end of this act.');}
-function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,saved);started=true;enterGame();render();showAct('You return to the saved opening of this act.');}
+function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[]});unfoldedDocuments.clear();started=true;enterGame();render();showAct('You return to the saved opening of this act.');}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
-function startNew(){Object.assign(S,fresh());started=true;enterGame();render();persistAct(true);showAct();}
+function startNew(){Object.assign(S,fresh());unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
 function returnToTitle(){$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
 function finish(){
  $('game').hidden=true;$('end').hidden=false;setView('audience');
@@ -207,6 +267,8 @@ $('card').addEventListener('animationend',()=>$('card').classList.remove('arrivi
 document.querySelectorAll('[data-view-button]').forEach(b=>b.onclick=()=>{CourtAudio.ui();setView(b.dataset.viewButton);});
 document.querySelector('[role=tablist]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const views=['audience','realm','court'],i=views.indexOf(activeView);setView(views[(i+(e.key==='ArrowRight'?1:2))%3]);document.querySelector('[aria-selected=true]').focus();});
 document.addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||document.querySelector('dialog[open]')||$('gameWrap').hidden||S.ended)return;if(/^[123]$/.test(e.key)&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))choose(Number(e.key)-1);});
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(d.returnFocus?.isConnected&&!d.returnFocus.closest('[hidden]'))d.returnFocus.focus({preventScroll:true});}));
+$('documentUnfold').onclick=unfoldDocument;
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDialog(b.dataset.close));
 $('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{closeDialog('storyDialog');CourtAudio.setMood(scene().mood);focusAudience();}};
 $('storyDialog').addEventListener('cancel',e=>{e.preventDefault();$('storyNext').click();});

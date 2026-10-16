@@ -12,6 +12,8 @@ required={p for p in required if not p.startswith(('https:','http:'))}
 required.update(re.findall(r"url\(['\"]?([^)'\"]+)", (ROOT/'edward-reign.css').read_text()))
 required.update(['edward-loop-demo.html','assets/audio/court-samples.mp3','assets/audio/court-samples.json','assets/audio/ATTRIBUTION.txt','assets/audio/VCSL-LICENSE.txt','assets/fonts/OFL.txt'])
 required.update('assets/art/portraits/'+p+'.webp' for p in re.findall(r"portrait:'([^']+)'",(ROOT/'edward-court.js').read_text()))
+required.update(re.findall(r'assets/art/transitions/[a-z-]+\.webp', (ROOT/'edward-reign-data.js').read_text()))
+required.update(['assets/audio/paper-open.mp3','assets/audio/PAPER-LICENSE.txt'])
 config=ROOT/'_config.yml'
 if config.exists():
  patterns=[json.loads(line.strip()[2:]) for line in config.read_text().splitlines() if line.strip().startswith('- ')]

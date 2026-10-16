@@ -2,6 +2,8 @@
    and woodblock. Original modal arrangements; no oscillator fallback. */
 const CourtAudio=(()=>{
  let ctx,buffer,samples=[],loading=null,on=false,sfx=true,volume=.3,mood='court',timer=null,next=0,step=0,phrase=0,status='off',request=0;
+ const paperAudio=new Audio('assets/audio/paper-open.mp3');paperAudio.preload='none';paperAudio.volume=.22;
+ function paper(){if(!sfx||document.hidden)return;paperAudio.currentTime=0;const play=paperAudio.play();if(play)play.catch(()=>{});}
  const voices=new Set(),listeners=new Set();let suspendedByPage=false;
  const arrangements={
   court:{beat:.88,harp:.22,reed:.105,drum:0,rest:3.6},
@@ -79,8 +81,8 @@ const CourtAudio=(()=>{
  function setMood(nextMood){if(!(nextMood in arrangements)||nextMood===mood)return;mood=nextMood;if(on&&ctx){silence(1.4);step=0;phrase++;next=ctx.currentTime+1.6;}notify();}
  function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005;note('click',0,t,.16,kind==='decision'?.13:.07,true);if(kind==='decision')note('harp',62,t+.035,.65,.09,true);}
  function setVolume(v){volume=Math.max(0,Math.min(.65,v));save();notify();}
- function toggleSfx(){sfx=!sfx;if(sfx)ui();save();notify();}
- document.addEventListener('visibilitychange',()=>{if(!ctx)return;if(document.hidden){suspendedByPage=on;silence(.06,true);ctx.suspend().catch(()=>{});}else if(suspendedByPage){suspendedByPage=false;ctx.resume().then(()=>{next=ctx.currentTime+.3;}).catch(()=>{});}});
- window.addEventListener('pagehide',()=>{silence(.02,true);if(ctx)ctx.suspend().catch(()=>{});});
- return {toggle,unlock,ui,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,status,voices:voices.size,ready:!!buffer})};
+ function toggleSfx(){sfx=!sfx;if(!sfx)paperAudio.pause();if(sfx)ui();save();notify();}
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)paperAudio.pause();if(!ctx)return;if(document.hidden){suspendedByPage=on;silence(.06,true);ctx.suspend().catch(()=>{});}else if(suspendedByPage){suspendedByPage=false;ctx.resume().then(()=>{next=ctx.currentTime+.3;}).catch(()=>{});}});
+ window.addEventListener('pagehide',()=>{paperAudio.pause();silence(.02,true);if(ctx)ctx.suspend().catch(()=>{});});
+ return {toggle,unlock,ui,paper,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,status,voices:voices.size,ready:!!buffer})};
 })();

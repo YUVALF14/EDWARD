@@ -20,3 +20,11 @@ EDWARD's original modal phrases combine the recordings into five restrained arra
 This is a modern interpretive score, not a surviving fifteenth-century English composition, an authentic period-instrument reconstruction, or a complete live ensemble performance. Lute, viol and shawm parts are not represented by synthetic substitutes.
 
 Rebuild the sample sprite with `python tools/build_court_audio.py` (Python with NumPy; FFmpeg on PATH). The script fetches only the listed CC0 recordings from the pinned source commit.
+
+
+Paper opening: Kenney Vleugels, RPG Audio 1.0, Audio/bookOpen.ogg.
+Source: https://kenney.nl/assets/rpg-audio
+Download: https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip
+License: CC0; original license retained in PAPER-LICENSE.txt.
+Recorded book-opening foley, transcoded with ffmpeg/libmp3lame at quality 5.
+No synthetic substitute. Volume limited in the interface; respects sound setting.

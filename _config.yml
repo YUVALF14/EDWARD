@@ -86,3 +86,4 @@ exclude:
   - "world_pressure.js"
   - "worldcraft_audit.json"
   - "worldcraft_mobile_audit.json"
+  - "test_living_documents.js"

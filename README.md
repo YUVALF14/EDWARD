@@ -18,6 +18,7 @@ The court changes with the date. Elizabeth enters as a widowed petitioner before
 - On touch screens, swipe the card or the small seal left for response 1 or right for response 2. Vertical scrolling remains free. Every response is also available as a button.
 - Tap a speaker or court portrait for a short profile. Underlined historical references open a brief source-backed note.
 - On mobile, Audience, The realm and The court keep secondary information accessible.
+- Letters and papers arrive within existing audiences. Open them without making a decision; revisit their received wording under The household record. Replies use the audience choices.
 - Each new act saves its opening automatically. Manual quick save is available at that opening; loading returns there. Saves are local to the browser. Older experimental save formats remain separately stored and are not silently converted.
 - Music is opt-in. Real acoustic harp, recorder, frame-drum and woodblock recordings supply the score and interface sounds. Five original modal arrangements respond to scenes, with pauses and transitions. Settings include music volume and interface sound control.
 
@@ -29,6 +30,8 @@ The site is static HTML, CSS and JavaScript, with self-hosted images, font and a
 python build.py
 node test_release.js
 node test_release_browser.cjs
+node test_living_documents.js
+node test_living_documents_browser.cjs
 ```
 
 The browser check requires Playwright and Chromium. Set `CHROMIUM_EXECUTABLE` to use an installed browser and `EDWARD_TEST_URL` to test the deployed build. `EDWARD_SCREENSHOTS` selects the screenshot directory. `build.py` validates the runtime files, copies `edward-loop-demo.html` to `index.html`, and writes the SHA-256 release manifest.
