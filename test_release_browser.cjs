@@ -14,7 +14,7 @@ async function main(){
  async function begin(p){await p.click('#newGame');if(await p.locator('#newDialog').isVisible())await p.click('#confirmNew');await p.click('#beginReign');await p.click('#enterAct');}
  async function advanceStories(p){while(await p.locator('#storyDialog').isVisible())await p.click('#storyNext');}
  async function choiceIndex(p,mode){return p.evaluate(mode=>{const opts=getChoices();if(scene().title==='A loose watch')return opts.findIndex(o=>o.k==='investigate');if(scene().title==='The crown under guard')return opts.findIndex(o=>o.k==='settle');const preferences=mode==='mercy'?['pardon','faith','queen','joint','settle','bounded','hold','pay','investigate']:['direct','assert','mobilize','execute','hastings','gloucester','commission','pursue','pay'];let best=0,rank=1000;opts.forEach((o,i)=>{const n=preferences.indexOf(o.k);if(n>=0&&n<rank){best=i;rank=n;}});return best;},mode);}
- await page.goto(base);await page.evaluate(()=>document.fonts.ready);await page.screenshot({path:path.join(out,'desktop-title.png')});await begin(page);
+ await page.goto(base);await page.evaluate(()=>{const original=startNew;startNew=function(){original();S.itinerary=null;render();persistAct(true);};});await page.evaluate(()=>document.fonts.ready);await page.screenshot({path:path.join(out,'desktop-title.png')});await begin(page);
  await page.screenshot({path:path.join(out,'desktop-audience.png'),fullPage:true});
  assert(!await page.locator('#allies').innerText().then(t=>t.includes('Elizabeth')),'No queen in 1461 court');
  await page.click('#portrait');assert.match(await page.locator('#profileName').innerText(),/Richard Neville/);await page.keyboard.press('Escape');assert(!await page.locator('#personDialog').isVisible());

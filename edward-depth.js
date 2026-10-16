@@ -9,9 +9,51 @@ const REGIONS={
  france:{label:'France · Louis XI',description:'A separate royal court across the Channel. French and Burgundian interests compete; courtesy is not a binding alliance.',xy:[348,429]},
  burgundy:{label:'Burgundian lands',description:'The dukes govern the duchy and scattered territories, including lands in the Low Countries. Bruges is within this wider political world; Burgundy is not a single compact modern country.',xy:[367,370]}
 };
-function depthFresh(){return {realm:{coin:36,debt:0,credit:55,readiness:50,intelligence:40},regions:{north:45,midlands:50,wales:40,london:50,channel:40},council:[],ledger:[],journey:null};}
-function actLength(a=S.cycle){return SCENES[a].length;}
-function decisionsBefore(a){return SCENES.slice(0,a).reduce((n,v)=>n+v.length,0);}
+function depthFresh(){return {itinerary:[null,null,null,null],realm:{coin:36,debt:0,credit:55,readiness:50,intelligence:40},regions:{north:45,midlands:50,wales:40,london:50,channel:40},council:[],ledger:[],journey:null};}
+// Reserve selection happens once on entering an act. Whole threads travel together.
+const REIGN_ANCHORS=[['road','parliament'],['marriagefleet','brothers'],['gloucester1469','isabel'],['clarencereturn','familyreturn']];
+const REIGN_COLOUR=[['kitchen','hunt','chamber'],['scales','nursery','householdvoices'],['rumour','guardroom','fear'],['departure','sanctuaryhouse','barnetafter']];
+function campaignScenes(a=S.cycle,v=S){
+ const ids=v.itinerary?.[a];
+ return ids?SCENES[a].filter(c=>!c.thread||ids.includes(c.thread)):SCENES[a];
+}
+function actLength(a=S.cycle,v=S){return campaignScenes(a,v).length;}
+function decisionsBefore(a,v=S){return SCENES.slice(0,a).reduce((n,_,i)=>n+actLength(i,v),0);}
+function reserveWeight(t,v){
+ let w=1;
+ if(v.regions[t.region]<45)w+=2;
+ if(['merchant','captain','messenger'].includes(t.person)){
+  const stat={merchant:'credit',captain:'readiness',messenger:'intelligence'}[t.person];
+  if(v.realm[stat]<50)w+=2;
+ }
+ if(t.person==='hastings'&&v.hastings>=10)w+=2;
+ if(t.id==='margaret'&&v.flags['thread:marriagefleet']===0)w+=3;
+ if(t.id==='aftercustody'&&v.gloucester>=10)w+=3;
+ return w;
+}
+function selectReserve(a,v,random=Math.random){
+ const chosen=[...REIGN_ANCHORS[a]],pool=THREADS.filter(t=>t.act===a);
+ function draw(candidates){
+  const total=candidates.reduce((n,t)=>n+reserveWeight(t,v),0);
+  let roll=random()*total,selected=candidates.at(-1);
+  for(const t of candidates){roll-=reserveWeight(t,v);if(roll<0){selected=t;break;}}
+  chosen.push(selected.id);
+ }
+ // A human interlude and practical royal business always have room beside history.
+ draw(pool.filter(t=>REIGN_COLOUR[a].includes(t.id)));
+ draw(pool.filter(t=>!chosen.includes(t.id)&&!REIGN_COLOUR[a].includes(t.id)));
+ while(chosen.length<6)draw(pool.filter(t=>!chosen.includes(t.id)));
+ return chosen;
+}
+function prepareAct(a=S.cycle,v=S){if(v.itinerary&&!v.itinerary[a])v.itinerary[a]=selectReserve(a,v);}
+function validItinerary(v){
+ // Existing v4 saves retain their complete original route and receipt indices.
+ if(v.itinerary===undefined||v.itinerary===null)return true;
+ return Array.isArray(v.itinerary)&&v.itinerary.length===4&&v.itinerary.every((ids,a)=>
+  a>v.cycle?ids===null:Array.isArray(ids)&&ids.length===6&&new Set(ids).size===6&&
+  ids.every(id=>THREADS.some(t=>t.act===a&&t.id===id))&&REIGN_ANCHORS[a].every(id=>ids.includes(id))&&
+  REIGN_COLOUR[a].some(id=>ids.includes(id)));
+}
 function depthScene(c){
  const result={...c};
  if(c.branches){const route=S.flags['thread:'+c.thread];if(Number.isInteger(route))result.context+=' '+c.branches[route];}

@@ -6,7 +6,7 @@ Inhabit Edward IV’s kingship, 1461–1471: a historical narrative strategy gam
 
 ## The released campaign
 
-Four acts of sixty concise decisions follow Edward from Towton through the crises of 1465–1469 to exile and restoration in 1470–1471. Authority, order, succession, personal relationships, competing affinities, promises, and the four sources of legitimacy shape the terms of each settlement. Responses have costs as well as benefits; repeated methods lose effectiveness. Some third responses are available only after earlier decisions build the necessary trust or religious standing. The final account describes the ruler’s political signature.
+Four acts of forty-four concise decisions follow Edward from Towton through the crises of 1465–1469 to exile and restoration in 1470–1471. Authority, order, succession, personal relationships, competing affinities, promises, and the four sources of legitimacy shape the terms of each settlement. Responses have costs as well as benefits; repeated methods lose effectiveness. Some third responses are available only after earlier decisions build the necessary trust or religious standing. The final account describes the ruler’s political signature.
 
 The marriage, exile, restoration and major military events follow the recorded reign. Edward can surrender the crown in 1469, die in a political trap or failed escape, or recover the crown in 1471. Brief story cards mark the passage to Grafton and the final battles at Barnet and Tewkesbury. Conversations and representative officers are fictional reconstructions. Historical pop-ups distinguish documented anchors from these scenes.
 
@@ -14,7 +14,7 @@ The court changes with the date. Elizabeth enters as a widowed petitioner before
 
 ## Inhabit the Crown expansion
 
-The campaign now has **240 distinct base decisions**, including forty four-part stories. A progress, a hunt, a tournament, the nursery, a fool at the gate, a guarded writing table and the preparations for return give royal work an emotional range. Earlier choices change later context and unlock responses. The historical campaign stays focused on 1461–1471.
+The campaign has a **240-decision reserve**, including forty four-part stories. A complete new reign selects **176 decisions**: the 80 original historical audiences plus 24 complete four-part stories. At each act opening, two essential threads are retained and four more are sampled without replacement. A human interlude and practical royal business are guaranteed; regional cooperation, preparedness, credit, information and relationships weight the selection. All ten threads in each act remain reachable across replays. The selected route is saved and never rerolled on reload. Existing version-4 saves keep their full 240-card route. A progress, a hunt, a tournament, the nursery, a fool at the gate, a guarded writing table and the preparations for return give royal work an emotional range. Earlier choices change later context and unlock responses. The historical campaign stays focused on 1461–1471.
 
 The royal council permits two initiatives per act: accounts, a muster, independent messengers, petitions, debt settlement or a short local progress. The progress has a departure, a choice of route, an encounter and a return to the current audience. It does not overwrite the campaign’s itinerary. Custody limits what Edward can initiate.
 

@@ -4,7 +4,7 @@ const SAVE_KEY='edward-living-court-depth-v4',VERSION=4;
 const fresh=()=>({...depthFresh(),version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
 const S=fresh();let started=false,choosing=false,activeView='audience',saveError=false;
 function text(id,v){$(id).textContent=v;}
-function scene(){return depthScene(SCENES[S.cycle][S.n]);}
+function scene(){return depthScene(campaignScenes()[S.n]);}
 
 // Receipt is separate from reading. Snapshot prose and context before the next
 // choice can change the state; archive views never regenerate correspondence.
@@ -61,15 +61,15 @@ function validDocumentHistory(v){
   d&&Object.hasOwn(DOCUMENTS,d.id)&&Object.hasOwn(DOCUMENT_TYPES,d.type)&&['title','author','origin','delivery','material','salutation','closing','sceneTitle','court'].every(k=>str(d[k]))&&strings(d.paragraphs)&&
   (!d.extra||strings(d.extra))&&(!d.rows||Array.isArray(d.rows)&&d.rows.length<=20&&d.rows.every(r=>Array.isArray(r)&&str(r[0])&&str(r[1])&&(r[2]===undefined||typeof r[2]==='boolean')))&&
   (!d.seal||['kind','label','device'].every(k=>str(d.seal[k])))&&(d.response===undefined||str(d.response))&&
-  Number.isInteger(d.act)&&d.act>=0&&d.act<=v.cycle&&Number.isInteger(d.scene)&&d.scene>=0&&d.scene<actLength(d.act)&&decisionsBefore(d.act)+d.scene<=decisionsBefore(v.cycle)+v.n&&
-  SCENES[d.act][d.scene].documents?.includes(d.id)&&d.receivedDate===SCENES[d.act][d.scene].date);
+  Number.isInteger(d.act)&&d.act>=0&&d.act<=v.cycle&&Number.isInteger(d.scene)&&d.scene>=0&&d.scene<actLength(d.act,v)&&decisionsBefore(d.act,v)+d.scene<=decisionsBefore(v.cycle,v)+v.n&&
+  campaignScenes(d.act,v)[d.scene].documents?.includes(d.id)&&d.receivedDate===campaignScenes(d.act,v)[d.scene].date);
 }
 
 function dateLabel(date){const y=Math.floor(date/10000),m=Math.floor(date/100)%100;return ['Winter','Winter','Spring','Spring','Spring','Summer','Summer','Summer','Autumn','Autumn','Autumn','Winter'][m-1]+' '+y;}
 function roman(i){return ['I','II','III','IV','V','VI','VII'][i];}
 function portrait(p,small=false){const young=(p.id==='gloucester'&&S.date<14690101)||(p.id==='clarence'&&S.date<14650101);return p.portrait&&!young?'<img src="assets/art/portraits/'+p.portrait+'.webp" alt="" '+(small?'loading="lazy"':'')+'>':'<span class="initials" aria-hidden="true">'+esc(p.initials||p.short.slice(0,2).toUpperCase())+'</span>';}
 function relation(value){return value>28?'powerful, expectant':value< -18?'trust is strained':value>10?'trusted, with claims':'loyalty still negotiated';}
-function updateDate(){const old=S.date;S.date=SCENES[S.cycle][S.n].date;S.year=Math.floor(S.date/10000);
+function updateDate(){const old=S.date;S.date=campaignScenes()[S.n].date;S.year=Math.floor(S.date/10000);
  if(old<14640515&&S.date>=14640515){S.factions.queen=22;S.woodville=Math.max(0,S.woodville);}
  if(old<14650526&&S.date>=14650526)S.factions.queen=clamp(S.factions.queen+8);
  if(old<14690101&&S.date>=14690101)S.factions.brothers=Math.max(24,S.factions.brothers);
@@ -95,9 +95,9 @@ function getChoices(){return scene().choices.filter(choiceAllowed).map(o=>({...o
 function applyChoice(o,c){
  const before={authority:S.authority,order:S.order,succession:S.succession};
  const source=ACTION[o.k];if(!source)throw Error('Unknown decision '+o.k);
- // The expanded campaign has three times as many decisions; political drift
- // is normalised so a longer act is not three times as punishing.
- const weight=1/3,a=Object.fromEntries(Object.entries(source).map(([k,v])=>[k,typeof v==='number'&&!['open','r'].includes(k)?v*weight:v]));
+ // Normalise political drift to the selected act length; legacy full routes
+ // retain their original balance.
+ const weight=20/actLength(),a=Object.fromEntries(Object.entries(source).map(([k,v])=>[k,typeof v==='number'&&!['open','r'].includes(k)?v*weight:v]));
  const streak=S.log.slice(-3).filter(x=>x.key===o.k).length,scale=1-streak*.12;
  for(const [short,key] of [['a','authority'],['o','order'],['s','succession']]){const delta=a[short]||0;S[key]+=delta>0?delta*scale*(.45+.55*(1-S[key]/100)):delta;}
  for(const [short,key] of [['b','bond'],['d','dynasty'],['h','faith'],['p','power']])S.meaning[key]=clamp(S.meaning[key]+(a[short]||0));
@@ -209,7 +209,7 @@ function choose(index){
  S.n++;
  if(S.n===actLength()){
   if(S.cycle===ACTS.length-1){S.date=Math.max(14710522,S.date);S.year=1471;S.ended=true;finish();choosing=false;return;}
-  const recap=makeRecap();S.cycle++;S.n=0;updateDate();receiveDocuments();S.actStart={authority:S.authority,order:S.order,succession:S.succession};persistAct(true);render();showAct(recap);
+  const recap=makeRecap();S.cycle++;S.n=0;prepareAct();updateDate();receiveDocuments();S.actStart={authority:S.authority,order:S.order,succession:S.succession};persistAct(true);render();showAct(recap);
  }else{render();persistAct(true);if(scene().events)showStories(scene().events);else focusAudience();}
  choosing=false;
 }
@@ -230,12 +230,12 @@ function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('h
 function validSave(v){
  const scores=['authority','order','succession'],meaning=['bond','dynasty','faith','power'],factions=['crown','neville','queen','brothers','lancastrian'];
  const within=n=>Number.isFinite(n)&&n>=0&&n<=100,str=x=>typeof x==='string'&&x.length<12000;
- if(!v||v.version!==VERSION||!Number.isInteger(v.cycle)||v.cycle<0||v.cycle>=ACTS.length||!Number.isInteger(v.n)||v.n<0||v.n>=actLength(v.cycle))return false;
- const count=decisionsBefore(v.cycle)+v.n;
- return !!(v.date===SCENES[v.cycle][v.n].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&
+ if(!v||v.version!==VERSION||!Number.isInteger(v.cycle)||v.cycle<0||v.cycle>=ACTS.length||!Number.isInteger(v.n)||v.n<0||!validItinerary(v)||v.n>=actLength(v.cycle,v))return false;
+ const count=decisionsBefore(v.cycle,v)+v.n;
+ return !!(v.date===campaignScenes(v.cycle,v)[v.n].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&
   scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&
   ['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&
-  Array.isArray(v.log)&&v.log.length===count&&v.log.every((l,i)=>{const c=SCENES.flat()[i];return l&&l.date===c.date&&l.title===c.title&&str(l.choice)&&ACTION[l.key]&&c.choices.some(o=>o.k===l.key&&o.t===l.choice);})&&
+  Array.isArray(v.log)&&v.log.length===count&&v.log.every((l,i)=>{const c=SCENES.flatMap((_,a)=>campaignScenes(a,v))[i];return l&&l.date===c.date&&l.title===c.title&&str(l.choice)&&ACTION[l.key]&&c.choices.some(o=>o.k===l.key&&o.t===l.choice);})&&
   v.flags&&typeof v.flags==='object'&&!Array.isArray(v.flags)&&Object.keys(v.flags).length<400&&Object.values(v.flags).every(x=>typeof x==='boolean'||Number.isFinite(x))&&
   v.actStart&&scores.every(k=>within(v.actStart[k]))&&validDocumentHistory(v)&&
   v.realm&&REALM_KEYS.every(k=>within(v.realm[k]))&&v.regions&&['north','midlands','wales','london','channel'].every(k=>within(v.regions[k]))&&
@@ -245,9 +245,9 @@ function validSave(v){
 function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));return validSave(v)?v:null;}catch{return null;}}
 function persistAct(silent=false){if(S.ended||S.journey)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Reign saved · '+dateLabel(S.date)+' · '+(S.n+1)+' / '+actLength());text('actSaveStatus','This audience is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
 function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load act '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',saveError?'Storage unavailable; keep this page open.':'Autosaved after each decision. Manual save keeps this audience.');}
-function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[]});unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this act.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
+function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this act.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
-function startNew(){Object.assign(S,fresh());unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
+function startNew(){Object.assign(S,fresh());prepareAct();unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
 function returnToTitle(){$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
 function finish(){
  $('game').hidden=true;$('end').hidden=false;setView('audience');

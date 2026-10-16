@@ -90,3 +90,10 @@ Expanded version-4 saves use a separate key and retain older version-3 saves unc
 - `git diff --check`: clean.
 
 Browser checks used Playwright with headless Chromium 153. This verifies interaction and audio scheduling, not subjective enjoyment, listening quality on speakers, or physical iPhone Safari/WebKit. Those remain human/device review tasks. No claim is made that 240 scenes are 240 documented historical incidents, that every response produces an exclusive campaign, or that the map is a free-travel strategic simulation.
+
+## Reserve stories and replay variety
+
+- New campaigns encounter 176 of the 240 authored decision cards. All 80 central audiences remain; each act includes six complete four-part stories out of ten. Two anchor threads per act guarantee continuity for the main family and political arc.
+- Side-story selection uses weighted sampling without replacement at the start of each act. Regional and household needs, relationships and earlier choices influence odds, while guaranteed human and practical interludes preserve emotional variety. Unselected stories remain in reserve for another reign.
+- Selections persist with saves; all four beats and their documents stay together in chronological order. Optional cross-act callbacks appear only when their originating story was played. Existing v4 saves continue with their original full itinerary. Political drift scales to actual act length.
+- Verification: 100 sampled complete itineraries cover all 40 threads, central cards and intact chronological chains; a browser route exercises 176 decisions and save validation after each, 36 received documents, council actions, music continuity and reload stability. The original 240-card route remains under the exhaustive legacy regression.
