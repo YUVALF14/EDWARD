@@ -22,12 +22,12 @@ assert(men.choices.some(o=>o.k==='clarence'&&/name the men/i.test(o.t)),'George 
 const html=fs.readFileSync('edward-loop-demo.html','utf8');
 assert(!html.includes('id="royalCouncil"')&&!html.includes('id="councilDialog"'),'The world presents business through audience cards');
 assert(!html.includes('id="step"'),'Card numbers are hidden');
-assert(html.includes('edward-reign.js?v=1.3.0'),'Release modules use a new cache key');
+assert(html.includes('edward-reign.js?v=1.3.1'),'Release modules use a new cache key');
 const route={};vm.createContext(route);vm.runInContext(['edward-reign-data.js','edward-court.js','edward-depth-data.js','edward-depth.js'].map(p=>fs.readFileSync(p,'utf8')).join('\n')+'\nthis.route={depthFresh,prepareAct,validItinerary,campaignScenes,selectReserve,selectCoreReserve,REIGN_CORE_ANCHORS};',route);
 const R=route.route,variants=new Set(),seen=new Set();
 for(let seed=1;seed<=120;seed++){
  let value=seed,v=R.depthFresh();v.flags={};v.log=[];v.warwick=0;v.hastings=8;v.gloucester=0;v.woodville=0;
- const random=()=>{value^=value<<13;value^=value>>>17;value^=value<<5;return (value>>>0)/4294967296;};
+ let n=0;const random=()=>Math.abs(Math.sin((seed*17+(++n)*29)*12.9898)*43758.5453)%1;
  for(let a=0;a<4;a++){
   v.cycle=a;R.prepareAct(a,v,random);assert(R.validItinerary(v));const cards=R.campaignScenes(a,v);
   assert.equal(cards.length,25,'New acts contain exactly twenty-five decisions');assert.equal(cards.filter(c=>!c.thread).length,9);

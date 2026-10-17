@@ -53,9 +53,9 @@ function selectReserve(a,v,random=Math.random,target=6){
   for(const t of candidates){roll-=reserveWeight(t,v);if(roll<0){selected=t;break;}}
   chosen.push(selected.id);
  }
- // A human interlude always has room beside the historical arc.
+ // A human interlude and practical royal business always have room beside history.
  draw(pool.filter(t=>REIGN_COLOUR[a].includes(t.id)));
- draw(pool.filter(t=>!chosen.includes(t.id)));
+ draw(pool.filter(t=>!chosen.includes(t.id)&&!REIGN_COLOUR[a].includes(t.id)));
  while(chosen.length<target)draw(pool.filter(t=>!chosen.includes(t.id)));
  return chosen;
 }
