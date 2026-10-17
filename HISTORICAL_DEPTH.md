@@ -1,6 +1,10 @@
 # Inhabit the Crown: historical and narrative contract
 
-The active build retains the four acts of 1461–1471. The expansion adds 160 authored audiences to the existing 80, arranged as forty four-part household stories. There are 240 distinct base decisions, not 480 compulsory clicks or a claim of hundreds of unique endings. New reigns select 25 decisions per act while preserving the key historical audiences, filling each route to nine with weighted selections, and adding four complete stories from the reserve. Later draws respond to the king’s previous choices and relationships. Earlier choices also alter later context and unlock concrete responses. Letters, petitions and encounters bring practical requests to Edward through the audience flow.
+The active build retains the four historical periods of 1461–1471. The reserve contains 272 authored audiences: 80 core historical scenes and forty-eight four-part living stories. A new court loop keeps nine core scenes and complete historical turning points, then draws three to five complete stories; its length is therefore 21, 25, or 29 decisions. The route is chronological and saved once generated. Optional stories include reconstructed exchanges between family members, political rivals and foreign courts. Their dialogue is not presented as a transcript.
+
+Loop length responds to a bounded pressure score: `P = .40 × (100 − mean(authority, order, succession)) + .25 × faction gap + .25 × relationship strain + .10 × unresolved obligations`. The faction gap is the strongest rival affinity above the Crown. Relationship strain is the mean gap between the Warwick/Woodville, Hastings/Gloucester and Gloucester/Clarence ties, scaled to 0–100. Unresolved obligations combine open promises and broken promises, capped at 100. The next loop draws 3 stories below 20 pressure, 4 from 20, and 5 from 48. Each completed period also reweights which stories can appear, so the previous loop changes both the next route’s size and its people. Fixed historical anchors preserve the campaign’s chronology.
+
+Earlier choices alter later context, unlock concrete responses and affect the next route. Letters, petitions and encounters bring practical requests to Edward through the audience flow.
 
 ## Evidence and reconstruction
 

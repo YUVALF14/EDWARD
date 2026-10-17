@@ -1,7 +1,7 @@
 'use strict';
 const $=id=>document.getElementById(id),clamp=n=>Math.max(0,Math.min(100,n)),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SAVE_KEY='edward-living-court-depth-v4',VERSION=4;
-const fresh=()=>({...depthFresh(),version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
+const fresh=()=>({...depthFresh(),version:VERSION,n:0,cycle:0,date:14610401,year:1461,authority:52,order:50,succession:35,warwick:0,woodville:0,hastings:8,gloucester:0,clarence:4,factions:{crown:56,neville:55,queen:0,brothers:8,lancastrian:32},meaning:{bond:50,dynasty:50,faith:50,power:50},open:0,broken:0,harsh:0,executions:0,risk:0,dead:false,deposed:false,ended:false,flags:{},mem:[],log:[],documents:[],last:null,actStart:{authority:52,order:50,succession:35}});
 const S=fresh();let started=false,choosing=false,activeView='audience',saveError=false;
 function text(id,v){$(id).textContent=v;}
 function scene(){return depthScene(campaignScenes()[S.n]);}
@@ -91,7 +91,7 @@ const ACTION={
  pardon:{a:-2,o:3,s:1,b:1,f:{lancastrian:2}},execute:{a:3,o:-1,s:-5,b:-2,d:-3,h:-3,p:2,r:2,f:{lancastrian:3}},secure:{a:2,o:-1,s:-1,p:1,r:1},
  faith:{a:-1,o:1,h:4,p:-1},council:{a:-1,o:2,s:1,p:-1,f:{crown:1}},direct:{a:3,o:-1,p:2,f:{crown:2}},
  investigate:{a:0,o:1,s:1,p:-1},defer:{a:-2,o:-1,open:1,r:1},
- commission:{a:-1,o:3,rel:{warwick:5},f:{neville:4,crown:-1}},warwick:{a:-1,o:2,rel:{warwick:5},f:{neville:3}},
+ commission:{a:-1,o:3,rel:{warwick:5},f:{neville:4,crown:-1}},warwick:{a:-1,o:2,rel:{warwick:5},f:{neville:3}},clarence:{a:1,o:-1,s:1,rel:{clarence:5},f:{brothers:3,crown:-1}},
  queen:{a:0,o:-1,s:2,b:3,rel:{woodville:5,warwick:-2},f:{queen:4,neville:-1}},court:{a:1,o:2,b:-2,rel:{woodville:-3},f:{queen:-2,crown:1}},
  joint:{a:-1,o:2,s:1,b:1,f:{crown:1,queen:1}},hastings:{a:1,o:2,rel:{hastings:5},f:{crown:3}},gloucester:{a:1,o:2,s:-1,rel:{gloucester:5},f:{brothers:4}},
  burgundy:{a:1,o:0,s:1,open:1},mobilize:{a:3,o:1,s:-2,r:2},oath:{a:1,o:1,s:-1,b:-1},assert:{a:3,o:-2,b:-1,p:2},
@@ -192,7 +192,7 @@ function render(){
  if(S.ended||S.dead||S.deposed)return finish();
  updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];receiveDocuments(c);
  document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(ACTS[S.cycle].tone);
- text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);paintIllustration('audienceArt',c.art,c.artAlt);CourtAudio.world(c.worldSound,'audience:'+S.cycle+':'+S.n);text('quote',c.quote);
+ text('date',dateLabel(S.date));text('chapter','LOOP '+roman(S.cycle));text('actName',act.title);text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);paintIllustration('audienceArt',c.art,c.artAlt);CourtAudio.world(c.worldSound,'audience:'+S.cycle+':'+S.n);text('quote',c.quote);
  $('portrait').innerHTML=portrait(p);$('portrait').dataset.person=c.person;$('portrait').setAttribute('aria-label','Who is '+p.name+'?');
  const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:'')+' '+depthContext(c));
  $('historyLink').hidden=!c.history;if(c.history){$('historyLink').textContent=NOTES[c.history][1];$('historyLink').onclick=()=>openHistory(c.history);}
@@ -201,7 +201,7 @@ function render(){
  text('objective',act.goal);text('mood',S.date>=14701001&&S.date<14710411?'An exiled household; a crown to recover.':S.authority<30?'Your authority is fragile.':S.order<30?'Orders travel farther than obedience.':'Authority held through personal bonds.');
  for(const [key,id] of [['authority','Authority'],['order','Order'],['succession','Succession']]){const n=Math.round(S[key]);text('quick'+id,n);$('quick'+id+'Bar').style.width=S[key]+'%';$('quick'+id+'Meter').setAttribute('aria-valuenow',n);}
  for(const [key,id] of [['bond','mBond'],['dynasty','mDynasty'],['faith','mFaith'],['power','mPower']]){$(id).style.width=S.meaning[key]+'%';text(id+'N',Math.round(S.meaning[key]));}
- text('promises',S.open+' awaiting fulfilment · '+S.broken+' broken');text('cycleText',S.n+' decisions entered');$('cycleBar').style.width=(S.n/actLength()*100)+'%';
+ text('promises',S.open+' awaiting fulfilment · '+S.broken+' broken');text('cycleText',S.n+' / '+actLength()+' audiences in this loop');$('cycleBar').style.width=(S.n/actLength()*100)+'%';
  $('chronicle').innerHTML=S.log.slice(-8).reverse().map(x=>'<li><small>'+dateLabel(x.date)+'</small><b>'+esc(x.title)+'</b><span>'+esc(x.choice)+'</span></li>').join('')||'<li>The first page has yet to be written.</li>';
  text('lastDecision',consequence());$('lastDecision').hidden=!S.last;
  paintCourt();paintFactions();paintMap(c);paintDocuments(c);paintDepth(c);syncSaveControls();
@@ -220,18 +220,18 @@ function choose(index){
  choosing=false;
 }
 function focusAudience(){setView('audience');$('heading').focus({preventScroll:true});if(matchMedia('(max-width:800px)').matches)$('audience').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}
-function makeRecap(){const recent=S.log.slice(-actLength()),keys=['authority','order','succession'],labels={authority:'authority',order:'order',succession:'succession'};
+function makeRecap(){const completed=actLength(),recent=S.log.slice(-completed),keys=['authority','order','succession'],labels={authority:'authority',order:'order',succession:'succession'};
  const shifts=keys.map(k=>({k,d:S[k]-S.actStart[k]})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));const shift=shifts[0],trend=Math.abs(shift.d)<3?'The Crown’s position remains closely balanced.':'Your '+labels[shift.k]+' has '+(shift.d>0?'strengthened':'weakened')+' through this period.';
- const key=recent.filter(x=>['queen','warwick','hastings','gloucester','execute','promise'].includes(x.key)).at(-1);return trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(S.open?' '+S.open+' promises still await fulfilment.':'');
+ const key=recent.filter(x=>['queen','warwick','hastings','gloucester','clarence','execute','promise'].includes(x.key)).at(-1);const stories=loopThreadCount(S);return 'This loop closes after '+completed+' audiences. '+trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(S.open?' '+S.open+' promises still await fulfilment.':'')+' The next loop will draw '+stories+' connected stories from the tensions and loyalties you leave behind.';
 }
-function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','ACT '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This audience is saved.':'Save this act’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
+function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','COURT LOOP '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This audience is saved.':'Save this loop’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
 let storyQueue=[];
 function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();openDialog('storyDialog');}
 function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);CourtAudio.world(c.worldSound,'story:'+c.title);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
 function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui();}
 function closeDialog(id){$(id).close();if(id!=='documentDialog')CourtAudio.ui();}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
- const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);openDialog('personDialog');}
+ const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester',clarence:'clarence'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);openDialog('personDialog');}
 function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('historyPopupTitle',h[1]);text('historyPopupText',h[2]);text('historyPopupSource','Read the source · '+h[3]);$('historyPopupSource').href=h[4];openDialog('historyDialog');}
 function validSave(v){
  const scores=['authority','order','succession'],meaning=['bond','dynasty','faith','power'],factions=['crown','neville','queen','brothers','lancastrian'];
@@ -240,7 +240,7 @@ function validSave(v){
  const count=decisionsBefore(v.cycle,v)+v.n;
  return !!(v.date===campaignScenes(v.cycle,v)[v.n].date&&v.year===Math.floor(v.date/10000)&&!v.dead&&!v.deposed&&!v.ended&&
   scores.every(k=>within(v[k]))&&v.meaning&&meaning.every(k=>within(v.meaning[k]))&&v.factions&&factions.every(k=>within(v.factions[k]))&&
-  ['warwick','woodville','hastings','gloucester'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&
+  ['warwick','woodville','hastings','gloucester','clarence'].every(k=>Number.isFinite(v[k])&&Math.abs(v[k])<=60)&&['open','broken','harsh','executions','risk'].every(k=>Number.isFinite(v[k])&&v[k]>=0)&&
   Array.isArray(v.log)&&v.log.length===count&&v.log.every((l,i)=>{const c=SCENES.flatMap((_,a)=>campaignScenes(a,v))[i];return l&&l.date===c.date&&l.title===c.title&&str(l.choice)&&ACTION[l.key]&&c.choices.some(o=>o.k===l.key&&o.t===l.choice);})&&
   v.flags&&typeof v.flags==='object'&&!Array.isArray(v.flags)&&Object.keys(v.flags).length<400&&Object.values(v.flags).every(x=>typeof x==='boolean'||Number.isFinite(x))&&
   v.actStart&&scores.every(k=>within(v.actStart[k]))&&validDocumentHistory(v)&&
@@ -248,10 +248,10 @@ function validSave(v){
   v.journey===null&&Array.isArray(v.council)&&v.council.length<=8&&v.council.every(l=>l&&Number.isInteger(l.act)&&l.act>=0&&l.act<=v.cycle&&INITIATIVES.some(i=>i.id===l.id)&&str(l.title)&&str(l.result))&&
   Array.isArray(v.ledger)&&v.ledger.length<=40&&v.ledger.every(l=>l&&str(l.cause)&&str(l.changes)&&Number.isInteger(l.date)));
 }
-function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));return validSave(v)?v:null;}catch{return null;}}
+function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));if(v&&v.clarence===undefined)v.clarence=4;return validSave(v)?v:null;}catch{return null;}}
 function persistAct(silent=false){if(S.ended||S.journey)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Reign saved · '+dateLabel(S.date)+' · '+(S.n+1)+' / '+actLength());text('actSaveStatus','This audience is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
-function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load act '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',saveError?'Storage unavailable; keep this page open.':'Autosaved after each decision. Manual save keeps this audience.');}
-function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});if(saved.routeVersion!==2){S.routeVersion=1;S.coreItinerary=null;}unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this act.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
+function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load loop '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',saveError?'Storage unavailable; keep this page open.':'Autosaved after each decision. Manual save keeps this audience.');}
+function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});if(saved.routeVersion!==2&&saved.routeVersion!==3){S.routeVersion=1;S.coreItinerary=null;}unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this loop.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
 function startNew(){Object.assign(S,fresh());prepareAct();unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
 function returnToTitle(){CourtAudio.stopWorld();$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
