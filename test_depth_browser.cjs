@@ -14,7 +14,7 @@ const {chromium}=require('playwright');
  const reserve=await p.evaluate(()=>{
   const signatures=new Set(),seen=new Set();
   for(let seed=1;seed<=100;seed++){
-   let value=seed;const random=()=>{value^=value<<13;value^=value>>>17;value^=value<<5;return (value>>>0)/4294967296;};
+   let value=seed;let n=0;const random=()=>Math.abs(Math.sin((seed*17+(++n)*29)*12.9898)*43758.5453)%1;
    const v=fresh();v.flags={};v.log=[];v.warwick=0;v.hastings=8;v.gloucester=0;v.woodville=0;
    for(let a=0;a<4;a++){
     v.cycle=a;prepareAct(a,v,random);
