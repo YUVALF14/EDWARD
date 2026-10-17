@@ -22,4 +22,5 @@ assert(men.choices.some(o=>o.k==='clarence'&&/name the men/i.test(o.t)),'George 
 const html=fs.readFileSync('edward-loop-demo.html','utf8');
 assert(!html.includes('id="royalCouncil"')&&!html.includes('id="councilDialog"'),'The world presents business through audience cards');
 assert(!html.includes('id="step"'),'Card numbers are hidden');
+assert(html.includes('edward-reign.js?v=1.2.0'),'Release modules use a new cache key');
 console.log('PASS: 240 distinct decisions, 40 four-part threads, dated profiles, a three-way human choice, world-led audiences, historical notes and papers.');
