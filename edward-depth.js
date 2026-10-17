@@ -143,7 +143,7 @@ const ECONOMY={pay:{coin:-2,credit:1},land:{coin:1,credit:-1},promise:{credit:-1
 const EFFECT_LABELS={coin:'the royal purse',debt:'the Crown’s debt',credit:'confidence in the Crown',readiness:'the army’s preparation',intelligence:'what the Crown knows',north:'support in the North',midlands:'support in the Midlands',wales:'support in Wales',london:'support in London',channel:'the crossing’s prospects'};
 function choiceEffect(o){return o.effect||ECONOMY[o.k]||{};}
 function effectText(e){return Object.entries(e).map(([k,v])=>{
- const words={coin:v>0?'Adds to the royal purse':'Spends from the royal purse',debt:v>0?'Adds to the Crown’s debt':'Pays down the Crown’s debt',credit:v>0?'Builds confidence in the Crown':'Strains confidence in the Crown',readiness:v>0?'Prepares the army':'Uses up army preparation',intelligence:v>0?'Improves the Crown’s reports':'Costs information'};
+ const words={coin:v>0?'Adds to the royal purse':'Spends from the royal purse',debt:v>0?'Adds to the Crown’s debt':'Pays down the Crown’s debt',credit:v>0?'Builds confidence in the Crown':'Strains confidence in the Crown',readiness:v>0?'Prepares the army':'Leaves the army less prepared',intelligence:v>0?'Improves the Crown’s reports':'Leaves the king less informed',channel:v>0?'Improves the crossing’s prospects':'Weakens prospects for the crossing'};
  if(words[k])return words[k];
  const place=(EFFECT_LABELS[k]||k).replace(/^support in /,'');return (v>0?'Wins support in ':'Weakens support in ')+place;
  }).join(' · ');}
