@@ -140,9 +140,13 @@ function choiceAllowed(o){
  return true;
 }
 const ECONOMY={pay:{coin:-2,credit:1},land:{coin:1,credit:-1},promise:{credit:-1},defer:{credit:-1},burgundy:{credit:1},mobilize:{coin:-1,readiness:1},pursue:{readiness:-1},hold:{readiness:1},investigate:{intelligence:1},secure:{readiness:1},oath:{credit:-1}};
-const EFFECT_LABELS={coin:'reserve',debt:'debt',credit:'royal credit',readiness:'readiness',intelligence:'information',north:'North',midlands:'Midlands',wales:'Wales',london:'London',channel:'Channel'};
+const EFFECT_LABELS={coin:'the royal purse',debt:'the Crown’s debt',credit:'confidence in the Crown',readiness:'the army’s preparation',intelligence:'what the Crown knows',north:'support in the North',midlands:'support in the Midlands',wales:'support in Wales',london:'support in London',channel:'the crossing’s prospects'};
 function choiceEffect(o){return o.effect||ECONOMY[o.k]||{};}
-function effectText(e){return Object.entries(e).map(([k,v])=>EFFECT_LABELS[k]+' '+(v>0?'+':'')+v).join(' · ');}
+function effectText(e){return Object.entries(e).map(([k,v])=>{
+ const words={coin:v>0?'Adds to the royal purse':'Spends from the royal purse',debt:v>0?'Adds to the Crown’s debt':'Pays down the Crown’s debt',credit:v>0?'Builds confidence in the Crown':'Strains confidence in the Crown',readiness:v>0?'Prepares the army':'Uses up army preparation',intelligence:v>0?'Improves the Crown’s reports':'Costs information'};
+ if(words[k])return words[k];
+ const place=(EFFECT_LABELS[k]||k).replace(/^support in /,'');return (v>0?'Wins support in ':'Weakens support in ')+place;
+ }).join(' · ');}
 function changeRealm(e,cause){
  const changes=[];
  for(const [k,v] of Object.entries(e)){

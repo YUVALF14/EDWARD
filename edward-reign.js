@@ -234,10 +234,12 @@ function render(){
  paintCourt();paintFactions();paintMap(c);paintDocuments(c);paintDepth(c);syncSaveControls();
  $('card').classList.remove('arriving');void $('card').offsetWidth;$('card').classList.add('arriving');
 }
-function choose(index){
+async function choose(index){
  if(choosing||S.ended||document.querySelector('dialog[open]')||!started)return;
  const current=scene(),inquiry=INQUIRIES[current.title];if(inquiry&&!S.flags['heard:'+inquiry.id])return;
  const c=current,o=getChoices()[index];if(!o)return;choosing=true;CourtAudio.ui('decision');
+ const selected=$('choices').querySelector('[data-choice="'+index+'"]');if(selected){selected.classList.add('chosen');$('choices').querySelectorAll('button').forEach(b=>b.disabled=true);}
+ await new Promise(resolve=>setTimeout(resolve,matchMedia('(prefers-reduced-motion: reduce)').matches?80:460));
  applyChoice(o,c);
  if(S.dead||S.deposed){S.ended=true;finish();choosing=false;return;}
  S.n++;
