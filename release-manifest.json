@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.4.0 \u00b7 adaptive court loops",
+  "release": "EDWARD IV \u2014 The Living Court 1.5.0 \u00b7 listening choices",
   "entry": "index.html",
   "assets": [
     {
@@ -214,8 +214,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65334,
-      "sha256": "25fc631ca95aac5ef25aa0821767e25c30eeb9c99cfbd4c91d3d284566d8401b"
+      "bytes": 65641,
+      "sha256": "8cdeb3f1321dafdc9a31d7838e4a077108c167ab98d81029301af608dc299790"
     },
     {
       "path": "edward-reign-data.js",
@@ -224,18 +224,18 @@
     },
     {
       "path": "edward-reign.css",
-      "bytes": 26898,
-      "sha256": "6e81291855625d64b5dcda4fe35ddaf4a396d508882461d81018fcd8d5378e2b"
+      "bytes": 27426,
+      "sha256": "9658490dea2740f5f15c77a7ee03a252f8620a4a273d646d92948c8cfb02df15"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 38000,
-      "sha256": "0500695c7410c717af100508cf007e856e0d04fbecffad6b979b93440fe87579"
+      "bytes": 45426,
+      "sha256": "746250beebed4c5421e9182a44dda0b976b25576d6f680f65db4ed74ad1e05a6"
     },
     {
       "path": "index.html",
-      "bytes": 65334,
-      "sha256": "25fc631ca95aac5ef25aa0821767e25c30eeb9c99cfbd4c91d3d284566d8401b"
+      "bytes": 65641,
+      "sha256": "8cdeb3f1321dafdc9a31d7838e4a077108c167ab98d81029301af608dc299790"
     }
   ]
 }
