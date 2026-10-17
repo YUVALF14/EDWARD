@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.1 \u00b7 Inhabit the Crown",
+  "release": "EDWARD IV \u2014 The Living Court 1.2 \u00b7 Inhabit the Crown",
   "entry": "index.html",
   "assets": [
     {
@@ -214,8 +214,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65247,
-      "sha256": "751e917263f340268243a3c3f2267e32e26f10804d42dd7fe5aade2fc8d996f1"
+      "bytes": 65303,
+      "sha256": "0120755caabc83af966f7cc174acd8ebb80de3a042fcf08eea27d6036e4355fd"
     },
     {
       "path": "edward-reign-data.js",
@@ -234,8 +234,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 65247,
-      "sha256": "751e917263f340268243a3c3f2267e32e26f10804d42dd7fe5aade2fc8d996f1"
+      "bytes": 65303,
+      "sha256": "0120755caabc83af966f7cc174acd8ebb80de3a042fcf08eea27d6036e4355fd"
     }
   ]
 }
