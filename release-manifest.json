@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.2 \u00b7 Inhabit the Crown",
+  "release": "EDWARD IV \u2014 The Living Court 1.3 \u00b7 25-decision acts",
   "entry": "index.html",
   "assets": [
     {
@@ -209,13 +209,13 @@
     },
     {
       "path": "edward-depth.js",
-      "bytes": 20348,
-      "sha256": "42482f8824fab29929aa872251c033fab7d141e6d29f114ca4e458e0bcb802d9"
+      "bytes": 23598,
+      "sha256": "c4c7cd859d8ee6ed5bd33a8dd43cf1996c206e5a8ff91983f71d56856f658ce5"
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65303,
-      "sha256": "0120755caabc83af966f7cc174acd8ebb80de3a042fcf08eea27d6036e4355fd"
+      "bytes": 65289,
+      "sha256": "03ca65d6376c336a4747c99471dbd5e42f5cf334b2ecb399a46229c45e65ed75"
     },
     {
       "path": "edward-reign-data.js",
@@ -229,13 +229,13 @@
     },
     {
       "path": "edward-reign.js",
-      "bytes": 37505,
-      "sha256": "0d3c89a2c6187085fbc4df9f53314926fbdda5b1e6cac195165f307f59058513"
+      "bytes": 37571,
+      "sha256": "b1282a6818d1295b64027b2221a82f7d50eebc69d55f280c453dbe1f07d8ff0b"
     },
     {
       "path": "index.html",
-      "bytes": 65303,
-      "sha256": "0120755caabc83af966f7cc174acd8ebb80de3a042fcf08eea27d6036e4355fd"
+      "bytes": 65289,
+      "sha256": "03ca65d6376c336a4747c99471dbd5e42f5cf334b2ecb399a46229c45e65ed75"
     }
   ]
 }
