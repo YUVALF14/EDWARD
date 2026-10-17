@@ -1,5 +1,12 @@
 # The Living Court 1.0 — release review
 
+## The 25-decision loop · 1.3
+
+- Each new act selects 25 audiences from the existing reserve: nine chronological core cards and four complete four-part stories.
+- Historical turning points remain fixed; core cards and stories are also weighted by realm conditions and the king’s recent choices. The generated route is saved, so reloads never reroll a campaign.
+- Existing v4 saves keep their original route length and continue normally. New campaigns complete in 100 decisions.
+- Checks: `node test_depth.js`, `node test_release.js`, `node test_living_documents.js`, build and save-route regressions. The Playwright mobile and full browser suite remains dependent on Chromium being available.
+
 ## What changed
 
 ### History and narrative
