@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.3 \u00b7 25-decision acts",
+  "release": "EDWARD IV \u2014 The Living Court 1.3.1 \u00b7 25-decision acts",
   "entry": "index.html",
   "assets": [
     {
@@ -209,13 +209,13 @@
     },
     {
       "path": "edward-depth.js",
-      "bytes": 23598,
-      "sha256": "c4c7cd859d8ee6ed5bd33a8dd43cf1996c206e5a8ff91983f71d56856f658ce5"
+      "bytes": 23650,
+      "sha256": "3a84efddf3e75f54ef999f4d31003b211b2be09a489416b9fdb844d7673f5043"
     },
     {
       "path": "edward-loop-demo.html",
       "bytes": 65289,
-      "sha256": "03ca65d6376c336a4747c99471dbd5e42f5cf334b2ecb399a46229c45e65ed75"
+      "sha256": "2b5e1fe5edee7696c353a457e81506c608f9b623293ec04a0599856daede7fb3"
     },
     {
       "path": "edward-reign-data.js",
@@ -235,7 +235,7 @@
     {
       "path": "index.html",
       "bytes": 65289,
-      "sha256": "03ca65d6376c336a4747c99471dbd5e42f5cf334b2ecb399a46229c45e65ed75"
+      "sha256": "2b5e1fe5edee7696c353a457e81506c608f9b623293ec04a0599856daede7fb3"
     }
   ]
 }
