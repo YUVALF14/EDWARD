@@ -42,14 +42,10 @@ const {chromium}=require('playwright');
   Object.assign(S,saved);persistAct(true);render();
  });
  const initialRoute=await p.evaluate(()=>JSON.stringify(S.itinerary));
- const n=await p.evaluate(()=>S.n);
- await p.click('#royalCouncil');await p.click('[data-initiative=progress]');
- assert(await p.locator('#journeyDialog').isVisible());await p.keyboard.press('Escape');assert(await p.locator('#journeyDialog').isVisible(),'A progress cannot be abandoned and replayed for rewards');
- await p.click('[data-journey=town]');assert.match(await p.locator('#journeyText').innerText(),/child waves/);await p.click('[data-journey=stop]');await p.click('[data-journey=return]');
- assert.equal(await p.evaluate(()=>S.n),n,'A local progress does not consume or skip the authored audience');
- const afterProgress=await p.evaluate(()=>({council:S.council.length,region:S.regions.north,saved:getSaved().council.length}));assert.equal(afterProgress.council,1);assert.equal(afterProgress.region,48);assert.equal(afterProgress.saved,1);
- await p.click('#royalCouncil');await p.click('[data-initiative=messengers]');assert.equal(await p.locator('#councilOptions button:not([disabled])').count(),0,'Exactly two initiatives per act');await p.keyboard.press('Escape');
- await p.reload();await p.click('#resumeGame');await p.click('#enterAct');assert.equal(await p.evaluate(()=>JSON.stringify(S.itinerary)),initialRoute,'Reload retains exact reserve selection');assert.equal(await p.evaluate(()=>S.council.length),2,'Council actions persist across reload');
+ assert.equal(await p.locator('#royalCouncil').count(),0,'The audience has no detached council menu');
+ assert.equal(await p.locator('#step').count(),0,'Card numbering stays hidden');
+ assert(await p.locator('#heading').isVisible(),'The current person and situation remain the focus');
+ await p.reload();await p.click('#resumeGame');await p.click('#enterAct');assert.equal(await p.evaluate(()=>JSON.stringify(S.itinerary)),initialRoute,'Reload retains exact reserve selection');
  await p.evaluate(()=>setView('realm'));await p.click('#expandMap');assert.equal(await p.locator('#largeMap svg').count(),1);assert.equal(await p.locator('#courtPin').count(),1);await p.keyboard.press('Escape');await p.locator('summary').filter({hasText:'Places & powers'}).click();await p.click('[data-region=france]');assert.match(await p.locator('#regionTitle').innerText(),/Louis XI/);await p.keyboard.press('Escape');
  await p.locator('summary').filter({hasText:'Your objectives'}).click();assert.equal(await p.locator('#generalObjectives li').count(),3);await p.screenshot({path:'/tmp/edward-depth-realm.png',fullPage:true});
  await p.evaluate(()=>setView('audience'));
@@ -74,7 +70,7 @@ const {chromium}=require('playwright');
  // Costs without reserves become debt, and high information changes the escape hazard.
  const unlocked=await p.evaluate(()=>{const saved=structuredClone(S);S.cycle=2;S.n=campaignScenes(2).findIndex(c=>c.title==='A campaign on credit');S.realm.credit=40;const low=getChoices().length;S.realm.credit=65;const high=getChoices().length;Object.assign(S,saved);return {low,high};});assert.equal(unlocked.low,2);assert.equal(unlocked.high,3,'Established credit opens a specific supply course');
  const economy=await p.evaluate(()=>{const saved=structuredClone(S);S.realm.coin=0;S.realm.debt=0;S._reserveBefore=0;changeRealm({coin:-3},'Unfunded provisions');delete S._reserveBefore;const debt=S.realm.debt;Object.assign(S,saved);return debt;});assert.equal(economy,3);
- for(const width of [390,375,320]){await p.setViewportSize({width,height:844});await p.evaluate(()=>setView('audience'));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await p.click('#royalCouncil');assert(await p.evaluate(()=>$('councilDialog').scrollWidth<=$('councilDialog').clientWidth+1));await p.screenshot({path:`/tmp/edward-depth-council-${width}.png`,fullPage:true});await p.keyboard.press('Escape');}
- assert.equal(await p.evaluate(()=>localStorage.getItem('edward-living-court-act-v3')),'earlier-save-untouched');assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);console.log('PASS: initiatives/caps, local progress, persistent council, continental map, objectives, actual branching, uninterrupted audio scheduling, 176 validated autosaves, Gloucester portrait and three mobile widths.',saves);
+ for(const width of [390,375,320]){await p.setViewportSize({width,height:844});await p.evaluate(()=>setView('audience'));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.equal(await p.locator('#step').count(),0);await p.screenshot({path:`/tmp/edward-depth-audience-${width}.png`,fullPage:true});}
+ assert.equal(await p.evaluate(()=>localStorage.getItem('edward-living-court-act-v3')),'earlier-save-untouched');assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);console.log('PASS: world-led audience flow, no detached council or numbering, persistent reserve selection, continental map, objectives, actual branching, uninterrupted audio scheduling, 176 validated autosaves, Gloucester portrait and three mobile widths.',saves);
  }finally{await browser.close();server.closeAllConnections();await new Promise(ok=>server.close(ok));}
 })().catch(e=>{console.error(e);process.exit(1);});

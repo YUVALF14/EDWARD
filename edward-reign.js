@@ -192,7 +192,7 @@ function render(){
  if(S.ended||S.dead||S.deposed)return finish();
  updateDate();const c=scene(),p=personAt(c.person),act=ACTS[S.cycle];receiveDocuments(c);
  document.body.dataset.place=courtLocation(c).toLowerCase().replaceAll(' ','-');document.body.dataset.mood=c.mood;document.body.dataset.season=dateLabel(S.date).split(' ')[0].toLowerCase();CourtAudio.setMood(ACTS[S.cycle].tone);
- text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('step',String(S.n+1).padStart(2,'0')+' / '+actLength());text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);paintIllustration('audienceArt',c.art,c.artAlt);CourtAudio.world(c.worldSound,'audience:'+S.cycle+':'+S.n);text('quote',c.quote);
+ text('date',dateLabel(S.date));text('chapter','ACT '+roman(S.cycle));text('actName',act.title);text('kicker',c.place);text('heading',c.title);text('role',p.name+' · '+p.office);paintIllustration('audienceArt',c.art,c.artAlt);CourtAudio.world(c.worldSound,'audience:'+S.cycle+':'+S.n);text('quote',c.quote);
  $('portrait').innerHTML=portrait(p);$('portrait').dataset.person=c.person;$('portrait').setAttribute('aria-label','Who is '+p.name+'?');
  const reactive=reactiveContext(c);text('context',c.context+(reactive?' '+reactive:'')+' '+depthContext(c));
  $('historyLink').hidden=!c.history;if(c.history){$('historyLink').textContent=NOTES[c.history][1];$('historyLink').onclick=()=>openHistory(c.history);}

@@ -1,6 +1,6 @@
 # Inhabit the Crown: historical and narrative contract
 
-The active build retains the four acts of 1461–1471. The expansion adds 160 authored audiences to the existing 80, arranged as forty four-part household stories. There are 240 distinct base decisions, not 480 compulsory clicks or a claim of hundreds of unique endings. Earlier choices alter later context and unlock concrete responses. The royal council adds optional local-progress scenes and limited initiatives.
+The active build retains the four acts of 1461–1471. The expansion adds 160 authored audiences to the existing 80, arranged as forty four-part household stories. There are 240 distinct base decisions, not 480 compulsory clicks or a claim of hundreds of unique endings. Earlier choices alter later context and unlock concrete responses. Letters, petitions and encounters bring practical requests to Edward through the audience flow.
 
 ## Evidence and reconstruction
 
