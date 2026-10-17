@@ -14,17 +14,18 @@ const {chromium}=require('playwright');
  const reserve=await p.evaluate(()=>{
   const signatures=new Set(),seen=new Set();
   for(let seed=1;seed<=100;seed++){
-   let value=seed;const random=()=>{value=(Math.imul(value,1664525)+1013904223)>>>0;return value/4294967296;};
-   const v=fresh();
+   let value=seed;const random=()=>{value^=value<<13;value^=value>>>17;value^=value<<5;return (value>>>0)/4294967296;};
+   const v=fresh();v.flags={};v.log=[];v.warwick=0;v.hastings=8;v.gloucester=0;v.woodville=0;
    for(let a=0;a<4;a++){
-    v.cycle=a;v.itinerary[a]=selectReserve(a,v,random);
+    v.cycle=a;prepareAct(a,v,random);
     if(!validItinerary(v))throw Error('Invalid selected route');
-    const cards=campaignScenes(a,v);if(cards.length!==44)throw Error('Wrong route length');
-    if(cards.filter(c=>!c.thread).length!==20)throw Error('A central card was lost');
+    const cards=campaignScenes(a,v);if(cards.length!==25)throw Error('Wrong route length');
+    if(cards.filter(c=>!c.thread).length!==9)throw Error('Wrong historical route size');
     for(const id of v.itinerary[a]){seen.add(id);if(cards.filter(c=>c.thread===id).length!==4)throw Error('Broken story');}
     if(cards.some((c,i)=>i&&c.date<cards[i-1].date))throw Error('Chronology');
+    if(a<3)v.log.push(...Array.from({length:25},(_,i)=>({key:['queen','hastings','burgundy','investigate'][i%4]})));
    }
-   signatures.add(JSON.stringify(v.itinerary));
+   signatures.add(JSON.stringify([v.itinerary,v.coreItinerary]));
   }
   const poor=fresh(),prepared=fresh();poor.realm.readiness=10;prepared.realm.readiness=90;
   const t=THREADS.find(t=>t.id==='harlech');
@@ -35,17 +36,17 @@ const {chromium}=require('playwright');
   const saved=structuredClone(S),bad=structuredClone(S);
   bad.itinerary[0][2]=bad.itinerary[0][0];if(validSave(bad))throw Error('Duplicate story accepted');
   bad.itinerary[0]=['missing'];if(validSave(bad))throw Error('Unknown story accepted');
-  const legacy=structuredClone(saved);delete legacy.itinerary;
+  const legacy=structuredClone(saved);legacy.routeVersion=1;delete legacy.coreItinerary;legacy.itinerary[0]=selectReserve(0,legacy,()=>0.31,6);
   if(!validSave(legacy))throw Error('Old v4 save rejected');
   localStorage.setItem(SAVE_KEY,JSON.stringify(legacy));loadAct();$('enterAct').click();
-  if(S.itinerary!==null||actLength()!==60)throw Error('Old route changed on load');
+  if(S.routeVersion!==1||actLength()!==44)throw Error('Old route changed on load');
   Object.assign(S,saved);persistAct(true);render();
  });
- const initialRoute=await p.evaluate(()=>JSON.stringify(S.itinerary));
+ const initialRoute=await p.evaluate(()=>JSON.stringify([S.itinerary,S.coreItinerary]));
  assert.equal(await p.locator('#royalCouncil').count(),0,'The audience has no detached council menu');
  assert.equal(await p.locator('#step').count(),0,'Card numbering stays hidden');
  assert(await p.locator('#heading').isVisible(),'The current person and situation remain the focus');
- await p.reload();await p.click('#resumeGame');await p.click('#enterAct');assert.equal(await p.evaluate(()=>JSON.stringify(S.itinerary)),initialRoute,'Reload retains exact reserve selection');
+ await p.reload();await p.click('#resumeGame');await p.click('#enterAct');assert.equal(await p.evaluate(()=>JSON.stringify([S.itinerary,S.coreItinerary])),initialRoute,'Reload retains exact reserve selection');
  await p.evaluate(()=>setView('realm'));await p.click('#expandMap');assert.equal(await p.locator('#largeMap svg').count(),1);assert.equal(await p.locator('#courtPin').count(),1);await p.keyboard.press('Escape');await p.locator('summary').filter({hasText:'Places & powers'}).click();await p.click('[data-region=france]');assert.match(await p.locator('#regionTitle').innerText(),/Louis XI/);await p.keyboard.press('Escape');
  await p.locator('summary').filter({hasText:'Your objectives'}).click();assert.equal(await p.locator('#generalObjectives li').count(),3);await p.screenshot({path:'/tmp/edward-depth-realm.png',fullPage:true});
  await p.evaluate(()=>setView('audience'));
@@ -61,9 +62,9 @@ const {chromium}=require('playwright');
  // All campaign saves are loadable after every audience, not only at act openings.
  const saves=await p.evaluate(()=>{
   startNew();$('enterAct').click();let tested=0;
-  while(!S.ended&&tested<240){const options=getChoices();let i=options.findIndex(o=>o.k==='investigate');if(scene().title==='The crown under guard')i=options.findIndex(o=>o.k==='settle');if(i<0)i=options.findIndex(o=>!['plot','escape','depose'].includes(o.k));choose(i);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();tested++;if(!S.ended&&!validSave(JSON.parse(localStorage.getItem(SAVE_KEY))))throw Error('Invalid autosave at '+scene().title);}
+  while(!S.ended&&tested<100){const options=getChoices();let i=options.findIndex(o=>o.k==='investigate');if(scene().title==='The crown under guard')i=options.findIndex(o=>o.k==='settle');if(i<0)i=options.findIndex(o=>!['plot','escape','depose'].includes(o.k));choose(i);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();tested++;if(!S.ended&&!validSave(JSON.parse(localStorage.getItem(SAVE_KEY))))throw Error('Invalid autosave at '+scene().title);}
   return {tested,documents:S.documents.length,stories:THREADS.filter(t=>S.flags['thread:'+t.id+':3']!==undefined).length,date:S.date};
- });assert.equal(saves.tested,176);assert.equal(saves.stories,24);assert.equal(saves.documents,36);assert(saves.date<=14711231);
+ });assert.equal(saves.tested,100);assert.equal(saves.stories,16);assert(saves.documents>0&&saves.documents<=52);assert(saves.date<=14711231);
  // Gloucester has a visible working portrait in his own 1469 audience.
  await p.evaluate(()=>{startNew();$('enterAct').click();while(scene().title!=='Your youngest brother stands'){choose(0);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();}});
  assert.equal(await p.locator('#portrait img').count(),1);assert(await p.locator('#portrait img').evaluate(img=>img.complete&&img.naturalWidth>0));await p.screenshot({path:'/tmp/edward-depth-gloucester.png',fullPage:true});
@@ -71,6 +72,6 @@ const {chromium}=require('playwright');
  const unlocked=await p.evaluate(()=>{const saved=structuredClone(S);S.cycle=2;S.n=campaignScenes(2).findIndex(c=>c.title==='A campaign on credit');S.realm.credit=40;const low=getChoices().length;S.realm.credit=65;const high=getChoices().length;Object.assign(S,saved);return {low,high};});assert.equal(unlocked.low,2);assert.equal(unlocked.high,3,'Established credit opens a specific supply course');
  const economy=await p.evaluate(()=>{const saved=structuredClone(S);S.realm.coin=0;S.realm.debt=0;S._reserveBefore=0;changeRealm({coin:-3},'Unfunded provisions');delete S._reserveBefore;const debt=S.realm.debt;Object.assign(S,saved);return debt;});assert.equal(economy,3);
  for(const width of [390,375,320]){await p.setViewportSize({width,height:844});await p.evaluate(()=>setView('audience'));assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));assert.equal(await p.locator('#step').count(),0);await p.screenshot({path:`/tmp/edward-depth-audience-${width}.png`,fullPage:true});}
- assert.equal(await p.evaluate(()=>localStorage.getItem('edward-living-court-act-v3')),'earlier-save-untouched');assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);console.log('PASS: world-led audience flow, no detached council or numbering, persistent reserve selection, continental map, objectives, actual branching, uninterrupted audio scheduling, 176 validated autosaves, Gloucester portrait and three mobile widths.',saves);
+ assert.equal(await p.evaluate(()=>localStorage.getItem('edward-living-court-act-v3')),'earlier-save-untouched');assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);console.log('PASS: world-led audience flow, no detached council or numbering, persistent generated routes, continental map, objectives, actual branching, uninterrupted audio scheduling, 100 validated autosaves, Gloucester portrait and three mobile widths.',saves);
  }finally{await browser.close();server.closeAllConnections();await new Promise(ok=>server.close(ok));}
 })().catch(e=>{console.error(e);process.exit(1);});
