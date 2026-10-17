@@ -14,9 +14,7 @@ The court changes with the date. Elizabeth enters as a widowed petitioner before
 
 ## Inhabit the Crown expansion
 
-The campaign has a **240-decision reserve**, including forty four-part stories. A complete new reign selects **176 decisions**: the 80 original historical audiences plus 24 complete four-part stories. At each act opening, two essential threads are retained and four more are sampled without replacement. A human interlude and practical royal business are guaranteed; regional cooperation, preparedness, credit, information and relationships weight the selection. All ten threads in each act remain reachable across replays. The selected route is saved and never rerolled on reload. Existing version-4 saves keep their full 240-card route. A progress, a hunt, a tournament, the nursery, a fool at the gate, a guarded writing table and the preparations for return give royal work an emotional range. Earlier choices change later context and unlock responses. The historical campaign stays focused on 1461–1471.
-
-The royal council permits two initiatives per act: accounts, a muster, independent messengers, petitions, debt settlement or a short local progress. The progress has a departure, a choice of route, an encounter and a return to the current audience. It does not overwrite the campaign’s itinerary. Custody limits what Edward can initiate.
+The campaign has a **240-decision reserve**, including forty four-part stories. A complete new reign selects **176 decisions**: the 80 original historical audiences plus 24 complete four-part stories. At each act opening, two essential threads are retained and four more are sampled without replacement. A human interlude and practical royal business are guaranteed; regional cooperation, preparedness, credit, information and relationships weight the selection. All ten threads in each act remain reachable across replays. The selected route is saved and never rerolled on reload. Existing version-4 saves keep their full 240-card route. A progress, a hunt, a tournament, the nursery, a fool at the gate, a guarded writing table and the preparations for return give royal work an emotional range. Letters, requests and encounters bring business to Edward through the same audience flow as political crises. Earlier choices change later context and unlock responses. The historical campaign stays focused on 1461–1471.
 
 Under The realm, general and act objectives sit beside reserve, debt, credit, readiness and information. A ledger explains changes; monthly upkeep and ageing intelligence prevent measures from simply accumulating. Selected choices require established credit, information or preparedness. Open the larger map for continental orientation; regional panels distinguish France, Calais and the Burgundian lands from the English Crown’s reach.
 
@@ -32,7 +30,7 @@ Audio sources are artisticdude’s RPG Sound Pack and Battle Sound Effects (Open
 
 ## Controls and saves
 
-- Choose a response by button, or use number keys 1–3.
+- Choose a response by button, or use number keys 1–3. The audience count is intentionally hidden; follow the dates, people and unfolding events.
 - On touch screens, swipe the card or the small seal left for response 1 or right for response 2. Vertical scrolling remains free. Every response is also available as a button.
 - Tap a speaker or court portrait for a short profile. Underlined historical references open a brief source-backed note.
 - On mobile, Audience, The realm and The court keep secondary information accessible.

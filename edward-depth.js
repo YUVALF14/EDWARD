@@ -120,7 +120,7 @@ const GENERAL_OBJECTIVES=[
  ['Prepare a household that can act',()=>S.realm.readiness>=50,()=>Math.round(S.realm.readiness)+' readiness; seek at least 50']
 ];
 const ACT_OBJECTIVES=[
- [['Make service more than a promise',()=>S.log.some(l=>l.key==='pay'),()=> 'Settle at least one payment'],['Take an initiative as king',()=>S.council.some(l=>l.act===0),()=> 'Use the royal council once']],
+ [['Make service more than a promise',()=>S.log.some(l=>l.key==='pay'),()=> 'Settle at least one payment'],['Hear beyond the household',()=>S.log.some(l=>['merchant','messenger','captain'].includes(l.person)),()=> 'Hear a merchant, messenger or captain']],
  [['Give the new household a place',()=>S.woodville>=5,()=> 'Build a working relationship with Elizabeth’s household'],['Keep diplomacy informed',()=>S.realm.intelligence>=50,()=> 'Information at least 50']],
  [['Keep a route out of custody',()=>S.hastings>=15||S.gloucester>=10||S.meaning.faith>=60,()=> 'Build trusted service or religious mediation'],['Know more than the rumour',()=>S.realm.intelligence>=55,()=> 'Information at least 55']],
  [['Prepare the crossing and the army',()=>S.realm.readiness>=55,()=> 'Readiness at least 55'],['Give restoration a workable settlement',()=>S.realm.credit>=45&&S.open<8,()=> 'Credit at least 45 · fewer than 8 outstanding promises']]
@@ -193,7 +193,6 @@ function paintJourney(){
  });
 }
 function initDepth(){
- $('royalCouncil').onclick=openCouncil;
  $('expandMap').onclick=()=>{const svg=document.querySelector('.map').cloneNode(true);svg.removeAttribute('class');svg.removeAttribute('id');svg.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));$('largeMap').replaceChildren(svg);openDialog('mapDialog');};
  $('journeyDialog').addEventListener('cancel',e=>{e.preventDefault();});
 }

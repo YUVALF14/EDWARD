@@ -199,23 +199,23 @@
     },
     {
       "path": "edward-court.js",
-      "bytes": 16337,
-      "sha256": "b8fddf73e8e1bd9213e8ed6177412c2fbe2c87d4ac77fd155969d7cf22307ddb"
+      "bytes": 16815,
+      "sha256": "d8dfb4aaa2a57beb85aad7807887baa57f045221eec09965959cbe6a3257d2ad"
     },
     {
       "path": "edward-depth-data.js",
-      "bytes": 108728,
-      "sha256": "206da075dffcab6577defa97e9092db244280790ab8255afd22477fffed591fa"
+      "bytes": 109019,
+      "sha256": "d2aab0c4a1ba2eb60aea5944f6af6e250a646168b8aa55df7d3d32f833f6a10d"
     },
     {
       "path": "edward-depth.js",
-      "bytes": 20338,
-      "sha256": "866beab2e643964bff3285b902fc373b4c769e8da690d7a1e68fb0e1d79eec96"
+      "bytes": 20348,
+      "sha256": "42482f8824fab29929aa872251c033fab7d141e6d29f114ca4e458e0bcb802d9"
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65804,
-      "sha256": "b9838a10c8aba6c935693f033b9316d5a2806a021cf605539681e90e0b1d48f6"
+      "bytes": 65247,
+      "sha256": "751e917263f340268243a3c3f2267e32e26f10804d42dd7fe5aade2fc8d996f1"
     },
     {
       "path": "edward-reign-data.js",
@@ -229,13 +229,13 @@
     },
     {
       "path": "edward-reign.js",
-      "bytes": 37566,
-      "sha256": "2e6223c523f3124724501a5a408f7ee973e7d7fd11bc75bc655ea13bbf939b26"
+      "bytes": 37505,
+      "sha256": "0d3c89a2c6187085fbc4df9f53314926fbdda5b1e6cac195165f307f59058513"
     },
     {
       "path": "index.html",
-      "bytes": 65804,
-      "sha256": "b9838a10c8aba6c935693f033b9316d5a2806a021cf605539681e90e0b1d48f6"
+      "bytes": 65247,
+      "sha256": "751e917263f340268243a3c3f2267e32e26f10804d42dd7fe5aade2fc8d996f1"
     }
   ]
 }
