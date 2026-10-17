@@ -28,3 +28,5 @@ Download: https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/k
 License: CC0; original license retained in PAPER-LICENSE.txt.
 Recorded book-opening foley, transcoded with ffmpeg/libmp3lame at quality 5.
 No synthetic substitute. Volume limited in the interface; respects sound setting.
+
+Recorded war cues: artisticdude (RPG Sound Pack and Battle Sound Effects, OpenGameArt) and Kenney Vleugels (RPG Audio), CC0. Full sources and selected licenses in WAR-LICENSE.txt; exact recordings and archive hashes in war-sources.json.

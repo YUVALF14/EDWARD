@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.0",
+  "release": "EDWARD IV \u2014 The Living Court 1.1 \u00b7 Inhabit the Crown",
   "entry": "index.html",
   "assets": [
     {
@@ -21,6 +21,11 @@
       "path": "assets/art/portraits/clarence.webp",
       "bytes": 36434,
       "sha256": "59a8681f5dc61dad8c2516d9edeab07173f6d2f8d32ca6a4a62eea0fcb65b2c2"
+    },
+    {
+      "path": "assets/art/portraits/court-faces.webp",
+      "bytes": 170972,
+      "sha256": "5d98984965a8df5d400e11d539d8189d16e9dbf9960f865dadbb80f5a6e6f79b"
     },
     {
       "path": "assets/art/portraits/edward.webp",
@@ -68,9 +73,29 @@
       "sha256": "94bf94ae1cdd61b37e7e07eed630f18342b047f1d496dbeedc5d3635f80a2105"
     },
     {
+      "path": "assets/art/portraits/young-brothers.webp",
+      "bytes": 104306,
+      "sha256": "2554443deb0ecd7000a9060ea2956cdbeefe3eaed4591c03f0cc066075b38022"
+    },
+    {
+      "path": "assets/art/transitions/barnet-mist.webp",
+      "bytes": 215330,
+      "sha256": "92ded81e4b0eb2cf604cbf0374d4f4e9e29c3c9b5b6a88bad628434d7754f7a6"
+    },
+    {
       "path": "assets/art/transitions/channel-exile.webp",
       "bytes": 277922,
       "sha256": "0a235a700563309a0145a5062645992b28df6de55e8c6a7fbe681e4a867d8f35"
+    },
+    {
+      "path": "assets/art/transitions/channel-quay.webp",
+      "bytes": 248988,
+      "sha256": "438baf40fdde411981b522a686823ffd0d3fcbad8a6131a79b2a1ef773c4bb31"
+    },
+    {
+      "path": "assets/art/transitions/household-hall.webp",
+      "bytes": 212142,
+      "sha256": "e53f9c409342d83704075a599c1703345c8175fe239fc9b4fb3fc7b25db2376e"
     },
     {
       "path": "assets/art/transitions/middleham-confinement.webp",
@@ -98,9 +123,14 @@
       "sha256": "2a4f1860987e32f2c7ef647ee3ad9ba58d4bd4b659f6093de503995d5dfb756f"
     },
     {
+      "path": "assets/art/world-assets.json",
+      "bytes": 1516,
+      "sha256": "6a301c272a12bdd9e78630af9ff3a9c1665882a4feb6596192c2d7a8a1ac186e"
+    },
+    {
       "path": "assets/audio/ATTRIBUTION.txt",
-      "bytes": 2360,
-      "sha256": "901dc0ac3afae209fb2fc1ad7ed079ce182b3fc2ff4d26277747c0a871ccaf7b"
+      "bytes": 2598,
+      "sha256": "ed097e7e8df93567ed6aa5bc4b318c3746d5e40aa0dd3c0cbffbbb51dcdbd130"
     },
     {
       "path": "assets/audio/PAPER-LICENSE.txt",
@@ -111,6 +141,11 @@
       "path": "assets/audio/VCSL-LICENSE.txt",
       "bytes": 7048,
       "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "assets/audio/WAR-LICENSE.txt",
+      "bytes": 1508,
+      "sha256": "9616f1dcf7ecb59b59341ce25025a5c7f45e235e99304931fc177b7c8f6304ef"
     },
     {
       "path": "assets/audio/court-samples.json",
@@ -128,6 +163,26 @@
       "sha256": "d8d8fcbc73050e538254ef64f7badd723bde20106aaefb32c67167c6adc6ab1d"
     },
     {
+      "path": "assets/audio/war-arrows.mp3",
+      "bytes": 24813,
+      "sha256": "490b0ac9e477f6007227573d496215c876da3cf64bdb3073bd2f9077ec8bb75f"
+    },
+    {
+      "path": "assets/audio/war-battle.mp3",
+      "bytes": 88749,
+      "sha256": "f6c60be25eeb78bb611283278423679dfce495a8e636292f17203937adcb1101"
+    },
+    {
+      "path": "assets/audio/war-muster.mp3",
+      "bytes": 52749,
+      "sha256": "4997397e52084db37d25242df384cc8337aff45e7a87df576e0efb0aa76beca3"
+    },
+    {
+      "path": "assets/audio/war-sources.json",
+      "bytes": 6231,
+      "sha256": "d6e0c40bb067834dd19795032380a8a4e55458a421e01e79cd689e2b0b69cf67"
+    },
+    {
       "path": "assets/fonts/OFL.txt",
       "bytes": 4397,
       "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8"
@@ -139,38 +194,48 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 6972,
-      "sha256": "e549416ce2e9054d6b0e5f4e2232ccaa9da9b13e73e27ef42e84f421235fef01"
+      "bytes": 8716,
+      "sha256": "986c5206a07a001ddee0f99d6076c92c7360c92d07b22fcd6b8ac9875d9fd739"
     },
     {
       "path": "edward-court.js",
-      "bytes": 15940,
-      "sha256": "0683a42dd489b5018f30712d99fb17aa398b5748b9c6c25083151a7172b477f9"
+      "bytes": 16337,
+      "sha256": "b8fddf73e8e1bd9213e8ed6177412c2fbe2c87d4ac77fd155969d7cf22307ddb"
+    },
+    {
+      "path": "edward-depth-data.js",
+      "bytes": 108728,
+      "sha256": "206da075dffcab6577defa97e9092db244280790ab8255afd22477fffed591fa"
+    },
+    {
+      "path": "edward-depth.js",
+      "bytes": 20338,
+      "sha256": "866beab2e643964bff3285b902fc373b4c769e8da690d7a1e68fb0e1d79eec96"
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 61598,
-      "sha256": "f00703ff615c74ffdd91e59e4c13f5da8c59f7a83221cc63b4f17fd5699cb538"
+      "bytes": 65804,
+      "sha256": "b9838a10c8aba6c935693f033b9316d5a2806a021cf605539681e90e0b1d48f6"
     },
     {
       "path": "edward-reign-data.js",
-      "bytes": 62038,
-      "sha256": "e444d8a365169877bedba7ef264510fac999579d24c6e984b7b2aef8dac9ee3c"
+      "bytes": 62039,
+      "sha256": "65f962d1f728c98afd1b261c7324279acc4d4ec44d7786bf944e15c2f834d8ca"
     },
     {
       "path": "edward-reign.css",
-      "bytes": 23600,
-      "sha256": "a4d456e68e07a8f32e18995d0fee995a0a4dff53193f271d4b4177009bce84db"
+      "bytes": 26898,
+      "sha256": "6e81291855625d64b5dcda4fe35ddaf4a396d508882461d81018fcd8d5378e2b"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 34630,
-      "sha256": "bfe59535887416f3321a4c956263120b0f7eef03a830d997f19d50ca0ee267ba"
+      "bytes": 37566,
+      "sha256": "2e6223c523f3124724501a5a408f7ee973e7d7fd11bc75bc655ea13bbf939b26"
     },
     {
       "path": "index.html",
-      "bytes": 61598,
-      "sha256": "f00703ff615c74ffdd91e59e4c13f5da8c59f7a83221cc63b4f17fd5699cb538"
+      "bytes": 65804,
+      "sha256": "b9838a10c8aba6c935693f033b9316d5a2806a021cf605539681e90e0b1d48f6"
     }
   ]
 }

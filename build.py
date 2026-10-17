@@ -14,6 +14,7 @@ required.update(['edward-loop-demo.html','assets/audio/court-samples.mp3','asset
 required.update('assets/art/portraits/'+p+'.webp' for p in re.findall(r"portrait:'([^']+)'",(ROOT/'edward-court.js').read_text()))
 required.update(re.findall(r'assets/art/transitions/[a-z-]+\.webp', (ROOT/'edward-reign-data.js').read_text()))
 required.update(['assets/audio/paper-open.mp3','assets/audio/PAPER-LICENSE.txt'])
+required.update(['assets/art/portraits/court-faces.webp','assets/art/portraits/young-brothers.webp','assets/art/transitions/household-hall.webp','assets/art/transitions/channel-quay.webp','assets/art/transitions/barnet-mist.webp','assets/art/world-assets.json','assets/audio/war-battle.mp3','assets/audio/war-muster.mp3','assets/audio/war-arrows.mp3','assets/audio/war-sources.json','assets/audio/WAR-LICENSE.txt'])
 config=ROOT/'_config.yml'
 if config.exists():
  patterns=[json.loads(line.strip()[2:]) for line in config.read_text().splitlines() if line.strip().startswith('- ')]
@@ -24,6 +25,6 @@ for p in sorted(required):
  if not (ROOT/p).is_file():raise SystemExit('Missing required release asset: '+p)
 (ROOT/'index.html').write_text(html)
 required.add('index.html')
-manifest={'release':'EDWARD IV — The Living Court 1.0','entry':'index.html','assets':[{'path':p,'bytes':(ROOT/p).stat().st_size,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sorted(required)]}
+manifest={'release':'EDWARD IV — The Living Court 1.1 · Inhabit the Crown','entry':'index.html','assets':[{'path':p,'bytes':(ROOT/p).stat().st_size,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sorted(required)]}
 (ROOT/'release-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 print('Built index.html; verified',len(required),'runtime assets;',sum(a['bytes'] for a in manifest['assets']),'bytes including opt-in audio.')
