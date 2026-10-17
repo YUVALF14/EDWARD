@@ -22,5 +22,24 @@ assert(men.choices.some(o=>o.k==='clarence'&&/name the men/i.test(o.t)),'George 
 const html=fs.readFileSync('edward-loop-demo.html','utf8');
 assert(!html.includes('id="royalCouncil"')&&!html.includes('id="councilDialog"'),'The world presents business through audience cards');
 assert(!html.includes('id="step"'),'Card numbers are hidden');
-assert(html.includes('edward-reign.js?v=1.2.0'),'Release modules use a new cache key');
-console.log('PASS: 240 distinct decisions, 40 four-part threads, dated profiles, a three-way human choice, world-led audiences, historical notes and papers.');
+assert(html.includes('edward-reign.js?v=1.3.0'),'Release modules use a new cache key');
+const route={};vm.createContext(route);vm.runInContext(['edward-reign-data.js','edward-court.js','edward-depth-data.js','edward-depth.js'].map(p=>fs.readFileSync(p,'utf8')).join('\n')+'\nthis.route={depthFresh,prepareAct,validItinerary,campaignScenes,selectReserve,selectCoreReserve,REIGN_CORE_ANCHORS};',route);
+const R=route.route,variants=new Set(),seen=new Set();
+for(let seed=1;seed<=120;seed++){
+ let value=seed,v=R.depthFresh();v.flags={};v.log=[];v.warwick=0;v.hastings=8;v.gloucester=0;v.woodville=0;
+ const random=()=>{value^=value<<13;value^=value>>>17;value^=value<<5;return (value>>>0)/4294967296;};
+ for(let a=0;a<4;a++){
+  v.cycle=a;R.prepareAct(a,v,random);assert(R.validItinerary(v));const cards=R.campaignScenes(a,v);
+  assert.equal(cards.length,25,'New acts contain exactly twenty-five decisions');assert.equal(cards.filter(c=>!c.thread).length,9);
+  assert.equal(v.itinerary[a].length,4);assert.equal(v.coreItinerary[a].length,9);
+  assert(R.REIGN_CORE_ANCHORS[a].every(title=>v.coreItinerary[a].includes(title)),'Historical route anchors remain present');
+  for(const id of v.itinerary[a]){seen.add(id);assert.equal(cards.filter(c=>c.thread===id).length,4,'Selected stories stay complete');}
+  assert(cards.every((c,i)=>!i||c.date>=cards[i-1].date),'Generated route stays chronological');
+  if(a<3)v.log.push(...Array.from({length:25},(_,i)=>({key:['queen','hastings','burgundy','investigate'][i%4]})));
+ }
+ variants.add(JSON.stringify([v.itinerary,v.coreItinerary]));
+ const restored=JSON.parse(JSON.stringify(v));assert.deepEqual(Array.from(R.campaignScenes(0,restored),c=>c.title),Array.from(R.campaignScenes(0,v),c=>c.title),'Saving preserves the generated route');
+}
+assert(variants.size>100,'New reigns vary their chosen cards');assert.equal(seen.size,40,'All reserve stories can appear across replays');
+const old=R.depthFresh();old.cycle=0;delete old.routeVersion;delete old.coreItinerary;old.itinerary[0]=R.selectReserve(0,old,()=>0.31,6);assert(R.validItinerary(old));assert.equal(R.campaignScenes(0,old).length,44,'Existing v4 saves retain their original act length');
+console.log('PASS: 240-card reserve, 25 decisions per new act, historical anchors, weighted learning loop, varied complete stories and legacy save routes.');
