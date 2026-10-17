@@ -8,22 +8,23 @@ const CourtAudio=(()=>{
  function paper(){if(!sfx||document.hidden)return;paperAudio.currentTime=0;const play=paperAudio.play();if(play)play.catch(()=>{});}
  const voices=new Set(),listeners=new Set();let suspendedByPage=false;
  const arrangements={
-  court:{beat:.78,harp:.22,reed:.105,drum:.018,rest:1.1},
-  intimacy:{beat:1.12,harp:.19,reed:0,drum:0,rest:2.4},
-  campaign:{beat:.73,harp:.18,reed:.105,drum:.07,rest:.8},
-  instability:{beat:1.02,harp:.15,reed:.075,drum:.035,rest:1.8},
-  reflection:{beat:1.34,harp:.16,reed:.055,drum:0,rest:2.6}
+  court:{beat:.56,harp:.23,reed:.13,drum:.052,rest:.42},
+  intimacy:{beat:.72,harp:.2,reed:.105,drum:.018,rest:.72},
+  campaign:{beat:.48,harp:.2,reed:.12,drum:.085,rest:.32},
+  instability:{beat:.53,harp:.18,reed:.11,drum:.07,rest:.52},
+  reflection:{beat:.88,harp:.18,reed:.095,drum:.012,rest:1.05}
  };
- // Eight related phrases, with varied lengths, cadences and answering voices.
+ // A brighter, dance-like court score: short notes, clear pulse, and distinct
+ // rising/falling phrases. All sound remains from the licensed real recordings.
  const phrases=[
-  [62,null,65,67,69,null,67,65,64,null,62,null,60,62,null,null],
-  [69,67,null,65,64,62,null,64,65,null,67,64,62,null,null,null],
-  [62,null,64,65,67,null,65,null,69,67,65,64,62,null,null,null],
-  [65,64,62,null,60,null,62,64,65,null,64,60,62,null,null,null],
-  [69,null,72,69,67,65,null,64,62,null,65,64,62,null,null,null],
-  [62,65,null,69,67,null,65,64,60,null,64,65,62,null,null,null],
-  [67,null,69,67,65,64,null,62,64,65,67,null,62,null,null,null],
-  [65,null,64,62,60,62,null,65,64,null,60,null,62,null,null,null]
+  [74,71,74,null,79,76,74,71,69,null,71,74,76,74,null,null],
+  [67,71,74,79,null,76,74,71,74,null,67,69,71,67,null,null],
+  [76,79,81,79,76,null,74,71,74,76,79,null,76,74,null,null],
+  [71,74,76,null,79,81,79,76,74,null,71,69,67,71,null,null],
+  [79,76,74,71,null,74,76,79,81,79,76,null,74,71,null,null],
+  [67,null,71,74,76,74,71,null,74,79,76,74,71,null,67,null],
+  [74,76,79,null,81,79,76,74,71,74,null,76,79,74,null,null],
+  [71,67,69,71,74,null,76,74,71,69,67,null,71,74,null,null]
  ];
  const notify=()=>listeners.forEach(f=>f({on,sfx,volume,mood,status,ready:!!buffer,worldEnabled,worldVolume,worldStatus}));
  try{const p=JSON.parse(localStorage.getItem('edward-audio-v3')||'null');if(p){sfx=p.sfx!==false;worldEnabled=p.worldEnabled!==false;if(Number.isFinite(p.worldVolume))worldVolume=Math.max(0,Math.min(.5,p.worldVolume));if(Number.isFinite(p.volume))volume=Math.max(0,Math.min(.65,p.volume));}}catch{}
@@ -65,12 +66,12 @@ const CourtAudio=(()=>{
    const p=phrases[phrase%phrases.length],n=p[step];
    const inflection=1+Math.sin((phrase*17+step*7)*1.31)*.075;
    if(n!==null){const t=next+Math.sin(step*3+phrase)*.012;
-    note('harp',n,t,3.9,a.harp*inflection);
+    note('harp',n,t,Math.min(a.beat*.92,.8),a.harp*inflection);
     // Recorder answers in alternate phrases, leaving audible breath between notes.
-    if(a.reed&&phrase%3!==0&&step%3!==1)note('recorder',n,t+.055,Math.min(a.beat*1.7,2.6),a.reed*inflection);
+    if(a.reed&&phrase%3!==0&&step%3!==1)note('recorder',n,t+.055,Math.min(a.beat*1.35,.95),a.reed*inflection);
    }
-   if(step%4===0&&step<13){const bass=(step===8&&phrase%2?48:50);note('harp',bass,next,4.9,a.harp*.72);if(step%8===0)note('harp',bass+7,next+.13,4.2,a.harp*.44);}
-   if(a.drum&&step%4===0&&phrase%3!==1)note(phrase%2?'drum2':'drum',0,next,1.2,a.drum);
+   if(step%4===0&&step<13){const bass=(step===8&&phrase%2?55:50);note('harp',bass,next,1.15,a.harp*.68);if(step%8===0)note('harp',bass+7,next+.11,.82,a.harp*.42);}
+   if(a.drum&&step%2===0&&phrase%3!==1)note(phrase%2?'drum2':'drum',0,next,a.beat*.7,a.drum);
    step++;next+=a.beat*(1+Math.sin(step+phrase)*.025);
    if(step>=p.length){step=0;phrase++;next+=a.rest+(phrase%3)*.25;}
   }
