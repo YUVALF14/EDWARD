@@ -1,5 +1,13 @@
 # The Living Court 1.0 — release review
 
+# The Living Court 1.4 — adaptive loops and court politics
+
+- Replaced the fixed 25-decision act length with four historical court loops of 21, 25 or 29 decisions. Each keeps nine core historical audiences and draws three to five complete living stories.
+- Loop length uses political stability, rival faction strength, relationship strain and unresolved promises. The completed loop also weights which stories can enter the next period. Routes remain chronological, saved and compatible with older save routes.
+- Expanded the reserve from 240 to 272 scenes with eight four-part stories: Warwick and Edward’s French marriage plans, Cecily and her sons, Neville–Woodville tensions, a Burgundian guest and Lord Scales, Clarence and Gloucester, French diplomacy, Margaret of York’s role, and Edward’s exile between the French and Burgundian courts.
+- Added Clarence as a tracked relationship and made his choices update both personal trust and the brothers’ political affinity. Existing saves receive a safe default for this new value.
+- Checks: adaptive route and save tests, scene chronology and speaker checks, document and campaign tests. Historical dates remain fixed; added conversations are explicitly reconstructed.
+
 ## The 25-decision loop · 1.3
 
 - Each new act selects 25 audiences from the existing reserve: nine chronological core cards and four complete four-part stories.

@@ -9,11 +9,11 @@ const REGIONS={
  france:{label:'France · Louis XI',description:'A separate royal court across the Channel. French and Burgundian interests compete; courtesy is not a binding alliance.',xy:[348,429]},
  burgundy:{label:'Burgundian lands',description:'The dukes govern the duchy and scattered territories, including lands in the Low Countries. Bruges is within this wider political world; Burgundy is not a single compact modern country.',xy:[367,370]}
 };
-function depthFresh(){return {routeVersion:2,itinerary:[null,null,null,null],coreItinerary:[null,null,null,null],realm:{coin:36,debt:0,credit:55,readiness:50,intelligence:40},regions:{north:45,midlands:50,wales:40,london:50,channel:40},council:[],ledger:[],journey:null};}
-// New reigns play 25 decisions per act: nine historical audiences and four
-// complete living stories. Older v4 saves retain their original 44-card routes.
+function depthFresh(){return {routeVersion:3,itinerary:[null,null,null,null],coreItinerary:[null,null,null,null],loopLengths:[null,null,null,null],realm:{coin:36,debt:0,credit:55,readiness:50,intelligence:40},regions:{north:45,midlands:50,wales:40,london:50,channel:40},council:[],ledger:[],journey:null};}
+// Each new historical period closes after 9 anchor audiences plus 3–5 complete
+// living stories. The next route responds to the court left by the last one.
 const REIGN_ANCHORS=[['road','parliament'],['marriagefleet','brothers'],['gloucester1469','isabel'],['clarencereturn','familyreturn']];
-const REIGN_COLOUR=[['kitchen','hunt','chamber'],['scales','nursery','householdvoices'],['rumour','guardroom','fear'],['departure','sanctuaryhouse','barnetafter']];
+const REIGN_COLOUR=[['kitchen','hunt','chamber','familytable','frenchpromise'],['scales','nursery','householdvoices','nevillewoodville','scaleschannel'],['rumour','guardroom','fear','brotherstogether','frenchchannel'],['departure','sanctuaryhouse','barnetafter','margaretshand','louisandmargaret']];
 const REIGN_CORE_ANCHORS=[
  ['After Towton','The prisoners','An oath before the altar','A commission in the North','Henry beyond reach','The law beneath the crown','A marriage in private','A widow’s petition'],
  ['The queen in public','Henry brought to the Tower','A daughter in the nursery','Rivers enters higher company','A public encounter','A sister leaves England','Harlech yields','The price of splendour'],
@@ -27,6 +27,16 @@ function campaignScenes(a=S.cycle,v=S){
 }
 function actLength(a=S.cycle,v=S){return campaignScenes(a,v).length;}
 function decisionsBefore(a,v=S){return SCENES.slice(0,a).reduce((n,_,i)=>n+actLength(i,v),0);}
+function loopPressure(v){
+ const mean=(keys,source)=>keys.reduce((n,k)=>n+(Number(source?.[k])||0),0)/keys.length;
+ const stability=mean(['authority','order','succession'],v);
+ const f=v.factions||{},crown=Number(f.crown)||50,opposition=Math.max(...['neville','queen','brothers','lancastrian'].map(k=>Number(f[k])||0));
+ const relations=['warwick','woodville','hastings','gloucester','clarence'].map(k=>Number(v[k])||0);
+ const pairs=[[0,1],[2,3],[3,4]];const strain=pairs.reduce((n,[a,b])=>n+Math.abs(relations[a]-relations[b]),0)/pairs.length/1.2;
+ const obligation=Math.min(100,Math.max(0,(Number(v.open)||0)*7+(Number(v.broken)||0)*18));
+ return Math.max(0,Math.min(100,.4*(100-stability)+.25*Math.max(0,opposition-crown)+.25*strain+.1*obligation));
+}
+function loopThreadCount(v){const pressure=loopPressure(v);return 3+(pressure>=20?1:0)+(pressure>=48?1:0);}
 function reserveWeight(t,v){
  let w=1;
  if(v.regions[t.region]<45)w+=2;
@@ -38,6 +48,15 @@ function reserveWeight(t,v){
  if(t.id==='margaret'&&v.flags['thread:marriagefleet']===0)w+=3;
  if(t.id==='aftercustody'&&v.gloucester>=10)w+=3;
  const recent=(v.log||[]).slice(-25);
+ const f=v.factions||{},flags=v.flags||{};
+ if(t.id==='frenchpromise'&&(v.warwick>=12||f.neville>=60))w+=3;
+ if(t.id==='familytable'&&f.brothers>=24)w+=3;
+ if(t.id==='nevillewoodville'&&(Math.abs((v.warwick||0)-(v.woodville||0))>=14||f.queen>=40))w+=3;
+ if(t.id==='scaleschannel'&&recent.some(l=>['burgundy','queen'].includes(l.key)))w+=2;
+ if(t.id==='brotherstogether'&&(f.brothers>=35||(v.clarence||0)<-10))w+=3;
+ if(t.id==='frenchchannel'&&recent.some(l=>['warwick','burgundy','defer'].includes(l.key)))w+=3;
+ if(t.id==='margaretshand'&&flags['thread:departure']!==undefined)w+=3;
+ if(t.id==='louisandmargaret'&&(recent.some(l=>['burgundy','settle'].includes(l.key))||f.lancastrian>=50))w+=3;
  if(t.person==='hastings'&&recent.some(l=>['hastings','commission'].includes(l.key)))w+=2;
  if(t.person==='elizabeth'&&recent.some(l=>['queen','joint'].includes(l.key)))w+=2;
  if(['brothers','aftercustody'].includes(t.id)&&recent.some(l=>['gloucester','clarence','settle'].includes(l.key)))w+=2;
@@ -53,9 +72,9 @@ function selectReserve(a,v,random=Math.random,target=6){
   for(const t of candidates){roll-=reserveWeight(t,v);if(roll<0){selected=t;break;}}
   chosen.push(selected.id);
  }
- // A human interlude and practical royal business always have room beside history.
+ // A human interlude always sits beside history; extra stories are earned by pressure.
  draw(pool.filter(t=>REIGN_COLOUR[a].includes(t.id)));
- draw(pool.filter(t=>!chosen.includes(t.id)&&!REIGN_COLOUR[a].includes(t.id)));
+ if(chosen.length<target)draw(pool.filter(t=>!chosen.includes(t.id)&&!REIGN_COLOUR[a].includes(t.id)));
  while(chosen.length<target)draw(pool.filter(t=>!chosen.includes(t.id)));
  return chosen;
 }
@@ -83,23 +102,27 @@ function selectCoreReserve(a,v,random=Math.random){
 function prepareAct(a=S.cycle,v=S,random=Math.random){
  if(!v.itinerary)return;
  if(v.routeVersion===1){if(!v.itinerary[a])v.itinerary[a]=selectReserve(a,v,random,6);return;}
- if(!v.itinerary[a])v.itinerary[a]=selectReserve(a,v,random,4);
+ if(!v.itinerary[a]){
+  const count=v.routeVersion===3?loopThreadCount(v):4;
+  v.itinerary[a]=selectReserve(a,v,random,count);
+  if(v.routeVersion===3){v.loopLengths??=[null,null,null,null];v.loopLengths[a]=9+4*count;}
+ }
  if(v.coreItinerary&&!v.coreItinerary[a])v.coreItinerary[a]=selectCoreReserve(a,v,random);
 }
 function validItinerary(v){
  // Existing v4 saves retain their complete original route and receipt indices.
  if(v.itinerary===undefined||v.itinerary===null)return true;
  if(!Array.isArray(v.itinerary)||v.itinerary.length!==4)return false;
- const modern=v.routeVersion===2;
+ const modern=v.routeVersion===2||v.routeVersion===3,adaptive=v.routeVersion===3;
  return v.itinerary.every((ids,a)=>{
-  if(a>v.cycle)return ids===null&&(!modern||v.coreItinerary?.[a]===null);
-  const count=modern?4:6;
-  const validThreads=Array.isArray(ids)&&ids.length===count&&new Set(ids).size===count&&
+  if(a>v.cycle)return ids===null&&(!modern||v.coreItinerary?.[a]===null)&&(!adaptive||v.loopLengths?.[a]===null);
+  const count=adaptive?ids?.length:modern?4:6;
+  const validThreads=Array.isArray(ids)&&ids.length===count&&(!adaptive||count>=3&&count<=5)&&new Set(ids).size===count&&
    ids.every(id=>THREADS.some(t=>t.act===a&&t.id===id))&&REIGN_ANCHORS[a].every(id=>ids.includes(id))&&REIGN_COLOUR[a].some(id=>ids.includes(id));
   if(!validThreads)return false;
   if(!modern)return true;
   const core=v.coreItinerary?.[a],pool=SCENES[a].filter(c=>!c.thread).map(c=>c.title);
-  return Array.isArray(core)&&core.length===9&&new Set(core).size===9&&core.every(id=>pool.includes(id))&&REIGN_CORE_ANCHORS[a].every(id=>core.includes(id));
+  return Array.isArray(core)&&core.length===9&&new Set(core).size===9&&core.every(id=>pool.includes(id))&&REIGN_CORE_ANCHORS[a].every(id=>core.includes(id))&&(!adaptive||Array.isArray(v.loopLengths)&&v.loopLengths[a]===9+4*count);
  });
 }
 function depthScene(c){
@@ -176,7 +199,7 @@ const ACT_OBJECTIVES=[
 function objectiveMarkup(list){return list.map(([title,done,detail])=>'<li class="'+(done()?'met':'pending')+'"><b>'+esc(title)+'</b><span>'+esc((done()?'Holding · ':'At risk · ')+detail())+'</span></li>').join('');}
 function paintDepth(c){
  text('currentCharge',c.thread?THREADS.find(t=>t.id===c.thread).brief:ACTS[S.cycle].goal);
- text('threadLabel',c.thread?'Connected audience · '+c.part+' / 4':'The king’s audience');
+ text('threadLabel',c.thread?'Living story · '+c.part+' / 4':'The king’s audience');
  $('realmAccounts').innerHTML=REALM_KEYS.map(k=>'<div><span>'+esc({coin:'Available reserve',debt:'Committed debt',credit:'Royal credit',readiness:'Army readiness',intelligence:'Information'}[k])+'</span><b>'+Math.round(S.realm[k])+'</b></div>').join('');
  $('realmLedger').innerHTML=S.ledger.slice(-5).reverse().map(l=>'<li><b>'+esc(l.cause)+'</b><span>'+esc(l.changes)+'</span></li>').join('')||'<li>The first account has not yet been entered.</li>';
  $('generalObjectives').innerHTML=objectiveMarkup(GENERAL_OBJECTIVES);

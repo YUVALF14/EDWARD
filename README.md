@@ -6,7 +6,7 @@ Inhabit Edward IV’s kingship, 1461–1471: a historical narrative strategy gam
 
 ## The released campaign
 
-Four acts of twenty-five concise decisions follow Edward from Towton through the crises of 1465–1469 to exile and restoration in 1470–1471. Authority, order, succession, personal relationships, competing affinities, promises, and the four sources of legitimacy shape the terms of each settlement. Responses have costs as well as benefits; repeated methods lose effectiveness. Some third responses are available only after earlier decisions build the necessary trust or religious standing. The final account describes the ruler’s political signature.
+Four historical periods follow Edward from Towton through the crises of 1465–1469 to exile and restoration in 1470–1471. Each plays as a court loop of 21, 25, or 29 decisions. The loop length and optional stories respond to the court’s political and personal strain at its close. Authority, order, succession, relationships, competing affinities, promises, and the four sources of legitimacy shape the terms of each settlement. The final account describes the ruler’s political signature.
 
 The marriage, exile, restoration and major military events follow the recorded reign. Edward can surrender the crown in 1469, die in a political trap or failed escape, or recover the crown in 1471. Brief story cards mark the passage to Grafton and the final battles at Barnet and Tewkesbury. Conversations and representative officers are fictional reconstructions. Historical pop-ups distinguish documented anchors from these scenes.
 
@@ -14,7 +14,7 @@ The court changes with the date. Elizabeth enters as a widowed petitioner before
 
 ## Inhabit the Crown expansion
 
-The campaign has a **240-decision reserve** of 80 historical audiences and forty four-part stories. Each new act selects **25 decisions**: nine historical audiences, including the required turning points, and four complete stories. Two stories carry the family and political arc forward; two are sampled for this reign. Later selections respond to relationships, resources and choices from the previous act, creating a replay loop that learns from how Edward has ruled. A new route is saved and never rerolled on reload. Existing version-4 saves keep their original route. Letters, requests and encounters bring practical and personal concerns into the same audience flow.
+The campaign has a **272-scene reserve**: 80 historical audiences and forty-eight four-part stories about court relationships, family life and international politics. Every loop keeps its historical turning points and nine core audiences, then draws three to five complete stories. The next loop responds to the authority, rival affinities, relationships and obligations Edward leaves behind. Random selection varies which stories appear. Routes save without rerolling, and existing version-4 saves retain their original paths. Letters, requests and encounters bring practical and personal concerns into the same audience flow.
 
 Under The realm, general and act objectives sit beside reserve, debt, credit, readiness and information. A ledger explains changes; monthly upkeep and ageing intelligence prevent measures from simply accumulating. Selected choices require established credit, information or preparedness. Open the larger map for continental orientation; regional panels distinguish France, Calais and the Burgundian lands from the English Crown’s reach.
 
