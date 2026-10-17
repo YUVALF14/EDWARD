@@ -21,21 +21,21 @@ async function main(){
  await page.click('#historyLink');assert.match(await page.locator('#historyPopupTitle').innerText(),/Towton/);await page.keyboard.press('Escape');
  // Real clicks through all four acts, with every card rendered in the browser.
  let count=0;for(let a=0;a<4;a++){
-  for(let n=0;n<60;n++){const i=await choiceIndex(page,'mercy');await page.locator('#choices .choice').nth(i).click();await advanceStories(page);count++;}
+  for(let n=0;n<await page.evaluate(()=>actLength());n++){const i=await choiceIndex(page,'mercy');await page.locator('#choices .choice').nth(i).click();await advanceStories(page);count++;}
   if(a<3){assert(await page.locator('#actDialog').isVisible());const save=await page.evaluate(()=>getSaved());assert.equal(save.n,0);assert.equal(save.cycle,a+1);await page.screenshot({path:path.join(out,`act-${a+2}.png`)});await page.click('#enterAct');}
   console.log('Played act',a+1,'/',4);
  }
- assert.equal(count,240);assert.match(await page.locator('#endTitle').innerText(),/regained/g);
+ assert.equal(count,100);assert.match(await page.locator('#endTitle').innerText(),/regained/g);
  await page.screenshot({path:path.join(out,'ending-1471.png'),fullPage:true});const mercySignature=await page.locator('#signature').innerText();
  // Replay with a different political style through the same public decision seam.
  await page.evaluate(()=>{startNew();document.getElementById('enterAct').click();});
- for(let k=0;k<240;k++){const i=await choiceIndex(page,'command');await page.evaluate(i=>{choose(i);if(document.getElementById('actDialog').open)document.getElementById('enterAct').click();while(document.getElementById('storyDialog').open)document.getElementById('storyNext').click();},i);}
+ for(let k=0;k<100;k++){const i=await choiceIndex(page,'command');await page.evaluate(i=>{choose(i);if(document.getElementById('actDialog').open)document.getElementById('enterAct').click();while(document.getElementById('storyDialog').open)document.getElementById('storyNext').click();},i);}
  assert.match(await page.locator('#endTitle').innerText(),/regained/g);
- const command=await page.evaluate(()=>({a:S.authority,o:S.order,s:S.succession,log:S.log.length,signature:document.getElementById('signature').textContent}));assert.equal(command.log,240);assert.notEqual(command.signature,mercySignature,'Different governing styles leave different signatures');
+ const command=await page.evaluate(()=>({a:S.authority,o:S.order,s:S.succession,log:S.log.length,signature:document.getElementById('signature').textContent}));assert.equal(command.log,100);assert.notEqual(command.signature,mercySignature,'Different governing styles leave different signatures');
  // Reach the early endings from actual starting decisions, not edited states.
  const early=await page.evaluate(()=>{
   function run(kind){startNew();document.getElementById('enterAct').click();let limit=0;
-   while(!S.ended&&limit++<240){const opts=getChoices();let i=0;
+   while(!S.ended&&limit++<100){const opts=getChoices();let i=0;
     if(scene().title==='A loose watch')i=opts.findIndex(o=>o.k=== (kind==='death'?'plot':'investigate'));
     else if(scene().title==='The crown under guard')i=opts.findIndex(o=>o.k==='depose');
     else{const want=['promise','pursue','direct','assert','execute','defer','queen','land','mobilize'];let best=99;opts.forEach((o,j)=>{const r=want.indexOf(o.k);if(r>=0&&r<best){best=r;i=j;}});}
@@ -46,13 +46,19 @@ async function main(){
 
  // The escape gamble must have both outcomes from reachable decision histories.
  const escapes=await page.evaluate(()=>{
-  const clone=v=>JSON.parse(JSON.stringify(v));let beam=[{s:fresh(),path:[]}];
-  for(let k=0;k<179;k++){const next=[];for(const run of beam){Object.assign(S,clone(run.s));const count=getChoices().length;for(let i=0;i<count;i++){Object.assign(S,clone(run.s));const c=scene(),o=getChoices()[i];if(['plot','depose','escape'].includes(o.k))continue;applyChoice(o,c);S.n++;if(S.n===60){S.n=0;S.cycle++;}updateDate();next.push({s:clone(S),path:[...run.path,i],score:(100-S.order)*.32+(100-S.authority)*.28+S.broken*2+(50-S.realm.readiness)*.16-(S.realm.intelligence-40)*.08});}}next.sort((a,b)=>b.score-a.score);beam=next.slice(0,24);}
-  function enter(){startNew();document.getElementById('enterAct').click();}
-  function advance(i){choose(i);if(document.getElementById('actDialog').open)document.getElementById('enterAct').click();while(document.getElementById('storyDialog').open)document.getElementById('storyNext').click();}
-  enter();for(const i of beam[0].path)advance(i);advance(getChoices().findIndex(o=>o.k==='escape'));const weakDead=S.dead;
-  enter();for(let k=0;k<179;k++){const prefer=['investigate','hold','pay','hastings','pardon','faith','bounded','joint','settle','council','queen','direct'];let i=0,best=99;getChoices().forEach((o,j)=>{const rank=prefer.indexOf(o.k);if(rank>=0&&rank<best){best=rank;i=j;}});advance(i);}advance(getChoices().findIndex(o=>o.k==='escape'));return {weakDead,strongAlive:!S.dead&&S.flags.escaped===true};
- });assert(escapes.weakDead&&escapes.strongAlive,'Escape depends on the household built through earlier decisions');console.log('Escape outcomes',escapes);
+  function attempt(weak){
+   startNew();document.getElementById('enterAct').click();let turns=0;
+   while(!S.ended&&scene().title!=='The crown under guard'&&turns++<100){
+    const opts=getChoices();let i=0;
+    if(scene().title==='A loose watch')i=opts.findIndex(o=>o.k==='investigate');
+    else{const order=weak?['execute','assert','direct','defer','promise','mobilize','land','pursue']:['investigate','hold','pay','hastings','pardon','faith','bounded','joint','settle','council','queen','direct'];let best=99;opts.forEach((o,j)=>{const rank=order.indexOf(o.k);if(rank>=0&&rank<best){best=rank;i=j;}});}
+    if(i<0)i=0;choose(i);if(document.getElementById('actDialog').open)document.getElementById('enterAct').click();while(document.getElementById('storyDialog').open)document.getElementById('storyNext').click();
+   }
+   if(scene().title!=='The crown under guard')return {atRelease:false,dead:S.dead};
+   const escape=getChoices().findIndex(o=>o.k==='escape');if(escape<0)return {atRelease:false,dead:S.dead};choose(escape);return {atRelease:true,dead:S.dead,escaped:S.flags.escaped===true};
+  }
+  return {weak:attempt(true),strong:attempt(false)};
+ });assert(escapes.weak.atRelease&&escapes.weak.dead,'An underprepared household can fail to escape');assert(escapes.strong.atRelease&&escapes.strong.escaped&&!escapes.strong.dead,'Preparation and service can make escape succeed');console.log('Escape outcomes',escapes);
  // Save/load remains an act-boundary operation, with failed/corrupt storage safe.
  await page.evaluate(()=>{startNew();document.getElementById('enterAct').click();});await page.locator('.choice').first().click();
  assert(await page.locator('#saveAct').isEnabled());await page.evaluate(()=>loadAct());assert.equal(await page.evaluate(()=>S.n),1);
