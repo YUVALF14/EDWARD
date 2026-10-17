@@ -51,7 +51,8 @@ const {chromium}=require('playwright');
  await p.locator('summary').filter({hasText:'Your objectives'}).click();assert.equal(await p.locator('#generalObjectives li').count(),3);await p.screenshot({path:'/tmp/edward-depth-realm.png',fullPage:true});
  await p.evaluate(()=>setView('audience'));
  const branches=await p.evaluate(()=>{
-  function run(first){startNew();$('enterAct').click();let n=0;while(!(scene().thread==='road'&&scene().part===3)&&n++<20){choose(scene().thread==='road'&&scene().part===1?first:0);while($('storyDialog').open)$('storyNext').click();}const choices=getChoices().length;choose(0);return {context:scene().context,choices};}
+  function decide(i=0){const q=INQUIRIES[scene().title];if(q&&!S.flags['heard:'+q.id])hearInquiry();choose(i);while($('storyDialog').open)$('storyNext').click();}
+  function run(first){startNew();$('enterAct').click();let n=0;while(!(scene().thread==='road'&&scene().part===3)&&n++<20)decide(scene().thread==='road'&&scene().part===1?first:0);const choices=getChoices().length;decide(0);return {context:scene().context,choices};}
   return {a:run(0),b:run(1)};
  });assert.equal(branches.a.choices,3);assert.equal(branches.b.choices,2);assert.notEqual(branches.a.context,branches.b.context,'The earlier route changes a later audience and response');
  // Audio continuity through public calls: a mood request cannot restart the phrase.
@@ -62,11 +63,11 @@ const {chromium}=require('playwright');
  // All campaign saves are loadable after every audience, not only at act openings.
  const saves=await p.evaluate(()=>{
   startNew();$('enterAct').click();let tested=0;
-  while(!S.ended&&tested<100){const options=getChoices();let i=options.findIndex(o=>o.k==='investigate');if(scene().title==='The crown under guard')i=options.findIndex(o=>o.k==='settle');if(i<0)i=options.findIndex(o=>!['plot','escape','depose'].includes(o.k));choose(i);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();tested++;if(!S.ended&&!validSave(JSON.parse(localStorage.getItem(SAVE_KEY))))throw Error('Invalid autosave at '+scene().title);}
+  while(!S.ended&&tested<100){const q=INQUIRIES[scene().title];if(q&&!S.flags['heard:'+q.id]){const before=S.n;choose(0);if(S.n!==before)throw Error('A hearing card allowed an answer before its witness');hearInquiry();if(!S.flags['heard:'+q.id])throw Error('The hearing was not recorded');}const options=getChoices();let i=options.findIndex(o=>o.k==='investigate');if(scene().title==='The crown under guard')i=options.findIndex(o=>o.k==='settle');if(i<0)i=options.findIndex(o=>!['plot','escape','depose'].includes(o.k));choose(i);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();tested++;if(!S.ended&&!validSave(JSON.parse(localStorage.getItem(SAVE_KEY))))throw Error('Invalid autosave at '+scene().title);}
   return {tested,documents:S.documents.length,stories:THREADS.filter(t=>S.flags['thread:'+t.id+':3']!==undefined).length,date:S.date};
  });assert.equal(saves.tested,100);assert.equal(saves.stories,16);assert(saves.documents>0&&saves.documents<=52);assert(saves.date<=14711231);
  // Gloucester has a visible working portrait in his own 1469 audience.
- await p.evaluate(()=>{startNew();$('enterAct').click();while(scene().title!=='Your youngest brother stands'){choose(0);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();}});
+ await p.evaluate(()=>{startNew();$('enterAct').click();while(scene().title!=='Your youngest brother stands'){const q=INQUIRIES[scene().title];if(q&&!S.flags['heard:'+q.id])hearInquiry();choose(0);while($('storyDialog').open)$('storyNext').click();if($('actDialog').open)$('enterAct').click();}});
  assert.equal(await p.locator('#portrait img').count(),1);assert(await p.locator('#portrait img').evaluate(img=>img.complete&&img.naturalWidth>0));await p.screenshot({path:'/tmp/edward-depth-gloucester.png',fullPage:true});
  // Costs without reserves become debt, and high information changes the escape hazard.
  const unlocked=await p.evaluate(()=>{const saved=structuredClone(S);S.cycle=2;S.n=campaignScenes(2).findIndex(c=>c.title==='A campaign on credit');S.realm.credit=40;const low=getChoices().length;S.realm.credit=65;const high=getChoices().length;Object.assign(S,saved);return {low,high};});assert.equal(unlocked.low,2);assert.equal(unlocked.high,3,'Established credit opens a specific supply course');

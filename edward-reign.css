@@ -27,3 +27,4 @@ dialog{color-scheme:light;position:fixed;padding:0;border:0;background:none;colo
 .audience-art{display:block;width:100%;height:auto;max-height:230px;object-fit:contain;margin:14px 0 18px;border:1px solid #ae976c;background:#d6c59d}
 #worldSoundToggle{margin-top:12px;width:100%}
 @media(max-width:800px){.audience-art{max-height:185px}}
+.inquiry-step{margin-top:22px;padding:15px 17px;background:#e5d4b1;border-left:2px solid #8c7043}.inquiry-step .eyebrow{font:9px var(--sans);letter-spacing:.12em;color:#806a48}.listen-button{display:block;width:100%;margin-top:8px;padding:10px 0;border:0;border-bottom:1px solid #a28c63;background:transparent;text-align:left;color:#4b4837;font:20px/1.2 var(--serif)}.inquiry-step blockquote{margin:13px 0 5px;font:20px/1.4 var(--serif);color:#514937}.inquiry-step .small{margin:7px 0 0;color:#766a50;font:10px/1.4 var(--sans)}
