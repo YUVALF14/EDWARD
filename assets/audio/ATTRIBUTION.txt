@@ -15,7 +15,7 @@ All musical tones and interface sounds in the released Living Court campaign use
 
 The bank contains folk harp, Baroque-model tenor recorder, frame drum and woodblock recordings. Samples were trimmed, converted to mono at 32 kHz, levelled, faded at the tail, and encoded into one 96 kb/s MP3 sprite (approximately 1.24 MB). The original sample files are not required at runtime.
 
-EDWARD's original score now uses sixteen low-register, open-fifth motifs and five slower, more spacious arrangements: court, intimacy, campaign, instability and reflection. The former dance-like pulse and background percussion have been removed; the recorder enters as a rare response, with longer pauses to leave room for dialogue. Music loads on a user gesture, plays only when enabled, and suspends when the page is hidden. Interface sounds use the same acoustic recordings at a separate level.
+EDWARD's original score pairs a clear, gentle tenor-recorder melody with a quiet folk-harp accompaniment. Its eight singable D-Dorian motifs sit over a restrained D-minor/G/C/A-minor harmonic cycle; five arrangements shift tempo and volume with the court's mood. There is no repeating drum pulse. Short rests leave room for dialogue. Music loads on a user gesture, plays only when enabled, and suspends when the page is hidden. Interface sounds use the same acoustic recordings at a separate level.
 
 This is a modern interpretive score, not a surviving fifteenth-century English composition, an authentic period-instrument reconstruction, or a complete live ensemble performance. Lute, viol and shawm parts are not represented by synthetic substitutes.
 
