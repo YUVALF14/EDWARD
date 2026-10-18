@@ -84,3 +84,58 @@ dialog{color-scheme:light;position:fixed;padding:0;border:0;background:none;colo
 @media(hover:hover) and (pointer:fine){.opening-plate:hover{transform:none;box-shadow:none}}
 @media(max-width:800px){.game-gate{background:radial-gradient(ellipse at 50% 22%,#30392f26,transparent 55%)}.title-copy h1{font-size:clamp(49px,12vw,68px)}.title-copy p{font-size:23px}.title-actions .primary{text-align:center}.title-actions .primary:after{float:none;margin-left:12px}}
 @media(max-width:360px){.title-copy h1{font-size:55px}}
+
+/* A quiet, opaque folio boundary keeps the game beneath a modal from reading
+   like part of its paper. Each dialog owns its scrolling on desktop and touch. */
+dialog{inset:0;margin:auto;max-width:calc(100vw - 24px);max-height:calc(100svh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;isolation:isolate}
+dialog::backdrop{background:rgba(7,10,8,.97);backdrop-filter:blur(8px) saturate(.55)}
+dialog[open]{contain:paint}
+.folio{box-sizing:border-box;width:min(540px,calc(100vw - 24px));max-width:calc(100vw - 24px);overflow-wrap:anywhere;touch-action:pan-y pinch-zoom}
+.folio p,.story-folio p,.document-folio #documentContents p{line-height:1.58;text-wrap:pretty}
+.folio h2,.quote,.context,.choice-title{text-wrap:pretty;overflow-wrap:break-word}
+.quote{font-size:28px;line-height:1.37;color:#28271f}
+.context{font-size:18px;line-height:1.58;color:#554b38;max-width:54ch}
+.choice{min-height:76px;padding:16px 17px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.choice-title{font-size:22px;line-height:1.24}
+.choice em{font-size:12px;line-height:1.55}
+.choice:focus-visible,.primary:focus-visible,.quiet:focus-visible,.menu-button:focus-visible,.view-tabs button:focus-visible{outline:3px solid #d1ac66;outline-offset:3px}
+@media(max-width:800px){
+ body{overflow-x:hidden}
+ .wrap{padding-bottom:max(20px,env(safe-area-inset-bottom))}
+ .card{padding:22px 20px 18px}
+ .quote{font-size:25px;line-height:1.42}
+ .context{font-size:18px;line-height:1.58}
+ .choice{min-height:80px;padding:15px 14px}
+ .choice-title{font-size:21px;line-height:1.24}
+ .choice em{font-size:12px;line-height:1.55}
+ .history-link{min-height:44px;display:inline-flex;align-items:center}
+ .menu-button,.view-tabs button{min-height:44px}
+ dialog{max-width:calc(100vw - 16px);max-height:calc(100svh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+ .folio{width:calc(100vw - 16px);max-width:calc(100vw - 16px);padding:clamp(20px,5.5vw,30px) clamp(18px,5vw,25px);border-width:4px}
+ .folio h2{font-size:clamp(29px,8vw,36px);line-height:1.12}
+ .folio p{font-size:clamp(18px,5vw,21px);line-height:1.55}
+ .folio .close{min-width:44px;min-height:44px}
+ .folio-banner{margin:calc(-1 * clamp(20px,5.5vw,30px)) calc(-1 * clamp(18px,5vw,25px)) 22px}
+ .story-folio p{font-size:20px;line-height:1.6}
+ .document-folio #documentContents p{font-size:19px;line-height:1.65}
+ .document-folio table{font-size:15px}
+}
+@media(max-width:380px){
+ .wrap{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
+ .head{gap:6px}.head .date{font-size:10px}.brand{font-size:19px}
+ .card{padding:19px 15px 16px}
+ .card-heading{gap:10px}.portrait{width:50px;height:62px}
+ .card h2{font-size:28px}.quote{font-size:23px}
+ .choice{padding:14px 12px}
+ .choice-title{font-size:20px}
+ .act-enter{flex-wrap:wrap}
+}
+@media(max-height:520px) and (orientation:landscape){
+ dialog{max-height:calc(100svh - 12px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+ .folio{padding-top:18px;padding-bottom:18px}
+ .folio h2{margin-top:8px;margin-bottom:12px}
+}
+.folio.act-folio{width:min(590px,calc(100vw - 24px))}
+.folio.document-folio{width:min(600px,calc(100vw - 24px))}
+.folio.map-folio{width:min(760px,calc(100vw - 24px))}
+@media(max-width:800px){.folio.act-folio,.folio.document-folio,.folio.map-folio{width:calc(100vw - 16px)}}
