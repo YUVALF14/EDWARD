@@ -54,9 +54,10 @@ assert(fs.readFileSync('edward-reign.js','utf8').includes('function openDocument
 assert(!fs.readFileSync('edward-reign.js','utf8').includes('choice-number'),'Visible choice cards have no numbering');
 assert.match(fs.readFileSync('edward-reign.js','utf8'),/CourtAudio\.begin\(\);if\(started\|\|getSaved\(\)\)/,'Music starts from the first player gesture where allowed');
 const score=fs.readFileSync('edward-acoustic.js','utf8');
-assert(score.includes('No drum pulse')&&score.includes('phrase%4===2&&step===8'),'The score has a sparse new musical identity, not the former dance pulse');
-assert.equal((score.match(/^  \[[0-9,null]+\],?$/gm)||[]).length,16,'The expanded score has sixteen authored motifs before repeating');
-assert.match(score,/court:\{beat:\.82,harp:\.17,reed:\.075,drum:0/,'Court music is slower and unmetered by percussion');
+assert(score.includes('const motifs=')&&score.includes("note('recorder',lead")&&score.includes('const harmony=[[50,53,57],[55,59,62],[60,64,67],[57,60,64]]'),'The recorder carries a melody over a coherent harp chord cycle');
+assert.equal((score.match(/^  \[[0-9,null]+\],?$/gm)||[]).length,8,'Eight authored melodic motifs vary before repeating');
+assert.match(score,/court:\{beat:\.58,harp:\.15,reed:\.17,drum:0/,'The court arrangement is gentle and has no repeating drum pulse');
+assert(fs.readFileSync('ATTRIBUTION.txt','utf8').includes('eight singable D-Dorian motifs'),'The music credits describe the new score and licensed recordings');
 const route={};vm.createContext(route);vm.runInContext(['edward-reign-data.js','edward-court.js','edward-depth-data.js','edward-depth.js'].map(p=>fs.readFileSync(p,'utf8')).join('\n')+'\nthis.route={depthFresh,prepareAct,validItinerary,campaignScenes,selectReserve,selectCoreReserve,REIGN_CORE_ANCHORS,loopPressure,loopThreadCount};',route);
 const R=route.route,variants=new Set(),seen=new Set();
 const concise=R.depthFresh();Object.assign(concise,{authority:85,order:85,succession:85,warwick:0,woodville:0,hastings:0,gloucester:0,clarence:0,factions:{crown:70,neville:50,queen:50,brothers:40,lancastrian:30},open:0,broken:0});
