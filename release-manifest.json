@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.9.1 \u00b7 restrained opening screen",
+  "release": "EDWARD IV \u2014 The Living Court 1.9.2 \u00b7 melodic recorder and harp score",
   "entry": "index.html",
   "assets": [
     {
@@ -134,8 +134,8 @@
     },
     {
       "path": "assets/audio/ATTRIBUTION.txt",
-      "bytes": 2734,
-      "sha256": "60463d19f9c869c5365fd5b846862e442e4b660ddc1bbf5179ac68171584fd3f"
+      "bytes": 2735,
+      "sha256": "083f5b1bd8adc6caeb13f2702ee24ce56f0c356309e2ee382af628e1c0e309ff"
     },
     {
       "path": "assets/audio/PAPER-LICENSE.txt",
@@ -199,8 +199,8 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 10267,
-      "sha256": "b37592cc4e613e02a63e60d751508e9138a31581d61de994c13b43caf63dc5f7"
+      "bytes": 9720,
+      "sha256": "0ea50ebf702789ab96cd8bde29837202c98d842ca8f706c9ff46e4abce00462b"
     },
     {
       "path": "edward-court.js",
@@ -219,8 +219,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 66355,
-      "sha256": "4ad5c54374e92bc74914ea00964d93d03af2f0ea0f55ab707399ad3267198578"
+      "bytes": 66370,
+      "sha256": "9e8e9707864a38d317531ab11801a50cade40d17147985abf4c328e8e64c6fa7"
     },
     {
       "path": "edward-reign-data.js",
@@ -239,8 +239,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 66355,
-      "sha256": "4ad5c54374e92bc74914ea00964d93d03af2f0ea0f55ab707399ad3267198578"
+      "bytes": 66370,
+      "sha256": "9e8e9707864a38d317531ab11801a50cade40d17147985abf4c328e8e64c6fa7"
     }
   ]
 }
