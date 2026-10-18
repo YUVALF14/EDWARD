@@ -90,18 +90,18 @@ const CourtAudio=(()=>{
  function begin(){if(musicChoice===false||on)return;return startMusic();}
  function setMood(nextMood){if(!(nextMood in arrangements)||nextMood===requestedMood)return;requestedMood=nextMood;if(!on)mood=requestedMood;notify();}
  const cues={
-  tap:{click:.024,notes:[['harp',69,.008,.22,.045]]},
-  open:{click:.021,notes:[['harp',62,.008,.24,.044],['harp',71,.075,.27,.035]]},
-  close:{click:.019,notes:[['harp',71,.008,.2,.04],['harp',62,.07,.22,.03]]},
-  tab:{click:.018,notes:[['harp',66,.008,.2,.035]]},
-  inspect:{click:.016,notes:[['harp',62,.008,.25,.032]]},
-  listen:{click:.014,notes:[['recorder',67,.012,.27,.035],['harp',62,.035,.2,.024]]},
-  decision:{click:.035,notes:[['harp',62,.008,.42,.07],['harp',69,.06,.34,.052]]},
-  save:{click:.024,notes:[['harp',67,.008,.2,.04],['harp',74,.075,.24,.032]]},
-  page:{click:.015,notes:[['harp',69,.008,.24,.03]]}
+  tap:{notes:[['harp',69,.012,.2,.035]]},
+  open:{notes:[['harp',62,.012,.22,.034],['harp',71,.085,.22,.026]]},
+  close:{notes:[['harp',71,.012,.18,.032],['harp',62,.075,.2,.024]]},
+  tab:{notes:[['harp',66,.012,.18,.027]]},
+  inspect:{notes:[['harp',62,.012,.22,.026]]},
+  listen:{notes:[['recorder',67,.018,.25,.027],['harp',62,.045,.18,.018]]},
+  decision:{notes:[['harp',62,.014,.38,.052],['harp',69,.075,.3,.038]]},
+  save:{notes:[['harp',67,.012,.18,.03],['harp',74,.085,.2,.024]]},
+  page:{notes:[['harp',69,.012,.2,.024]]}
  };
  function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005,cue=cues[kind]||cues.tap;
-  note('click',0,t,.12,cue.click,true);for(const [instrument,midi,delay,duration,gain] of cue.notes)note(instrument,midi,t+delay,duration,gain,true);
+  for(const [instrument,midi,delay,duration,gain] of cue.notes)note(instrument,midi,t+delay,duration,gain,true);
  }
  function stopWorld(){worldRequest++;worldAudio.pause();worldAudio.currentTime=0;worldStatus='off';worldKey=null;worldKind=null;notify();}
  function world(kind,key){
