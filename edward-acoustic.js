@@ -84,7 +84,13 @@ const CourtAudio=(()=>{
   try{await context().resume();await load();if(!on||ticket!==request)return;clearInterval(timer);next=ctx.currentTime+.15;step=0;status='playing';timer=setInterval(tick,120);tick();notify();}catch{if(ticket!==request)return;status='unavailable';on=false;notify();}
  }
  function setMood(nextMood){if(!(nextMood in arrangements)||nextMood===requestedMood)return;requestedMood=nextMood;if(!on)mood=requestedMood;notify();}
- function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005;note('click',0,t,.16,kind==='decision'?.13:.07,true);if(kind==='decision')note('harp',62,t+.035,.65,.09,true);}
+ function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005;
+  // Keep the wood click as a soft tactile edge; a short harp pluck gives it
+  // warmth. Decisions receive a quiet two-note cadence so they feel deliberate.
+  note('click',0,t,.12,kind==='decision'?.052:.028,true);
+  if(kind==='decision'){note('harp',62,t+.008,.42,.095,true);note('harp',69,t+.05,.34,.065,true);}
+  else note('harp',69,t+.008,.24,.06,true);
+ }
  function stopWorld(){worldRequest++;worldAudio.pause();worldAudio.currentTime=0;worldStatus='off';worldKey=null;worldKind=null;notify();}
  function world(kind,key){
   if(key===worldKey)return;

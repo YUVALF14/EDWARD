@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.6.1 \u00b7 listening choices",
+  "release": "EDWARD IV \u2014 The Living Court 1.7.0 \u00b7 listening choices",
   "entry": "index.html",
   "assets": [
     {
@@ -194,8 +194,8 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 8794,
-      "sha256": "cd50fcbce81a04a78d06d81d31a150650dc3a188fc5b54c3c73e74da39859447"
+      "bytes": 9045,
+      "sha256": "19edf1949637dca731a2ce3ad7128c1212405dd8c8db17aab93e4c7f88181a3d"
     },
     {
       "path": "edward-court.js",
@@ -214,8 +214,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65641,
-      "sha256": "ad8fb6b62a2cf80260738ec2942277c190683723579d9b8c0dc7ec709beaea9d"
+      "bytes": 65632,
+      "sha256": "59f541f8b607b8dcb3e75827d506bf70aab0e3401c68d5f3ff9ce1955b78f355"
     },
     {
       "path": "edward-reign-data.js",
@@ -224,8 +224,8 @@
     },
     {
       "path": "edward-reign.css",
-      "bytes": 27603,
-      "sha256": "ea3fb232b53473b8a5a0e4cfae48f884c8fb314da6a9231dcaa564f8305b2d2f"
+      "bytes": 30449,
+      "sha256": "a92abffb146fcf867ed1a703faba96d0084887f021a0bc1ba946479b31644d42"
     },
     {
       "path": "edward-reign.js",
@@ -234,8 +234,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 65641,
-      "sha256": "ad8fb6b62a2cf80260738ec2942277c190683723579d9b8c0dc7ec709beaea9d"
+      "bytes": 65632,
+      "sha256": "59f541f8b607b8dcb3e75827d506bf70aab0e3401c68d5f3ff9ce1955b78f355"
     }
   ]
 }
