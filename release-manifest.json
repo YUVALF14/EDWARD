@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.7.0 \u00b7 listening choices",
+  "release": "EDWARD IV \u2014 The Living Court 1.7.1 \u00b7 listening choices",
   "entry": "index.html",
   "assets": [
     {
@@ -214,8 +214,8 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 65632,
-      "sha256": "59f541f8b607b8dcb3e75827d506bf70aab0e3401c68d5f3ff9ce1955b78f355"
+      "bytes": 65642,
+      "sha256": "b00440d116fbeb4c5c7a4ece9a2098302e4165bf98793bcc2619fd630d5ce3f4"
     },
     {
       "path": "edward-reign-data.js",
@@ -234,8 +234,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 65632,
-      "sha256": "59f541f8b607b8dcb3e75827d506bf70aab0e3401c68d5f3ff9ce1955b78f355"
+      "bytes": 65642,
+      "sha256": "b00440d116fbeb4c5c7a4ece9a2098302e4165bf98793bcc2619fd630d5ce3f4"
     }
   ]
 }

@@ -23,7 +23,7 @@ const html=fs.readFileSync('edward-loop-demo.html','utf8');
 assert(!html.includes('id="royalCouncil"')&&!html.includes('id="councilDialog"'),'The world presents business through audience cards');
 assert(!html.includes('id="step"'),'Card numbers are hidden');
 assert(html.includes('21, 25, or 29 audiences'),'The opening explains that loops have variable lengths');
-assert(html.includes('edward-reign.js?v=1.7.0'),'Release modules use a new cache key');
+assert(html.includes('edward-reign.js?v=1.7.1'),'Release modules use a new cache key');
 const route={};vm.createContext(route);vm.runInContext(['edward-reign-data.js','edward-court.js','edward-depth-data.js','edward-depth.js'].map(p=>fs.readFileSync(p,'utf8')).join('\n')+'\nthis.route={depthFresh,prepareAct,validItinerary,campaignScenes,selectReserve,selectCoreReserve,REIGN_CORE_ANCHORS,loopPressure,loopThreadCount};',route);
 const R=route.route,variants=new Set(),seen=new Set();
 const concise=R.depthFresh();Object.assign(concise,{authority:85,order:85,succession:85,warwick:0,woodville:0,hastings:0,gloucester:0,clarence:0,factions:{crown:70,neville:50,queen:50,brothers:40,lancastrian:30},open:0,broken:0});
