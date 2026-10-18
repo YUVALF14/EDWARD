@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.8.0 \u00b7 listening choices",
+  "release": "EDWARD IV — The Living Court 1.9.0 · quieter court score, character and hidden encounters",
   "entry": "index.html",
   "assets": [
     {
@@ -134,8 +134,8 @@
     },
     {
       "path": "assets/audio/ATTRIBUTION.txt",
-      "bytes": 2598,
-      "sha256": "ed097e7e8df93567ed6aa5bc4b318c3746d5e40aa0dd3c0cbffbbb51dcdbd130"
+      "bytes": 2734,
+      "sha256": "60463d19f9c869c5365fd5b846862e442e4b660ddc1bbf5179ac68171584fd3f"
     },
     {
       "path": "assets/audio/PAPER-LICENSE.txt",
@@ -199,8 +199,8 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 9712,
-      "sha256": "fe2ad3f9f470678a32be15c9f49cdfa2735c14608340286c227b2b51d6a80b07"
+      "bytes": 10267,
+      "sha256": "b37592cc4e613e02a63e60d751508e9138a31581d61de994c13b43caf63dc5f7"
     },
     {
       "path": "edward-court.js",
@@ -209,8 +209,8 @@
     },
     {
       "path": "edward-depth-data.js",
-      "bytes": 126751,
-      "sha256": "39208023dadf404838998b8f152464314cf2f9e0308d299d8a9fe4d52b2620e5"
+      "bytes": 126844,
+      "sha256": "ee34f668cea47581bd7ee1f3e03ae1893ff1e874795d1cc58fd6d823bdf838db"
     },
     {
       "path": "edward-depth.js",
@@ -219,13 +219,13 @@
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 66424,
-      "sha256": "b3639acdc70224147dfaa69cf655e48d31b55a189d43c71e49491b50c9046c3f"
+      "bytes": 66422,
+      "sha256": "e9a1549d7a89b767b774d814cb0ce7372c15020427d53883d5838cedb9d1777e"
     },
     {
       "path": "edward-reign-data.js",
-      "bytes": 63647,
-      "sha256": "d0c50f6a54c244cfb3e54e4d299e5f98cdcdfc9ffb17c00db3838c1e09521cdd"
+      "bytes": 64727,
+      "sha256": "5406c5a2206653fbbae939986e7242f0cceb38b3f393202b9152a02132d5cced"
     },
     {
       "path": "edward-reign.css",
@@ -234,13 +234,13 @@
     },
     {
       "path": "edward-reign.js",
-      "bytes": 45990,
-      "sha256": "f4b8e9e8125afcf6ad4da7255e360cbc807fff154c9a1bd271c377589cda0138"
+      "bytes": 44848,
+      "sha256": "447d93ae1d87887e83874256c5f70a6f8fe1ff4cd2bc4bb641c3b603c7dc6dbc"
     },
     {
       "path": "index.html",
-      "bytes": 66424,
-      "sha256": "b3639acdc70224147dfaa69cf655e48d31b55a189d43c71e49491b50c9046c3f"
+      "bytes": 66422,
+      "sha256": "e9a1549d7a89b767b774d814cb0ce7372c15020427d53883d5838cedb9d1777e"
     }
   ]
 }
