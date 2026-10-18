@@ -67,10 +67,11 @@ function openDocument(id){
  $('documentExtra').innerHTML=(d.extra||[]).map(p=>'<p>'+esc(p)+'</p>').join('');
  text('documentClosing',d.closing);text('documentResponse',d.response?'Your answer: '+d.response:d.noReply?'Kept among the household papers.':'Your answer belongs to the audience.');
  const folded=d.sealed&&!unfoldedDocuments.has(id);$('documentFold').hidden=!folded;$('documentContents').hidden=folded;
- openDialog('documentDialog',false);$('documentDialog').scrollTop=0;
+ openDialog('documentDialog',false);$('documentDialog').scrollTop=0;CourtAudio.paper();if(!folded)animateDocumentPage();
  if(!folded)CourtAudio.paper();
 }
-function unfoldDocument(){if(!activeDocument)return;unfoldedDocuments.add(activeDocument);$('documentFold').hidden=true;$('documentContents').hidden=false;CourtAudio.paper();$('documentSalutation').focus({preventScroll:true});}
+function unfoldDocument(){if(!activeDocument)return;unfoldedDocuments.add(activeDocument);$('documentFold').hidden=true;$('documentContents').hidden=false;CourtAudio.paper();animateDocumentPage();$('documentSalutation').focus({preventScroll:true});}
+function animateDocumentPage(){const page=$('documentContents');page.classList.remove('page-opening');void page.offsetWidth;page.classList.add('page-opening');}
 function paintIllustration(id,art,alt){const img=$(id);img.hidden=!art;img.onerror=()=>{img.hidden=true;};if(art){img.alt=alt||'';img.src=art;}else{img.removeAttribute('src');img.alt='';}}
 function validDocumentHistory(v){
  if(!Array.isArray(v.documents))return false;
@@ -119,7 +120,7 @@ const ACTION={
 function getChoices(){return scene().choices.filter(choiceAllowed).map(o=>({...o}));}
 function hearInquiry(){
  const c=scene(),q=INQUIRIES[c.title];if(!q||S.flags['heard:'+q.id])return;
- S.flags['heard:'+q.id]=true;CourtAudio.ui();persistAct(true);render();$('inquiryQuote').focus({preventScroll:true});
+ S.flags['heard:'+q.id]=true;CourtAudio.ui('listen');persistAct(true);render();$('inquiryQuote').focus({preventScroll:true});
 }
 function applyChoice(o,c){
  const before={authority:S.authority,order:S.order,succession:S.succession};
@@ -222,8 +223,8 @@ function render(){
  const inquiry=INQUIRIES[c.title],heard=!!(inquiry&&S.flags['heard:'+inquiry.id]),waiting=!!(inquiry&&!heard);
  $('inquiryStep').hidden=!inquiry;$('listenButton').hidden=heard;$('listenButton').textContent=inquiry?'Hear from '+inquiry.name:'';$('listenButton').onclick=hearInquiry;
  $('inquiryQuote').hidden=!heard;$('inquiryQuote').textContent=heard?'“'+inquiry.text.replace(/^“|”$/g,'')+'”':'';$('inquiryRole').hidden=!heard;$('inquiryRole').textContent=heard?inquiry.name+' · '+inquiry.role:'';
- $('choices').hidden=waiting;$('sealRail').hidden=waiting;
- $('choices').innerHTML=waiting?'':getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-number" aria-hidden="true">'+(j+1)+'</span><span class="choice-title">'+esc(o.t)+'</span><em>'+esc(o.d)+(Object.keys(choiceEffect(o)).length?'<small class="choice-impact">'+esc(effectText(choiceEffect(o)))+'</small>':'')+'</em></button>').join('');
+ $('choices').hidden=waiting;
+ $('choices').innerHTML=waiting?'':getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-title">'+esc(o.t)+'</span><em>'+esc(o.d)+(Object.keys(choiceEffect(o)).length?'<small class="choice-impact">'+esc(effectText(choiceEffect(o)))+'</small>':'')+'</em></button>').join('');
  $('choices').querySelectorAll('button').forEach(b=>b.onclick=()=>choose(Number(b.dataset.choice)));
  text('objective',act.goal);text('mood',S.date>=14701001&&S.date<14710411?'An exiled household; a crown to recover.':S.authority<30?'Your authority is fragile.':S.order<30?'Orders travel farther than obedience.':'Authority held through personal bonds.');
  for(const [key,id] of [['authority','Authority'],['order','Order'],['succession','Succession']]){const n=Math.round(S[key]);text('quick'+id,n);$('quick'+id+'Bar').style.width=S[key]+'%';$('quick'+id+'Meter').setAttribute('aria-valuenow',n);}
@@ -258,8 +259,8 @@ function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.ar
 let storyQueue=[];
 function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();openDialog('storyDialog');}
 function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);CourtAudio.world(c.worldSound,'story:'+c.title);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
-function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui();}
-function closeDialog(id){$(id).close();if(id!=='documentDialog')CourtAudio.ui();}
+function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui('open');}
+function closeDialog(id,sound=true){$(id).close();if(!sound)return;if(id==='documentDialog')CourtAudio.paper();else CourtAudio.ui('close');}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
  const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester',clarence:'clarence'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);openDialog('personDialog');}
 function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('historyPopupTitle',h[1]);text('historyPopupText',h[2]);text('historyPopupSource','Read the source · '+h[3]);$('historyPopupSource').href=h[4];openDialog('historyDialog');}
@@ -306,36 +307,37 @@ function finish(){CourtAudio.stopWorld();
 }
 // Horizontal swipes are optional; vertical movement belongs to page scrolling.
 let drag=null;
-function resetDrag(){drag=null;$('sealKnob').style.transform='';$('card').style.transform='';}
+function resetDrag(){drag=null;$('card').style.transform='';}
 function bindSwipe(surface,moveCard=false){
- surface.addEventListener('pointerdown',e=>{if(e.button!==0||moveCard&&e.target.closest('button,a,input,summary,#sealRail'))return;drag={x:e.clientX,y:e.clientY,id:e.pointerId,surface};if(moveCard)$('card').classList.remove('arriving');surface.setPointerCapture(e.pointerId);});
- surface.addEventListener('pointermove',e=>{if(!drag||drag.surface!==surface)return;const dx=e.clientX-drag.x;if(Math.abs(e.clientY-drag.y)>30){resetDrag();return;}if(moveCard)$('card').style.transform='translateX('+Math.max(-24,Math.min(24,dx/4))+'px) rotate('+Math.max(-1,Math.min(1,dx/100))+'deg)';else $('sealKnob').style.transform='translateX('+Math.max(-75,Math.min(75,dx))+'px)';});
+ surface.addEventListener('pointerdown',e=>{if(e.button!==0||moveCard&&e.target.closest('button,a,input,summary'))return;drag={x:e.clientX,y:e.clientY,id:e.pointerId,surface};if(moveCard)$('card').classList.remove('arriving');surface.setPointerCapture(e.pointerId);});
+ surface.addEventListener('pointermove',e=>{if(!drag||drag.surface!==surface)return;const dx=e.clientX-drag.x;if(Math.abs(e.clientY-drag.y)>30){resetDrag();return;}if(moveCard)$('card').style.transform='translateX('+Math.max(-24,Math.min(24,dx/4))+'px) rotate('+Math.max(-1,Math.min(1,dx/100))+'deg)';});
  surface.addEventListener('pointerup',e=>{if(!drag||drag.surface!==surface)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;resetDrag();if(Math.abs(dx)>65&&Math.abs(dy)<30)choose(dx<0?0:1);});
  surface.addEventListener('pointercancel',resetDrag);
 }
-bindSwipe($('sealRail'));bindSwipe($('card'),true);
+bindSwipe($('card'),true);
 $('card').addEventListener('animationend',()=>$('card').classList.remove('arriving'));
-document.querySelectorAll('[data-view-button]').forEach(b=>b.onclick=()=>{CourtAudio.ui();setView(b.dataset.viewButton);});
-document.querySelector('[role=tablist]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const views=['audience','realm','court'],i=views.indexOf(activeView);setView(views[(i+(e.key==='ArrowRight'?1:2))%3]);document.querySelector('[aria-selected=true]').focus();});
+document.querySelectorAll('[data-view-button]').forEach(b=>b.onclick=()=>{CourtAudio.ui('tab');setView(b.dataset.viewButton);});
+document.addEventListener('click',e=>{if(e.target.closest('summary'))CourtAudio.ui('inspect');});
+document.querySelector('[role=tablist]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const views=['audience','realm','court'],i=views.indexOf(activeView);CourtAudio.ui('tab');setView(views[(i+(e.key==='ArrowRight'?1:2))%3]);document.querySelector('[aria-selected=true]').focus();});
 document.addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||document.querySelector('dialog[open]')||$('gameWrap').hidden||S.ended)return;if(/^[123]$/.test(e.key)&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))choose(Number(e.key)-1);});
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(d.returnFocus?.isConnected&&!d.returnFocus.closest('[hidden]'))d.returnFocus.focus({preventScroll:true});}));
 $('documentUnfold').onclick=unfoldDocument;
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeDialog(b.dataset.close));
-$('storyNext').onclick=()=>{CourtAudio.ui();storyQueue.shift();if(storyQueue.length)paintStory();else{CourtAudio.stopWorld();closeDialog('storyDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();}};
+$('storyNext').onclick=()=>{storyQueue.shift();if(storyQueue.length){CourtAudio.ui('page');paintStory();}else{CourtAudio.stopWorld();closeDialog('storyDialog',false);CourtAudio.ui('close');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();}};
 $('storyDialog').addEventListener('cancel',e=>{e.preventDefault();$('storyNext').click();});
 $('portrait').onclick=()=>openProfile($('portrait').dataset.person);
 $('listenButton').onclick=hearInquiry;
-$('newGame').onclick=()=>{CourtAudio.unlock();if(started||getSaved())openDialog('newDialog');else openDialog('introDialog');};
-$('confirmNew').onclick=()=>{closeDialog('newDialog');openDialog('introDialog');};
-$('beginReign').onclick=()=>{closeDialog('introDialog');startNew();};
+$('newGame').onclick=()=>{CourtAudio.begin();if(started||getSaved())openDialog('newDialog');else openDialog('introDialog');};
+$('confirmNew').onclick=()=>{closeDialog('newDialog',false);openDialog('introDialog');};
+$('beginReign').onclick=()=>{CourtAudio.begin();closeDialog('introDialog');startNew();};
 $('enterAct').onclick=()=>{closeDialog('actDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();};
 $('actDialog').addEventListener('cancel',()=>{CourtAudio.setMood(ACTS[S.cycle].tone);setTimeout(focusAudience,0);});
-$('actSave').onclick=()=>{persistAct();CourtAudio.ui('decision');};
-$('saveAct').onclick=()=>{persistAct();CourtAudio.ui('decision');};
+$('actSave').onclick=()=>{persistAct();CourtAudio.ui('save');};
+$('saveAct').onclick=()=>{persistAct();CourtAudio.ui('save');};
 $('loadAct').onclick=()=>{text('loadWarning','Return to your most recent saved audience? Unsaved council business will be lost.');openDialog('loadDialog');};
 $('confirmLoad').onclick=()=>{closeDialog('loadDialog');loadAct();};
-$('resumeGame').onclick=()=>{CourtAudio.unlock();loadAct();};
-$('liveReturn').onclick=()=>{enterGame();if(S.ended)finish();else render();};
+$('resumeGame').onclick=()=>{CourtAudio.begin();loadAct();};
+$('liveReturn').onclick=()=>{CourtAudio.begin();enterGame();if(S.ended)finish();else render();};
 $('menuButton').onclick=()=>openDialog('menuDialog');
 $('brandMark').onclick=e=>{e.preventDefault();returnToTitle();};
 $('titleButton').onclick=()=>{closeDialog('menuDialog');returnToTitle();};
