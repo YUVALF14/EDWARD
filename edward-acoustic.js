@@ -1,7 +1,7 @@
 /* Real recorded instruments only. CC0 VCSL harp, tenor recorder, frame drum
    and woodblock. Original modal arrangements; no oscillator fallback. */
 const CourtAudio=(()=>{
- let ctx,buffer,samples=[],loading=null,on=false,sfx=true,volume=.3,mood='court',requestedMood='court',timer=null,next=0,step=0,phrase=0,status='off',request=0;
+ let ctx,buffer,samples=[],loading=null,on=false,musicChoice=null,sfx=true,volume=.3,mood='court',requestedMood='court',timer=null,next=0,step=0,phrase=0,status='off',request=0;
  let worldEnabled=true,worldVolume=.28,worldStatus='off',worldKey=null,worldKind=null,worldRequest=0;
  const worldAudio=new Audio();worldAudio.preload='none';
  const paperAudio=new Audio('assets/audio/paper-open.mp3');paperAudio.preload='none';paperAudio.volume=.22;
@@ -77,19 +77,29 @@ const CourtAudio=(()=>{
   }
  }
  async function unlock(){try{await context().resume();await load();}catch{} }
- async function toggle(){
-  const ticket=++request;
-  if(on){on=false;clearInterval(timer);timer=null;silence(.8);status='off';notify();return;}
-  on=true;status='loading';notify();
+ async function startMusic(){
+  if(on)return;const ticket=++request;on=true;status='loading';notify();
   try{await context().resume();await load();if(!on||ticket!==request)return;clearInterval(timer);next=ctx.currentTime+.15;step=0;status='playing';timer=setInterval(tick,120);tick();notify();}catch{if(ticket!==request)return;status='unavailable';on=false;notify();}
  }
+ async function toggle(){
+  if(on){musicChoice=false;++request;on=false;clearInterval(timer);timer=null;silence(.8);status='off';notify();return;}
+  musicChoice=true;return startMusic();
+ }
+ function begin(){if(musicChoice===false||on)return;return startMusic();}
  function setMood(nextMood){if(!(nextMood in arrangements)||nextMood===requestedMood)return;requestedMood=nextMood;if(!on)mood=requestedMood;notify();}
- function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005;
-  // Keep the wood click as a soft tactile edge; a short harp pluck gives it
-  // warmth. Decisions receive a quiet two-note cadence so they feel deliberate.
-  note('click',0,t,.12,kind==='decision'?.052:.028,true);
-  if(kind==='decision'){note('harp',62,t+.008,.42,.095,true);note('harp',69,t+.05,.34,.065,true);}
-  else note('harp',69,t+.008,.24,.06,true);
+ const cues={
+  tap:{click:.024,notes:[['harp',69,.008,.22,.045]]},
+  open:{click:.021,notes:[['harp',62,.008,.24,.044],['harp',71,.075,.27,.035]]},
+  close:{click:.019,notes:[['harp',71,.008,.2,.04],['harp',62,.07,.22,.03]]},
+  tab:{click:.018,notes:[['harp',66,.008,.2,.035]]},
+  inspect:{click:.016,notes:[['harp',62,.008,.25,.032]]},
+  listen:{click:.014,notes:[['recorder',67,.012,.27,.035],['harp',62,.035,.2,.024]]},
+  decision:{click:.035,notes:[['harp',62,.008,.42,.07],['harp',69,.06,.34,.052]]},
+  save:{click:.024,notes:[['harp',67,.008,.2,.04],['harp',74,.075,.24,.032]]},
+  page:{click:.015,notes:[['harp',69,.008,.24,.03]]}
+ };
+ function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005,cue=cues[kind]||cues.tap;
+  note('click',0,t,.12,cue.click,true);for(const [instrument,midi,delay,duration,gain] of cue.notes)note(instrument,midi,t+delay,duration,gain,true);
  }
  function stopWorld(){worldRequest++;worldAudio.pause();worldAudio.currentTime=0;worldStatus='off';worldKey=null;worldKind=null;notify();}
  function world(kind,key){
@@ -106,5 +116,5 @@ const CourtAudio=(()=>{
  function toggleSfx(){sfx=!sfx;if(!sfx)paperAudio.pause();if(sfx)ui();save();notify();}
  document.addEventListener('visibilitychange',()=>{if(document.hidden){paperAudio.pause();stopWorld();}if(!ctx)return;if(document.hidden){suspendedByPage=on;silence(.06,true);ctx.suspend().catch(()=>{});}else if(suspendedByPage){suspendedByPage=false;ctx.resume().then(()=>{next=ctx.currentTime+.3;}).catch(()=>{});}});
  window.addEventListener('pagehide',()=>{paperAudio.pause();stopWorld();silence(.02,true);if(ctx)ctx.suspend().catch(()=>{});});
- return {toggle,unlock,ui,paper,world,stopWorld,toggleWorld,setWorldVolume,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,requestedMood,step,phrase,status,voices:voices.size,ready:!!buffer,worldEnabled,worldVolume,worldStatus,worldKey,worldKind,worldTime:worldAudio.currentTime,worldPaused:worldAudio.paused})};
+ return {toggle,begin,unlock,ui,paper,world,stopWorld,toggleWorld,setWorldVolume,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,requestedMood,step,phrase,status,voices:voices.size,ready:!!buffer,worldEnabled,worldVolume,worldStatus,worldKey,worldKind,worldTime:worldAudio.currentTime,worldPaused:worldAudio.paused})};
 })();
