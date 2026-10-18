@@ -305,17 +305,6 @@ function finish(){CourtAudio.stopWorld();
  if(!dead&&!deposed)text('endLegacy',depthEnding());
  $('endRecord').innerHTML=S.log.slice(-5).map(l=>'<li><b>'+esc(l.title)+'</b><span>'+esc(l.choice)+'</span></li>').join('');CourtAudio.setMood('reflection');$('endTitle').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
 }
-// Horizontal swipes are optional; vertical movement belongs to page scrolling.
-let drag=null;
-function resetDrag(){drag=null;$('card').style.transform='';}
-function bindSwipe(surface,moveCard=false){
- surface.addEventListener('pointerdown',e=>{if(e.button!==0||moveCard&&e.target.closest('button,a,input,summary'))return;drag={x:e.clientX,y:e.clientY,id:e.pointerId,surface};if(moveCard)$('card').classList.remove('arriving');surface.setPointerCapture(e.pointerId);});
- surface.addEventListener('pointermove',e=>{if(!drag||drag.surface!==surface)return;const dx=e.clientX-drag.x;if(Math.abs(e.clientY-drag.y)>30){resetDrag();return;}if(moveCard)$('card').style.transform='translateX('+Math.max(-24,Math.min(24,dx/4))+'px) rotate('+Math.max(-1,Math.min(1,dx/100))+'deg)';});
- surface.addEventListener('pointerup',e=>{if(!drag||drag.surface!==surface)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;resetDrag();if(Math.abs(dx)>65&&Math.abs(dy)<30)choose(dx<0?0:1);});
- surface.addEventListener('pointercancel',resetDrag);
-}
-bindSwipe($('card'),true);
-$('card').addEventListener('animationend',()=>$('card').classList.remove('arriving'));
 document.querySelectorAll('[data-view-button]').forEach(b=>b.onclick=()=>{CourtAudio.ui('tab');setView(b.dataset.viewButton);});
 document.addEventListener('click',e=>{if(e.target.closest('summary'))CourtAudio.ui('inspect');});
 document.querySelector('[role=tablist]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const views=['audience','realm','court'],i=views.indexOf(activeView);CourtAudio.ui('tab');setView(views[(i+(e.key==='ArrowRight'?1:2))%3]);document.querySelector('[aria-selected=true]').focus();});

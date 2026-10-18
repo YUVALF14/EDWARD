@@ -8,23 +8,31 @@ const CourtAudio=(()=>{
  function paper(){if(!sfx||document.hidden)return;paperAudio.currentTime=0;const play=paperAudio.play();if(play)play.catch(()=>{});}
  const voices=new Set(),listeners=new Set();let suspendedByPage=false;
  const arrangements={
-  court:{beat:.56,harp:.23,reed:.13,drum:.052,rest:.42},
-  intimacy:{beat:.72,harp:.2,reed:.105,drum:.018,rest:.72},
-  campaign:{beat:.48,harp:.2,reed:.12,drum:.085,rest:.32},
-  instability:{beat:.53,harp:.18,reed:.11,drum:.07,rest:.52},
-  reflection:{beat:.88,harp:.18,reed:.095,drum:.012,rest:1.05}
+  court:{beat:.82,harp:.17,reed:.075,drum:0,rest:.78},
+  intimacy:{beat:1.02,harp:.14,reed:.085,drum:0,rest:1.12},
+  campaign:{beat:.66,harp:.17,reed:.045,drum:0,rest:.58},
+  instability:{beat:.75,harp:.13,reed:.065,drum:0,rest:.92},
+  reflection:{beat:1.12,harp:.115,reed:.055,drum:0,rest:1.5}
  };
- // A brighter, dance-like court score: short notes, clear pulse, and distinct
- // rising/falling phrases. All sound remains from the licensed real recordings.
+ // A new, quieter identity: low open fifths, unhurried fragments and long air.
+ // No drum pulse. The recorder enters only as a rare answer to the harp.
  const phrases=[
-  [74,71,74,null,79,76,74,71,69,null,71,74,76,74,null,null],
-  [67,71,74,79,null,76,74,71,74,null,67,69,71,67,null,null],
-  [76,79,81,79,76,null,74,71,74,76,79,null,76,74,null,null],
-  [71,74,76,null,79,81,79,76,74,null,71,69,67,71,null,null],
-  [79,76,74,71,null,74,76,79,81,79,76,null,74,71,null,null],
-  [67,null,71,74,76,74,71,null,74,79,76,74,71,null,67,null],
-  [74,76,79,null,81,79,76,74,71,74,null,76,79,74,null,null],
-  [71,67,69,71,74,null,76,74,71,69,67,null,71,74,null,null]
+  [62,null,67,null,69,67,null,62,60,null,62,null,55,null,null,null],
+  [55,null,60,62,null,67,null,null,69,null,67,62,null,60,null,null],
+  [69,null,67,62,null,60,null,55,60,null,62,null,67,null,null,null],
+  [62,67,null,69,null,null,72,null,69,67,null,62,60,null,null,null],
+  [55,null,62,null,67,69,null,67,62,null,null,60,55,null,null,null],
+  [67,null,69,72,null,69,null,67,62,null,60,null,62,null,null,null],
+  [60,null,62,67,null,null,69,null,67,62,null,60,55,null,null,null],
+  [69,null,72,null,69,67,null,null,62,null,67,60,null,55,null,null],
+  [62,null,null,67,69,null,67,null,62,60,null,null,55,null,null,null],
+  [55,60,null,62,null,67,null,69,null,null,67,62,null,60,null,null],
+  [67,null,62,null,60,55,null,null,60,62,null,67,null,62,null,null],
+  [72,null,69,67,null,62,null,60,55,null,null,60,62,null,null,null],
+  [60,null,67,69,null,72,null,69,67,null,62,null,60,null,null,null],
+  [55,null,60,null,62,67,null,null,69,67,null,62,60,null,null,null],
+  [69,null,67,null,62,60,null,55,null,60,62,null,67,null,null,null],
+  [62,null,67,null,69,null,72,69,null,67,62,null,60,55,null,null]
  ];
  const notify=()=>listeners.forEach(f=>f({on,sfx,volume,mood,status,ready:!!buffer,worldEnabled,worldVolume,worldStatus}));
  try{const p=JSON.parse(localStorage.getItem('edward-audio-v3')||'null');if(p){sfx=p.sfx!==false;worldEnabled=p.worldEnabled!==false;if(Number.isFinite(p.worldVolume))worldVolume=Math.max(0,Math.min(.5,p.worldVolume));if(Number.isFinite(p.volume))volume=Math.max(0,Math.min(.65,p.volume));}}catch{}
@@ -64,14 +72,13 @@ const CourtAudio=(()=>{
    if(step===0&&mood!==requestedMood){mood=requestedMood;notify();}
    const a=arrangements[mood];
    const p=phrases[phrase%phrases.length],n=p[step];
-   const inflection=1+Math.sin((phrase*17+step*7)*1.31)*.075;
-   if(n!==null){const t=next+Math.sin(step*3+phrase)*.012;
-    note('harp',n,t,Math.min(a.beat*.92,.8),a.harp*inflection);
-    // Recorder answers in alternate phrases, leaving audible breath between notes.
-    if(a.reed&&phrase%3!==0&&step%3!==1)note('recorder',n,t+.055,Math.min(a.beat*1.35,.95),a.reed*inflection);
+   const inflection=1+Math.sin((phrase*17+step*7)*1.31)*.045;
+   if(n!==null){const t=next+Math.sin(step*3+phrase)*.018;
+    note('harp',n,t,Math.min(a.beat*1.35,1.45),a.harp*inflection);
+    // A single recorder response appears occasionally, like a second player listening.
+    if(a.reed&&phrase%4===2&&step===8)note('recorder',n,t+.34,Math.min(a.beat*1.2,1.2),a.reed*inflection);
    }
-   if(step%4===0&&step<13){const bass=(step===8&&phrase%2?55:50);note('harp',bass,next,1.15,a.harp*.68);if(step%8===0)note('harp',bass+7,next+.11,.82,a.harp*.42);}
-   if(a.drum&&step%2===0&&phrase%3!==1)note(phrase%2?'drum2':'drum',0,next,a.beat*.7,a.drum);
+   if(step===0||step===8){const roots=[50,55,52,57,50,55,52,57],bass=roots[phrase%roots.length];note('harp',bass,next,1.9,a.harp*.42);if(step===0&&phrase%2===0)note('harp',bass+7,next+.16,1.3,a.harp*.24);}
    step++;next+=a.beat*(1+Math.sin(step+phrase)*.025);
    if(step>=p.length){step=0;phrase++;next+=a.rest+(phrase%3)*.25;}
   }
