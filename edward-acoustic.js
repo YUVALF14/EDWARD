@@ -8,32 +8,25 @@ const CourtAudio=(()=>{
  function paper(){if(!sfx||document.hidden)return;paperAudio.currentTime=0;const play=paperAudio.play();if(play)play.catch(()=>{});}
  const voices=new Set(),listeners=new Set();let suspendedByPage=false;
  const arrangements={
-  court:{beat:.82,harp:.17,reed:.075,drum:0,rest:.78},
-  intimacy:{beat:1.02,harp:.14,reed:.085,drum:0,rest:1.12},
-  campaign:{beat:.66,harp:.17,reed:.045,drum:0,rest:.58},
-  instability:{beat:.75,harp:.13,reed:.065,drum:0,rest:.92},
-  reflection:{beat:1.12,harp:.115,reed:.055,drum:0,rest:1.5}
+  court:{beat:.58,harp:.15,reed:.17,drum:0,rest:.55},
+  intimacy:{beat:.66,harp:.13,reed:.19,drum:0,rest:.72},
+  campaign:{beat:.5,harp:.15,reed:.14,drum:0,rest:.4},
+  instability:{beat:.56,harp:.12,reed:.14,drum:0,rest:.66},
+  reflection:{beat:.72,harp:.12,reed:.16,drum:0,rest:.9}
  };
- // A new, quieter identity: low open fifths, unhurried fragments and long air.
- // No drum pulse. The recorder enters only as a rare answer to the harp.
- const phrases=[
-  [62,null,67,null,69,67,null,62,60,null,62,null,55,null,null,null],
-  [55,null,60,62,null,67,null,null,69,null,67,62,null,60,null,null],
-  [69,null,67,62,null,60,null,55,60,null,62,null,67,null,null,null],
-  [62,67,null,69,null,null,72,null,69,67,null,62,60,null,null,null],
-  [55,null,62,null,67,69,null,67,62,null,null,60,55,null,null,null],
-  [67,null,69,72,null,69,null,67,62,null,60,null,62,null,null,null],
-  [60,null,62,67,null,null,69,null,67,62,null,60,55,null,null,null],
-  [69,null,72,null,69,67,null,null,62,null,67,60,null,55,null,null],
-  [62,null,null,67,69,null,67,null,62,60,null,null,55,null,null,null],
-  [55,60,null,62,null,67,null,69,null,null,67,62,null,60,null,null],
-  [67,null,62,null,60,55,null,null,60,62,null,67,null,62,null,null],
-  [72,null,69,67,null,62,null,60,55,null,null,60,62,null,null,null],
-  [60,null,67,69,null,72,null,69,67,null,62,null,60,null,null,null],
-  [55,null,60,null,62,67,null,null,69,67,null,62,60,null,null,null],
-  [69,null,67,null,62,60,null,55,null,60,62,null,67,null,null,null],
-  [62,null,67,null,69,null,72,69,null,67,62,null,60,55,null,null]
+ // A soft D-Dorian recorder tune, answered by a simple folk-harp pattern.
+ // Repeating, singable phrases replace the earlier disconnected note fragments.
+ const motifs=[
+  [69,null,67,null,64,67,null,69,72,null,69,null,67,64,null,62],
+  [64,null,67,69,null,72,null,69,67,null,64,null,62,null,60,null],
+  [62,null,64,67,null,69,null,67,64,null,62,null,60,null,62,null],
+  [67,null,69,null,72,69,67,null,64,null,67,null,69,null,67,null],
+  [72,null,69,67,null,69,null,72,69,null,67,64,null,62,null,60],
+  [69,67,null,64,null,67,69,null,72,null,69,67,null,64,62,null],
+  [64,null,62,64,null,67,null,69,72,null,69,67,null,64,null,62],
+  [67,null,64,null,67,69,null,72,69,null,67,64,null,62,null,60]
  ];
+ const harmony=[[50,53,57],[55,59,62],[60,64,67],[57,60,64]]; // Dm · G · C · Am
  const notify=()=>listeners.forEach(f=>f({on,sfx,volume,mood,status,ready:!!buffer,worldEnabled,worldVolume,worldStatus}));
  try{const p=JSON.parse(localStorage.getItem('edward-audio-v3')||'null');if(p){sfx=p.sfx!==false;worldEnabled=p.worldEnabled!==false;if(Number.isFinite(p.worldVolume))worldVolume=Math.max(0,Math.min(.5,p.worldVolume));if(Number.isFinite(p.volume))volume=Math.max(0,Math.min(.65,p.volume));}}catch{}
  const save=()=>{try{localStorage.setItem('edward-audio-v3',JSON.stringify({sfx,volume,worldEnabled,worldVolume}));}catch{}};
@@ -71,14 +64,16 @@ const CourtAudio=(()=>{
    // Change colour at a phrase boundary; scheduled notes keep their tails.
    if(step===0&&mood!==requestedMood){mood=requestedMood;notify();}
    const a=arrangements[mood];
-   const p=phrases[phrase%phrases.length],n=p[step];
-   const inflection=1+Math.sin((phrase*17+step*7)*1.31)*.045;
-   if(n!==null){const t=next+Math.sin(step*3+phrase)*.018;
-    note('harp',n,t,Math.min(a.beat*1.35,1.45),a.harp*inflection);
-    // A single recorder response appears occasionally, like a second player listening.
-    if(a.reed&&phrase%4===2&&step===8)note('recorder',n,t+.34,Math.min(a.beat*1.2,1.2),a.reed*inflection);
+   const melody=motifs[phrase%motifs.length],lead=melody[step];
+   const inflection=1+Math.sin((phrase*17+step*7)*1.31)*.035;
+   const half=step<8?0:1,chord=harmony[(phrase*2+half)%harmony.length];
+   if(lead!==null){
+    const t=next+Math.sin(step*3+phrase)*.012;
+    note('recorder',lead,t,Math.min(a.beat*1.75,1.25),a.reed*inflection);
    }
-   if(step===0||step===8){const roots=[50,55,52,57,50,55,52,57],bass=roots[phrase%roots.length];note('harp',bass,next,1.9,a.harp*.42);if(step===0&&phrase%2===0)note('harp',bass+7,next+.16,1.3,a.harp*.24);}
+   // Root notes and quiet chord tones give the melody a recognizable home.
+   if(step===0||step===8)note('harp',chord[0],next,1.65,a.harp*.38);
+   if(step%4===2){const tone=chord[(step/4|0)%2+1];note('harp',tone,next+.05,Math.min(a.beat*1.35,.9),a.harp*.58);}
    step++;next+=a.beat*(1+Math.sin(step+phrase)*.025);
    if(step>=p.length){step=0;phrase++;next+=a.rest+(phrase%3)*.25;}
   }
