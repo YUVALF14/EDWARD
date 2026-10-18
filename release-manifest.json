@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.9.2 \u00b7 melodic recorder and harp score",
+  "release": "EDWARD IV — The Living Court 1.9.3 · clear folios and softer interface sound",
   "entry": "index.html",
   "assets": [
     {
@@ -199,8 +199,8 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 9720,
-      "sha256": "0ea50ebf702789ab96cd8bde29837202c98d842ca8f706c9ff46e4abce00462b"
+      "bytes": 9589,
+      "sha256": "5314d4e8c02201b0ed4deca9c740482682549560246e48fdb5017a7443198cf3"
     },
     {
       "path": "edward-court.js",
@@ -220,7 +220,7 @@
     {
       "path": "edward-loop-demo.html",
       "bytes": 66370,
-      "sha256": "9e8e9707864a38d317531ab11801a50cade40d17147985abf4c328e8e64c6fa7"
+      "sha256": "c6da34436e5c52bfdd7b58eb84b12484ed17b816f3bd699749d60f7dee84d311"
     },
     {
       "path": "edward-reign-data.js",
@@ -229,8 +229,8 @@
     },
     {
       "path": "edward-reign.css",
-      "bytes": 32246,
-      "sha256": "477010e4d6881b76051c0d62996ddf68da1958570dde130f77f90209f4b33de3"
+      "bytes": 35696,
+      "sha256": "67098c57ce4236e74479cda2618ee1f414dd6dadcf3ce4fdc4ba6bd0aabc48b3"
     },
     {
       "path": "edward-reign.js",
@@ -240,7 +240,7 @@
     {
       "path": "index.html",
       "bytes": 66370,
-      "sha256": "9e8e9707864a38d317531ab11801a50cade40d17147985abf4c328e8e64c6fa7"
+      "sha256": "c6da34436e5c52bfdd7b58eb84b12484ed17b816f3bd699749d60f7dee84d311"
     }
   ]
 }
