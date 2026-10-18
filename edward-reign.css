@@ -139,3 +139,8 @@ dialog[open]{contain:paint}
 .folio.document-folio{width:min(600px,calc(100vw - 24px))}
 .folio.map-folio{width:min(760px,calc(100vw - 24px))}
 @media(max-width:800px){.folio.act-folio,.folio.document-folio,.folio.map-folio{width:calc(100vw - 16px)}}
+.folio.menu-folio{width:min(420px,calc(100vw - 24px))}
+.folio.profile-sheet{width:min(460px,calc(100vw - 24px))}
+.folio.history-sheet{width:min(480px,calc(100vw - 24px))}
+.folio.compact{width:min(460px,calc(100vw - 24px))}
+@media(max-width:800px){.folio.menu-folio,.folio.profile-sheet,.folio.history-sheet,.folio.compact{width:calc(100vw - 16px)}}
