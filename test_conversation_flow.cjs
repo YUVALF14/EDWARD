@@ -12,6 +12,31 @@ const ctx=dom.getInternalVMContext();for(const f of ['edward-reign-data.js','edw
 const run=s=>vm.runInContext(s,ctx);
 (async()=>{
  w.document.getElementById('newGame').click();assert.equal(run('S.n'),0);assert.equal(w.document.querySelectorAll('dialog[open]').length,0,'One start click reaches the first audience');
+ await Promise.resolve();await run('CourtAudio.unlock()');
+ const cues=()=>run('CourtAudio.getState().feedbackCount');
+ let before=cues();w.document.querySelector('[data-view-button="court"]').click();await Promise.resolve();assert.equal(cues()-before,1,'A tab has one cue, not both explicit and fallback');
+ before=cues();w.document.getElementById('menuButton').click();await Promise.resolve();assert.equal(cues()-before,1,'Opening a dialog has one cue');
+ before=cues();w.document.getElementById('howToPlay').click();await Promise.resolve();assert.equal(cues()-before,1,'Nested navigation has one cue');
+ run('closeDialog("introDialog");setView("audience")');
+ assert(!w.document.getElementById('richardRecord'),'No stray Richard caption beneath the court');
+ assert.match(w.document.querySelector('[data-person="gloucester"]').textContent,/Richard.*Edward’s youngest brother.*age 8/);
+ for(const id of ['montagu','louis','burgundy','margaretAnjou'])assert(w.document.querySelector('[data-person="'+id+'"]'),'Visible outer court face '+id);
+ // Hearing a person must not mutate the authored deck on every scene read.
+ run('S.n=campaignScenes().findIndex(c=>INQUIRIES[c.title]);render();hearInquiry()');
+ const originalAnswers=run('getChoices().map(o=>o.t).join("|")');
+ for(let i=0;i<30;i++)run('scene();getChoices();render()');
+ assert.equal(run('getChoices().map(o=>o.t).join("|")'),originalAnswers,'Repeated scene reads keep one copy of each answer');
+ assert(run('getChoices().length<=3'),'Hearing reveals at most three distinct answers');
+ for(const c of run('SCENES.flat().filter(c=>INQUIRIES[c.title])')){
+  const savedScene=run('campaignScenes'),heardState=JSON.stringify(c);
+  // Use the real scene seam with an authored audience, independent of whether
+  // this campaign happened to draw that optional story.
+  run('campaignScenes=()=>['+heardState+'];S.n=0;S.flags["heard:"+INQUIRIES['+JSON.stringify(c.title)+'].id]=true');
+  assert(run('getChoices().length<=3'),'At most three after hearing: '+c.title);
+  assert.equal(run('new Set(getChoices().map(o=>o.t)).size'),run('getChoices().length'));
+  ctx.__campaignScenes=savedScene;run('campaignScenes=__campaignScenes');
+ }
+ run('startNew()');
  w.document.querySelector('[data-person="hastings"]').click();assert(w.document.getElementById('personDialog').open);assert.equal(w.document.querySelectorAll('[data-talk-reply]').length,2);w.document.querySelector('[data-talk-reply="0"]').click();assert.match(w.document.getElementById('talkReply').textContent,/stool/);assert(run('validSave(getSaved())'),'Talking preserves a valid campaign save');
  run('closeDialog("personDialog");loadAct();openProfile("hastings");');assert.equal(run('conversationAt("hastings",S,"York").stage'),1,'Reload returns to the same conversational turn');
  w.document.querySelector('[data-talk-reply="0"]').click();assert.equal(w.document.querySelectorAll('[data-talk-reply]').length,0);run('closeDialog("personDialog")');
@@ -26,9 +51,12 @@ const run=s=>vm.runInContext(s,ctx);
    count++;if(!run('S.ended'))assert(run('validSave(getSaved())'),'Valid save after audience '+count+' / '+style);
   }
   assert(run('S.ended'));assert(henrySeen);assert(run('S.date>=14710522'));assert(!run('S.dead||S.deposed'));assert(run('S.log.length===decisionsBefore(3,S)+actLength(3,S)'));
-  routes.push({style,count,signature:run('$("signature").textContent')});
+  assert.equal(w.document.querySelectorAll('#endAssessment article').length,3,'Ending judges conscience, means and craft');
+  const assessment=run('assessReign(S)');for(const o of assessment)assert(run('S.log.some(l=>l.title==='+JSON.stringify(o.evidence.title)+'&&l.choice==='+JSON.stringify(o.evidence.choice)+')'),'Assessment cites an actual decision');
+  routes.push({style,count,signature:run('$("signature").textContent'),assessment:JSON.stringify(assessment)});
  }
  assert(new Set(routes.map(r=>r.signature)).size>1,'Alternative decisions produce different final political signatures');
+ assert(new Set(routes.map(r=>r.assessment)).size>1,'Assessment responds to the actual route and its costs');
  // An old save without conversation fields remains loadable.
  run('startNew();for(const k of Object.keys(S.flags))if(k.startsWith("talk:"))delete S.flags[k];persistAct(true);loadAct()');assert(run('validSave(getSaved())'));
  console.log('PASS actual DOM clicks, portrait conversation, persistent turns, old saves, and three complete generated campaigns:',routes.map(r=>r.style+' '+r.count).join(', '));

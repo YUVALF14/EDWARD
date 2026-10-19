@@ -42,3 +42,45 @@ music is credited separately and is not represented as an offline local asset.
 Physical iPhone Safari and listening impressions remain a separate playtest.
 Further work should make selected private exchanges feed later interpersonal
 scenes, rather than multiply interchangeable conversation topics.
+
+
+## 1.10.1 — clear choices and the character of the reign
+
+Heard testimony now refines a copied scene. It never appends into the authored
+reserve, so repeated renders, profiles and save validation cannot multiply an
+answer. Similar hearing answers replace the corresponding original response;
+all ten hearings retain two or three distinct choices. Existing selected answers
+remain valid in saves.
+
+The court identifies Richard Plantagenet as Edward’s brother and computes his
+age from 2 October 1452. His childhood illustration ends at thirteen, followed
+by the existing youthful portrait and a transitional conversation before adult
+command. The stray caption below the court is removed; an actual previous
+charge is kept within Richard’s own profile.
+
+John Neville, Louis XI, Charles of Burgundy and Margaret of Anjou join the outer
+court with existing artwork. Titles, deaths and letters follow date boundaries.
+New letters are reconstructed dialogue, never asserted surviving quotations.
+They wait for the next audience; selected answers enter later political contexts.
+Richard’s childhood and title: Westminster Abbey and Richard III Society media
+kit; John Neville’s titles and Barnet: James Tait, Dictionary of National Biography,
+“Neville, John (d.1471)”; Margaret’s final campaign: Historic England’s
+Tewkesbury battlefield report; French/Burgundian context: the Society’s Wars of
+the Roses chronology and Château d’Amboise’s account of Louis XI.
+
+“The character of your rule” reads decisions, promises, resources, order and
+competing affinities already in the saved reign. It gives grounded observations
+about conscience, means and the craft of rule, citing an actual decision. It is
+available within the household record and at the ending; loop recaps consider
+the means left behind. It adds no morality meter, rewards or player diagnosis.
+
+All enabled buttons now have interface feedback. Existing decision/open/close
+cues take precedence over a single fallback tap. The first cold tap waits briefly
+for recorded samples instead of being discarded. Harp feedback is 8 dB stronger;
+the continuous composition and its music volume are unchanged. Interface mute
+remains independent.
+
+`npm test` includes the repeated-hearing regression, all ten hearing answer sets,
+DOM cue counts, dated identities and foreign letters, grounded judgments, saves,
+and three complete alternative campaigns. DOM media is mocked; physical iPhone
+Safari, speaker balance and touch feel remain separate live playtests.

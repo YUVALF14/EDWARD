@@ -1,7 +1,7 @@
 /* A continuous licensed harp composition, with low VCSL harp strings for UI.
    Music and interface effects have separate playback lifecycles. */
 const CourtAudio=(()=>{
- let ctx,buffer,samples=[],loading=null,on=false,musicChoice=null,sfx=true,volume=.3,mood='court',requestedMood='court',step=0,phrase=0,status='off',request=0;
+ let ctx,buffer,samples=[],loading=null,on=false,musicChoice=null,sfx=true,volume=.3,mood='court',requestedMood='court',step=0,phrase=0,status='off',request=0,feedbackCount=0;
  let worldEnabled=true,worldVolume=.28,worldStatus='off',worldKey=null,worldKind=null,worldRequest=0;
  const worldAudio=new Audio();worldAudio.preload='none';
  const paperAudio=new Audio('assets/audio/paper-open.mp3');paperAudio.preload='none';paperAudio.volume=.22;
@@ -33,7 +33,7 @@ const CourtAudio=(()=>{
   const rate=sample.midi?2**((midi-sample.midi)/12):1;
   const length=Math.min(duration,sample.duration/rate-.025),source=ctx.createBufferSource(),g=ctx.createGain();
   source.buffer=buffer;source.playbackRate.value=rate;
-  const loud=gain*(ui?1:volume);g.gain.setValueAtTime(.00001,when);g.gain.linearRampToValueAtTime(loud,when+(kind==='recorder'?.055:.006));
+  const loud=gain*(ui?2.5:volume);g.gain.setValueAtTime(.00001,when);g.gain.linearRampToValueAtTime(loud,when+(kind==='recorder'?.055:.006));
   g.gain.setValueAtTime(loud,when+Math.max(.06,length-.25));g.gain.linearRampToValueAtTime(.00001,when+length);
   source.connect(g);g.connect(ctx.destination);const v={source,g,ui};voices.add(v);
   source.onended=()=>{voices.delete(v);source.disconnect();g.disconnect();};source.start(when,sample.offset,Math.max(.05,length)*rate);source.stop(when+length+.02);
@@ -64,8 +64,13 @@ const CourtAudio=(()=>{
   save:{notes:[['harp',48,.012,.55,.045],['harp',55,.11,.6,.035]]},
   page:{notes:[['harp',50,.012,.45,.035]]}
  };
- function ui(kind='tap'){if(!sfx)return;if(!ctx||!buffer){unlock();return;}if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005,cue=cues[kind]||cues.tap;
+ function playCue(kind){if(!sfx||document.hidden||!ctx||!buffer)return;if(ctx.state==='suspended')ctx.resume().catch(()=>{});const t=ctx.currentTime+.005,cue=cues[kind]||cues.tap;
   for(const [instrument,midi,delay,duration,gain] of cue.notes)note(instrument,midi,t+delay,duration,gain,true);
+ }
+ function ui(kind='tap'){
+  const ticket=++feedbackCount;if(!sfx||document.hidden)return;
+  if(ctx&&buffer){playCue(kind);return;}
+  const asked=Date.now();unlock().then(()=>{if(ticket===feedbackCount&&Date.now()-asked<1500)playCue(kind);});
  }
  function stopWorld(){worldRequest++;worldAudio.pause();worldAudio.currentTime=0;worldStatus='off';worldKey=null;worldKind=null;notify();}
  function world(kind,key){
@@ -86,5 +91,5 @@ const CourtAudio=(()=>{
   else if(on){const ticket=request;musicAudio.play().catch(()=>{if(ticket===request){on=false;status='unavailable';notify();}});if(ctx)ctx.resume().catch(()=>{});}
  });
  window.addEventListener('pagehide',()=>{paperAudio.pause();stopWorld();musicAudio.pause();silence(.02,true);if(ctx)ctx.suspend().catch(()=>{});});
- return {toggle,begin,unlock,ui,paper,world,stopWorld,toggleWorld,setWorldVolume,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,requestedMood,step,phrase,status,voices:voices.size,ready:!!buffer||musicAudio.readyState>=2,worldEnabled,worldVolume,worldStatus,worldKey,worldKind,musicTime:musicAudio.currentTime,track:'Enchanted Journey · Kevin MacLeod',worldTime:worldAudio.currentTime,worldPaused:worldAudio.paused})};
+ return {toggle,begin,unlock,ui,paper,world,stopWorld,toggleWorld,setWorldVolume,setMood,setVolume,toggleSfx,subscribe:f=>{listeners.add(f);notify();},getState:()=>({on,sfx,volume,mood,requestedMood,step,phrase,status,feedbackCount,voices:voices.size,ready:!!buffer||musicAudio.readyState>=2,worldEnabled,worldVolume,worldStatus,worldKey,worldKind,musicTime:musicAudio.currentTime,track:'Enchanted Journey · Kevin MacLeod',worldTime:worldAudio.currentTime,worldPaused:worldAudio.paused})};
 })();
