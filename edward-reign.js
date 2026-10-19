@@ -201,7 +201,7 @@ function reactiveContext(c){
 function setView(view){activeView=view;document.body.dataset.view=view;document.querySelectorAll('[data-view-button]').forEach(b=>{const active=b.dataset.viewButton===view;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;});}
 function paintCourt(){
  const groups=courtAt(),labels={at:S.date>=14701001&&S.date<14710411?'With Edward in exile':'Household & counsel',family:'The royal family',elsewhere:'Beyond the household'};
- $('allies').innerHTML=Object.entries(groups).map(([key,ids])=>'<div class="court-group"><h3>'+labels[key]+'</h3><div class="ally-grid">'+ids.map(id=>{const p=personAt(id);return '<button type="button" class="ally" data-person="'+id+'">'+portrait(p,true)+'<span><b>'+esc(p.short)+'</b><small>'+esc(p.office.replace(' · ',' / '))+'</small></span></button>';}).join('')+'</div></div>').join('');
+ $('allies').innerHTML=Object.entries(groups).map(([key,ids])=>'<div class="court-group"><h3>'+labels[key]+'</h3><div class="ally-grid">'+ids.map(id=>{const p=personAt(id);const talk=conversationAt(id,S,courtLocation(scene())),contact=!talk.available?'':talk.pending?'Message travelling':talk.complete?'Your exchange':talk.mode==='letter'||talk.mode==='keeper'?(talk.stage?'Reply received':'Write a letter'):'Speak privately';return '<button type="button" class="ally" aria-haspopup="dialog" data-person="'+id+'">'+portrait(p,true)+'<span><b>'+esc(p.short)+'</b><small>'+esc(p.office.replace(' · ',' / '))+'</small>'+(contact?'<small class="court-contact">'+esc(contact)+'</small>':'')+'</span></button>';}).join('')+'</div></div>').join('');
  $('allies').querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>openProfile(b.dataset.person));
 }
 function factionLabels(){return {crown:'Royal household',neville:S.date>=14710414?'Former Neville affinity':'Neville affinity',queen:'Queen’s household',brothers:'Royal brothers',lancastrian:S.date>=14710522?'Lancastrian loyalties':'Lancastrian cause'};}
@@ -262,7 +262,32 @@ function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c
 function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui('open');}
 function closeDialog(id,sound=true){$(id).close();if(!sound)return;if(id==='documentDialog')CourtAudio.paper();else CourtAudio.ui('close');}
 function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
- const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester',clarence:'clarence'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);openDialog('personDialog');}
+ const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester',clarence:'clarence'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);paintConversation(id);openDialog('personDialog');}
+function paintConversation(id){
+ const c=conversationAt(id,S,courtLocation(scene())),box=$('profileConversation');box.dataset.person=id;
+ if(!c.available){box.innerHTML='<p class="talk-setting">'+esc(c.notice)+'</p>';return;}
+ const channel={private:'Between audiences',letter:'Correspondence',keeper:'Through Henry’s keeper',custody:'A guarded exchange · the Tower'}[c.mode];
+ const last=c.transcript.at(-1),history=c.transcript.slice(0,-1);
+ let html='<div class="eyebrow">'+esc(channel)+'</div><h3 class="talk-title">'+esc(c.title)+'</h3>';
+ if(c.memory)html+='<p class="talk-memory">'+esc(c.memory)+'</p>';
+ if(history.length)html+='<details class="talk-history"><summary>Earlier words</summary>'+history.map(t=>'<blockquote>“'+esc(t.quote)+'”</blockquote><p class="talk-your">You: “'+esc(t.line)+'”</p><p>'+esc(t.answer)+'</p>').join('')+'</details>';
+ if(c.pending){
+  html+='<p class="talk-your">You wrote: “'+esc(last.line)+'”</p><p id="talkReply" tabindex="-1" class="talk-setting">'+(c.mode==='keeper'?'Your question has gone to the Tower. The keeper’s answer will follow after the next audience.':'The letter is on its way. Continue the audience; return here when a reply reaches the household.')+'</p>';
+ }else{
+  if(last)html+='<p class="talk-your">You: “'+esc(last.line)+'”</p><p id="talkReply" tabindex="-1" class="talk-answer">'+esc(last.answer)+'</p>';
+  if(!c.complete){
+   if(!last)html+='<p class="talk-setting">'+esc(c.setting)+'</p>';
+   const beat=c.beats[c.stage];html+='<blockquote class="talk-quote">“'+esc(beat.quote)+'”</blockquote><div class="talk-choices">'+beat.replies.map((r,i)=>'<button type="button" class="talk-choice" data-talk-reply="'+i+'">'+esc(r.line)+'</button>').join('')+'</div>';
+  }
+ }
+ if(c.pending||c.complete)html+='<button type="button" class="quiet talk-return">Return to the court</button>';
+ box.innerHTML=html;
+ box.querySelector('.talk-return')?.addEventListener('click',()=>closeDialog('personDialog'));
+ box.querySelectorAll('[data-talk-reply]').forEach(b=>b.onclick=()=>{
+  if(!answerConversation(id,Number(b.dataset.talkReply),S,courtLocation(scene())))return;
+  CourtAudio.ui(c.mode==='letter'||c.mode==='keeper'?'page':'listen');persistAct(true);paintCourt();paintConversation(id);$('talkReply')?.focus({preventScroll:true});
+ });
+}
 function openHistory(id){const h=NOTES[id];text('historyPopupDate',h[0]);text('historyPopupTitle',h[1]);text('historyPopupText',h[2]);text('historyPopupSource','Read the source · '+h[3]);$('historyPopupSource').href=h[4];openDialog('historyDialog');}
 function validSave(v){
  const scores=['authority','order','succession'],meaning=['bond','dynasty','faith','power'],factions=['crown','neville','queen','brothers','lancastrian'];
@@ -282,9 +307,9 @@ function validSave(v){
 function getSaved(){try{const v=JSON.parse(localStorage.getItem(SAVE_KEY));if(v?.version===4)v.version=5;if(v&&v.clarence===undefined)v.clarence=4;return validSave(v)?v:null;}catch{return null;}}
 function persistAct(silent=false){if(S.ended||S.journey)return false;try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));saveError=false;syncSaveControls();text('saveStatus','Reign saved · '+dateLabel(S.date)+' · '+(S.n+1)+' / '+actLength());text('actSaveStatus','This audience is saved.');return true;}catch{saveError=true;text('saveStatus','Storage is unavailable in this browser.');text('actSaveStatus','Storage is unavailable. Keep this page open to continue.');return false;}}
 function syncSaveControls(){const saved=getSaved();$('saveAct').disabled=S.ended;$('loadAct').disabled=!saved;$('resumeGame').hidden=!saved;if(saved)$('resumeGame').textContent='Load loop '+roman(saved.cycle)+' · '+ACTS[saved.cycle].years;text('saveStatus',saveError?'Storage unavailable; keep this page open.':'Autosaved after each decision. Manual save keeps this audience.');}
-function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});if(saved.routeVersion!==2&&saved.routeVersion!==3){S.routeVersion=1;S.coreItinerary=null;}unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)showAct('You return to the saved opening of this loop.');else{if(scene().events)showStories(scene().events);else focusAudience();}}
+function loadAct(){const saved=getSaved();if(!saved)return;Object.assign(S,fresh(),saved,{documents:saved.documents||[],itinerary:saved.itinerary||null});if(saved.routeVersion!==2&&saved.routeVersion!==3){S.routeVersion=1;S.coreItinerary=null;}unfoldedDocuments.clear();started=true;enterGame();render();if(S.n===0)focusAudience();else{if(scene().events)showStories(scene().events);else focusAudience();}}
 function enterGame(){$('gameGate').hidden=true;$('gameWrap').hidden=false;$('end').hidden=true;$('game').hidden=false;$('liveReturn').hidden=false;setView('audience');}
-function startNew(){Object.assign(S,fresh());prepareAct();unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);showAct();}
+function startNew(){Object.assign(S,fresh());prepareAct();unfoldedDocuments.clear();started=true;enterGame();render();persistAct(true);focusAudience();}
 function returnToTitle(){CourtAudio.stopWorld();$('gameWrap').hidden=true;$('gameGate').hidden=false;$('liveReturn').hidden=!started;syncSaveControls();$('liveReturn').hidden=!started;$('newGame').focus();}
 function finish(){CourtAudio.stopWorld();
  $('game').hidden=true;$('end').hidden=false;setView('audience');
@@ -316,9 +341,9 @@ $('storyNext').onclick=()=>{storyQueue.shift();if(storyQueue.length){CourtAudio.
 $('storyDialog').addEventListener('cancel',e=>{e.preventDefault();$('storyNext').click();});
 $('portrait').onclick=()=>openProfile($('portrait').dataset.person);
 $('listenButton').onclick=hearInquiry;
-$('newGame').onclick=()=>{CourtAudio.begin();if(started||getSaved())openDialog('newDialog');else openDialog('introDialog');};
-$('confirmNew').onclick=()=>{closeDialog('newDialog',false);openDialog('introDialog');};
-$('beginReign').onclick=()=>{CourtAudio.begin();closeDialog('introDialog');startNew();};
+$('newGame').onclick=()=>{CourtAudio.begin();if(started||getSaved())openDialog('newDialog');else startNew();};
+$('confirmNew').onclick=()=>{closeDialog('newDialog',false);startNew();};
+$('beginReign').onclick=()=>{CourtAudio.begin();closeDialog('introDialog');if(!started)startNew();};
 $('enterAct').onclick=()=>{closeDialog('actDialog');CourtAudio.setMood(ACTS[S.cycle].tone);focusAudience();};
 $('actDialog').addEventListener('cancel',()=>{CourtAudio.setMood(ACTS[S.cycle].tone);setTimeout(focusAudience,0);});
 $('actSave').onclick=()=>{persistAct();CourtAudio.ui('save');};
@@ -328,6 +353,8 @@ $('confirmLoad').onclick=()=>{closeDialog('loadDialog');loadAct();};
 $('resumeGame').onclick=()=>{CourtAudio.begin();loadAct();};
 $('liveReturn').onclick=()=>{CourtAudio.begin();enterGame();if(S.ended)finish();else render();};
 $('menuButton').onclick=()=>openDialog('menuDialog');
+$('howToPlay').onclick=()=>{closeDialog('menuDialog',false);openDialog('introDialog');};
+$('chapterGuide').onclick=()=>{closeDialog('menuDialog',false);showAct();};
 $('brandMark').onclick=e=>{e.preventDefault();returnToTitle();};
 $('titleButton').onclick=()=>{closeDialog('menuDialog');returnToTitle();};
 $('restart').onclick=()=>{closeDialog('menuDialog');openDialog('newDialog');};
@@ -336,7 +363,7 @@ $('musicToggle').onclick=()=>CourtAudio.toggle();$('titleMusic').onclick=()=>Cou
 $('worldSoundToggle').onclick=()=>CourtAudio.toggleWorld();$('worldVolume').oninput=e=>CourtAudio.setWorldVolume(Number(e.target.value)/100);
 $('soundToggle').onclick=()=>CourtAudio.toggleSfx();$('volume').oninput=e=>CourtAudio.setVolume(Number(e.target.value)/100);
 $('settingsButton').onclick=()=>{closeDialog('menuDialog');openDialog('settingsDialog');};$('titleSettings').onclick=()=>openDialog('settingsDialog');
-CourtAudio.subscribe(a=>{for(const id of ['musicToggle','titleMusic','settingsMusic']){$(id).textContent=a.status==='loading'?'Loading music…':a.status==='unavailable'?'Retry music':a.on?'Music on':'Music off';$(id).setAttribute('aria-pressed',String(a.on));}text('worldSoundToggle',a.worldEnabled?'Battle & world sounds on':'Battle & world sounds off');$('worldSoundToggle').setAttribute('aria-pressed',String(a.worldEnabled));$('worldVolume').value=Math.round(a.worldVolume*100);text('worldAudioStatus',a.worldStatus==='unavailable'?'World sounds could not load. Toggle them off and on to retry.':'Recorded battle and muster effects · separate from music and interface sounds.');text('soundToggle',a.sfx?'Interface sounds on':'Interface sounds off');$('soundToggle').setAttribute('aria-pressed',String(a.sfx));$('volume').value=Math.round(a.volume*100);text('audioStatus',a.status==='unavailable'?'The acoustic recordings could not load. Check your connection and retry.':a.status==='loading'?'Loading the acoustic recordings…':a.on?'Acoustic harp · recorder · frame drum':'Music waits for you.');});
+CourtAudio.subscribe(a=>{for(const id of ['musicToggle','titleMusic','settingsMusic']){$(id).textContent=a.status==='loading'?'Loading music…':a.status==='unavailable'?'Retry music':a.on?'Music on':'Music off';$(id).setAttribute('aria-pressed',String(a.on));}text('worldSoundToggle',a.worldEnabled?'Battle & world sounds on':'Battle & world sounds off');$('worldSoundToggle').setAttribute('aria-pressed',String(a.worldEnabled));$('worldVolume').value=Math.round(a.worldVolume*100);text('worldAudioStatus',a.worldStatus==='unavailable'?'World sounds could not load. Toggle them off and on to retry.':'Recorded battle and muster effects · separate from music and interface sounds.');text('soundToggle',a.sfx?'Interface sounds on':'Interface sounds off');$('soundToggle').setAttribute('aria-pressed',String(a.sfx));$('volume').value=Math.round(a.volume*100);text('audioStatus',a.status==='unavailable'?'The acoustic recordings could not load. Check your connection and retry.':a.status==='loading'?'Loading the acoustic recordings…':a.on?'Harp · Enchanted Journey · Kevin MacLeod':'Music waits for you.');});
 syncSaveControls();$('newGame').focus();
 
 initDepth();

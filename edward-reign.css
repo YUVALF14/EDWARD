@@ -11,7 +11,7 @@ dialog{color-scheme:light;position:fixed;padding:0;border:0;background:none;colo
 @keyframes arrive{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 
-.card,.story-folio{width:540px}.story-folio h2{font-size:44px}.story-folio p{font-size:24px;line-height:1.45}.story-folio .history-link{margin:0 0 18px}.story-folio .primary{margin-top:6px}@media(max-width:800px){.story-folio h2{font-size:38px}.story-folio p{font-size:23px}}
+.card{width:100%;min-width:0}.audience{min-width:0}.story-folio{width:540px}.story-folio h2{font-size:44px}.story-folio p{font-size:24px;line-height:1.45}.story-folio .history-link{margin:0 0 18px}.story-folio .primary{margin-top:6px}@media(max-width:800px){.story-folio h2{font-size:38px}.story-folio p{font-size:23px}}
 
 /* Static plates and readable papers share the existing vellum folios. */
 .transition-art{display:block;width:100%;height:auto;margin:0 0 24px;border:1px solid #a68e60}.document-delivery{margin:18px 0 0;border-top:1px solid #b7a27a;padding-top:12px}.document-delivery>p{font:15px/1.4 var(--serif);color:#6b5e47;margin:0 0 9px}.document-link{display:grid;width:100%;gap:5px;text-align:left;background:#ede0c1;border:1px solid #a48d63;padding:12px 14px;color:#473d2e;font:20px/1.2 var(--serif);min-height:48px}.document-link>span{font:9px var(--sans);text-transform:uppercase;letter-spacing:.13em;color:#80513c}.document-link>small{font:11px var(--sans);color:#756348}.archive-letter{display:grid;gap:5px;width:100%;padding:6px 0;text-align:left;border:0;background:none;color:inherit;min-height:48px}.document-folio{width:600px;touch-action:pan-y pinch-zoom}.document-folio .document-author{font-size:18px;margin-bottom:8px}.document-folio .document-route{font-size:17px;border-top:1px solid #b8a47c;padding-top:15px}.document-folio #documentContents{border-top:1px solid #b8a47c;padding-top:20px;margin-top:20px;background:linear-gradient(90deg,transparent 48%,#b69e6a14 50%,transparent 52%)}.document-folio #documentContents p{font-size:21px;line-height:1.5}.document-folio #documentResponse{font:12px/1.5 var(--sans);border-top:1px solid #b8a47c;padding-top:15px}.document-signature{font-style:italic;text-align:right;margin-top:24px}.document-fold{padding:24px 12px;text-align:center;border:1px solid #b8a47c;background:linear-gradient(25deg,#d7c49e55,transparent 50%);margin-top:18px}.document-seal{display:flex;align-items:center;gap:14px;color:#784539;font:11px/1.4 var(--sans);margin:18px 0}.document-seal svg{width:58px;height:58px;flex:none;border-radius:50%;background:#803e31;border:4px double #ac7060;color:#c99378;padding:5px}.document-seal path{fill:none;stroke:currentColor;stroke-width:2}.document-seal[data-seal=ecclesiastical] svg{border-radius:50%;height:76px;background:#5d6145;color:#c8c09a}.document-folio table{width:100%;border-collapse:collapse;font:17px/1.4 var(--serif);margin:20px 0}.document-folio caption{text-align:left;margin-bottom:10px;font-style:italic}.document-folio th,.document-folio td{padding:9px 5px;border-bottom:1px solid #baa67e;text-align:left;vertical-align:top}.document-folio td:last-child,.document-folio th:last-child{text-align:right;white-space:nowrap}.corrected{text-decoration:line-through;color:#847255}.document-folio details{margin:20px 0}.document-folio summary{cursor:pointer;min-height:44px;font-size:18px;color:#7c443c}.document-folio[data-form=petition] #documentSalutation{font-variant:small-caps}.document-folio[data-form=extract] #documentContents{border-left:2px solid #9f8050;padding-left:17px}.document-folio[data-form=memorandum] #documentContents{background:none}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}body[data-mood=intimacy]{background-color:#28251f}body[data-season=winter]{background-image:radial-gradient(ellipse at 50% 0,#6a7b8033,transparent 70%)}body[data-place=middleham]{background-color:#24292a}body[data-place=low-countries]{background-image:radial-gradient(ellipse at 50% 0,#51677535,transparent 65%)}@media(max-width:800px){.transition-art{margin-bottom:20px}.document-folio #documentContents p{font-size:20px}.document-folio table{font-size:16px}.document-folio .document-route{font-size:16px}.document-folio h2{padding-right:12px}.document-folio .document-author{font-size:17px}}
@@ -144,3 +144,30 @@ dialog[open]{contain:paint}
 .folio.history-sheet{width:min(480px,calc(100vw - 24px))}
 .folio.compact{width:min(460px,calc(100vw - 24px))}
 @media(max-width:800px){.folio.menu-folio,.folio.profile-sheet,.folio.history-sheet,.folio.compact{width:calc(100vw - 16px)}}
+
+/* Conversations belong to the same paper and the same people as the audience. */
+.profile-conversation{text-align:left;margin-top:24px;border-top:1px solid #b5a17b;padding-top:20px}
+.profile-conversation .eyebrow{font-size:10px}
+.talk-title{font:27px/1.15 var(--serif);margin:9px 0 16px;color:#3b3328}
+.profile-conversation .talk-setting,.profile-conversation .talk-memory{font:17px/1.5 var(--serif);color:#706048;margin-bottom:16px}
+.profile-conversation .talk-quote{font:24px/1.43 var(--serif);color:#302c23;margin:0 0 22px}
+.profile-conversation .talk-your{font:16px/1.5 var(--serif);color:#805142;border-left:2px solid #aa8b5b;padding-left:12px;margin:16px 0}
+.profile-conversation .talk-answer{font:20px/1.55 var(--serif);color:#3e392d;margin:18px 0 22px}
+.talk-choices{display:grid;gap:10px}
+.talk-choice{font:20px/1.3 var(--serif);color:#3a3226;text-align:left;min-height:52px;padding:14px 15px;border:1px solid #aa936d;background:#f3e8cf;touch-action:manipulation}
+.talk-choice:hover{background:#f9efd9}.talk-choice:active{background:#dfcca5}
+.profile-about,.talk-history{border-top:1px solid #b9a67f;padding-top:15px;margin-top:22px;text-align:left}
+.profile-about summary,.talk-history summary{font:15px/1.5 var(--sans);color:#715d41;cursor:pointer;min-height:44px;display:flex;align-items:center}
+.profile-about p,.talk-history p,.talk-history blockquote{font-size:17px;line-height:1.5;margin:10px 0}
+.profile-conversation .talk-end{margin-top:20px;color:#7b6c51;font-size:11px;line-height:1.5}
+.court-contact{color:#cab786!important;letter-spacing:.02em}
+.folio .close:focus-visible{outline:2px solid #9a7e4b;outline-offset:0;border-radius:50%;background:#eee1c5}
+@media(max-width:800px){
+ .profile-emblem{width:62px;height:74px;margin-bottom:14px}
+ .profile-sheet h2{font-size:31px;margin-bottom:14px}
+ .profile-conversation{margin-top:19px;padding-top:17px}
+ .profile-conversation .talk-quote{font-size:23px;line-height:1.44}
+ .profile-conversation .talk-answer{font-size:19px;line-height:1.55}
+ .talk-choice{font-size:19px;min-height:58px;padding:14px}
+ .profile-standing{line-height:1.6}
+}
