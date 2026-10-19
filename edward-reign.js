@@ -230,7 +230,7 @@ function render(){
  $('inquiryStep').hidden=!inquiry;$('listenButton').hidden=heard;$('listenButton').textContent=inquiry?'Hear from '+inquiry.name:'';$('listenButton').onclick=hearInquiry;
  $('inquiryQuote').hidden=!heard;$('inquiryQuote').textContent=heard?'“'+inquiry.text.replace(/^“|”$/g,'')+'”':'';$('inquiryRole').hidden=!heard;$('inquiryRole').textContent=heard?inquiry.name+' · '+inquiry.role:'';
  $('choices').hidden=waiting;
- $('choices').innerHTML=waiting?'':getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-title">'+esc(o.t)+'</span><em>'+esc(o.d)+(Object.keys(choiceEffect(o)).length?'<small class="choice-impact">'+esc(effectText(choiceEffect(o)))+'</small>':'')+'</em></button>').join('');
+ $('choices').innerHTML=waiting?'':getChoices().map((o,j)=>'<button class="choice" type="button" data-choice="'+j+'"><span class="choice-title">'+esc(o.line||o.t)+'</span></button>').join('');
  $('choices').querySelectorAll('button').forEach(b=>b.onclick=()=>choose(Number(b.dataset.choice)));
  text('objective',act.goal);text('mood',S.date>=14701001&&S.date<14710411?'An exiled household; a crown to recover.':S.authority<30?'Your authority is fragile.':S.order<30?'Orders travel farther than obedience.':'Authority held through personal bonds.');
  for(const [key,id] of [['authority','Authority'],['order','Order'],['succession','Succession']]){const n=Math.round(S[key]);text('quick'+id,n);$('quick'+id+'Bar').style.width=S[key]+'%';$('quick'+id+'Meter').setAttribute('aria-valuenow',n);}

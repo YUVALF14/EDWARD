@@ -84,3 +84,14 @@ remains independent.
 DOM cue counts, dated identities and foreign letters, grounded judgments, saves,
 and three complete alternative campaigns. DOM media is mocked; physical iPhone
 Safari, speaker balance and touch feel remain separate live playtests.
+
+
+## 1.10.2 — Edward’s answer
+
+Audience buttons show only the action or Edward’s spoken reply. Descriptions
+and predicted stat effects are no longer rendered below them or exposed in a
+button’s accessible name. Seven opening, marriage and diplomatic answers have
+short reconstructed spoken lines. The established action text remains the
+chronicle entry and save identity, preserving existing saves. Actual effects,
+requirements and consequences are unchanged. Button spacing is reduced while
+retaining 60px desktop and 64px mobile touch targets.

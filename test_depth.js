@@ -35,7 +35,7 @@ const html=fs.readFileSync('edward-loop-demo.html','utf8');
 assert(!html.includes('id="royalCouncil"')&&!html.includes('id="councilDialog"'),'The world presents business through audience cards');
 assert(!html.includes('id="step"'),'Card numbers are hidden');
 assert(html.includes('21, 25, or 29 audiences'),'The opening explains that loops have variable lengths');
-assert(html.includes('edward-reign.js?v=1.10.1'),'Release modules use a new cache key');
+assert(html.includes('edward-reign.js?v=1.10.2'),'Release modules use a new cache key');
 assert(html.includes('property="og:image"')&&html.includes('name="twitter:card"'),'The opening artwork supplies share-card thumbnail metadata');
 assert(html.includes('assets/art/edward-icon.svg'),'The game has a matching browser-tab icon');
 assert(html.includes('Yuval Friedman'),'Creative direction is credited in the game');

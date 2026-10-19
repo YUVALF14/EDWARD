@@ -12,6 +12,8 @@ const ctx=dom.getInternalVMContext();for(const f of ['edward-reign-data.js','edw
 const run=s=>vm.runInContext(s,ctx);
 (async()=>{
  w.document.getElementById('newGame').click();assert.equal(run('S.n'),0);assert.equal(w.document.querySelectorAll('dialog[open]').length,0,'One start click reaches the first audience');
+ assert.equal(w.document.querySelectorAll('#choices em,#choices .choice-impact').length,0,'Answers do not disclose predicted consequences beneath the action');
+ assert.equal(w.document.querySelector('#choices button').textContent,'“Go north, Warwick. Take your men.”','A spoken answer carries the decision itself');
  await Promise.resolve();await run('CourtAudio.unlock()');
  const cues=()=>run('CourtAudio.getState().feedbackCount');
  let before=cues();w.document.querySelector('[data-view-button="court"]').click();await Promise.resolve();assert.equal(cues()-before,1,'A tab has one cue, not both explicit and fallback');
