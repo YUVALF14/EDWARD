@@ -129,6 +129,7 @@ function depthScene(c){
  const result={...c};
  if(c.branches){const route=S.flags['thread:'+c.thread];if(Number.isInteger(route))result.context+=' '+c.branches[route];}
  const memory=CROSS_COURT_MEMORY[c.title];if(memory&&Number.isInteger(S.flags[memory.flag]))result.context+=' '+memory.lines[S.flags[memory.flag]];
+ if(c.title==='Henry’s government'&&S.flags['personal:henryLetters']===1)result.context+=' The family letters you permitted in custody passed through a keeper. They bought neither Henry’s allegiance nor control of the men now speaking in his name.';
  // Remote speakers remain correspondence; the portrait never asserts presence.
  if(S.cycle===2&&c.thread==='aftercustody'){result.courtPlace='Middleham';result.place='Middleham · Richard’s correspondence';}
  return result;

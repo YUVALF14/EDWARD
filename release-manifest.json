@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV — The Living Court 1.9.3 · clear folios and softer interface sound",
+  "release": "EDWARD IV \u2014 The Living Court 1.10.0 \u00b7 conversations and a continuous harp score",
   "entry": "index.html",
   "assets": [
     {
@@ -134,8 +134,8 @@
     },
     {
       "path": "assets/audio/ATTRIBUTION.txt",
-      "bytes": 2735,
-      "sha256": "083f5b1bd8adc6caeb13f2702ee24ce56f0c356309e2ee382af628e1c0e309ff"
+      "bytes": 3446,
+      "sha256": "8feaaa584bfc99580022579d52b1066614c352630e6345e2f29a1dd47d8c1052"
     },
     {
       "path": "assets/audio/PAPER-LICENSE.txt",
@@ -199,13 +199,18 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 9589,
-      "sha256": "5314d4e8c02201b0ed4deca9c740482682549560246e48fdb5017a7443198cf3"
+      "bytes": 7873,
+      "sha256": "ea586454f60c5877a8d53a05c323cd334cd64269d92dd5688ad86497c74febcc"
+    },
+    {
+      "path": "edward-conversations.js",
+      "bytes": 25719,
+      "sha256": "590159f24229f46c81c926a45316a16c8feaf6a97e92ecc5dde10feea680b137"
     },
     {
       "path": "edward-court.js",
-      "bytes": 16815,
-      "sha256": "d8dfb4aaa2a57beb85aad7807887baa57f045221eec09965959cbe6a3257d2ad"
+      "bytes": 17003,
+      "sha256": "2d92f10aa987a85375e6c4c02adbb26306455de77e5f815a86261232ba25f13c"
     },
     {
       "path": "edward-depth-data.js",
@@ -214,13 +219,13 @@
     },
     {
       "path": "edward-depth.js",
-      "bytes": 26490,
-      "sha256": "c7c8e406937f34655661bf1ff4df999a5034b22c6f2a87e43552d2d4aa4ae4ec"
+      "bytes": 26744,
+      "sha256": "202a03dae71b4b8cb8d61a6c3aa4b5a8d97a09558bcbf58d3a7bca50a0363b33"
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 66370,
-      "sha256": "c6da34436e5c52bfdd7b58eb84b12484ed17b816f3bd699749d60f7dee84d311"
+      "bytes": 67198,
+      "sha256": "ce7e4f1b42c1750f212d210ab1292e1bb89a9b66ae24a3148116a722a0ca13c5"
     },
     {
       "path": "edward-reign-data.js",
@@ -229,18 +234,18 @@
     },
     {
       "path": "edward-reign.css",
-      "bytes": 36045,
-      "sha256": "394a6fb2032653bef6fa8beef15da4227f76e42754a2a2b99b80e521bea10b44"
+      "bytes": 38198,
+      "sha256": "5eb9f52541ace955afaeb4fe0e30cd5b7436183881fd800ff110f043b39a8cab"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 44848,
-      "sha256": "447d93ae1d87887e83874256c5f70a6f8fe1ff4cd2bc4bb641c3b603c7dc6dbc"
+      "bytes": 47653,
+      "sha256": "afae5b2e25a09cdce17535899369b134f9891ca0a2b880d6d5dc22affb530792"
     },
     {
       "path": "index.html",
-      "bytes": 66370,
-      "sha256": "c6da34436e5c52bfdd7b58eb84b12484ed17b816f3bd699749d60f7dee84d311"
+      "bytes": 67198,
+      "sha256": "ce7e4f1b42c1750f212d210ab1292e1bb89a9b66ae24a3148116a722a0ca13c5"
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "name": "edward-living-court",
+  "private": true,
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "node test_depth.js && node test_conversations.js && node test_sound_feedback.js && node test_conversation_flow.cjs"
+  },
+  "devDependencies": {"jsdom": "26.1.0"}
+}

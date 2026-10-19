@@ -30,3 +30,14 @@ Recorded book-opening foley, transcoded with ffmpeg/libmp3lame at quality 5.
 No synthetic substitute. Volume limited in the interface; respects sound setting.
 
 Recorded war cues: artisticdude (RPG Sound Pack and Battle Sound Effects, OpenGameArt) and Kenney Vleugels (RPG Audio), CC0. Full sources and selected licenses in WAR-LICENSE.txt; exact recordings and archive hashes in war-sources.json.
+
+CONTINUOUS HARP SCORE (release 1.10.0)
+"Enchanted Journey" by Kevin MacLeod (incompetech.com)
+ISRC USUAN1100799. Licensed under Creative Commons Attribution 4.0.
+Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100799
+Original download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Enchanted%20Journey.mp3
+License: https://creativecommons.org/licenses/by/4.0/
+Playback: the complete, unmodified recording streams from the official source.
+In-game volume varies gently with the chapter. Modern atmospheric composition;
+not represented as a medieval composition or documented court performance.
+Low VCSL folk-harp samples remain the interface cues (CC0, as credited above).
