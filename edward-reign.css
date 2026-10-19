@@ -171,3 +171,11 @@ dialog[open]{contain:paint}
  .talk-choice{font-size:19px;min-height:58px;padding:14px}
  .profile-standing{line-height:1.6}
 }
+
+/* A readable account of the reign, grounded in its actual decisions. */
+.reign-assessment article{padding:16px 0;border-top:1px solid var(--line);text-align:left}
+.reign-assessment h3{font:22px/1.25 var(--serif);margin:0 0 8px;color:var(--gold)}
+.reign-assessment p{font:16px/1.65 var(--serif);margin:0 0 10px}
+.reign-assessment .assessment-evidence{font:11px/1.6 var(--sans);color:var(--muted)}
+.reign-reading{margin:16px 0}.end .reign-assessment{max-width:640px;margin:32px auto}
+@media(max-width:600px){.reign-assessment p{font-size:17px}.reign-assessment h3{font-size:24px}}

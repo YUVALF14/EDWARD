@@ -130,6 +130,13 @@ function depthScene(c){
  if(c.branches){const route=S.flags['thread:'+c.thread];if(Number.isInteger(route))result.context+=' '+c.branches[route];}
  const memory=CROSS_COURT_MEMORY[c.title];if(memory&&Number.isInteger(S.flags[memory.flag]))result.context+=' '+memory.lines[S.flags[memory.flag]];
  if(c.title==='Henry’s government'&&S.flags['personal:henryLetters']===1)result.context+=' The family letters you permitted in custody passed through a keeper. They bought neither Henry’s allegiance nor control of the men now speaking in his name.';
+ const correspondence={
+  'A commission in the North':['personal:montaguNames','John Neville’s own list of unpaid men is among the papers. His brother’s request no longer speaks for every claim.','John sent his accounts through Warwick at your request. The two signatures remain distinct.'],
+  'A French conversation':['personal:frenchTerms','Your earlier correspondence concerned named ports and safe conduct. Warwick now brings a wider question.','Louis kept the names of his English contacts from your private channel. Warwick’s account still needs to be tested.'],
+  'What Burgundy will risk':['personal:burgundySecurity','You previously asked what security Burgundian lenders require. Those limits now appear in the crossing’s terms.','Your appeal to Charles’s friendship produced a limited offer. His merchants still expect guarantees.'],
+  'Henry’s government':['personal:anjouHouseholds','You offered safe passage to named Lancastrian dependants. Their queen’s alliance against you has continued.','You asked Margaret’s intermediary for names before allowing passage. Those families had to weigh safety against disclosure.']
+ }[c.title];
+ if(correspondence){const answer=S.flags[correspondence[0]];if(answer===1||answer===2)result.context+=' '+correspondence[answer];}
  // Remote speakers remain correspondence; the portrait never asserts presence.
  if(S.cycle===2&&c.thread==='aftercustody'){result.courtPlace='Middleham';result.place='Middleham · Richard’s correspondence';}
  return result;
@@ -202,6 +209,49 @@ const ACT_OBJECTIVES=[
  [['Prepare the crossing and the army',()=>S.realm.readiness>=55,()=> 'Readiness at least 55'],['Give restoration a workable settlement',()=>S.realm.credit>=45&&S.open<8,()=> 'Credit at least 45 · fewer than 8 outstanding promises']]
 ];
 function objectiveMarkup(list){return list.map(([title,done,detail])=>'<li class="'+(done()?'met':'pending')+'"><b>'+esc(title)+'</b><span>'+esc((done()?'Holding · ':'At risk · ')+detail())+'</span></li>').join('');}
+// Read the reign, not the player: no personality diagnosis, hidden morality
+// score, or reward for opening this account. Evidence is the saved decision log
+// and the same obligations, resources and affinities that govern play.
+function assessReign(v){
+ const log=v.log||[];if(log.length<3)return [];
+ const entries=keys=>log.filter(l=>keys.includes(l.key)),last=keys=>entries(keys).at(-1);
+ const pardons=entries(['pardon']).length,sentences=entries(['execute']).length;
+ const heard=log.filter(l=>INQUIRIES[l.title]?.response.t===l.choice),observations=[];
+ const add=(title,text,evidence)=>observations.push({title,text,evidence:evidence?{title:evidence.title,choice:evidence.choice}:null});
+ if(sentences){
+  add('Justice & conscience','You ordered executions on '+sentences+' occasion'+(sentences===1?'':'s')+(pardons?' and offered pardons on '+pardons+'.':'.')+' The sentences ended those men’s claims; their surviving households remain part of the peace you must govern. '+(v.order<40?'Order is still weak. Severity has not secured obedience.':'The Crown must still make its peace worth keeping.'),last(['execute']));
+ }else if(pardons){
+  add('Justice & conscience','You offered pardons on '+pardons+' occasion'+(pardons===1?'':'s')+'. Former opponents keep a route into your peace. '+(v.order<40?'Order is still weak; mercy has left you work that a pardon alone cannot perform.':'Their surviving networks still carry influence. Their next service will test the terms you accepted.'),last(['pardon']));
+ }else if(heard.length){
+  add('Justice & conscience','On '+heard.length+' occasion'+(heard.length===1?'':'s')+', testimony changed the answer you gave. The person you heard acquired a concrete decision to hold the household to.',heard.at(-1));
+ }else if(entries(['investigate','council','joint']).length){
+  add('Justice & conscience','You have required claims to pass through inquiry or witnesses. Those heard gain a place in the record; anyone waiting for redress must also bear the delay.',last(['investigate','council','joint']));
+ }
+ let means;
+ if(v.broken)means=v.broken+' promises have broken down; '+v.open+' still await fulfilment. Earlier assurances now weigh on order as well as on the Crown’s credit.';
+ else if(v.open)means=v.open+' promises still await fulfilment. You have bought room to act by leaving claims on future service and income.';
+ else if(v.realm.debt>v.realm.coin)means='Debt exceeds the available reserve. The household has '+Math.round(v.realm.coin)+' in reserve against '+Math.round(v.realm.debt)+' of debt. Current service is borrowing from the next settlement.';
+ else if(v.realm.credit<40)means='Royal credit stands at '+Math.round(v.realm.credit)+'. Men asked to advance money or provisions have reason to ask for security beyond your word.';
+ else means='No promises are currently overdue in the record. Reserve stands at '+Math.round(v.realm.coin)+', with '+Math.round(v.realm.debt)+' of debt. '+(v.realm.readiness<45?'The army’s preparation is weak; keeping accounts has not kept the fighting men ready.':'The test now is whether these means can sustain the service you have requested.');
+ add('Means & consequences',means,last(['promise','defer','settle','pay','mobilize','land'])||log.at(-1));
+ const patrons=['queen','warwick','commission','hastings','gloucester','clarence'],direct=['direct','assert','mobilize','pursue'],witnesses=['joint','council','investigate','faith'];
+ const delegated=entries(patrons).length,commanded=entries(direct).length,witnessed=entries(witnesses).length;
+ if(delegated>Math.max(commanded,witnessed)){
+  const names={crown:'the royal household',neville:'the Neville affinity',queen:'the queen’s household',brothers:'the royal brothers',lancastrian:'the Lancastrian cause'},lead=Object.keys(v.factions).sort((a,b)=>v.factions[b]-v.factions[a])[0];
+  add('The craft of rule','You have repeatedly placed work with named patrons. They acquire clients as they carry your orders. At present '+names[lead]+' has the greatest reach; '+(lead==='crown'?'your household can still mediate from strength.':'your own household must negotiate with that influence.'),last(patrons));
+ }else if(commanded>witnessed){
+  add('The craft of rule','You have repeatedly made royal command the answer. Authority now stands at '+Math.round(v.authority)+' and order at '+Math.round(v.order)+'. '+(v.authority-v.order>12?'Your ability to issue an order exceeds the obedience that follows it.':'The consequences of those orders return directly to you.'),last(direct));
+ }else if(witnessed){
+  add('The craft of rule','You have repeatedly used witnesses, inquiry or shared obligations. These decisions bring other people into the settlement; they also give those people grounds to hold you to its terms.',last(witnesses));
+ }else{
+  add('The craft of rule','The record has not yet settled into a repeated way of governing. Your latest answer will be judged beside the obligations that follow it.',log.at(-1));
+ }
+ return observations;
+}
+function paintAssessment(id){
+ const box=$(id),observations=assessReign(S);
+ box.innerHTML=observations.length?observations.map(o=>'<article><h3>'+esc(o.title)+'</h3><p>'+esc(o.text)+'</p>'+(o.evidence?'<p class="assessment-evidence">'+esc(o.evidence.title)+' · “'+esc(o.evidence.choice)+'”</p>':'')+'</article>').join(''):'<p class="small">A few more audiences will give the record enough to judge.</p>';
+}
 function paintDepth(c){
  text('currentCharge',c.thread?THREADS.find(t=>t.id===c.thread).brief:ACTS[S.cycle].goal);
  text('threadLabel',c.thread?'Living story · '+c.part+' / 4':'The king’s audience');
@@ -210,7 +260,7 @@ function paintDepth(c){
  $('generalObjectives').innerHTML=objectiveMarkup(GENERAL_OBJECTIVES);
  $('actObjectives').innerHTML=objectiveMarkup(ACT_OBJECTIVES[S.cycle]);
  $('reignTimeline').innerHTML=ACTS.map((a,i)=>'<li class="'+(i===S.cycle?'current':'')+'"><b>'+esc(a.years)+'</b><span>'+esc(a.title)+(i===S.cycle?' · '+(S.n+1)+' / '+actLength():'')+'</span></li>').join('');
- const last=S.log.filter(l=>l.person==='gloucester').at(-1);text('richardRecord',last?'Richard remembers: '+last.choice:'Richard’s household and responsibilities change with his age.');
+ paintAssessment('reignAssessment');
  const route=S.flags['thread:road'];text('routeMemory',route===0?'Your first progress used the provisioned road.':route===1?'Your first progress passed former enemy villages.':'Your household has not yet set its first route.');
  paintRegions();
  if(S.journey)paintJourney();

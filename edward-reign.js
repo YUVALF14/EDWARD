@@ -8,7 +8,7 @@ const INQUIRIES={
  'At the roadside cross':{id:'roadside',name:'A woman from the village',role:'Among those who brought the bread',text:'“We brought what we could spare. My eldest is under the earth at Towton; my youngest still asks when the soldiers will leave the road. We have no oath ready, sire. We have bread.”',response:{k:'bounded',t:'Ask what the village needs before the household rides on',d:'Hear the immediate need and make a small provision from the royal stores.',effect:{north:2,coin:-1},result:'The village names its need plainly. A little provision goes ahead of the royal household.'}},
  'A wheel in the mud':{id:'farmer',name:'The farmer with the oxen',role:'A tenant on the road',text:'“They took the team last summer and called it service. The oxen came back thin; the promise of payment did not. I will lend them, my lord, if your clerk writes what is owed.”',response:{k:'pay',t:'Hire the oxen and have the clerk witness the price',d:'Pay for the delay and leave the farmer with an enforceable account.',effect:{coin:-1,north:2,readiness:1},result:'The farmer lends the team against a witnessed price. The baggage moves, and the household leaves an account behind.'}},
  'The king’s supper':{id:'lower-table',name:'A kitchen boy',role:'Serving the lower tables',text:'“The high table has not yet been served, sire. The men below have been waiting since the gates opened. There is bread enough if the first trenchers go down now.”',response:{k:'pay',t:'Send bread to the waiting tables before the next course',d:'Spend from the household reserve; servants see whose hunger the king noticed.',effect:{coin:-1,credit:2},result:'Bread reaches the lower tables before another course is sent upstairs.'}},
- 'Protection at the market':{id:'toll-keeper',name:'The toll keeper',role:'The man struck beneath the royal badge',text:'“I asked the king’s man for the lawful toll. He answered that the sun on his sleeve had already paid it. When I disputed him, he struck me. I want the fee and an answer for the blow.”',response:{k:'investigate',t:'Hear the keeper’s claim beside the badge-bearer’s',d:'Let neither royal livery nor local office settle the testimony alone.',effect:{credit:2,north:1},result:'The keeper’s account enters the same record as the badge-bearer’s. Neither man is dismissed unheard.'}},
+ 'Protection at the market':{id:'toll-keeper',name:'The toll keeper',role:'The man struck beneath the royal badge',replaces:'commission',text:'“I asked the king’s man for the lawful toll. He answered that the sun on his sleeve had already paid it. When I disputed him, he struck me. I want the fee and an answer for the blow.”',response:{k:'investigate',t:'Hear the keeper’s claim beside the badge-bearer’s',d:'Let neither royal livery nor local office settle the testimony alone.',effect:{credit:2,north:1},result:'The keeper’s account enters the same record as the badge-bearer’s. Neither man is dismissed unheard.'}},
  'A widow’s petition':{id:'widow',name:'The petitioner herself',role:'A widow seeking redress',text:'“The steward says my husband’s holding is forfeit. His men took the seed before the court heard my claim. I ask you to keep them from taking the next sowing.”',response:{k:'council',t:'Stay the seizure until her claim is heard',d:'Give the widow time to bring witnesses; the estate yields no immediate revenue.',effect:{midlands:2,coin:-1},result:'The seizure pauses until the widow’s witnesses are heard. Her case has a date, not merely a promise.'}},
  'A crowd that will not disperse':{id:'gathering',name:'A woman from one of the gathered households',role:'Travelling with the northern gathering',text:'“My husband followed the captain because the collector took our grain twice. I brought our children and the last sack. We came together; we did not come to burn the town.”',response:{k:'pardon',t:'Offer safe return to the households before judging their captains',d:'Separate frightened families from the armed men directing the gathering.',effect:{north:3,credit:1},result:'The families are offered a safe road home. Their captains must answer for the armed gathering separately.'}},
  'A shipmaster reads the terms':{id:'shipmaster',name:'The shipmaster',role:'A master asked to carry Edward’s company',text:'“I can put men aboard, sire. I cannot feed them on the word of a crown in exile. Name who pays if you do not reach England, and I can tell you which vessel I can risk.”',response:{k:'bounded',t:'Name a limited guarantee and sail with a smaller company',d:'Accept a smaller crossing backed by people who know the risk.',effect:{channel:2,credit:2,readiness:1},result:'The shipmaster accepts a smaller company under named guarantees. His risk has a limit and an answerable name.'}},
@@ -21,7 +21,13 @@ const S=fresh();let started=false,choosing=false,activeView='audience',saveError
 function text(id,v){$(id).textContent=v;}
 function scene(){
  const c=depthScene(campaignScenes()[S.n]),q=INQUIRIES[c.title];
- if(q&&S.flags['heard:'+q.id])c.choices.push({...q.response,heardFrom:q.name});
+ // A scene is read by rendering, profiles, documents and validation. Never
+ // append into the authored deck's shared choices array.
+ c.choices=c.choices.map(o=>({...o}));
+ if(q&&S.flags['heard:'+q.id]){
+  const answer={...q.response,heardFrom:q.name},i=c.choices.findIndex(o=>o.k===(q.replaces||answer.k));
+  if(i>=0)c.choices[i]=answer;else c.choices.push(answer);
+ }
  return c;
 }
 
@@ -88,7 +94,7 @@ function validDocumentHistory(v){
 function dateLabel(date){const y=Math.floor(date/10000),m=Math.floor(date/100)%100;return ['Winter','Winter','Spring','Spring','Spring','Summer','Summer','Summer','Autumn','Autumn','Autumn','Winter'][m-1]+' '+y;}
 function roman(i){return ['I','II','III','IV','V','VI','VII'][i];}
 function portrait(p,small=false){
- const young=(p.id==='gloucester'&&S.date<14690101)||(p.id==='clarence'&&S.date<14650101);
+ const young=(p.id==='gloucester'&&p.age<13)||(p.id==='clarence'&&S.date<14650101);
  let art=p.portrait,cell=p.portraitCell,sheet=p.portraitSheet;
  if(young){art='young-brothers';cell=[p.id==='gloucester'?0:768,0,768,1024];sheet=[1536,1024];}
  if(cell)return '<svg class="portrait-atlas" viewBox="'+cell.join(' ')+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><image href="assets/art/portraits/'+art+'.webp" width="'+sheet[0]+'" height="'+sheet[1]+'"/></svg>';
@@ -253,7 +259,7 @@ async function choose(index){
 function focusAudience(){setView('audience');$('heading').focus({preventScroll:true});if(matchMedia('(max-width:800px)').matches)$('audience').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}
 function makeRecap(){const completed=actLength(),recent=S.log.slice(-completed),keys=['authority','order','succession'],labels={authority:'authority',order:'order',succession:'succession'};
  const shifts=keys.map(k=>({k,d:S[k]-S.actStart[k]})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));const shift=shifts[0],trend=Math.abs(shift.d)<3?'The Crown’s position remains closely balanced.':'Your '+labels[shift.k]+' has '+(shift.d>0?'strengthened':'weakened')+' through this period.';
- const key=recent.filter(x=>['queen','warwick','hastings','gloucester','clarence','execute','promise'].includes(x.key)).at(-1);const stories=loopThreadCount(S);return 'This loop closes after '+completed+' audiences. '+trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(S.open?' '+S.open+' promises still await fulfilment.':'')+' The next loop will draw '+stories+' connected stories from the tensions and loyalties you leave behind.';
+ const key=recent.filter(x=>['queen','warwick','hastings','gloucester','clarence','execute','promise'].includes(x.key)).at(-1),means=assessReign(S).find(o=>o.title==='Means & consequences');return trend+' '+(key?'The court remembers: “'+key.choice+'.”':'The obligations you accepted carry into the next court.')+(means?' '+means.text:'');
 }
 function showAct(recap=''){const a=ACTS[S.cycle];paintIllustration('actArt',a.art,a.artAlt);$('actBanner').hidden=!!a.art;text('actEyebrow','COURT LOOP '+roman(S.cycle)+' · '+a.years);text('actTitle',a.title);text('actIntro',a.intro);text('actGoal',a.goal);text('actRecap',recap);$('actRecap').hidden=!recap;$('actChanges').innerHTML=a.changes.map(s=>'<li>'+esc(s)+'</li>').join('');const saved=getSaved();text('actSaveStatus',saveError?'Saving is unavailable. Keep this page open to continue.':saved?.cycle===S.cycle?'This audience is saved.':'Save this loop’s opening before entering.');openDialog('actDialog');CourtAudio.setMood(a.tone);}
 let storyQueue=[];
@@ -261,7 +267,7 @@ function showStories(events){storyQueue=events.map(e=>({...e}));paintStory();ope
 function paintStory(){const c=storyQueue[0];paintIllustration('storyArt',c.art,c.artAlt);CourtAudio.setMood(ACTS[S.cycle].tone);CourtAudio.world(c.worldSound,'story:'+c.title);text('storyDate',c.date);text('storyTitle',c.title);text('storyText',c.text);$('storyNext').textContent=storyQueue.length>1?'Continue':'Return to the audience';$('storyNote').hidden=!c.history;$('storyNote').onclick=()=>openHistory(c.history);}
 function openDialog(id,sound=true){const dialog=$(id);dialog.returnFocus=document.activeElement;dialog.showModal();if(sound)CourtAudio.ui('open');}
 function closeDialog(id,sound=true){$(id).close();if(!sound)return;if(id==='documentDialog')CourtAudio.paper();else CourtAudio.ui('close');}
-function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);text('profileText',p.bio);let standing=p.status;
+function openProfile(id){const p=personAt(id);$('profileEmblem').innerHTML=portrait(p);text('profileOffice',p.office);text('profileName',p.name);const memory=id==='gloucester'?S.log.filter(l=>l.person===id).at(-1):null;text('profileText',p.bio+(memory?' Your last charge to Richard: “'+memory.choice+'” ('+dateLabel(memory.date)+').':''));let standing=p.status;
  const key={warwick:'warwick',elizabeth:'woodville',hastings:'hastings',gloucester:'gloucester',clarence:'clarence'}[id];if(key&&p.alive&&!(id==='elizabeth'&&S.date<14640515)&&!(id==='gloucester'&&S.date<14690101))standing+=' · '+relation(S[key]);text('profileStanding',standing);paintConversation(id);openDialog('personDialog');}
 function paintConversation(id){
  const c=conversationAt(id,S,courtLocation(scene())),box=$('profileConversation');box.dataset.person=id;
@@ -328,10 +334,17 @@ function finish(){CourtAudio.stopWorld();
  const style=S.harsh>=5?'A king whose commands carried fear.':S.broken>=4?'A king whose promises outgrew their means.':signatures[0][1];
  text('signature',style+' '+labels[lead]+' held the greatest reach at the close.');text('endLegacy',S.flags.escaped?'You escaped confinement through a household you had helped to build. The return has given that service a lasting claim.':S.open?'The crown is restored. '+S.open+' promises still wait to be fulfilled. A second reign begins with the obligations of the first.':'The crown is restored. The loyalties you cultivated will now have to sustain its peace. A second reign begins.');
  if(!dead&&!deposed)text('endLegacy',depthEnding());
+ paintAssessment('endAssessment');
  $('endRecord').innerHTML=S.log.slice(-5).map(l=>'<li><b>'+esc(l.title)+'</b><span>'+esc(l.choice)+'</span></li>').join('');CourtAudio.setMood('reflection');$('endTitle').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});
 }
 document.querySelectorAll('[data-view-button]').forEach(b=>b.onclick=()=>{CourtAudio.ui('tab');setView(b.dataset.viewButton);});
-document.addEventListener('click',e=>{if(e.target.closest('summary'))CourtAudio.ui('inspect');});
+// Explicit handlers choose richer cues. A single fallback covers every other
+// enabled button, including start/resume and settings, without double sounds.
+document.addEventListener('click',e=>{
+ const control=e.target.closest('button,summary,[role="tab"]');if(!control||control.disabled)return;
+ const before=CourtAudio.getState().feedbackCount;
+ queueMicrotask(()=>{if(CourtAudio.getState().feedbackCount===before)CourtAudio.ui(control.matches('summary')?'inspect':'tap');});
+},true);
 document.querySelector('[role=tablist]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const views=['audience','realm','court'],i=views.indexOf(activeView);CourtAudio.ui('tab');setView(views[(i+(e.key==='ArrowRight'?1:2))%3]);document.querySelector('[aria-selected=true]').focus();});
 document.addEventListener('keydown',e=>{if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||document.querySelector('dialog[open]')||$('gameWrap').hidden||S.ended)return;if(/^[123]$/.test(e.key)&&!['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))choose(Number(e.key)-1);});
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{if(d.returnFocus?.isConnected&&!d.returnFocus.closest('[hidden]'))d.returnFocus.focus({preventScroll:true});}));

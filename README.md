@@ -18,7 +18,7 @@ The campaign has a **272-scene reserve**: 80 historical audiences and forty-eigh
 
 Under The realm, general and act objectives sit beside reserve, debt, credit, readiness and information. A ledger explains changes; monthly upkeep and ageing intelligence prevent measures from simply accumulating. Selected choices require established credit, information or preparedness. Open the larger map for continental orientation; regional panels distinguish France, Calais and the Burgundian lands from the English Crown’s reach.
 
-The score holds an arrangement across an act. Changes wait for a phrase boundary; card rendering, stories and papers do not stop scheduled notes or restart a phrase. Existing recorded acoustic samples and credits are retained. See [HISTORICAL_DEPTH.md](HISTORICAL_DEPTH.md) for sources, reconstruction boundaries and system definitions.
+The continuous licensed harp composition “Enchanted Journey” by Kevin MacLeod plays across audiences and correspondence. Recorded harp strings provide button feedback; interface sounds and music have independent controls. See [HISTORICAL_DEPTH.md](HISTORICAL_DEPTH.md) for sources, reconstruction boundaries and system definitions.
 
 ## Additional faces, scene plates and recorded war cues
 
@@ -31,25 +31,21 @@ Audio sources are artisticdude’s RPG Sound Pack and Battle Sound Effects (Open
 ## Controls and saves
 
 - Choose a response by button, or use number keys 1–3. The audience count is intentionally hidden; follow the dates, people and unfolding events.
-- On touch screens, swipe the card or the small seal left for response 1 or right for response 2. Vertical scrolling remains free. Every response is also available as a button.
-- Tap a speaker or court portrait for a short profile. Underlined historical references open a brief source-backed note.
+- On touch screens, choose with the answer buttons. Vertical scrolling remains free.
+- Tap a court portrait for a dated personal exchange or correspondence, and an expandable profile. Underlined historical references open a brief source-backed note.
 - On mobile, Audience, The realm and The court keep secondary information accessible.
 - Letters and papers arrive within existing audiences. Open them without making a decision; revisit their received wording under The household record. Replies use the audience choices.
 - The reign autosaves after each decision and completed initiative. Manual save is also available during an audience; loading returns to the most recently saved audience. Saves are local to the browser. The expanded campaign uses a separate version-4 key; earlier version-3 act saves remain untouched and are not silently converted to different scene indices.
-- Music is opt-in. Real acoustic harp, recorder, frame-drum and woodblock recordings supply the score and interface sounds. Five original modal arrangements use a steadier pulse and phrase-boundary changes. The arrangement holds through ordinary card changes. Settings include music volume and interface sound control.
+- Music starts from the first permitted player gesture. Settings include music volume and independent interface sound control. The score streams from the composer’s official site under CC BY 4.0; local CC0 harp samples supply button feedback.
 
 ## Build and verify
 
-The site is static HTML, CSS and JavaScript, with self-hosted images, font and acoustic recordings. It needs no runtime package installation or third-party service.
+The site is static HTML, CSS and JavaScript, with self-hosted images, font and interface recordings. It needs no runtime package installation. The continuous score requires a network connection to its credited official source.
 
 ```sh
+npm ci
 python build.py
-node test_release.js
-node test_release_browser.cjs
-node test_living_documents.js
-node test_living_documents_browser.cjs
-node test_depth.js
-node test_depth_browser.cjs
+npm test
 ```
 
 The browser check requires Playwright and Chromium. Set `CHROMIUM_EXECUTABLE` to use an installed browser and `EDWARD_TEST_URL` to test the deployed build. `EDWARD_SCREENSHOTS` selects the screenshot directory. `build.py` validates the runtime files, copies `edward-loop-demo.html` to `index.html`, and writes the SHA-256 release manifest.

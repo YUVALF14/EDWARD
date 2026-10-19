@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.10.0 \u00b7 conversations and a continuous harp score",
+  "release": "EDWARD IV \u2014 The Living Court 1.10.1 \u00b7 a court that remembers and judges the reign",
   "entry": "index.html",
   "assets": [
     {
@@ -16,6 +16,11 @@
       "path": "assets/art/portraits/bourchier.webp",
       "bytes": 29602,
       "sha256": "10646106f84ba7da597adc91b5f4f00a90661987f3cb8e6041e0e376cedd6974"
+    },
+    {
+      "path": "assets/art/portraits/burgundy.webp",
+      "bytes": 37788,
+      "sha256": "c7cc89bca9d58625f87ec93215426663a2401e82085dfdd62d320c901f012046"
     },
     {
       "path": "assets/art/portraits/cecily.webp",
@@ -68,9 +73,24 @@
       "sha256": "fd2edaf14c98625b039cfd239a712cde71b79e7e9f4ecca336188e6a368e52e0"
     },
     {
+      "path": "assets/art/portraits/louis.webp",
+      "bytes": 30040,
+      "sha256": "7c68b9b6133cebeebce8c0a08d861f893e08af1cf91cae2ad81e8da409b267ea"
+    },
+    {
       "path": "assets/art/portraits/margaret-york.webp",
       "bytes": 83850,
       "sha256": "3b5eecba776fd88329cef10250a79f8420ebc22e0b0508baae6a2c562246091d"
+    },
+    {
+      "path": "assets/art/portraits/margaret.webp",
+      "bytes": 35116,
+      "sha256": "b1aef7fe9e1f90ba7849bf30f8b968b19384ede7b96d10de0c87406435e4a130"
+    },
+    {
+      "path": "assets/art/portraits/montagu.webp",
+      "bytes": 31786,
+      "sha256": "11e01d967a3ab239dcff34ffe9f79bfaa26c99fb8e2893e7c9a8987d1842cf87"
     },
     {
       "path": "assets/art/portraits/warwick.webp",
@@ -199,18 +219,18 @@
     },
     {
       "path": "edward-acoustic.js",
-      "bytes": 7873,
-      "sha256": "ea586454f60c5877a8d53a05c323cd334cd64269d92dd5688ad86497c74febcc"
+      "bytes": 8146,
+      "sha256": "59d240f1bdb246aee902c8d06e0463c9367c3bfd8351a6b490bbdc720ed87d97"
     },
     {
       "path": "edward-conversations.js",
-      "bytes": 25719,
-      "sha256": "590159f24229f46c81c926a45316a16c8feaf6a97e92ecc5dde10feea680b137"
+      "bytes": 31954,
+      "sha256": "ca6fb169235fd4a6c8c66809cb93c10d2b7129ffc443b019c48248daa2f75f02"
     },
     {
       "path": "edward-court.js",
-      "bytes": 17003,
-      "sha256": "2d92f10aa987a85375e6c4c02adbb26306455de77e5f815a86261232ba25f13c"
+      "bytes": 19691,
+      "sha256": "43c89c1603dcb761728a526dce4c77a5fb82730a812233ff2ddd7a13b19611cc"
     },
     {
       "path": "edward-depth-data.js",
@@ -219,13 +239,13 @@
     },
     {
       "path": "edward-depth.js",
-      "bytes": 26744,
-      "sha256": "202a03dae71b4b8cb8d61a6c3aa4b5a8d97a09558bcbf58d3a7bca50a0363b33"
+      "bytes": 33301,
+      "sha256": "eb129db873d1249ddc3e4f04db302ee84f3e51304adc843e541baff187a33941"
     },
     {
       "path": "edward-loop-demo.html",
-      "bytes": 67198,
-      "sha256": "ce7e4f1b42c1750f212d210ab1292e1bb89a9b66ae24a3148116a722a0ca13c5"
+      "bytes": 67356,
+      "sha256": "24b3e6f9f5a1351de3d2c20dffa616aacce72052acdff74fce769ea4c9596b53"
     },
     {
       "path": "edward-reign-data.js",
@@ -234,18 +254,18 @@
     },
     {
       "path": "edward-reign.css",
-      "bytes": 38198,
-      "sha256": "5eb9f52541ace955afaeb4fe0e30cd5b7436183881fd800ff110f043b39a8cab"
+      "bytes": 38779,
+      "sha256": "0795c270e3f5ab12478365b8f63e07afb48e30611dd9f557780c2cd02ee55835"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 47653,
-      "sha256": "afae5b2e25a09cdce17535899369b134f9891ca0a2b880d6d5dc22affb530792"
+      "bytes": 48395,
+      "sha256": "a8341406fbfa5a67b3c86327f567065c431264747945c335bd9e91a3965609c0"
     },
     {
       "path": "index.html",
-      "bytes": 67198,
-      "sha256": "ce7e4f1b42c1750f212d210ab1292e1bb89a9b66ae24a3148116a722a0ca13c5"
+      "bytes": 67356,
+      "sha256": "24b3e6f9f5a1351de3d2c20dffa616aacce72052acdff74fce769ea4c9596b53"
     }
   ]
 }

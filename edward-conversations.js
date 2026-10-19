@@ -74,13 +74,20 @@ const COURT_TALKS=[
   courtBeat('I cannot promise never to resent you. I can answer for what I do.',[
    courtReply('Then begin with the men who followed you.','He names them individually. Reconciliation acquires people and obligations.',{clarence:1}),
    courtReply('Tonight I would rather have my brother at supper.','He agrees, awkwardly. Supper settles nothing, but it happens.')])]),
- courtTalk('richard-child','gloucester',14610101,14690101,'What the boy notices','Richard has a book open, though he has been listening to the men outside.',[
+ courtTalk('richard-child','gloucester',14610101,14651002,'What the boy notices','Richard has a book open, though he has been listening to the men outside.',[
   courtBeat('The captain says the horse belongs to the king. The groom says it belongs to him until somebody feeds it. Which one is right?',[
    courtReply('The groom, until somebody feeds it.','Richard smiles as though you have confirmed a suspicion he did not dare voice.'),
    courtReply('Both. That is why they are arguing.','He considers that answer, then asks whether it helps the horse.')]),
   courtBeat('Will you come and see the new foal? George says you will be too busy.',[
    courtReply('Show me.','He shuts the book carefully, marking his place before he runs ahead.'),
    courtReply('Tell me about it while I finish this letter.','He does, with surprising precision. You have to ask him twice about the colour.')])]),
+ courtTalk('richard-learning','gloucester',14651002,14690101,'Waiting to be useful','Richard has stayed after the older men have left. He has a question he would not ask in front of them.',[
+  courtBeat('They tell me to listen. When I ask how an order is carried out, they tell me to wait until I have a command.',[
+   courtReply('Sit with the clerk who has to write it.','He asks which clerk, and whether the man will be told he may correct him.',{}, {'personal:richardLearning':1}),
+   courtReply('Come with me when the officers report.','He is pleased, then tries to conceal it. He asks if he may question them afterwards.',{}, {'personal:richardLearning':2})]),
+  courtBeat('George says you trust me because I make fewer demands. I do have demands. I am slower at saying them.',[
+   courtReply('Then take your time. I am listening.','He begins with a small request for his own attendant. The speech he prepared is soon forgotten.'),
+   courtReply('Write them down if that is easier.','He says that will make them look like a petition. After a pause, he asks for paper.')])]),
  courtTalk('richard-command','gloucester',14690101,14830101,'A name beneath the order','Richard has been checking an account himself. The clerk has corrected two of his figures.',[
   courtBeat('Hastings says I should let the clerks earn their wages. I think he means I should let them tell me when I am wrong.',[
    courtReply('He has had plenty of practice with me.','Richard’s smile is brief, but unguarded.',{gloucester:1}),
@@ -152,6 +159,34 @@ const COURT_TALKS=[
   courtBeat('Leave me someone who will answer a plain question plainly.',[
    courtReply('Name a chaplain and a keeper responsible for his care.','The officers receive their duties in writing. Kindness now has people who must carry it out.',{}, {'personal:henryCare':1}),
    courtReply('Keep his care within the existing watch.','The keeper remains answerable for the room, the food and what news is allowed through.',{}, {'personal:henryCare':2})])]),
+ courtTalk('french-security','louis',14610722,14710523,'What the seal promises','A French secretary’s packet offers a channel for correspondence. The words attributed to Louis have passed through his officers.',[
+  courtBeat('My merchants ask whether their goods will reach the other shore. Your lords ask what I intend. I can answer the merchants more precisely.',[
+   courtReply('Begin with safe conduct for merchants and their goods.','The secretary returns a narrow draft with named ports. A small agreement can be checked.',{}, {'personal:frenchTerms':1}),
+   courtReply('First name the Englishmen with whom your court is negotiating.','The answer gives offices, not confidences. Louis has kept the channel open and the names to himself.',{}, {'personal:frenchTerms':2})]),
+  courtBeat('A letter may reach a king before his ministers have decided whether he ought to receive it.',[
+   courtReply('Keep a named messenger on this route.','The secretary asks who will meet him and who may break the seal. The channel now depends on particular servants.'),
+   courtReply('Let the formal embassy carry the answer.','The packet returns through the embassy. More people see the terms; fewer can claim a private understanding.')])]),
+ courtTalk('burgundy-security','burgundy',14670615,14710523,'His own inheritance','A Burgundian officer carries Charles’s answer. Ceremony surrounds a practical question about ships, credit and security.',[
+  courtBeat('A merchant who lends to an English king still has to answer to his partners. My favour cannot make his losses disappear.',[
+   courtReply('Name what security your merchants would accept.','The next sheet separates a private loan from a ducal undertaking. Charles has made no gift of his treasury.',{}, {'personal:burgundySecurity':1}),
+   courtReply('Ask what your friendship is worth in practical aid.','The officer returns a carefully limited offer. Charles wishes to be seen helping on terms he can defend.',{}, {'personal:burgundySecurity':2})]),
+  courtBeat('I have a daughter whose inheritance must survive my quarrels. You will understand why I cannot spend every advantage on yours.',[
+   courtReply('Then let us agree where our interests meet.','The answer is shorter and more useful. His family’s future remains his responsibility.'),
+   courtReply('A useful ally must sometimes accept a risk.','The officer copies that sentence accurately. The next reply asks what risk Edward will accept in return.')])]),
+ courtTalk('montagu-service','montagu',14610401,14700929,'A brother’s own men','John Neville’s letter comes from his own household. Warwick has neither signed it nor sent an explanation.',[
+  courtBeat('My brother will tell you what the North requires. I can tell you which men are still waiting for the wages of the last requirement.',[
+   courtReply('Send their names and the sums still owed.','He supplies a short account. These men now have a claim in their own names, beyond Warwick’s general request.',{}, {'personal:montaguNames':1}),
+   courtReply('Let Warwick bring both accounts together.','John agrees to send the papers. At the foot of the page he asks that his own signature remain on them.',{}, {'personal:montaguNames':2})]),
+  courtBeat('When my children hear of service, they hear of honour. My steward hears of another winter’s provision.',[
+   courtReply('Tell me what your household can actually sustain.','He gives a smaller figure than the one expected of his name. It is a useful answer and an uncomfortable one.'),
+   courtReply('I need the strength already promised.','He does not withdraw the promise. His next letter gives you the costs beside it.')])]),
+ courtTalk('anjou-households','margaretAnjou',14610401,14710504,'The people she carries','An intermediary brings a message from Margaret’s party. He can carry an answer about dependants; he has no authority to settle the crown.',[
+  courtBeat('There are women and children travelling under names your officers call treason. A child does not choose the badge on his father’s sleeve.',[
+   courtReply('Offer named dependants safe conduct without an oath.','The intermediary asks for the names of the officers who must honour it. Margaret’s people will judge the passage, not the courtesy of your answer.',{}, {'personal:anjouHouseholds':1}),
+   courtReply('Ask for the names before offering any passage.','A guarded list returns. Several families do not wish their whereabouts entered in a Yorkist account.',{}, {'personal:anjouHouseholds':2})]),
+  courtBeat('Do not ask me to call my son’s inheritance a favour in your gift.',[
+   courtReply('Keep the question of passage separate from his claim.','Her answer accepts the distinction for this business. Her son’s claim remains exactly where it was.'),
+   courtReply('There will be no settlement without recognition of my crown.','The intermediary can take that answer back. He cannot bring you her submission.')])]),
  courtTalk('henry-lastnews','henry',14710504,14710522,'News no one brings','After Tewkesbury, the keeper’s report is brief. Henry’s son is dead. The men at the door are waiting for someone else to carry the news.',[
   courtBeat('He has asked again. Each officer thinks the telling belongs to another man.',[
    courtReply('Have the chaplain tell him, and remain with him.','The order names who must stay after the words are spoken. The report that returns is about a father, not a claimant.',{}, {'personal:henryTruth':1}),
@@ -179,6 +214,7 @@ function conversationAt(id,v,place=''){
  if(id==='henry'&&c.id!=='henry-captive'&&f['personal:henryBooks']===1)memory='The keeper still lists the repaired service book among Henry’s few possessions.';
  if(id==='elizabeth'&&c.id==='elizabeth-return'&&f['talk:elizabeth-sanctuary:0'])memory='One of the letters you sent into sanctuary has been kept with her papers.';
  if(id==='gloucester'&&c.id==='richard-command'&&f['talk:richard-child:0'])memory='For a moment you remember the boy who asked who would feed the king’s horse.';
+ if(id==='gloucester'&&c.id==='richard-command'&&f['personal:richardLearning'])memory='You remember the younger Richard asking how an order was actually carried out. He is now responsible for answers of his own.';
  return {...c,available:true,mode,prefix,stage,transcript,pending,complete:stage===c.beats.length,memory};
 }
 function answerConversation(id,index,v,place=''){
