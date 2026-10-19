@@ -1,5 +1,5 @@
 {
-  "release": "EDWARD IV \u2014 The Living Court 1.10.1 \u00b7 a court that remembers and judges the reign",
+  "release": "EDWARD IV \u2014 The Living Court 1.10.2 \u00b7 Edward answers; the court responds",
   "entry": "index.html",
   "assets": [
     {
@@ -245,27 +245,27 @@
     {
       "path": "edward-loop-demo.html",
       "bytes": 67356,
-      "sha256": "24b3e6f9f5a1351de3d2c20dffa616aacce72052acdff74fce769ea4c9596b53"
+      "sha256": "1094acc5684fecc5853ca9fac496e0f9dc15733b5e54e584f926798de38f54f7"
     },
     {
       "path": "edward-reign-data.js",
-      "bytes": 64727,
-      "sha256": "5406c5a2206653fbbae939986e7242f0cceb38b3f393202b9152a02132d5cced"
+      "bytes": 65133,
+      "sha256": "b2804c22f1a2102c04ae6a633b863f910842b8989979d94183c0d50b2ad6706f"
     },
     {
       "path": "edward-reign.css",
-      "bytes": 38779,
-      "sha256": "0795c270e3f5ab12478365b8f63e07afb48e30611dd9f557780c2cd02ee55835"
+      "bytes": 38595,
+      "sha256": "da079b63ef30a86bc840a2252fedc384410eb68534c9618d9606457a4b5dc08e"
     },
     {
       "path": "edward-reign.js",
-      "bytes": 48395,
-      "sha256": "a8341406fbfa5a67b3c86327f567065c431264747945c335bd9e91a3965609c0"
+      "bytes": 48265,
+      "sha256": "98a77986c11e3daf470aac1de524c96c2f3a49325e9d6b5d7236372254f5eba1"
     },
     {
       "path": "index.html",
       "bytes": 67356,
-      "sha256": "24b3e6f9f5a1351de3d2c20dffa616aacce72052acdff74fce769ea4c9596b53"
+      "sha256": "1094acc5684fecc5853ca9fac496e0f9dc15733b5e54e584f926798de38f54f7"
     }
   ]
 }

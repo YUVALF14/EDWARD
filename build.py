@@ -25,6 +25,6 @@ for p in sorted(required):
  if not (ROOT/p).is_file():raise SystemExit('Missing required release asset: '+p)
 (ROOT/'index.html').write_text(html)
 required.add('index.html')
-manifest={'release':'EDWARD IV — The Living Court 1.10.1 · a court that remembers and judges the reign','entry':'index.html','assets':[{'path':p,'bytes':(ROOT/p).stat().st_size,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sorted(required)]}
+manifest={'release':'EDWARD IV — The Living Court 1.10.2 · Edward answers; the court responds','entry':'index.html','assets':[{'path':p,'bytes':(ROOT/p).stat().st_size,'sha256':hashlib.sha256((ROOT/p).read_bytes()).hexdigest()} for p in sorted(required)]}
 (ROOT/'release-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 print('Built index.html; verified',len(required),'runtime assets;',sum(a['bytes'] for a in manifest['assets']),'bytes including opt-in audio.')
