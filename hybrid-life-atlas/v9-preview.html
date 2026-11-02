@@ -87,7 +87,7 @@
   const positions = { 'פראג':[215,82], 'ירושלים':[314,135], 'תל אביב':[308,131], 'וילנה':[256,43], 'בריסל':[132,69], 'וינה':[153,85], 'ברלין':[178,101], 'ניו יורק':[34,83], 'וושינגטון':[62,131] };
   const countries = {
     CZ:{name:'צ׳כיה',type:'parliamentary',chamber:'בית הנבחרים הצ׳כי',seats:200,baseline:2025,term:4,threshold:5,method:'PR',europeSeats:21,head:'נשיא',headRule:'direct',headYear:2028,headTerm:5,headMin:40,localYear:2026,localTerm:4,localSeats:65,localName:'מועצת פראג',issues:['דיור בר־השגה בפראג','תקציבי רשויות ותחבורה','תשתיות אנרגיה','מימון מוסדות תרבות'],2026:'9–10 באוקטובר 2026: הבחירות העירוניות והסנאטוריות כבר התקיימו. בפראג דנים כעת בחלוקת תפקידים ובתקציב הקואליציה המקומית. מקור: אתר הבחירות הצ׳כי.'},
-    IL:{name:'ישראל',type:'parliamentary',chamber:'הכנסת',seats:120,baseline:2026,term:4,threshold:3.25,method:'PR',europeSeats:0,head:'נשיא',headRule:'indirect',headYear:2028,headTerm:7,headMin:18,localYear:2024,localTerm:5,localSeats:31,localName:'מועצת העיר',issues:['ביטחון ומדיניות חוץ','יוקר מחיה ושוק הדיור','תקציב ושירותים ציבוריים','הסדרי גיוס ואמון מוסדי'],2026:'27 באוקטובר 2026: נערכו הבחירות לכנסת ה־26. לפי התוצאות שפורסמו עד 2 בנובמבר, גושי נתניהו ואיזנקוט קיבלו 53 ו־48 מושבים, והמפלגות הערביות 19. אף גוש לא השיג לבדו 61. תוצאות המשחק להלן חלופיות ובדיוניות.'},
+    IL:{name:'ישראל',type:'parliamentary',chamber:'הכנסת',seats:120,baseline:2026,term:4,threshold:3.25,method:'PR',europeSeats:0,head:'נשיא',headRule:'indirect',headYear:2028,headTerm:7,headMin:18,localYear:2024,localTerm:5,localSeats:31,localName:'מועצת העיר',issues:['ביטחון ומדיניות חוץ','יוקר מחיה ושוק הדיור','תקציב ושירותים ציבוריים','הסדרי גיוס ואמון מוסדי'],2026:'בזירת המשחק הישראלית מתקיימים מאבקי הרכבת ממשלה, ודרוש רוב של 61 מתוך 120. מערכות הבחירות והתוצאות באטלס בדיוניות ואינן דיווח חדשותי.'},
     LT:{name:'ליטא',type:'parliamentary',chamber:'הסיימאס',seats:141,baseline:2024,term:4,threshold:5,method:'MIXED',europeSeats:11,head:'נשיא',headRule:'direct',headYear:2029,headTerm:5,headMin:40,localYear:2027,localTerm:4,localSeats:51,localName:'מועצת וילנה',issues:['ביטחון הגבול המזרחי','אנרגיה וביטחון אספקה','הגירה וצעירים','יחסים עם האיחוד האירופי'],2026:'הסיימאס מכהן במחזור 2024–2028. מחלוקות ביטחוניות ותקציביות יכולות לפצל גם שותפות קואליציונית ותיקה.'},
     AT:{name:'אוסטריה',type:'parliamentary',chamber:'המועצה הלאומית (Nationalrat)',seats:183,baseline:2024,term:5,threshold:4,method:'PR',europeSeats:20,head:'נשיא פדרלי',headRule:'direct',headYear:2028,headTerm:6,headMin:35,localYear:2025,localTerm:5,localSeats:100,localName:'מועצת וינה',issues:['דיור עירוני ושכירות בווינה','תחבורה ציבורית ותקציב','קליטת מהגרים בשוק העבודה','תעשייה, אנרגיה ומדיניות ניטרליות'],2026:'אחרי הבחירות לעיריית וינה באפריל 2025, דנים בקואליציה העירונית ובתקציב התחבורה. המועצה הלאומית מונה 183 חברים והבחירות הארציות האחרונות נערכו ב־2024.'},
     BE:{name:'בלגיה',type:'parliamentary',chamber:'בית הנבחרים הבלגי',seats:150,baseline:2024,term:5,threshold:5,method:'PR',europeSeats:22,head:'מלך',headRule:'monarch',headYear:null,headTerm:null,localYear:2024,localTerm:6,localSeats:49,localName:'מועצת העיר בריסל',issues:['חלוקת סמכויות בין אזורים','פשרות בין קהילות שפה','תקציב ומסים','תחבורה ומדיניות עירונית'],2026:'בלגיה היא מונרכיה פדרלית שבה הממשלה מנהלת משא ומתן בין מפלגות, אזורים וקהילות שפה. תהליך הרכבת ממשלה עשוי להיות ממושך.'},
@@ -116,6 +116,10 @@
     ['party','הצטרף למפלגה או החלף מסגרת','בחר שיוך אידאולוגי ומסלול עבודה מפלגתי','party'],
     ['found','ייסד מפלגה חדשה','קבע שם, תפיסת עולם וחברי גרעין','party'],
     ['grass','ארגן סניפים ומתנדבים','בנה אחיזה מקומית לאורך כמה שנים','party'],
+    ['constituency','פתח לשכה ופגוש תושבים','דיור, תחבורה, שירותים וקשר רציף למחוז','party'],
+    ['platform','קבע מדיניות מפלגתית','בחר סוגיה, קח עמדה והגן עליה','party'],
+    ['rival','נהל משא ומתן עם אגף יריב','פשרה, מתיחות ומיקום ברשימה','party'],
+    ['comeback','ארגן קאמבק אחרי הפסד','הפק לקחים מהבחירות והכן מחזור חדש','party'],
     ['primary','התמודד על מקומך ברשימה','פריימריז, ועדת מינויים ומאבק על מיקום','party'],
     ['lead','התמודד על ראשות המפלגה','קבל את אמון הפעילים ואת המנגנון','party'],
     ['faction','נהל משבר סיעתי','פשרה עם אגפים רעיוניים מתחרים','party'],
@@ -249,9 +253,9 @@
   function changePhase(mode){phase=mode;render();if(mode==='result'){const el=$('result');if(el&&typeof el.scrollIntoView==='function')el.scrollIntoView({behavior:'auto',block:'start'})}}
   function outcome(title,story,juice,detail='',important=false,action=true){if(action)s.turns++;log(title,story,important?'major':'');$('result-title').textContent=title;$('result-story').textContent=story;$('result-juice').textContent=juice;$('result-details').textContent=detail;changePhase('result')}
   function menu(title,hint,items,fn){pending=fn;$('choice-title').textContent=title;$('choice-hint').textContent=hint;$('choice-list').innerHTML='';items.forEach(item=>{const b=document.createElement('button');b.type='button';b.className='action';const span=document.createElement('span');span.className='action-title';span.textContent=item.name;const desc=document.createElement('span');desc.className='action-sub';desc.textContent=item.desc||'';b.append(span,desc);b.addEventListener('click',()=>fn(item));$('choice-list').appendChild(b)});changePhase('choice')}
-  function firstAction(id){if(s.started)return;if(id==='political'){$('political-entry').classList.remove('hidden');$('political-city').value=$('start-city').value;$('political-entry').scrollIntoView({block:'start'});return;}s.started=true;tab=id==='party'?'party':'life';phase='play';if(id==='party')return choose('party');if(id==='business')return act('business',null);if(id==='community')return act('community',null);if(id==='policy')return act('policy',null);render()}
+  function firstAction(id){if(s.started)return;const filled=getSlots();if(validState(filled[activeSlot])){const free=filled.findIndex(x=>!validState(x));if(free<0){alert('כל שלוש הקריירות שמורות. בחר קריירה קיימת או ייצא אחת מהן.');return;}activeSlot=free;}if(id==='political'){$('political-entry').classList.remove('hidden');$('political-city').value=$('start-city').value;$('political-entry').scrollIntoView({block:'start'});return;}s.started=true;tab=id==='party'?'party':'life';phase='play';if(id==='party')return choose('party');if(id==='business')return act('business',null);if(id==='community')return act('community',null);if(id==='policy')return act('policy',null);render()}
   function startFromBlank(){s.started=true;phase='play';render()}
-  function beginPolitical(){const city=$('political-city').value,party=Number($('political-ideology').value),route=$('political-route').value;
+  function beginPolitical(){const slots=getSlots();if(validState(slots[activeSlot])){const free=slots.findIndex(x=>!validState(x));if(free<0){alert('כל משבצות השמירה מלאות. בחר קריירה קיימת או מחק משבצת אחרי גיבוי.');return;}activeSlot=free;}const city=$('political-city').value,party=Number($('political-ideology').value),route=$('political-route').value;
     $('start-city').value=city;initialize();s.started=true;s.party=party;s.partyHead=false;s.partyPolitics=1;
     s.partyTrust=whole(29+(route==='party'?14:route==='policy'?6:3));
     if(route==='local'){mod('org',12);mod('support',8)}else if(route==='policy'){mod('skill',16);mod('trust',6)}else{mod('links',12);mod('org',6)}
@@ -261,7 +265,7 @@
     phase='play';tab='party';$('political-entry').classList.add('hidden');render();$('action-region').scrollIntoView({block:'start'})
   }
   function available(id){if(!s.started||s.dead||s.turns>=4)return false;switch(id){
-    case 'primary':case 'lead':case 'faction':return s.party>=0 && (id!=='lead'||!s.partyHead);
+    case 'primary':case 'lead':case 'faction':case 'constituency':case 'platform':case 'rival':case 'comeback':return s.party>=0 && (id!=='lead'||!s.partyHead) && (id!=='comeback'||s.losses>0);
     case 'delegate':return s.firm>0&&!s.delegated;
     case 'business':return !s.office||s.delegated||s.office.type==='local';
     case 'nominate':return !s.campaign && (s.party>=0 || (context().headRule!=='monarch'&&s.age>=35)) && ((s.party>=0&&s.age>=(cityCountries[s.city]==='US'?25:18)&&electableYear('national')<=s.year+2) || (nextHead()!==null&&s.age>=context().headMin&&nextHead()<=s.year+2) || (s.age>=18&&electableYear('local')<=s.year+2) || (context().europeSeats>0&&s.party>=0&&s.age>=21&&nextEuropean()<=s.year+2));
@@ -284,6 +288,8 @@
     if(id==='found'){
       $('found-name').value='תנועת הגשרים';$('found-idea').value='centrist';changePhase('found');return;
     }
+    if(id==='platform')return menu('איזה נושא תשים במרכז?', 'הבחירה משנה את העבודה הציבורית ואת היחסים עם אגפים במפלגה; ההשלכות ייחשפו אחרי ההחלטה.',c.issues.map((issue,i)=>({name:issue,desc:i%2?'נושא בעל משמעויות תקציביות וארגוניות':'נושא שמעסיק בוחרים ופעילי מפלגה',value:issue})),it=>act(id,it.value));
+    if(id==='rival')return menu('איזו גישה לנקוט מול היריב הפנימי?', 'לשותף פוטנציאלי יש דרישות משלו. אתה בוחר כמה להיאבק וכמה להתפשר.',[{name:'הציע פשרה על סדר היום',desc:'חלוקה של אחריות ציבורית',value:'compromise'},{name:'דרוש הצבעה במוסדות המפלגה',desc:'התמודדות פתוחה על אמון החברים',value:'contest'},{name:'קיים משא ומתן שקט',desc:'חיזוק יחסים מאחורי הקלעים',value:'quiet'}],it=>act(id,it.value));
     if(id==='nominate'){
       const list=[];
       if(s.party>=0 && s.age>=(cityCountries[s.city]==='US'?25:18) && electableYear('national')<=s.year+2)list.push({name:'הפרלמנט הלאומי · '+electableYear('national'),desc:c.chamber+' · '+c.term+' שנות כהונה',value:'national',year:electableYear('national')});
@@ -341,6 +347,30 @@
     }else if(id==='grass'){
       const result=rand()<chance('org',43,s.partyTrust*.05);s.partyPolitics++;mod('org',result?11:7);mod('support',result?9:4);mod('partyTrust',result?7:3);mod('energy',-10);mod('stress',7);
       title=result?'הסניף הופך לתשתית':'הקמפיין המקומי מתקדם לאט';story=result?'שלושים פעילים מקבלים רשימת שכונות. בשיחת ערב אחד מהם אומר: ״בשנה שעברה היינו ארבעה.״ הופך להיות ברור שיש מי שמוכן לדפוק בדלתות גם בלעדיך.':'הכינוס ב'+env.cafe+' מושך פחות אנשים מכפי שקיווית. אבל מתנדבת אחת לוקחת על עצמה את רשימת הקשר ונותנת לפעילות סיכוי להימשך.';juice='בסיס בוחרים נבנה בעבודה חוזרת, לא רק בהופעה טובה אחת.';
+    }else if(id==='constituency'){
+      const issue=ctx.issues[(s.year+s.partyPolitics)%ctx.issues.length];
+      const success=rand()<chance('links',43,s.org*.05);
+      s.partyPolitics++;mod('org',success?8:4);mod('support',success?8:5);mod('energy',-8);mod('partyTrust',4);
+      title=success?'לשכת השטח מתמלאת פניות':'מפגש התושבים מתחיל בחדר כמעט ריק';
+      story=success?'אישה שממתינה כבר שעה מספרת על '+issue+'. פעילי הסניף מקימים צוות מעקב עם תאריך דיווח. מנהל הסניף מבקש שתציג את הפעילות בכינוס המחוזי.':'רק שישה תושבים מגיעים, אבל אחד מהם מביא תיק מסמכים על '+issue+'. בהמשך נפתחת קבוצת מתנדבים קטנה עם משימות ברורות.';
+      juice='בניית בסיס ציבורי היא גם היכולת לחזור לאנשים עם תשובה אחרי שהמצלמות הלכו.';
+    }else if(id==='platform'){
+      const success=rand()<chance('skill',49,s.partyTrust*.05);
+      s.flags.platform=choice;s.partyPolitics++;mod('skill',4);mod('trust',success?8:3);mod('partyFaction',success?4:-6);
+      title=success?'מצע חדש מקבל תמיכה בוועדת התוכן':'המצע מעורר התנגדות פנימית';
+      story=success?'אחרי שעתיים של תיקונים על '+choice+', יו״ר הוועדה מחייך: ״עכשיו זה נראה כמו תוכנית שאפשר להעביר בתקציב.״':'האגף הוותיק מתנגד למסמך שלך בנושא '+choice+'. נאום מרשים אינו מספיק: הוועדה דורשת מקור תקציבי והסכמה בין הסיעות הפנימיות.';
+      juice='תוכן פוליטי אינו קישוט לקמפיין: הוא מגביל את מה שאפשר להבטיח בשיחות קואליציוניות.';
+    }else if(id==='rival'){
+      s.partyPolitics++;mod('energy',-7);mod('stress',5);
+      if(choice==='compromise'){mod('partyFaction',13);mod('partyTrust',3);title='הושגה פשרה עם האגף היריב';story='בפגישה ארוכה הוסכם לחלק את האחריות על התוכנית הכלכלית. שני הצדדים מפרסמים הודעה משותפת, אף אחד לא קיבל את כל שרצה.';}
+      else if(choice==='contest'){const ok=rand()<chance('org',54,s.partyTrust*.07);mod('partyTrust',ok?11:-7);mod('partyFaction',ok?-5:-13);title=ok?'הצעתך התקבלה במועצת המפלגה':'המנגנון דוחה את יוזמתך';story=ok?'ההצבעה מסתיימת בהפרש קטן. את היריב צריך עדיין לפגוש מחר בישיבת הסיעה.':'מזכיר המפלגה מקריא את התוצאות. חלק מהפעילים מתוסכלים, אבל הבסיס שיצרת אינו נעלם.';}
+      else{mod('links',9);mod('partyFaction',5);title='הערוצים השקטים נשארים פתוחים';story='ראש האגף היריב מבקש שלא לפרסם דבר. ההסכמה עדיין חלקית, אבל הוסכם על שלוש פגישות המשך ועל עבודה משותפת בוועדה.';}
+      juice='פוליטיקה פנים־מפלגתית נבנית מכוח ארגוני, יחסים וכושר פשרה — לא רק מסקרים.';
+    }else if(id==='comeback'){
+      if(s.losses<1){title='בונים מנגנון למרוץ הבא';story='צוות הסניף מנתח את מחוזות ההצבעה ומקים מערך נתונים. ההיערכות היא גם דרך ללמוד לפני שמתמודדים.';}
+      else{title='מטה חדש נפתח אחרי ההפסד';story='בישיבה הראשונה מתבקש כל איש צוות לומר מה לא עבד: ההופעות בתקשורת, העבודה בסניפים, או המיקום ברשימה. מחליטים לשמור את פעילי השטח ולהכשיר דור נוסף של מארגנים.';}
+      s.partyPolitics+=2;mod('org',10);mod('partyTrust',8);mod('links',4);mod('energy',-6);s.flags.primaryWon=false;
+      juice='הפסד אינו חזרה לנקודת ההתחלה. הפעילים, התובנות והקשרים נשארים חלק מהמשחק.';
     }else if(id==='primary'){
       const score=clamp(logistic((-1.0+.022*s.partyTrust+.018*s.org+.015*s.links+.012*s.partyPolitics))*1, .10,.93);
       const success=rand()<score;mod('energy',-9);mod('partyFaction',success?5:-7);
@@ -526,7 +556,7 @@
   function render(){const ctx=context(),majorityN=majority(),g=s.government;root.classList.toggle('playing',s.started);
     $('intro').classList.toggle('hidden',s.started);$('game').classList.toggle('hidden',!s.started);$('result').classList.toggle('hidden',phase!=='result');$('choice').classList.toggle('hidden',phase!=='choice');$('found').classList.toggle('hidden',phase!=='found');$('ending').classList.toggle('hidden',!s.dead);$('action-region').classList.toggle('hidden',phase!=='play');
     $('start-age').disabled=s.started;$('start-city').disabled=s.started;
-    $('intro-reality').textContent=cityCountries[s.city]==='CZ'?'2 בנובמבר 2026: הבחירות המקומיות בצ׳כיה כבר התקיימו באוקטובר. המפלגות בעיר מתווכחות על הנהגת הרשויות והתקציבים.':cityCountries[s.city]==='IL'?'2 בנובמבר 2026: ישראל אחרי הבחירות לכנסת ב־27 באוקטובר. השאלה כעת היא מי מסוגל לגייס רוב של 61.':cityCountries[s.city]==='US'?'2 בנובמבר 2026: הבחירות הפדרליות בארה״ב מחר, 3 בנובמבר. קמפיין חדש אפשר להתחיל לקראת המחזור הבא.':cityCountries[s.city]==='DE'?'2 בנובמבר 2026: בחירות ברלין היו בספטמבר. הבונדסטאג ממשיך במחזור שהחל ב־2025.':ctx[2026]||'';
+    $('intro-reality').textContent=cityCountries[s.city]==='CZ'?'2 בנובמבר 2026: הבחירות המקומיות בצ׳כיה כבר התקיימו באוקטובר. המפלגות בעיר מתווכחות על הנהגת הרשויות והתקציבים.':cityCountries[s.city]==='IL'?'2 בנובמבר 2026: בגרסת העולם החלופי של ישראל המפלגות מתחרות על הרכבת קואליציה; רוב בכנסת דורש 61 מושבים.':cityCountries[s.city]==='US'?'2 בנובמבר 2026: הבחירות הפדרליות בארה״ב מחר, 3 בנובמבר. קמפיין חדש אפשר להתחיל לקראת המחזור הבא.':cityCountries[s.city]==='DE'?'2 בנובמבר 2026: בחירות ברלין היו בספטמבר. הבונדסטאג ממשיך במחזור שהחל ב־2025.':ctx[2026]||'';
     $('clock').textContent=s.year+' · גיל '+s.age+' · '+ctx.name;
     $('role').textContent=s.primeMinister?'ראש הממשלה':s.office?.label||(s.firm>0?'בעל חברת שותפויות':s.community>0?'מוביל פעילות קהילתית':'יזם / איש שותפויות');
     $('party-label').textContent=s.party>=0?partyName(s.party):'ללא מפלגה';
