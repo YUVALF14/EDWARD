@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>HYBRID LIFE ATLAS — Statecraft 8.0 | 02 Nov 2026</title>
+<style>
+:root{--paper:#fbfaf7;--sheet:#ffffff;--text:#1d2c37;--muted:#5e6b70;--ink:#102638;--panel:#f0f3f3;--line:#d9dfdf;--accent:#2a6570;--accent-light:#e0eeed;--sea:#419a91;--gold:#bb9360;--warn:#f5e9d8}
+@media(prefers-color-scheme:dark){:root{--paper:#0d171e;--sheet:#15232d;--text:#edf2f4;--muted:#b0bdc4;--ink:#08141d;--panel:#20323d;--line:#354651;--accent:#7dc6c5;--accent-light:#20474b;--sea:#74bdad;--gold:#d6b780;--warn:#4d3723}}
+*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:var(--paper);color:var(--text);font-family:system-ui,-apple-system,'Arial',sans-serif;font-size:16px;line-height:1.55}#atlas7{max-width:930px;margin:0 auto;padding:20px 16px 45px}button,select,input{font:inherit;color:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--sea);outline-offset:2px}.hidden{display:none!important}
+.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:var(--accent)}.muted{color:var(--muted)}.small{font-size:12px}.sheet{border:1px solid var(--line);background:var(--sheet);border-radius:16px;padding:16px}.stack>*+*{margin-top:13px}.brow{display:flex;justify-content:space-between;align-items:center;gap:12px}.icon-btn{border:1px solid var(--line);background:var(--sheet);border-radius:12px;min-height:44px;padding:10px 13px}.solid{background:var(--accent-light);border:1px solid var(--accent);border-radius:12px;min-height:46px;padding:11px 17px;font-weight:750}.line-btn{border:1px solid var(--line);border-radius:12px;background:transparent;padding:10px 13px;min-height:44px;font-weight:600}.hero{border-radius:20px;background:var(--ink);color:#f5f8f8;padding:20px 20px 18px;position:relative;overflow:hidden}.hero:before{content:'';position:absolute;inset:0 auto 0 20px;width:3px;background:var(--gold);opacity:.7}.hero h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(29px,5.5vw,45px);line-height:1.15;letter-spacing:-.6px;margin:7px 0 8px;max-width:680px}.hero p{font-size:14px;line-height:1.7;max-width:700px;color:#dce9ea;margin:0}.hero .eyebrow{color:#b9d8d7}#atlas7.playing .hero{padding:11px 17px;border-radius:13px}#atlas7.playing .hero h1{font-size:19px;margin:3px 0 0;line-height:1.3}#atlas7.playing .hero p{display:none}#atlas7.playing .hero .eyebrow{font-size:9px;letter-spacing:1.4px}.setup{display:grid;grid-template-columns:1fr 1fr;gap:11px}.setup label{font-size:12px;font-weight:700}.setup select{width:100%;min-height:44px;border:1px solid var(--line);background:var(--sheet);padding:9px 12px;border-radius:10px;margin-top:6px;font-size:16px}
+#welcome-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.launch{padding:13px 13px 15px;min-height:112px;text-align:right;border:1px solid var(--line);background:var(--sheet);border-radius:13px;display:flex;flex-direction:column;gap:5px}.launch:active,.action:active{background:var(--accent-light)}.launch strong{font-size:14px;line-height:1.4}.launch span{font-size:12px;color:var(--muted);line-height:1.45}.launch em{font-style:normal;font-size:21px}.hintline{font-size:12px;color:var(--muted);line-height:1.6}
+#game{margin-top:12px}.dash-head{display:grid;grid-template-columns:1.35fr .65fr;gap:10px;align-items:start}.dash-head h2{font-size:25px;line-height:1.25;margin:5px 0 4px}.context-brief{background:var(--panel);border-right:3px solid var(--sea);padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.7;margin-top:12px}.quickstart{border:1px solid var(--accent);background:var(--accent-light);border-radius:13px;padding:10px 13px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:12px 0}.quickstart strong{font-size:14px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:11px;display:inline-block}.metrics,.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric{padding:10px 11px;background:var(--panel);border-radius:11px;min-width:0}.metric span{display:block;font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:20px;line-height:1.3;margin-top:5px}.meter{height:4px;border-radius:4px;background:var(--line);margin-top:7px;overflow:hidden}.meter i{display:block;background:var(--sea);height:100%}.stats-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.stats-meta span{font-size:11px;color:var(--muted)}
+.tabs{display:flex;gap:3px;overflow-x:auto;padding-bottom:3px;border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}.tabs button{white-space:nowrap;flex:1 0 auto;font-size:13px;padding:10px 11px;border:0;border-bottom:3px solid transparent;background:none;min-height:45px}.tabs button[aria-pressed=true]{border-color:var(--accent);font-weight:800}.actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.action{min-width:0;text-align:right;display:flex;flex-direction:column;gap:4px;align-items:flex-start;background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:13px 12px;min-height:73px}.action-title{font-weight:750;font-size:13px;line-height:1.45}.action-sub,.action-hint{font-size:11px;line-height:1.5;color:var(--muted)}.action-hint:not(:empty){color:#a65e47}.section-title{font-size:16px;font-weight:850;margin:0 0 10px}.two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.small-caps{font-weight:800;font-size:11px;letter-spacing:1px;color:var(--muted)}.calendar-item{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--line)}.calendar-item:last-child{border:0}.calendar-item b{font-size:12px;display:block}.calendar-item small{font-size:11px;display:block;color:var(--muted)}.calendar-item strong{font-size:18px}.result-head{display:grid;grid-template-columns:1fr auto auto auto;gap:9px;margin-bottom:6px;padding:0 6px;font-size:11px;color:var(--muted)}.result-row{display:grid;grid-template-columns:8px minmax(0,1fr) 42px 39px 52px;align-items:center;gap:8px;width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);padding:9px 4px;text-align:right;min-height:44px}.result-row:last-child{border:0}.dot{width:8px;height:20px;border-radius:3px}.row-name{font-size:12px;min-width:0}.row-votes,.row-seats{font-size:12px;text-align:left}.row-status{font-size:10px;text-align:left;color:var(--muted)}.result-row:hover{background:var(--panel)}.seat-bar{display:flex;overflow:hidden;border-radius:10px;height:18px;background:var(--panel);border:1px solid var(--line);margin:11px 0 4px}.seat-bar>span{height:100%;min-width:0;display:block}.metric-details summary{font-size:13px}.gov-pulse{font-size:13px;line-height:1.7}.cabinet-post{font-size:12px;padding:7px 0;border-bottom:1px dashed var(--line)}.cabinet-post:last-child{border:0}.scene{border-right:3px solid var(--gold);padding:11px 12px;border-radius:8px;background:var(--panel);font-size:13px;line-height:1.75}
+#choice,#result,#found,#ending{border:1px solid var(--accent);background:var(--accent-light);border-radius:15px;padding:16px;margin:12px 0}#choice h3,#result h3,#found h3{margin:0;font-size:21px;line-height:1.3}#choice-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}#result p{margin:8px 0}.juicy{border-radius:10px;background:var(--sheet);padding:12px 13px;font-size:14px;border-right:3px solid var(--gold)}.result-ctl{margin-top:12px;width:100%}.chronicle-item{display:flex;gap:8px;flex-direction:column}.story-line{border-right:2px solid var(--line);padding:5px 12px 8px;margin:7px 0}.story-line b{font-size:13px}.story-line p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.65}.caption{font-size:11px;color:var(--muted);margin:6px 0;line-height:1.6}details summary{padding:10px 3px;cursor:pointer;font-weight:700;min-height:44px}.credits a{color:var(--accent)}.found-fields{display:grid;gap:12px}.found-fields label{display:block;font-size:13px;font-weight:700}.found-fields input,.found-fields select{display:block;width:100%;border:1px solid var(--line);border-radius:10px;min-height:44px;padding:10px 11px;background:var(--sheet);margin-top:6px;font-size:16px}
+@media(min-width:780px){.metrics,.metric-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.intro-wrap{max-width:700px;margin:0 auto}.hero{padding:24px 28px}.two-col{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.hero{padding:13px 16px}.hero h1{font-size:25px;line-height:1.08}.hero p{font-size:12px;line-height:1.5}.intro-wrap .scene{padding:8px 10px;font-size:12px;line-height:1.5}.intro-wrap .stack>*+*{margin-top:10px}#atlas7{padding:11px 10px 35px}.hero{padding:18px}.hero h1{font-size:29px}.sheet{padding:12px}.dash-head{grid-template-columns:1fr auto}.dash-head h2{font-size:20px}.dash-head .muted{font-size:11px}.actions-grid{grid-template-columns:1fr 1fr}.action{padding:10px;min-height:76px}.action-title{font-size:12px}.two-col{grid-template-columns:1fr}.result-row{grid-template-columns:8px minmax(0,1fr) 38px 28px 43px;gap:5px}.row-name{font-size:11px}.result-head{display:none}#choice-list{grid-template-columns:1fr}#welcome-actions .launch{min-height:106px;padding:11px}}
+@media(max-width:340px){#welcome-actions,.actions-grid{grid-template-columns:1fr}.launch{min-height:80px!important}.setup{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* v8 UI / UX refinements */
+.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.mini-balance{margin-top:11px;padding:11px 12px;background:var(--panel);border-radius:12px}
+.seat-bar{display:flex;overflow:hidden;height:11px;border-radius:99px;background:var(--line);margin-top:8px;direction:ltr}
+.seat-bar span{display:block;height:100%;min-width:0}
+.jump-strip{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0 7px}
+.jump-strip button{font-size:12px;flex:1 1 auto}
+.results-switch{display:flex;gap:8px;flex-wrap:wrap}
+.results-switch button[aria-pressed=true]{background:var(--accent-light);border-color:var(--accent);font-weight:800}
+.table-legend{display:grid;grid-template-columns:minmax(0,1fr) 42px 39px 53px;gap:8px;font-size:11px;color:var(--muted);padding:8px 5px;border-bottom:1px solid var(--line)}
+.table-legend span{text-align:left}.table-legend b{text-align:right}
+#result,#choice,#found{scroll-margin-top:14px}
+#action-region,#government-section,#results-section{scroll-margin-top:16px}
+#atlas7 .action-hint:not(:empty){color:var(--muted)}
+#atlas7 .action:disabled{background:var(--panel)}
+#atlas7 .result-row:focus-visible{background:var(--accent-light)}
+@media(max-width:540px){.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.table-legend{grid-template-columns:minmax(0,1fr) 40px 32px 45px;gap:5px}.jump-strip button{font-size:12px;padding:9px}.actions-grid{grid-template-columns:1fr 1fr}.action{min-height:80px}}
+@media(max-width:340px){.actions-grid{grid-template-columns:1fr}.jump-strip button{flex:1 1 100%}.setup{grid-template-columns:1fr 1fr}}
+
+.news-scene{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.results-switch{gap:6px}
+.results-switch button{font-size:12px;min-height:44px;flex:1 1 120px}
+</style></head><body><main id="atlas7">
+<header class="hero"><div class="eyebrow">THE HYBRID LIFE ATLAS · STATECRAFT 8.0</div><h1>הביוגרפיה לא נכתבה מראש.</h1><p>עולם פוליטי חי: מפלגות עם אגפים מתחרים, עיתונות, בחירות, אופוזיציה ופרלמנט שלם. אפשר להיבחר, להרכיב ממשלה, להנהיג מפלגה — או להמשיך להיות יזם, לכתוב ולעבור מדינה. אין מסלול כפוי.</p></header>
+<div style="height:12px"></div>
+<section id="intro" class="intro-wrap stack" aria-label="החלטה ראשונה">
+  <div class="sheet stack">
+    <div class="brow"><strong style="font-size:19px">01 / ההחלטה הראשונה שלך</strong><span class="pill">2 בנובמבר 2026</span></div>
+    <div class="setup"><label>גיל התחלה<select id="start-age"><option>18</option><option>20</option><option>22</option><option selected>26</option><option>30</option><option>35</option><option>45</option></select></label><label>עיר התחלה<select id="start-city"><option>פראג</option><option>ירושלים</option><option>תל אביב</option><option>וילנה</option><option>בריסל</option><option>ברלין</option><option>ניו יורק</option><option>וושינגטון</option></select></label></div>
+    <div class="scene" id="intro-reality">העולם כבר נע, גם לפני שמקבלים החלטה.</div>
+    <strong id="first-question">בחר כאן את ההחלטה הראשונה ↓</strong>
+    <div id="welcome-actions"><button type="button" class="launch" data-first="party"><em>🏛️</em><strong>הצטרף למפלגה</strong><span>פוליטיקה מפלגתית מהיום הראשון</span></button><button type="button" class="launch" data-first="business"><em>🤝</em><strong>הקם פעילות עסקית</strong><span>לקוחות, מוניטין וחברה עצמאית</span></button><button type="button" class="launch" data-first="community"><em>🌐</em><strong>בנה מוסד קהילתי</strong><span>ארגון, שותפויות ותוכניות בינלאומיות</span></button><button type="button" class="launch" data-first="policy"><em>📜</em><strong>כתוב רעיון מדיני</strong><span>מחקר, מדיניות והשפעה ציבורית</span></button></div>
+    <button id="skip-intro" type="button" class="line-btn" style="width:100%">או פתח את כל ארגז הפעולות ←</button><button id="resume-game" type="button" class="solid hidden" style="width:100%">↶ המשך משחק שנשמר במכשיר</button><p class="hintline">ארבעה כפתורים גדולים הם ההחלטה הראשונה. אין צורך להתחיל דווקא בפוליטיקה; אפשר לשנות כיוון בכל שנה.</p>
+  </div>
+</section>
+<section id="game" class="hidden stack" aria-label="משחק חופשי">
+  <section id="choice" class="hidden stack" aria-live="polite"><div class="eyebrow">DECISION · בחר כיצד לפעול</div><h3 id="choice-title"></h3><p id="choice-hint" class="muted" style="font-size:13px"></p><div id="choice-list"></div><button type="button" id="cancel" class="line-btn" style="width:100%">חזרה לבחירת פעולה</button></section>
+  <section id="found" class="hidden stack"><h3>מפלגה חדשה — מה זה אומר?</h3><div class="found-fields"><label>שם המפלגה<input id="found-name" maxlength="40" value="תנועת הגשרים"></label><label>זרם רעיוני<select id="found-idea"><option value="centrist">מרכז אזרחי</option><option value="liberal">ליברלי</option><option value="conservative">שמרני</option><option value="social">סוציאל־דמוקרטי</option><option value="communal">קהילתי</option><option value="green">סביבתי</option></select></label></div><p class="small muted" id="found-error"></p><div class="brow"><button id="found-confirm" class="solid" type="button">הכרז על המפלגה</button><button id="found-cancel" class="line-btn" type="button">ביטול</button></div></section>
+  <section id="result" class="hidden" aria-live="polite"><div class="eyebrow">THE WORLD RESPONDS · העולם מגיב</div><h3 id="result-title"></h3><p id="result-story" style="font-size:14px;line-height:1.85"></p><p id="result-details" class="small muted"></p><div class="juicy"><b class="eyebrow">THE JUICE</b><div id="result-juice" style="margin-top:5px"></div></div><button id="result-close" class="solid result-ctl" type="button">המשך בסיפור ←</button></section>
+  <section id="ending" class="hidden"><div class="eyebrow">BIOGRAPHICAL ARCHIVE</div><h3 id="end-title"></h3><p id="end-body"></p><button type="button" id="again" class="solid">חיים אחרים ↻</button></section>
+  <section class="sheet"><div class="dash-head"><div><div id="clock" class="eyebrow">2026 · גיל 26</div><h2 id="role">יזם עצמאי</h2><div id="current-office" class="small muted">ללא משרה נבחרת</div></div><div style="text-align:left"><b id="party-label" style="font-size:12px">עצמאי</b><div id="year-actions" class="small muted">0 מתוך 4</div></div></div><div class="context-brief" id="context-line"></div><div id="mini-balance" class="mini-balance" aria-label="תמונת מצב פרלמנטרית"><div class="brow"><strong id="mini-balance-title" style="font-size:12px">מושבים וקואליציה</strong><span id="mini-balance-nums" class="small muted"></span></div><div id="mini-balance-bar" class="seat-bar"></div><p id="mini-balance-sub" class="caption"></p></div><div class="stats-meta"><span id="career-record"></span><span id="lifemodel"></span></div></section>
+  <section id="action-region" class="stack"><div class="quickstart"><strong>02 / איזו פעולה אתה בוחר עכשיו?</strong><span class="small muted">4 מהלכים בכל שנת משחק</span></div><div class="jump-strip" aria-label="מעבר מהיר בין אזורי המשחק"><button type="button" id="jump-actions" class="line-btn">⚡ פעולות</button><button type="button" id="jump-gov" class="line-btn">🏛 ממשלה</button><button type="button" id="jump-results" class="line-btn">🗳 תוצאות ומנדטים</button></div><nav class="tabs" aria-label="קטגוריות משחק"><button type="button" id="tab-all" data-tab="all" aria-pressed="true">הכול</button><button type="button" id="tab-party" data-tab="party" aria-pressed="false">מפלגות</button><button type="button" id="tab-elections" data-tab="elections" aria-pressed="false">בחירות</button><button type="button" id="tab-government" data-tab="government" aria-pressed="false">ממשלה</button><button type="button" id="tab-life" data-tab="life" aria-pressed="false">חיים ועסקים</button></nav><div id="action-list" class="actions-grid"></div></section>
+  <div class="brow" style="flex-wrap:wrap;margin:14px 0 4px"><button id="next-year" type="button" class="solid" style="flex:1">לשנת 2027 ←</button><button id="advance3" type="button" class="line-btn">+3 שנים</button><button id="undo" type="button" class="line-btn">↶ בטל</button><button id="restart" type="button" class="line-btn">↻ מחדש</button><button id="export-save" type="button" class="line-btn">↓ גיבוי</button><label class="line-btn" style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center">↑ טעינה<input id="import-save" type="file" accept="application/json,.json" aria-label="טעינת משחק מקובץ JSON" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0"></label></div><p id="save-note" class="caption" aria-live="polite">שמירה מקומית אם נתמכת; אפשר גם לגבות ולטעון קובץ JSON</p>
+  <details class="sheet metric-details"><summary>מדדי הדמות · לחיצה להצגת נתונים ונוסחאות</summary><p class="caption">מדדי משחק בלבד: המשאבים והיחסים שבנית משפיעים על ההחלטות, לא קובעים אותן.</p><div id="metrics" class="metric-grid"></div></details>
+  <section class="two-col"><div class="sheet stack" id="government-section"><div class="brow"><h3 class="section-title">פוליטיקה לאומית</h3><span class="pill" id="gov-label">הפרלמנט</span></div><div id="calendar"></div><p class="small muted" id="elections-note"></p><div class="scene" id="party-panel"></div><div class="news-scene"><div class="small-caps">מהדורת ערב · סצנה בדיונית</div><p id="world-scene" style="margin:6px 0 0;font-size:13px;line-height:1.8"></p></div></div><div class="sheet stack"><div class="brow"><h3 class="section-title">הקואליציה והממשלה</h3><span id="majority" class="pill">רוב</span></div><strong id="gov-name"></strong><p id="gov-details" class="gov-pulse muted"></p><strong id="coalition-total" style="font-size:14px"></strong><p id="bloc-line" class="caption"></p><div class="small-caps">חלוקת תיקים בקואליציה</div><div id="cabinet-list"></div></div></section>
+  <section class="sheet stack" id="results-section"><div class="brow" style="flex-wrap:wrap"><h3 class="section-title">תוצאות הבחירות — כל המפלגות</h3><span id="election-meta" class="small muted"></span></div><div class="results-switch" role="group" aria-label="בחר תוצאות בחירות"><button type="button" id="results-national" class="line-btn" aria-pressed="true">הבחירות הארציות</button><button type="button" id="results-local" class="line-btn" aria-pressed="false" disabled title="עדיין אין תוצאות מקומיות במשחק">הבחירות המקומיות</button><button type="button" id="results-europe" class="line-btn" aria-pressed="false" disabled title="אין עדיין תוצאות למערכת אירופית">הפרלמנט האירופי</button></div><p class="caption">לחץ על מפלגה כדי לגלות את המצע, ההנהגה והרקע שלה. הסיעות, הקולות והתיקים הם חלק מעולם המשחק הבדיוני. זהו חישוב של כל המושבים, לא רק של מפלגת השחקן.</p><div id="seat-bar" class="seat-bar" aria-label="חלוקת מושבים בין מפלגות"></div><div class="table-legend" aria-hidden="true"><b>מפלגה</b><span>קולות</span><span>מושבים</span><span>מעמד</span></div><div id="party-results"></div><div id="party-detail" class="scene hidden"><div class="brow"><b id="party-detail-title"></b><button type="button" id="close-party" class="icon-btn">סגור</button></div><p id="party-detail-body" style="font-size:12px;margin:7px 0 0"></p></div></section>
+  <section class="two-col"><div class="sheet stack"><div class="brow"><h3 class="section-title">ערי הקריירה והמעברים</h3><span class="small muted">תרשים סכמטי, לא מפה בקנה מידה</span></div><svg viewBox="0 0 340 168" role="img" aria-label="רשת ערים סכמטית של מסע הקריירה" style="width:100%;background:var(--panel);border-radius:12px"><g stroke="var(--line)" fill="none" stroke-dasharray="4 5"><path d="M34 83L62 131L132 69L178 101L215 82L256 43L314 135"/><path d="M132 69L215 82L256 43M215 82L314 135"/></g><g id="route-lines"></g><g fill="var(--text)" text-anchor="middle" font-size="10"><text x="33" y="68">ניו יורק</text><text x="64" y="150">וושינגטון</text><text x="132" y="52">בריסל</text><text x="179" y="119">ברלין</text><text x="214" y="100">פראג</text><text x="254" y="30">וילנה</text><text x="307" y="154">ישראל</text></g><g fill="var(--gold)"><circle cx="34" cy="83" r="4"/><circle cx="62" cy="131" r="4"/><circle cx="132" cy="69" r="4"/><circle cx="178" cy="101" r="4"/><circle cx="215" cy="82" r="4"/><circle cx="256" cy="43" r="4"/><circle cx="314" cy="135" r="4"/></g><g id="route-point"></g></svg><p class="caption" id="route-caption">פראג</p></div><div class="sheet stack"><div class="brow"><h3 class="section-title">כרוניקת החיים</h3><span id="chronicle-count" class="small muted">0 אירועים</span></div><div id="chronicle"></div></div></section>
+  <details class="sheet"><summary>מכניקת המשחק: בחירות, מושבים, קואליציות וגיל סיום</summary><p class="small">המנוע משתמש בהסתברויות שקשורות למיומנות, אמון, קשרים, ארגון, כוח פנימי ומזל. הסיכויים המדויקים מוסתרים לפני ההחלטה.</p><p class="small"><b>מושבים:</b> במדינות עם ייצוג יחסי משתמשים בקירוב D’Hondt ובאחוז חסימה. בליטא מדמים שני מסלולים (70 יחסיים + 71 מחוזיים). בארצות הברית מדמים 435 מרוצים אזוריים — לא חלוקה יחסית ארצית.</p><p class="small"><b>קואליציה:</b> צריך רוב של ⌊מושבים/2⌋+1. הסיכוי להסכם תלוי בהבדלי עמדות, קשרים, מספר התיקים המוצעים ויכולת מפלגתית; הקואליציה שוחקת יציבות לאורך השנים. תוצאות, חלוקת משרדים ומעמד אופוזיציה מחושבים בפועל.</p><p class="small"><b>בחירות:</b> מפלגות שומרות חלק גדול מכוחן בין מערכות, ושינויים מצטברים בהדרגה. קמפיין יחיד אינו מעניק תוספת מופרזת. במערכות רשימתיות המועמד זקוק גם למיקום ריאלי, שעולה או יורד עם ההשפעה במפלגה, עבודת השטח ותוצאות הפריימריז; בארה״ב נבדקת גם התמודדות מחוזית. למועמדים ללא ניסיון יש קושי גבוה יותר, אך אין חסימה מלאכותית של ניצחונות.</p><p class="small"><b>הפרלמנט האירופי:</b> כל חמש שנים משורטטת משלחת מדומה של המדינה. זו אינה הדמיה של כל 720 מושבי הפרלמנט האירופי, וקבוצותיו הפוליטיות לא הוטמעו כממשלה לאומית.</p><p class="small"><b>בדיקת מציאות 2026:</b> בחירות שכבר התקיימו לפני 2 בנובמבר לא פתוחות למועמדות חדשה במשחק. בחירות עתידיות נערכות במחזוריהן. המחזור העירוני בברלין הוא מחזור של בית הנבחרים המדינתי, ואינו זהה לבחירות למועצת עיר רגילה.</p><p class="small"><b>גיל הסיום:</b> הסתברות שנתית משחקית q=clamp(0.0015·exp(0.11(age−42)+0.015(70−health)+0.011(stress−30)−0.008(energy−65)),0.00015,0.70). המודל מכוון לחציון סיפורי בתחום גילי הזקנה, אך אינו מבוסס על טבלת תמותה אישית או רפואית. אין גיל סיום קבוע.</p></details>
+</section>
+<section class="sheet credits stack" style="margin-top:12px"><div class="eyebrow">REALITY ANCHORS · NOV 02, 2026</div><h3 class="section-title">מה לקוח מהעולם האמיתי?</h3><p class="small muted">המוסדות, אורכי כהונה בסיסיים והאירועים המפורשים כאן מעוגנים במידע פומבי נכון ל־2 בנובמבר 2026. המפלגות, המנהיגים, המושבים במשחק, הקואליציות והסצנות הדרמטיות — בדיוניים; הרקע המוסדי והעוגנים החדשותיים מתועדים. אין במשחק קביעה על תוצאות בחירות עתידיות, כשירות משפטית אישית או תוחלת חיים.</p><div class="small"><a href="https://volby.gov.cz/app/kv2026/cs/20261009/home" target="_blank" rel="noopener">צ׳כיה · תוצאות מוניציפליות 2026</a> · <a href="https://en.idi.org.il/articles/66833" target="_blank" rel="noopener">ישראל · תוצאות הבחירות 27.10.2026</a> · <a href="https://www.fec.gov/introduction-campaign-finance/election-results-and-voting-information/" target="_blank" rel="noopener">ארה״ב · לוח הבחירות 2026</a> · <a href="https://www.berlin.de/wahlen/pressemitteilungen/2026/pressemitteilung.1723954.php" target="_blank" rel="noopener">ברלין · תוצאות רשמיות 2026</a> · <a href="https://elections.europa.eu/en/how-elections-work" target="_blank" rel="noopener">האיחוד האירופי · בחירות 2029</a> · <a href="https://www.president.gov.il/institution/" target="_blank" rel="noopener">ישראל · נשיא המדינה וכשירות</a> · <a href="https://www.lrs.lt/sip/portal.show?p_k=2&p_r=15405" target="_blank" rel="noopener">ליטא · שיטת הבחירות לסיימאס</a></div></section>
+</main><script>(function () {
+  'use strict';
+  const root = document.getElementById('atlas7');
+  if (!root || root.dataset.ready === '1') return;
+  root.dataset.ready = '1';
+  const $ = id => root.querySelector('#' + id);
+  const deep = obj => JSON.parse(JSON.stringify(obj));
+  const clamp = (v, lo = 0, hi = 100) => Math.min(hi, Math.max(lo, v));
+  const whole = (v, lo = 0, hi = 100) => Math.round(clamp(v, lo, hi));
+  const logistic = x => 1 / (1 + Math.exp(-x));
+  const cityCountries = { 'פראג':'CZ', 'ירושלים':'IL', 'תל אביב':'IL', 'וילנה':'LT', 'בריסל':'BE', 'ברלין':'DE', 'ניו יורק':'US', 'וושינגטון':'US' };
+  const positions = { 'פראג':[215,82], 'ירושלים':[314,135], 'תל אביב':[308,131], 'וילנה':[256,43], 'בריסל':[132,69], 'ברלין':[178,101], 'ניו יורק':[34,83], 'וושינגטון':[62,131] };
+  const countries = {
+    CZ:{name:'צ׳כיה',type:'parliamentary',chamber:'בית הנבחרים הצ׳כי',seats:200,baseline:2025,term:4,threshold:5,method:'PR',europeSeats:21,head:'נשיא',headRule:'direct',headYear:2028,headTerm:5,headMin:40,localYear:2026,localTerm:4,localSeats:65,localName:'מועצת פראג',issues:['דיור בר־השגה בפראג','תקציבי רשויות ותחבורה','תשתיות אנרגיה','מימון מוסדות תרבות'],2026:'9–10 באוקטובר 2026: הבחירות העירוניות והסנאטוריות כבר התקיימו. בפראג דנים כעת בחלוקת תפקידים ובתקציב הקואליציה המקומית. מקור: אתר הבחירות הצ׳כי.'},
+    IL:{name:'ישראל',type:'parliamentary',chamber:'הכנסת',seats:120,baseline:2026,term:4,threshold:3.25,method:'PR',europeSeats:0,head:'נשיא',headRule:'indirect',headYear:2028,headTerm:7,headMin:18,localYear:2024,localTerm:5,localSeats:31,localName:'מועצת העיר',issues:['ביטחון ומדיניות חוץ','יוקר מחיה ושוק הדיור','תקציב ושירותים ציבוריים','הסדרי גיוס ואמון מוסדי'],2026:'27 באוקטובר 2026: נערכו הבחירות לכנסת ה־26. לפי התוצאות שפורסמו עד 2 בנובמבר, גושי נתניהו ואיזנקוט קיבלו 53 ו־48 מושבים, והמפלגות הערביות 19. אף גוש לא השיג לבדו 61. תוצאות המשחק להלן חלופיות ובדיוניות.'},
+    LT:{name:'ליטא',type:'parliamentary',chamber:'הסיימאס',seats:141,baseline:2024,term:4,threshold:5,method:'MIXED',europeSeats:11,head:'נשיא',headRule:'direct',headYear:2029,headTerm:5,headMin:40,localYear:2027,localTerm:4,localSeats:51,localName:'מועצת וילנה',issues:['ביטחון הגבול המזרחי','אנרגיה וביטחון אספקה','הגירה וצעירים','יחסים עם האיחוד האירופי'],2026:'הסיימאס מכהן במחזור 2024–2028. מחלוקות ביטחוניות ותקציביות יכולות לפצל גם שותפות קואליציונית ותיקה.'},
+    BE:{name:'בלגיה',type:'parliamentary',chamber:'בית הנבחרים הבלגי',seats:150,baseline:2024,term:5,threshold:5,method:'PR',europeSeats:22,head:'מלך',headRule:'monarch',headYear:null,headTerm:null,localYear:2024,localTerm:6,localSeats:49,localName:'מועצת העיר בריסל',issues:['חלוקת סמכויות בין אזורים','פשרות בין קהילות שפה','תקציב ומסים','תחבורה ומדיניות עירונית'],2026:'בלגיה היא מונרכיה פדרלית שבה הממשלה מנהלת משא ומתן בין מפלגות, אזורים וקהילות שפה. תהליך הרכבת ממשלה עשוי להיות ממושך.'},
+    DE:{name:'גרמניה',type:'parliamentary',chamber:'הבונדסטאג',seats:630,baseline:2025,term:4,threshold:5,method:'PR',europeSeats:96,head:'נשיא פדרלי',headRule:'indirect',headYear:2027,headTerm:5,headMin:40,localYear:2026,localTerm:5,localSeats:153,localName:'בית הנבחרים של ברלין',issues:['תעשייה ותחרותיות','מחירי אנרגיה','דיור ותחבורה','גבולות הקואליציה הפדרלית'],2026:'20 בספטמבר 2026: ברלין בחרה בית נבחרים מדינתי. התוצאה הסופית אושרה ב־12 באוקטובר, לאחר בדיקה מחדש של נתוני מחוז והשלכות על חלוקת המושבים. הבחירות לבונדסטאג נערכו ב־2025.'},
+    US:{name:'ארצות הברית',type:'presidential',chamber:'בית הנבחרים',seats:435,baseline:2024,term:2,threshold:0,method:'DISTRICTS',europeSeats:0,head:'נשיא',headRule:'electoral',headYear:2028,headTerm:4,headMin:35,localYear:2026,localTerm:4,localSeats:31,localName:'מועצת העיר',issues:['סחר ותעשייה','הגירה וממשל פדרלי','מחירי בריאות','סמכויות הקונגרס והנשיא'],2026:'מחר, 3 בנובמבר 2026, ייערכו בחירות אמצע הקדנציה בארה״ב: כל 435 המושבים בבית הנבחרים וחלק ממושבי הסנאט. הנשיא אינו נבחר בבחירות הללו; הבחירות לנשיאות צפויות ב־2028. לא ניתן להגיש מועמדות חדשה יום לפני ההצבעה.'}
+  };
+  const partyTemplates = [
+    {name:'הברית האזרחית',short:'אזרחית',side:'מרכז־ליברלי',eco:56,soc:68,foreign:73,leader:'אלכס מור',base:26.5,issue:'חירויות, מינהל ושוק פתוח',color:'#276c88'},
+    {name:'האיחוד השמרני',short:'שמרנים',side:'מרכז־ימין',eco:69,soc:35,foreign:46,leader:'דניאל ברק',base:23.5,issue:'מסורת, תקציב וביטחון',color:'#967249'},
+    {name:'העבודה החברתית',short:'עבודה',side:'סוציאל־דמוקרטית',eco:24,soc:69,foreign:66,leader:'מאיה כהן',base:20.2,issue:'שכר, דיור ושירותים ציבוריים',color:'#b75868'},
+    {name:'הירוקים והערים',short:'ירוקים',side:'סביבתית',eco:30,soc:85,foreign:75,leader:'נועה הדר',base:10.8,issue:'אקלים, ערים ותכנון',color:'#47856c'},
+    {name:'המרכז הממלכתי',short:'מרכז',side:'מרכז מוסדי',eco:49,soc:53,foreign:59,leader:'אמיל וייס',base:10.2,issue:'משילות, פשרה והמשכיות',color:'#7d76a7'},
+    {name:'מפלגת הקהילות',short:'קהילות',side:'קהילתית',eco:42,soc:39,foreign:40,leader:'רוני לביא',base:6.5,issue:'קהילות, זהות ושלטון מקומי',color:'#ba8d46'},
+    {name:'התנועה העצמאית',short:'עצמאיים',side:'עצמאית',eco:50,soc:50,foreign:50,leader:'שירה לוין',base:2.3,issue:'התארגנות אזרחית חדשה',color:'#7a8a94'}
+  ];
+  const scenery = {
+    CZ:{site:'מסדרון בית הנבחרים בפראג',cafe:'בית קפה מאחורי כיכר מאלה סטרנה',news:'דיווח של Česká televize',detail:'בעל דירה צעיר שואל מה יהיה עם מחירי השכירות'},
+    IL:{site:'מסדרון הכנסת בירושלים',cafe:'קפיטריית הכנסת',news:'משדר חדשות הערב',detail:'ראש רשות מקומית מזהיר שהתקציב לשנה הבאה אינו סגור'},
+    LT:{site:'אולם ועדת החוץ בווילנה',cafe:'בית קפה ליד שדרת גדימינאס',news:'מהדורת חדשות בליטא',detail:'ראש עיר מבקש לדעת כיצד ימשיך לממן מערך תחבורה'},
+    BE:{site:'מסדרון הפרלמנט הפדרלי בבריסל',cafe:'בית קפה ליד הרובע האירופי',news:'מהדורת החדשות הדו־לשונית',detail:'שתי משלחות מתווכחות על חלוקת סמכויות בין אזורים'},
+    DE:{site:'הבניין של הבונדסטאג בברלין',cafe:'קפה סמוך לנהר השפרה',news:'מהדורת החדשות הציבורית',detail:'נציג תעשייה תוהה מי ישלם על רשת החשמל החדשה'},
+    US:{site:'מסדרון הקפיטול בוושינגטון',cafe:'דיינר ליד גבעת הקפיטול',news:'אולפן החדשות של שעות הערב',detail:'יועצת מחוזית שואלת כיצד ההחלטה תתקבל בבית הנבחרים'}
+  };
+  const definitions=[
+    ['party','הצטרף למפלגה או החלף מסגרת','בחר שיוך אידאולוגי ומסלול עבודה מפלגתי','party'],
+    ['found','ייסד מפלגה חדשה','קבע שם, תפיסת עולם וחברי גרעין','party'],
+    ['grass','ארגן סניפים ומתנדבים','בנה אחיזה מקומית לאורך כמה שנים','party'],
+    ['primary','התמודד על מקומך ברשימה','פריימריז, ועדת מינויים ומאבק על מיקום','party'],
+    ['lead','התמודד על ראשות המפלגה','קבל את אמון הפעילים ואת המנגנון','party'],
+    ['faction','נהל משבר סיעתי','פשרה עם אגפים רעיוניים מתחרים','party'],
+    ['nominate','הכרז על מועמדות בבחירות','פרלמנט, מועצה מקומית או נשיאות','elections'],
+    ['campaign','נהל קמפיין','שלטים, פעילי שטח, עימותים או חוגי בית','elections'],
+    ['election','פתח את הקלפיות','תוצאות מלאות לכל המפלגות והמושבים','elections'],
+    ['mandate','בקש להקים ממשלה','ניסיון לקבל מנדט להרכבת רוב פרלמנטרי','government'],
+    ['talk','נהל משא ומתן קואליציוני','בחר סיעה, הצע תיקים וקווי יסוד','government'],
+    ['invest','העמד את הממשלה להצבעת אמון','להפוך הסכם לשליטה ממשית בממשלה','government'],
+    ['portfolio','בקש להתמנות לשר','תיק ממשלתי כחלק מהסכם פוליטי','government'],
+    ['budget','הגש תקציב שנתי','בחר סדרי עדיפויות והתמודד עם הוצאות ומסים','government'],
+    ['law','קדם הצעת חוק','ועדה, קריאה, תיקונים והצבעה','government'],
+    ['oppose','בנה אופוזיציה או הגש אי־אמון','כלי פיקוח, רוב חלופי ואסטרטגיה','government'],
+    ['cabinet','שנה את הרכב הקבינט','תיקים ומינויים, אמון השותפים','government'],
+    ['presAction','פעל כנשיא','נאום, תיווך או וטו לפי מבנה המשטר','government'],
+    ['early','קדם בחירות מוקדמות','משבר מוסדי, פיזור ומנדט ציבורי','government'],
+    ['resign','פרוש מתפקיד ציבורי','לשנות כיוון בלי למחוק את הקריירה','government'],
+    ['business','פתח או הרחב חברת שותפויות','לקוחות, כנסים ומשא ומתן מסחרי','life'],
+    ['delegate','העבר את ניהול העסק לצוות','להפריד בעלות מביצוע יומיומי','life'],
+    ['community','בנה רשת קהילתית','תוכנית אזורית, תורמים ומוסדות','life'],
+    ['policy','פרסם נייר מדיניות','מחקר, קואליציות ציבוריות ודיונים','life'],
+    ['move','עבור לעיר או למדינה','לעבור זירה ולשמר זהויות מצטברות','life'],
+    ['rest','בחר שנת נשימה','פחות עומס, יותר מרחב מקצועי ואישי','life']
+  ].map(([id,title,desc,cat])=>({id,title,desc,cat}));
+  let s, snapshots=[], phase='intro', tab='all', pending=null, notice='', resultView='national';
+  function rand(){s.seed = (Math.imul(1664525,s.seed)+1013904223)>>>0;return s.seed/4294967296}
+  function rBetween(a,b){return a+(b-a)*rand()}
+  function mod(name,delta){s[name]=whole(s[name]+delta)}
+  function context(){return countries[cityCountries[s.city]]}
+  function partyName(i){return i>=0 && s.parties[i]?s.parties[i].name:'ללא מפלגה'}
+  function majority(){return Math.floor(context().seats/2)+1}
+  function totalSeats(ids){return (ids||[]).reduce((sum,i)=>sum+(s.parliament.seats[i]||0),0)}
+  function partiesExcept(ids){return s.parties.map((p,i)=>i).filter(i=>!ids.includes(i)&&s.parliament.seats[i]>0)}
+  function nextFrom(base,term,year=s.year,includeToday=true){let y=base;while(y<year || (!includeToday && y===year))y+=term;return y}
+  function nextNational(includeToday=true){return nextFrom(s.nationalAnchors?.[cityCountries[s.city]]||context().baseline,context().term,s.year,includeToday)}
+  function nextLocal(includeToday=true){const c=context(),code=cityCountries[s.city],anchor=s.city==='ניו יורק'?2025:c.localYear,y=nextFrom(anchor,c.localTerm,s.year,includeToday);return (s.year===2026&&y===2026&&['CZ','DE'].includes(code))?2026+c.localTerm:y}
+  function nextHead(includeToday=true){const c=context();return c.headYear===null?null:nextFrom(c.headYear,c.headTerm,s.year,includeToday)}
+  function nextEuropean(includeToday=true){return nextFrom(2029,5,s.year,includeToday)}
+  function registrationClosed(type,year){if(s.year!==2026||year!==2026)return false;const code=cityCountries[s.city];return (type==='national'&&(code==='IL'||code==='US'))||(type==='local'&&(code==='CZ'||code==='DE'||code==='US'));}
+  function electableYear(type){const now=type==='national'?nextNational():nextLocal();const period=type==='national'?context().term:context().localTerm;return registrationClosed(type,now)?now+period:now;}
+  function boundedSplit(weights){const sum=weights.reduce((a,b)=>a+b,0);return weights.map(x=>100*x/Math.max(sum,1))}
+  function dhondt(votes,seats,threshold){const out=Array(votes.length).fill(0);const qualified=votes.map(x=>x>=threshold);if(!qualified.some(Boolean))qualified[votes.indexOf(Math.max(...votes))]=true;for(let j=0;j<seats;j++){let chosen=-1,best=-Infinity;for(let i=0;i<votes.length;i++){if(!qualified[i])continue;const score=votes[i]/(out[i]+1);if(score>best){best=score;chosen=i}}out[chosen]++}return out}
+  function seatMethod(votes){const cfg=context();if(cfg.method==='PR')return dhondt(votes,cfg.seats,cfg.threshold);if(cfg.method==='MIXED'){
+    // Approximation: 70 nationwide proportional seats, 71 local constituency seats.
+    const pr=dhondt(votes,70,5),regional=dhondt(votes.map(v=>v<3?0:Math.pow(v,1.33)),71,0);
+    return pr.map((v,i)=>v+regional[i]);
+  }
+    // US: 435 simulated winner-take-all districts. Minor parties rarely win individual districts.
+    const out=Array(votes.length).fill(0);for(let district=0;district<435;district++){
+      const lean=rBetween(-24,24),inc=rBetween(-7,7);
+      const a=votes[0]+lean+inc, b=votes[1]-lean-inc;
+      let winner=a>b?0:1;
+      if(rand()<0.004 && votes[6]>4)winner=6;
+      out[winner]++;
+    }return out;
+  }
+  function nationalVotes(playerBoost=0,stabilize=false){const conf=context(),us=conf.type==='presidential';
+    const base=s.partyPublic.slice();
+    const shifts=base.map((v,i)=>{const longTerm=s.anchorPublic[i];const anchored=stabilize?(.86*v+.14*longTerm):v;return Math.max(.2,anchored+(rand()-.5)*(us?3.8:5.4)+(rand()<.09?rBetween(-2,2):0))});
+    if(s.party>=0 && playerBoost>0)shifts[s.party]+=Math.min(us?5.5:7.5,playerBoost);
+    return boundedSplit(shifts);
+  }
+  function buildParliament(year,boost=0,initial=false){let votes=initial?s.partyPublic.slice():nationalVotes(boost,true);votes=boundedSplit(votes);let se=seatMethod(votes);let turn=whole(rBetween(53,80),35,90);const prev=s.parliament;
+    s.parliament={year,seats:se,votes,turnout:turn,method:context().method,coalition:[],opposition:[],total:context().seats,valid:true};
+    s.partyPublic=votes.slice();
+    if(!initial && prev && year!==prev.year){let swing=0;if(s.party>=0)swing=votes[s.party]-prev.votes[s.party];s.lastSwing=swing}
+    return s.parliament;
+  }
+  function ideologicalDistance(i,j){const a=s.parties[i],b=s.parties[j];return Math.sqrt(Math.pow((a.eco-b.eco)/30,2)+Math.pow((a.soc-b.soc)/30,2)+Math.pow((a.foreign-b.foreign)/36,2))}
+  function npcCoalition(){const c=context();
+    if(c.type==='presidential'){
+      const major=s.parliament.seats[0]>=s.parliament.seats[1]?0:1;
+      return {kind:'executiveNPC',coalition:[],leader:major,head:'ממשל נשיאותי בדיוני',stability:whole(rBetween(45,72)),treasury:58,portfolios:[],promiseCost:0,budgetFailed:0};
+    }
+    // Search all plausible parliamentary alliances. Winning majority is mandatory; ideology and
+    // the number of coalition partners impose a measurable price. A hung parliament may remain caretaker.
+    const avail=s.parliament.seats.map((n,i)=>({n,i})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);
+    if(!avail.length)return {kind:'caretaker',coalition:[],leader:-1,head:'ממשלת מעבר',stability:30,treasury:50,portfolios:[],promiseCost:0,budgetFailed:0,reason:'אין רוב'};
+    let best=null;
+    for(const lead of avail.slice(0,Math.min(3,avail.length))){
+      for(let mask=1;mask<(1<<avail.length);mask++){
+        if(!(mask & (1<<avail.findIndex(x=>x.i===lead.i))))continue;
+        let members=[],total=0;
+        for(let k=0;k<avail.length;k++)if(mask&(1<<k)){members.push(avail[k].i);total+=avail[k].n}
+        if(total<majority())continue;
+        const avgDist=members.filter(i=>i!==lead.i).reduce((v,i)=>v+ideologicalDistance(lead.i,i),0)/Math.max(1,members.length-1);
+        const ideologicalMax=Math.max(0,...members.map(i=>ideologicalDistance(lead.i,i)));
+        const sizePenalty=Math.max(0,members.length-2)*0.42;
+        const excessSeats=total-majority();
+        const score=avgDist*.9+ideologicalMax*.33+sizePenalty+excessSeats/(c.seats*.25)-lead.n/c.seats*.15;
+        if(!best||score<best.score)best={members,lead:lead.i,total,score,avgDist};
+      }
+    }
+    if(!best||best.score>5.1)return {kind:'caretaker',coalition:[],leader:-1,head:'ממשלת מעבר',stability:28,treasury:50,portfolios:[],promiseCost:0,budgetFailed:0,reason:'המפלגות טרם הצליחו להקים רוב'};
+    const margin=best.total-majority(),n=best.members.length;
+    return {kind:'npc',coalition:best.members,leader:best.lead,head:s.parties[best.lead].leader,
+      stability:whole(84+Math.min(12,margin*.25)-4*(n-1)-8*best.avgDist+rBetween(-6,5),21,93),
+      treasury:whole(rBetween(43,66)),portfolios:best.members.filter(i=>i!==best.lead).map((i,j)=>({party:i,post:['כלכלה','חינוך','תשתיות','רווחה','פנים'][j%5]})),promiseCost:0,budgetFailed:0};
+  }
+  function recalcBlocks(){if(!s.government)return;s.parliament.coalition=s.government.kind==='caretaker'?[]:s.government.coalition.slice();s.parliament.opposition=partiesExcept(s.parliament.coalition)}
+  function caretaker(reason){s.primeMinister=false;s.government={kind:'caretaker',coalition:[],leader:-1,head:'ממשלת מעבר',stability:30,treasury:s.government?.treasury||52,portfolios:[],promiseCost:0,budgetFailed:0,reason};s.forming=null;s.flags.caretakerSince=s.year;recalcBlocks()}
+  function initialize(){const year=2026,age=Number($('start-age').value),city=$('start-city').value;
+    const conf=countries[cityCountries[city]];
+    let base=partyTemplates.map(p=>p.base);
+    if(conf.type==='presidential')base=[46.8,46.1,2.4,1.4,1.3,.9,1.1];
+    if(cityCountries[city]==='IL')base=[23.5,25,21,11,10,6.4,3.1];
+    s={year,age,city,nationalAnchors:{},seed:((Date.now()>>>0)^0x4ff5bc21)>>>0,started:false,party:-1,partyHead:false,partyTrust:27,partyFaction:36,partyPolitics:0,partyLabel:'',parties:deep(partyTemplates),partyPublic:boundedSplit(base),anchorPublic:boundedSplit(base),support:24,org:19,trust:31,links:27,skill:27,money:45,health:84,energy:82,stress:22,firm:0,delegated:false,community:0,publications:0,office:null,presidentialTerms:0,primeMinister:false,government:null,forming:null,parliament:null,localParl:null,campaign:null,turns:0,wins:0,losses:0,elections:[],log:[],route:[city],lastSwing:0,dead:false,historyYears:[],flags:{},seatsKnown:true};
+    buildParliament(conf.baseline,0,true);s.government=npcCoalition();
+    if(cityCountries[city]==='IL'){caretaker('תוצאות הבחירות החדשות דורשות הקמת קואליציה');}
+    recalcBlocks();snapshots=[];phase='intro';tab='all';resultView='national';pending=null;notice='';$('start-city').disabled=false;$('start-age').disabled=false;render();
+  }
+
+  const saveKey='hybrid.life.atlas.v8';
+  function readSaved(){try{const val=JSON.parse(localStorage.getItem(saveKey)||'null');if(val?.version!==8||!val.state?.started||!cityCountries[val.state.city]||!Array.isArray(val.state.parties)||!val.state.parliament||val.state.year<2026||val.state.year>2200||val.state.age<18||val.state.age>150)return null;return val.state;}catch{return null}}
+  function persist(){if(!s?.started)return;try{localStorage.setItem(saveKey,JSON.stringify({version:8,state:s}));$('save-note').textContent='נשמר מקומית במכשיר · אין חשבון או שרת';}catch{$('save-note').textContent='שמירה אוטומטית אינה זמינה בדפדפן הזה';}}
+  function resume(){const saved=readSaved();if(!saved)return;s=deep(saved);snapshots=[];tab='all';phase=s.dead?'end':'play';resultView='national';$('start-city').value=s.city;$('start-age').value=String(Math.max(18,Math.min(45,s.age-(s.year-2026))));render();$('action-region').scrollIntoView({behavior:'auto',block:'start'});}
+
+  function validSnapshot(saved){const v=saved?.state;return saved?.version===8&&v?.started&&cityCountries[v.city]&&Array.isArray(v.parties)&&v.parties.length>=6&&v.parliament&&Array.isArray(v.parliament.seats)&&v.year>=2026&&v.year<2200&&v.age>=18&&v.age<150;}
+  function importSnapshot(payload){if(!validSnapshot(payload))throw Error('הקובץ אינו שמירה תקינה של אטלס 8.0');s=deep(payload.state);snapshots=[];tab='all';phase=s.dead?'end':'play';resultView='national';$('start-city').value=s.city;render();$('action-region').scrollIntoView({behavior:'auto',block:'start'});}
+  function exportSnapshot(){if(!s.started)return;try{const bytes=JSON.stringify({version:8,state:s});const blob=new Blob([bytes],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='Hybrid-Life-Atlas-'+s.year+'.json';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);$('save-note').textContent='קובץ גיבוי הוכן להורדה';}catch{$('save-note').textContent='הגיבוי לא נתמך בתצוגה זו';}}
+  function remember(){snapshots.push(deep(s));if(snapshots.length>55)snapshots.shift()}
+  function log(title,body,tag=''){s.log.push({year:s.year,age:s.age,title,body,tag});if(s.log.length>90)s.log.shift()}
+  function chance(skill,difficulty,extra=0){const ability=.30*s[skill]+.19*s.links+.17*s.trust+.17*s.energy+.17*s.org+extra;return clamp(logistic((ability-difficulty)/13),.08,.92)}
+  function hazard(){return clamp(.0015*Math.exp(.11*(s.age-42)+.015*(70-s.health)+.011*(s.stress-30)-.008*(s.energy-65)),.00015,.70)}
+  function medianAge(){let survival=1,health=s.health,energy=s.energy,stress=s.stress;for(let age=s.age;age<126;age++){const h=clamp(.0015*Math.exp(.11*(age-42)+.015*(70-health)+.011*(stress-30)-.008*(energy-65)),.00015,.70);survival*=1-h;if(survival<=.5)return age;health=whole(health-Math.max(0,age-65)*.09+.02*(energy-50));energy=whole(energy+8-(age>77?3:0));stress=whole(stress-5)}return '125+'}
+  function changePhase(mode){phase=mode;render();if(mode==='result'){const el=$('result');if(el&&typeof el.scrollIntoView==='function')el.scrollIntoView({behavior:'auto',block:'start'})}}
+  function outcome(title,story,juice,detail='',important=false,action=true){if(action)s.turns++;log(title,story,important?'major':'');$('result-title').textContent=title;$('result-story').textContent=story;$('result-juice').textContent=juice;$('result-details').textContent=detail;changePhase('result')}
+  function menu(title,hint,items,fn){pending=fn;$('choice-title').textContent=title;$('choice-hint').textContent=hint;$('choice-list').innerHTML='';items.forEach(item=>{const b=document.createElement('button');b.type='button';b.className='action';const span=document.createElement('span');span.className='action-title';span.textContent=item.name;const desc=document.createElement('span');desc.className='action-sub';desc.textContent=item.desc||'';b.append(span,desc);b.addEventListener('click',()=>fn(item));$('choice-list').appendChild(b)});changePhase('choice')}
+  function firstAction(id){if(s.started)return;s.started=true;tab=id==='party'?'party':'life';phase='play';if(id==='party')return choose('party');if(id==='business')return act('business',null);if(id==='community')return act('community',null);if(id==='policy')return act('policy',null);render()}
+  function startFromBlank(){s.started=true;phase='play';render()}
+  function available(id){if(!s.started||s.dead||s.turns>=4)return false;switch(id){
+    case 'primary':case 'lead':case 'faction':return s.party>=0 && (id!=='lead'||!s.partyHead);
+    case 'delegate':return s.firm>0&&!s.delegated;
+    case 'business':return !s.office||s.delegated||s.office.type==='local';
+    case 'nominate':return !s.campaign && (s.party>=0 || (context().headRule!=='monarch'&&s.age>=35)) && ((s.party>=0&&s.age>=(cityCountries[s.city]==='US'?25:18)&&electableYear('national')<=s.year+2) || (nextHead()!==null&&s.age>=context().headMin&&nextHead()<=s.year+2) || (s.age>=18&&electableYear('local')<=s.year+2) || (context().europeSeats>0&&s.party>=0&&s.age>=21&&nextEuropean()<=s.year+2));
+    case 'campaign':return !!s.campaign && s.campaign.year>=s.year;
+    case 'election':return !!s.campaign && s.campaign.year===s.year;
+    case 'mandate':return context().type==='parliamentary' && s.office?.type==='mp' && s.partyHead && s.party>=0 && s.parliament.seats[s.party]>0 && s.government?.kind==='caretaker' && !s.forming;
+    case 'talk':return !!s.forming;
+    case 'invest':return !!s.forming && totalSeats(s.forming.members)>=majority();
+    case 'portfolio':return !!s.office && s.office.type==='mp' && s.government?.kind==='npc' && s.government.coalition.includes(s.party) && !s.office.minister;
+    case 'budget':case 'cabinet':return s.primeMinister||s.office?.type==='president'&&context().type==='presidential';
+    case 'law':return !!s.office && (['mp','president','local','mep'].includes(s.office.type)) || s.primeMinister;
+    case 'oppose':return s.office?.type==='mp' && !s.government?.coalition?.includes(s.party);
+    case 'presAction':return s.office?.type==='president';
+    case 'early':return context().type==='parliamentary' && s.office?.type==='mp';
+    case 'resign':return !!s.office || s.primeMinister;
+    default:return true;
+  }}
+  function choose(id){if(!available(id))return;const c=context();
+    if(id==='party')return menu('בחר מפלגה — בלי לראות מראש את התוצאה','כל מסגרת מחזיקה תשתית, תומכים ומחלוקות פנימיות משלה.',s.parties.map((p,i)=>({name:p.name,desc:p.side+' · '+p.issue,value:i})),it=>act(id,it.value));
+    if(id==='found'){
+      $('found-name').value='תנועת הגשרים';$('found-idea').value='centrist';changePhase('found');return;
+    }
+    if(id==='nominate'){
+      const list=[];
+      if(s.party>=0 && s.age>=(cityCountries[s.city]==='US'?25:18) && electableYear('national')<=s.year+2)list.push({name:'הפרלמנט הלאומי · '+electableYear('national'),desc:c.chamber+' · '+c.term+' שנות כהונה',value:'national',year:electableYear('national')});
+      if(s.age>=18&&electableYear('local')<=s.year+2)list.push({name:'המועצה המקומית · '+electableYear('local'),desc:c.localName+' · '+c.localTerm+' שנות כהונה',value:'local',year:electableYear('local')});
+      if(c.europeSeats>0&&s.party>=0&&s.age>=21&&nextEuropean()<=s.year+2)list.push({name:'הפרלמנט האירופי · '+nextEuropean(),desc:'משלחת '+c.name+' · '+c.europeSeats+' מושבים בנתוני הבסיס, 5 שנות כהונה',value:'europe',year:nextEuropean()});
+      if(c.headRule!=='monarch'&&s.age>=c.headMin&&nextHead()!==null&&nextHead()<=s.year+2 && s.presidentialTerms<(c.headRule==='indirect'&&cityCountries[s.city]==='IL'?1:2))list.push({name:'נשיאות · '+nextHead(),desc:c.headRule==='indirect'?'בחירה עקיפה בגוף בוחר':c.headRule==='electoral'?'מועמדות לנשיאות ושיטת האלקטורים':'בחירה נשיאותית ישירה',value:'president',year:nextHead()});
+      if(!list.length)return message('לא נפתח חלון מועמדות','אפשר להרחיב פעילות פוליטית, לארגן סניפים או להתקדם לשנה הבאה.');
+      return menu('איזה תפקיד תרצה לנסות להשיג?','מועמדות מחייבת מנגנון מיון, קמפיין ולוח בחירות. נדרשים גם תנאי כשירות שלא נבדקים במלואם במשחק.',list,it=>act('nominate',it));
+    }
+    if(id==='campaign')return menu('איפה להשקיע בקמפיין?','ההשלכות המספריות של ההחלטה נשמרות בסתר עד לביצועה.',[
+      {name:'חוגי בית ודלת לדלת',desc:'גיוס מתנדבים ושיחות עם תושבים',value:'grass'},
+      {name:'עימותים ותקשורת',desc:'טענות, ביקורת ותשובות בשידור',value:'media'},
+      {name:'שותפויות ציבוריות',desc:'ניסיון לחבר קבוצות סביב נושא',value:'allies'},
+      {name:'גיוס תרומות שקוף',desc:'תקציב למטה ותיעוד מסודר',value:'finance'}],it=>act(id,it.value));
+    if(id==='talk'){
+      const availablePartners=partiesExcept(s.forming.members).map(i=>({name:partyName(i),desc:s.parliament.seats[i]+' מושבים · '+s.parties[i].side,value:i}));
+      return menu('איזו מפלגה תזמין לשולחן?','חברות בקואליציה מוסיפה מושבים אך מחייבת חלוקת תיקים ותוכנית.',availablePartners,it=>menu('מה להציע ל'+it.name+'?', 'תיקים הם משאב סופי; פערי מדיניות אינם נעלמים עם חתימה.',[
+        {name:'שיתוף פעולה בלי משרד',desc:'התחייבות מצומצמת',value:0},
+        {name:'משרד ממשלתי אחד',desc:'תיק בעל השפעה על תחום פעילות',value:1},
+        {name:'שני משרדים',desc:'שני תיקים והרחבת האוטונומיה',value:2},
+        {name:'תיק בכיר וקווי יסוד',desc:'מחיר משמעותי בסדר היום',value:3}
+      ].filter(o=>o.value<=14-s.forming.offers.reduce((n,a)=>n+a.offer,0)),offer=>act('talk',{party:it.value,offer:offer.value})));
+    }
+    if(id==='budget')return menu('תקציב הממשלה לשנה הקרובה','מהלך ממשלתי מחייב בסיס קואליציוני ומשאבים פיסקליים.',[
+      {name:'תשתיות ותחבורה',desc:'השקעה ארוכת טווח ודרישה למימון',value:'infrastructure'},
+      {name:'חינוך ובריאות',desc:'הרחבת השירותים הציבוריים',value:'public'},
+      {name:'מיקוד באיזון תקציבי',desc:'צמצום גירעון עם מחיר ציבורי',value:'balance'}],it=>act(id,it.value));
+    if(id==='law')return menu('איזה נושא להעלות לדיון?','הצעות חוק יכולות להיתקע בוועדה, להיפתח לתיקונים או להתקדם בהסכמה.',c.issues.map(n=>({name:n,value:n})),it=>act(id,it.value));
+    if(id==='move')return menu('לאן ימשיך פרק החיים?','למעבר יש מחיר מקצועי ופוליטי, אבל הקשרים והניסיון אינם נעלמים.',Object.keys(cityCountries).filter(x=>x!==s.city).map(x=>({name:x,value:x})),it=>act(id,it.value));
+    if(id==='presAction')return menu('איזו סמכות נשיאותית תפעיל?', 'סמכויות הנשיא שונות בין רפובליקות פרלמנטריות לבין המשטר האמריקאי.',[
+      {name:'נאום מדיני וביקור ממלכתי',value:'speech'},
+      {name:'שיחות לתיווך בין הסיעות',value:'mediation'},
+      {name:'החזרת חקיקה לבחינה',value:'veto'}],it=>act(id,it.value));
+    if(id==='cabinet')return menu('איך לשנות את הקבינט?', 'לכל מינוי יש מחיר ביחסים עם שותפים ועם הציבור.',[
+      {name:'מינוי מקצועי',value:'technocrat'},
+      {name:'העברת תיק לשותפה קואליציונית',value:'concession'},
+      {name:'פיטורי שר בעקבות מחלוקת',value:'dismiss'}],it=>act(id,it.value));
+    if(id==='oppose')return menu('איזה כלי פרלמנטרי תפעיל?', 'הצעות אי־אמון פועלות בתוך כללים חוקתיים, ולא באמצעות סיכוי שרירותי להדיח ממשלה.',[
+      {name:'דיון חירום בוועדה',value:'committee'},
+      {name:'בקשת מידע ושאילתה',value:'question'},
+      {name:'הצעת אי־אמון / רוב חלופי',value:'confidence'}],it=>act(id,it.value));
+    if(id==='policy')return menu('באיזה תחום תעמיק?', 'נייר מדיניות יכול להוליד כנס, שיתוף פעולה או ביקורת ציבורית.',c.issues.map(n=>({name:n,value:n})),it=>act(id,it.value));
+    act(id,null);
+  }
+  function message(title,body){$('result-title').textContent=title;$('result-story').textContent=body;$('result-juice').textContent='אפשר לחזור לטבלת הפעולות ולבחור מהלך אחר.';$('result-details').textContent='';changePhase('result')}
+  function act(id,choice){if(!available(id))return;remember();const env=scenery[cityCountries[s.city]],ctx=context(),p=s.party>=0?s.parties[s.party]:null,initial=s.party>=0?s.party:-1;let title='',story='',juice='',detail='',eventMajor=false;const luck=rand();
+    if(id==='party'){
+      s.party=choice;s.partyHead=false;s.partyTrust=whole(31+rBetween(-5,8));s.partyFaction=whole(rBetween(23,43));s.partyPolitics++;mod('org',7);mod('links',4);
+      title='הצטרפת אל '+partyName(choice);story='ב'+env.cafe+' ממתין לך מזכיר הסניף עם רשימת פעילים שלא עודכנה כבר חודשים. מחוץ לחדר מתווכחים אם להתרכז בדיור, בביטחון או בתקציב. אתה מקבל תפקיד בארגון המקומי, אבל עדיין אין לך מקום ברשימה.';juice='חברות במפלגה היא השתייכות לארגון עם מסורת, מתחרים ודרכי קידום משלו — לא רק תווית אידאולוגית.';
+    }else if(id==='found'){
+      const info=choice;const ideologies={centrist:[50,55,58,'מרכז אזרחי'],liberal:[60,72,75,'ליברלית'],conservative:[67,30,42,'שמרנית'],social:[26,68,65,'חברתית'],communal:[42,41,50,'קהילתית'],green:[30,83,76,'ירוקה']};
+      const ideology=ideologies[info.kind]||ideologies.centrist;s.parties[6]={...s.parties[6],name:info.name,short:info.name.slice(0,10),eco:ideology[0],soc:ideology[1],foreign:ideology[2],side:ideology[3],leader:'המייסד',issue:'תוכנית חדשה בשוק פוליטי ותיק'};
+      s.party=6;s.partyHead=true;s.partyTrust=72;s.partyFaction=52;s.partyPolitics++;mod('money',-9);mod('org',10);mod('links',6);s.partyPublic[6]=Math.max(s.partyPublic[6],3.2);s.partyPublic=boundedSplit(s.partyPublic);
+      title='נוסדה '+info.name;story='בחדר ישיבות שכור, בין ערימת כוסות חד־פעמיות לבין טיוטת תקנון, שבעה מייסדים מתווכחים על זכות וטו של הסניפים. יש שם, סמל, יושב ראש וגרעין, אבל לא בהכרח ציבור מצביעים.';juice='מפלגה היא מוצר פוליטי שצריך גם ארגון, גם אמון, גם תמיכה; לא מספיק לפתח לה מיתוג.';
+    }else if(id==='grass'){
+      const result=rand()<chance('org',43,s.partyTrust*.05);s.partyPolitics++;mod('org',result?11:7);mod('support',result?9:4);mod('partyTrust',result?7:3);mod('energy',-10);mod('stress',7);
+      title=result?'הסניף הופך לתשתית':'הקמפיין המקומי מתקדם לאט';story=result?'שלושים פעילים מקבלים רשימת שכונות. בשיחת ערב אחד מהם אומר: ״בשנה שעברה היינו ארבעה.״ הופך להיות ברור שיש מי שמוכן לדפוק בדלתות גם בלעדיך.':'הכינוס ב'+env.cafe+' מושך פחות אנשים מכפי שקיווית. אבל מתנדבת אחת לוקחת על עצמה את רשימת הקשר ונותנת לפעילות סיכוי להימשך.';juice='בסיס בוחרים נבנה בעבודה חוזרת, לא רק בהופעה טובה אחת.';
+    }else if(id==='primary'){
+      const score=clamp(logistic((-1.0+.022*s.partyTrust+.018*s.org+.015*s.links+.012*s.partyPolitics))*1, .10,.93);
+      const success=rand()<score;mod('energy',-9);mod('partyFaction',success?5:-7);
+      if(success){s.flags.primaryWon=true;s.partyTrust=whole(s.partyTrust+11);title='הצלחת בפריימריז';story='במטה המפלגה פרץ ויכוח על ספירת קולות הסניף האחרון. עם סיום הבדיקה, מתברר שהשגת מיקום גבוה יותר ברשימה לקראת הבחירות.'}else{title='מועמד ותיק מקדים אותך ברשימה';story='למרות עבודה ציבורית, חברי ועדת המינויים מעדיפים מועמד בעל קשרים ותיקים. קבוצה קטנה מציעה להמשיך לארגן את הפעילים עד המחזור הבא.';s.partyTrust=whole(s.partyTrust+3)}
+      juice='למי ששולט ברשימה יש כוח פנימי שיכול להיות נפרד מהאהדה הציבורית.';
+    }else if(id==='lead'){
+      let score=clamp(logistic((-2.1+.027*s.partyTrust+.022*s.org+.012*s.links+.016*s.partyPolitics)),.08,.92);const won=rand()<score;mod('energy',-9);s.partyPolitics++;if(won){s.partyHead=true;s.partyTrust=whole(s.partyTrust+12);title='נבחרת להנהגת '+partyName(s.party);story='המשלחת מהמחוז הדרומי מושכת את ההצבעה עד אחרי חצות. אחרי סבב ספירה נוסף, הכרזת ועדת הבחירות הפנימית ברורה: ההנהגה בידיך. אולם חלק מהסיעה דורש התחייבות לקווי היסוד הישנים.'}else{title='ההנהגה נשארה בידי יריב פנימי';story='המועמד המכהן ניצח במועצת המפלגה. בנאום שלך לאחר הספירה הבטחת להמשיך בעבודה הציבורית, אבל תומכים דורשים ממך להיאבק על שינוי התקנון.';s.partyTrust=whole(s.partyTrust+5)}juice='ניצחון בקרב פנימי מעניק שליטה במנגנון — לא רוב בפרלמנט.';
+    }else if(id==='faction'){
+      const success=rand()<chance('links',46,s.partyTrust*.08);mod('energy',-7);mod('partyFaction',success?12:-8);mod('partyTrust',success?5:-3);
+      title=success?'נחתמה פשרה במפלגה':'הסיעה נותרה מפולגת';story=success?'נציגת האגף החברתי מוותרת על דרישה לתפקיד בתמורה לוועדת תוכן. הצוות מקבל שבוע להציג ניסוח מוסכם.':'שני חברי הנהלה פורשים מהדיון לפני ההצבעה. בתקשורת ממהרים לתאר ״מרד״, אך בשטח הפעילים עדיין מנסים להשאיר את כולם בחדר.';
+      juice='משמעת סיעתית חשובה במיוחד ברגע שבו קואליציה מחזיקה ברוב של מושב אחד.';
+    }else if(id==='nominate'){
+      const type=choice.value;let rank=1;
+      if(type==='national' && ctx.method!=='DISTRICTS'){
+        const baseSeats=Math.max(1,s.parliament.seats[s.party]);
+        const quality=.38*s.partyTrust+.32*s.org+.2*s.links+.1*s.support;
+        rank=s.partyHead?1:Math.max(1,Math.round(baseSeats*(1.12-quality/250)+rBetween(0,6)+(s.partyPolitics<2?Math.max(2,baseSeats*.12):0)-(s.flags.primaryWon?Math.min(10,baseSeats*.25):0)));
+      }
+      s.campaign={type,year:choice.year,label:choice.name,effort:0,boost:0,rank,registered:s.year,issue:ctx.issues[Math.floor(rand()*ctx.issues.length)]};mod('money',-5);mod('stress',5);
+      title='המועמדות נרשמה';story='היועצת המשפטית של המטה מסמנת בעיפרון שני סעיפים שצריך לתקן. צוות התקשורת רוצה מיד הודעה לעיתונות, אבל מנהלת הקמפיין מתעקשת קודם לסגור רשימות מתנדבים. '+(type==='national'&&ctx.method!=='DISTRICTS'?'מיקומך הזמני ברשימה: '+rank+'.': 'המרוץ נפתח כעת במחוז הבחירה שלך.') ;juice='אי אפשר להפוך מעורבות ציבורית למנדט ביום אחד: תחילה צריך להיות מועמד, ואחר כך לזכות בתמיכה.';detail='שנת בחירות: '+choice.year+(type==='national'&&ctx.method!=='DISTRICTS'?' · מיקום ברשימה: '+rank:'');
+    }else if(id==='campaign'){
+      const where=choice;let boost=0;
+      if(where==='grass'){mod('org',7);mod('support',7);boost=1.7;story='במוקד השכונתי מחלקים מפה עם רחובות שטרם ביקרו בהם. מתנדב צעיר מסכם: ״אי אפשר לדבר עם כולם, אבל אפשר לחזור למי שהקשיב.״'}
+      if(where==='media'){mod('trust',6);mod('links',3);boost=1.4;story='העימות נמשך שבע דקות מעבר למתוכנן. השאלה האחרונה על התקציב מאלצת אותך לבחור בין סיסמה קצרה להסבר מורכב.'}
+      if(where==='allies'){mod('links',8);mod('partyTrust',4);boost=1.1;story='ארגון מקצועי מזמין אותך לשיחה סגורה. הוא מציג שלושה תנאים לשיתוף פעולה; ההסכמה הסופית קטנה מהכותרת, אבל אמיתית.'}
+      if(where==='finance'){mod('money',12);mod('org',3);boost=.7;story='גזבר המטה מציג רשימת תרומות, והיועצת מזכירה שכל סכום צריך תיעוד. יש כסף לשלטי חוצות — לא לכל הרעיונות.'}
+      s.campaign.effort++;s.campaign.boost+=boost;mod('energy',-10);mod('stress',8);if(where!=='finance')mod('money',-6);
+      title='עוד שבוע בקמפיין';juice='גם קמפיין מוצלח משנה את סיכויי התוצאה, אבל אינו מוחק את כוחן של מפלגות אחרות.';
+    }else if(id==='election'){
+      return settleElection(true);
+    }else if(id==='mandate'){
+      const own=s.parliament.seats[s.party],largest=Math.max(...s.parliament.seats);
+      const pWin=clamp(.16+.43*(own/largest)+.002*s.links+.003*s.partyTrust+(s.government.kind==='caretaker'?.08:0),.12,.87);
+      if(rand()<pWin){s.forming={members:[s.party],offers:[],started:s.year,attempts:0};title='קיבלת ניסיון להרכיב ממשלה';story='נשיא המדינה מזמן אותך לפגישת התייעצות. לפני שנכנסים, ראש הלשכה שואל שאלה אחת: ״כמה סיעות באמת יחתמו?״ כעת עליך למצוא רוב, לא רק להכריז עליו.';juice='במשטר פרלמנטרי, משימת הרכבת ממשלה היא מבחן של רוב במליאה.'}else{title='המנדט הוטל על מועמד אחר';story='בשורת הפגישות מתברר שמפלגות רבות אינן מוכנות להתחייב עדיין. המנדט להרכבה עובר למועמד אחר, אך אתה נשאר בסיעה ובפרלמנט.';juice='גם מנהיג של סיעה גדולה לא מקבל אוטומטית את לשכת ראש הממשלה.';mod('links',3)}
+    }else if(id==='talk'){
+      const i=choice.party,offer=choice.offer,dist=ideologicalDistance(s.party,i);
+      const acceptance=clamp(.17+.16*offer+.004*s.links+.002*s.partyTrust-.11*dist-.045*s.forming.offers.length,.06,.88);
+      const accepted=rand()<acceptance;s.forming.attempts++;mod('energy',-7);mod('stress',5);
+      if(accepted){s.forming.members.push(i);let post=offer>=3?'אוצר / פנים':offer===2?'שני תיקים ממשלתיים':offer===1?'משרד ממשלתי':'תמיכה פרלמנטרית';s.forming.offers.push({party:i,offer,post});title=partyName(i)+' מצטרפת להסכם';story='המטות מודיעים על הסכמה רק בשתיים בלילה. הסיעה החדשה דורשת '+post+' ומחייבת לשנות סעיף בהסכם על '+ctx.issues[(i+s.year)%ctx.issues.length]+'. לרשותך כעת '+totalSeats(s.forming.members)+' מתוך '+ctx.seats+' מושבים.';juice='עוד סיעה מוסיפה קולות לממשלה, אבל גם יכולה לעכב את התקציב הבא.'}else{title='השיחות עם '+partyName(i)+' הסתיימו בלי חתימה';story='המשלחת מגיעה עם רשימת דרישות ארוכה יותר. נציג המפלגה אומר: ״זה לא רק תיק. אנחנו רוצים יכולת להשפיע.״ המו״מ נשאר פתוח למהלך נוסף.';juice='הסכם פוליטי חייב להיות כדאי גם לשותף, ולא רק למרכיב הממשלה.'}
+      detail='דרוש רוב: '+majority()+' · בהסכם: '+totalSeats(s.forming.members)+' מושבים';
+    }else if(id==='invest'){
+      const n=totalSeats(s.forming.members),margin=n-majority();const partyCount=s.forming.members.length;
+      const attendance=clamp(.78+.006*margin-.025*(partyCount-1)-.016*s.forming.offers.filter(o=>o.offer===0).length+.0015*(s.partyFaction-40),.40,.96);
+      const passed=rand()<attendance;
+      if(passed){const spread=s.forming.members.slice(1).reduce((total,i)=>total+ideologicalDistance(s.party,i),0);
+        const cost=s.forming.offers.reduce((sum,o)=>sum+o.offer,0);
+        s.government={kind:'playerPM',coalition:s.forming.members.slice(),leader:s.party,head:'אתה',stability:whole(85+margin*.18-5*(partyCount-1)-5*spread-cost*2+rBetween(-4,4),24,94),treasury:55,portfolios:s.forming.offers.map(o=>({party:o.party,post:o.post})),promiseCost:cost,budgetFailed:0};s.primeMinister=true;s.forming=null;recalcBlocks();title='הושבעה הממשלה — אתה ראש הממשלה!';story='ההצבעה מסתיימת אחרי חצות. יו״ר הישיבה מכריז על '+n+' תומכים מתוך '+ctx.seats+'. מאחורי דוכן הנואמים כבר ממתינות שלוש בקשות לתיקון התקציב, וכל שותפה רוצה להיות הראשונה אצלך בלשכה.';juice='היכולת להרכיב רוב אינה זהה ליכולת לשמור עליו, אבל מרגע זה אפשר לקבל החלטות ממשלה.';
+      }else{title='ממשלתך לא זכתה באמון';story='שני נציגים לא הגיעו בזמן, ואחד החליט להימנע. על הנייר היה רוב, במליאה הוא לא הופיע. אפשר לחזור לשולחן המשא ומתן.';mod('trust',-3);juice='קואליציה היא התחייבות שצריך לתחזק ממש עד להצבעה.'}eventMajor=true;
+    }else if(id==='portfolio'){
+      const w=chance('links',47,s.partyTrust*.11);if(rand()<w){s.office.minister=true;s.office.post='שר ללא תיק';title='התמנית לשר';story='שיחת הטלפון מגיעה עם ההסכם הסיעתי. אתה מקבל אחריות ממשלתית, צוות קטן והתחייבות לדווח לראש הממשלה. בתוך שעה מגיעים כבר שלושה תיקי מדיניות.'}else{title='תיק הממשלה ניתן למועמד אחר';story='תמיכתך בקואליציה לא הספיקה כדי לקבל את התפקיד שהתבקשת. יו״ר הסיעה מציע לך בינתיים ראשות ועדה.'}juice='תיק שר הוא חלק מהסכם פוליטי, אבל גם עבודה ביצועית יומיומית.';
+    }else if(id==='budget'){
+      const cost=choice==='infrastructure'?15:choice==='public'?12:-9;
+      const gov=s.government;const coalitionVotes=totalSeats(gov.coalition);
+      const pass=ctx.type==='presidential'?clamp(.28+.0035*gov.stability+.28*(s.party>=0?s.parliament.seats[s.party]/ctx.seats:0)+.001*s.links-.003*Math.max(0,cost),.14,.83):clamp(.36+.0042*gov.stability+.0026*(coalitionVotes-majority())+.0008*(s.partyFaction-40)-.004*Math.max(0,cost),.14,.92);
+      const passed=rand()<pass;mod('energy',-8);mod('stress',9);
+      if(passed){gov.treasury=whole(gov.treasury-cost);gov.stability=whole(gov.stability+4-(cost>0?3:0));gov.budgetFailed=0;mod('trust',4);title='התקציב עבר';story='בשעה מאוחרת בלילה מגיעה ההצבעה האחרונה. שר האוצר מוחק סעיף מסעיף 14, ולמחרת בבוקר ראשי הרשויות מחכים לתקצוב שהובטח. המהלך אושר ומשנה את מרחב ההוצאה העתידי.'}else{gov.stability=whole(gov.stability-15);gov.budgetFailed++;title='התקציב נתקע במליאה';story='שותפה קואליציונית מתעקשת על תיקון שלא נכנס לנוסח האחרון. ההצבעה אינה עוברת, והאופוזיציה מגישה דרישה לדיון פומבי בתקציב.';if(gov.budgetFailed>=2&&cityCountries[s.city]==='IL')s.flags.budgetDissolution=true}juice='התקציב הוא המקום שבו הבטחות מפלגתיות הופכות למספרים ולוויתורים.';detail='יציבות ממשלה: '+gov.stability+' · יכולת תקציבית: '+gov.treasury;
+    }else if(id==='law'){
+      const gov=s.government;const coalition=s.office&&gov.coalition.includes(s.party),support=clamp(chance('skill',coalition?40:59,(gov.stability||50)*.07),.08,.94);
+      if(rand()<support){mod('trust',7);if(s.primeMinister)gov.stability=whole(gov.stability+3);title='היוזמה עוברת שלב';story='ב'+env.site+' נציגת האופוזיציה דורשת תיקון. לאחר שעה של הצבעות על הסתייגויות, הנוסח המתוקן בתחום '+choice+' מתקדם לשלב הבא. לא כל הדרישות שלך נשארו בחוק.'}else{title='החוק חוזר לוועדה';story='דיון סוער על '+choice+' מסתיים בלי הסכמה. ראש הוועדה מבקש נתוני עלות נוספים, והצוות שלך נדרש לכתוב שוב את סעיף 3.'}juice='חקיקה איננה קסם שמפעילים מתוך משרד. היא תהליך מוסדי של פשרות, ידע וביקורת.';
+    }else if(id==='oppose'){
+      if(choice==='committee'){mod('trust',6);mod('links',4);title='התקיים דיון ביקורתי בוועדה';story='מנכ״לית משרד הממשלה מציגה אומדני עלות שאינם תואמים את הדוח שהוגש. אתה מתעקש על פרוטוקול מפורט, ונציגי הקואליציה מבקשים השלמת נתונים.';juice='ועדה פעילה יכולה לשנות מדיניות גם בלי להפיל ממשלה.'}
+      if(choice==='question'){mod('support',5);title='שאילתה מקבלת הד ציבורי';story='בשעת שאלות לממשלה אתה מבקש הסבר לגבי '+ctx.issues[0]+'. התשובה מתחמקת מהנתון המרכזי, אבל משרד הממשלה מתחייב לפרסם דוח בתוך חודש.';juice='פיקוח אופוזיציוני הוא אמצעי להכריח את הממשלה להסביר מה עשתה.'}
+      if(choice==='confidence'){
+        const gov=s.government;let govSeats=totalSeats(gov.coalition),opSeats=ctx.seats-govSeats;
+        const possible=opSeats>=majority() || gov.stability<27;
+        if(possible && rand()<.27+.25*(gov.stability<27?1:0)){caretaker('החלפת הממשלה לאחר משבר');s.flags.snapElection=s.year+1;title='הממשלה מאבדת את הרוב';story='לאחר פגישה לילית בין ראשי האופוזיציה, שני נציגי הקואליציה מסרבים לתמוך בממשלה. מתחיל הליך חוקתי להרכבת רוב חלופי או לבחירות.'}else{mod('support',3);title='הצעת אי־אמון אינה עוברת';story='למרות נאומים חריפים, רוב חברי הקואליציה מצביעים יחד. האופוזיציה נותרת בלי הרוב הדרוש להחלפת הממשלה.'}juice='במדינות שונות אי־אמון מחייב רוב חלופי או הליך פורמלי. הטקטיקה אינה מחליפה את החשבון הפרלמנטרי.';
+      }
+    }else if(id==='cabinet'){
+      const gov=s.government;if(choice==='technocrat'){mod('trust',5);gov.stability=whole(gov.stability+2);story='מתמנה מומחית לאוצר הציבורי, אבל אחד משותפי הקואליציה תוהה מדוע לא קיבל את התפקיד.'}
+      if(choice==='concession'){gov.stability=whole(gov.stability+8);gov.promiseCost+=1;story='תיק ממשלתי עובר לשותפה. מנהיג הסיעה מחייך בפני המצלמות, ובמפלגתך שואלים על גבולות הפשרה.'}
+      if(choice==='dismiss'){gov.stability=whole(gov.stability-12);mod('trust',3);story='השר מפוטר לאחר ויכוח על סדר יום הממשלה. המהלך זוכה לתשומת לב אך מעורר אי־נוחות בקרב השותפים.'}
+      title='הרכב הממשלה השתנה';juice='חלוקת התיקים אינה עניין סמלי: היא קובעת מי מנהל תקציב, צוות ומדיניות.';
+    }else if(id==='presAction'){
+      const isUS=cityCountries[s.city]==='US';if(choice==='veto'&&['IL','DE','BE'].includes(cityCountries[s.city])){title='הנשיא נמנע מווטו שאינו בסמכותו';story='הייעוץ המשפטי מסביר שאין לנשיא סמכות כללית לחסום חוק במשטר המקומי. אתה בוחר לפרסם עמדה ממלכתית במקום הוראה שאין לה תוקף.'}
+      else if(choice==='veto'){title='החוק הוחזר לבדיקה';story=isUS?'הנשיא שולח לקונגרס הודעת וטו מנומקת. לשני הבתים נותרת אפשרות להתגבר עליה ברוב מיוחד.':'בית הנשיא מפרסם נימוקים להחזרת חקיקה לבחינה פרלמנטרית, בכפוף למגבלות החוקה.';mod('trust',4)}
+      else if(choice==='mediation'){title='נפתחו התייעצויות בבית הנשיא';story='מנהיגי הסיעות מגיעים בזמנים שונים כדי לא להצטלם יחד. בחדר הישיבות מנסים לנסח נוסחה שתאפשר חידוש השיחות.';mod('links',8)}
+      else{title='נאום נשיאותי מדיני';story='הטקס מתקיים ב'+env.site+', והשאלות בתדרוך שלאחריו עוסקות במה שנאמר — וגם במה שלא נאמר.';mod('trust',6)}
+      juice='ההבדל בין נשיא טקסי, נשיא בעל סמכויות ממשליות ונשיא אמריקאי משנה את המשחק כולו.';
+    }else if(id==='early'){
+      const gov=s.government,pass=rand()<clamp(.1+.004*s.org+.005*s.links+(gov.stability<30?.18:0),.1,.55);
+      if(pass){s.flags.snapElection=s.year+1;title='הושגה הסכמה על פיזור מוקדם';story='לאחר שיחות בין הסיעות והליך פורמלי, הכנסת או הפרלמנט מקדימים את הבחירות. כל המתמודדים צריכים להתחיל להתארגן מחדש.'}else{title='הניסיון להקדים בחירות נכשל';story='הסיעות אינן מגייסות רוב להחלטה. חלק מהמתנגדים אומרים שעדיף להישאר בממשלה המוחלשת מאשר להסתכן בבחירות.'}juice='הלוח הפוליטי משתנה דרך הצבעות והליכים, לא בגלל רצונו של פוליטיקאי יחיד.';
+    }else if(id==='resign'){
+      if(s.primeMinister){caretaker('התפטרות ראש הממשלה');s.primeMinister=false}
+      s.office=null;s.forming=null;mod('energy',12);mod('stress',-10);title='הסתיים פרק ציבורי מבחירה';story='אתה מחזיר את המפתח ללשכה. בעיתונים מתווכחים אם מדובר בפרישה זמנית. ביומן נשארו פגישות עסקיות וקהילתיות שנדחו שוב ושוב.';juice='אפשר לעזוב משרה בלי למחוק שנים של קשרים, ידע והשפעה.';
+    }else if(id==='business'){
+      const good=rand()<chance('skill',42);s.firm=Math.min(9,s.firm+1);mod('money',good?14:-9);mod('links',6);mod('energy',-9);mod('stress',7);title=good?'החברה חותמת על חוזה חוזר':'עסקת השותפות נעצרת';story=good?'ב'+env.cafe+' מתקיימת פגישה עם חברת הפקה. היא לא מחפשת עוד אירוע חד־פעמי אלא שותף שינהל סדרת משלחות וכנסים לאורך השנה.':'לקוח גדול מבקש להוריד את המחיר אחרי שהצוות כבר הכין את התוכנית. במקום להבטיח כל דבר, אתה מצמצם את החוזה ומשאיר את החברה יציבה.';juice='נכס עסקי אמיתי יכול להמשיך לפעול גם כשמסלול החיים פונה לכיוון אחר.';
+    }else if(id==='delegate'){
+      s.delegated=true;mod('money',-10);mod('energy',18);mod('stress',-10);title='העברת סמכויות יוצאת לדרך';story='מנהלת התפעול מקבלת הרשאה לחתום על הזמנות מתחת לתקרה מסוימת. הלקוח הראשון שמטלפן אליך מקבל תשובה פשוטה: ״דבר עם הצוות, הוא מנהל את זה.״';juice='הבעלות נמשכת גם כשהמייסד מפסיק לבצע בעצמו את כל העבודה.';
+    }else if(id==='community'){
+      s.community++;mod('links',11);mod('trust',5);mod('support',4);mod('energy',-8);title='מפגש קהילתי הופך לתוכנית';story='שלושה רכזים מערים שונות יושבים אחרי הכנס עם דף מקומט ומנסים לקבוע תאריך נוסף. חודש אחר כך מצטרפים שני ארגונים ויש כבר נושא שנתי, תקציב ומחלוקת על מי מוביל.';juice='כנס הוא רק האירוע; המוסד נולד כשהשותפים ממשיכים לעבוד גם אחרי שהאורחים חוזרים הביתה.';
+    }else if(id==='policy'){
+      s.publications++;mod('skill',10);mod('trust',6);mod('links',5);mod('energy',-6);title='נייר המדיניות מגיע לדיון';story='הניתוח בנושא '+choice+' מופץ בין עוזרים פרלמנטריים. אחד מהם כותב הערה בשוליים: ״הנתון הזה טוב, אבל מה עושים אם התקציב לא עובר?״ השאלה הופכת לדיון נוסף.';juice='השפעה מקצועית מתחילה כשמישהו יכול להשתמש ברעיון שלך גם כשאינך בחדר.';
+    }else if(id==='move'){
+      const prev=s.city;s.city=choice;s.route.push(choice);s.campaign=null;s.forming=null;s.office=null;s.primeMinister=false;s.party=-1;s.flags.primaryWon=false;s.partyHead=false;mod('support',-12);mod('money',-9);mod('links',5);
+      const code=cityCountries[s.city];let base=code==='US'?[46.8,46.1,2.4,1.4,1.3,.9,1.1]:partyTemplates.map(p=>p.base);
+      s.partyPublic=boundedSplit(base);s.anchorPublic=boundedSplit(base);s.localParl=null;resultView='national';
+      buildParliament(context().baseline,0,true);s.government=npcCoalition();recalcBlocks();title='מעבר מ'+prev+' ל'+choice;story='בדירה החדשה עוד עומדות קופסאות. ההזמנה הראשונה לכנס נשלחת מהמקום הקודם, אבל החדשות המקומיות עוסקות בנושאים אחרים לגמרי. אתה מכיר אנשים, לא בהכרח את כללי המשחק החדשים.';juice='רשת קשרים היא נכס נייד; לגיטימציה פוליטית מקומית כמעט תמיד צריך לבנות מחדש.';
+    }else if(id==='rest'){
+      mod('health',5);mod('energy',22);mod('stress',-18);title='שנה פחות צפופה';story='היומן אינו ריק, אבל יש בו ימים ללא נסיעות. במקום כנס גדול הוחלט על שתי פגישות טובות. חלק מהשותפים ממשיכים לפעול בזכות עצמם.';juice='השאלה אינה אם תמיד מתקדמים. השאלה אם אפשר לבחור גם מתי לא לגדול.';
+    }else {snapshots.pop();return}
+    outcome(title,story,juice,detail,eventMajor,true);
+  }
+  function settleElection(manual){const campaign=s.campaign;if(!campaign)return;if(!manual)remember();let title='',story='',juice='',detail='',won=false;
+    const t=campaign.type,env=scenery[cityCountries[s.city]],c=context();mod('money',-6);mod('energy',-10);mod('stress',9);
+    if(t==='national'){
+      const boost=s.party>=0?Math.min(4.8,campaign.boost+Math.max(0,(s.org-35)*.025)+(s.partyHead?.7:0)):0;
+      buildParliament(s.year,boost,false);s.elections.unshift(deep(s.parliament));if(s.elections.length>12)s.elections.length=12;
+      if(c.type==='parliamentary'){caretaker('תוצאות חדשות — התייעצויות להרכבת ממשלה')}else {s.government=npcCoalition();recalcBlocks()}
+      if(c.method==='DISTRICTS'){
+        const partisan=s.party>=0?s.parliament.votes[s.party]:0;
+        const districtLean=rBetween(-.32,.32);
+        const newcomer=s.partyPolitics<2&&!s.flags.primaryWon?-1:0;const pDistrict=clamp(logistic(-1.3+(partisan-30)*.035+(s.org-30)*.013+(s.trust-30)*.009+campaign.effort*.25+districtLean+newcomer),.03,.88);
+        won=s.party>=0 && rand()<pDistrict && s.parliament.seats[s.party]>0;
+        campaign.rank='מחוז בודד';
+      }else won=s.party>=0 && (c.method==='DISTRICTS'?rand()<clamp(logistic(-2.55+.024*s.support+.018*s.org+.013*s.trust+.10*campaign.effort+(s.party<2?.55:-1.0)),.05,.88):s.parliament.seats[s.party]>=campaign.rank);
+      if(won&&c.method==='DISTRICTS'&&s.parliament.seats[s.party]===0){const leader=s.parliament.seats.indexOf(Math.max(...s.parliament.seats));s.parliament.seats[leader]--;s.parliament.seats[s.party]++;}
+      if(won){s.office={type:'mp',label:'חבר '+c.chamber,from:s.year,until:s.year+c.term,minister:false};s.wins++;s.losses=0;title='נבחרת לפרלמנט';story='ערוצי הטלוויזיה מציגים את רשימות המפלגות עם מספרי מושבים. '+(c.method==='DISTRICTS'?'ההפרש במחוז הבית קטן, אבל מספיק לניצחון אישי בקרב על מושב אחד.':'מיקומך, '+campaign.rank+' ברשימת '+partyName(s.party)+', נכנס לטווח המנדטים.')+' מחוץ לבניין כבר מחכים עיתונאים, ובפנים סופרים שותפויות אפשריות.';juice='מכאן מתחיל שלב חדש: ועדות, חקיקה, תקציבים וקואליציות.'}else{s.losses++;mod('links',4);mod('partyTrust',4);title='הרשימה לא הכניסה אותך לפרלמנט';story='על הלוח במטה מופיעים '+(s.party<0?0:s.parliament.seats[s.party])+' מושבים למפלגתך. '+(c.method==='DISTRICTS'?'במחוז שלך גבר מועמד אחר.':'מיקומך ברשימה היה '+campaign.rank+'.')+' הפעילים מתחילים לדון אם לשנות הנהגה או להישאר במפלגה עד המחזור הבא.';juice='בבחירות רשימתיות, גם מצביעים שתומכים במפלגה אינם מבטיחים לכל מועמד מושב.'}
+      const bloc=totalSeats(s.parliament.coalition);detail='מושבים הוקצו: '+s.parliament.seats.reduce((a,b)=>a+b,0)+'/'+c.seats+' · רוב: '+majority()+' · גוש ממשלתי: '+bloc+' · אופוזיציה: '+(c.seats-bloc);
+    }else if(t==='europe'){
+      const votes=nationalVotes(Math.min(4.5,campaign.boost),false), seats=dhondt(votes,c.europeSeats,3.5);
+      const rank=s.partyHead?1:Math.max(1,Math.round(Math.max(1,seats[s.party])*.58+rBetween(1,3)-(s.flags.primaryWon?2:0)));
+      won=s.party>=0&&seats[s.party]>=rank;s.euroParl={year:s.year,votes,seats,total:c.europeSeats,turnout:whole(rBetween(42,70))};
+      if(won){s.office={type:'mep',label:'חבר הפרלמנט האירופי',from:s.year,until:s.year+5};s.wins++;title='נבחרת לפרלמנט האירופי';story='לאחר ספירת פתקי ההצבעה מתברר שמקומך ברשימת '+partyName(s.party)+' מספיק כדי להיכנס למשלחת של '+c.name+'. בבריסל מחכה ועדה, אבל זה עדיין לא מינוי לממשלה לאומית.';juice='חבר פרלמנט אירופי יכול לפעול בוועדות ובקבוצות פוליטיות, אך אינו ממנה ראש ממשלה במדינת מוצאו.';}else{s.losses++;title='הרשימה האירופית לא הניבה מושב';story='הקולות נספרו, אך המיקום שלך ברשימה לא נכנס למכסת המושבים. הקשרים שצברת במהלך מערכת הבחירות נותרו.';juice='ברשימות אירופיות יש משמעות גם לסך הקולות וגם למיקום ברשימה.';}
+      detail='משלחת מדומה: '+c.europeSeats+' מושבים · הצבעה '+s.euroParl.turnout+'%';resultView='europe';
+    }else if(t==='local'){
+      const popularity=clamp(.08+.003*s.support+.003*s.org+.001*s.trust+.045*campaign.effort-(s.partyPolitics<2?.08:0),.04,.84);
+      const candidateSuccess=rand()<popularity;
+      const total=s.city==='ניו יורק'?51:s.city==='וושינגטון'?13:c.localSeats||31,weights=nationalVotes(Math.min(4,campaign.boost),false),seats=dhondt(weights,total,c.threshold===0?0:3);
+      const order=seats.map((seat,i)=>({seat,i})).filter(x=>x.seat>0).sort((a,b)=>b.seat-a.seat);
+      const council=[order[0].i];let councilTotal=order[0].seat;for(const partner of order.slice(1).sort((a,b)=>ideologicalDistance(council[0],a.i)-ideologicalDistance(council[0],b.i))){if(councilTotal>=Math.floor(total/2)+1)break;council.push(partner.i);councilTotal+=partner.seat}
+      s.localParl={year:s.year,seats,votes:weights,coalition:council,opposition:seats.map((_,i)=>i).filter(i=>!council.includes(i)&&seats[i]>0),total,turnout:whole(rBetween(34,67))};resultView='local';won=candidateSuccess&&(s.party>=0?seats[s.party]>0:true);
+      if(won){s.office={type:'local',label:'חבר '+c.localName,from:s.year,until:s.year+c.localTerm};s.wins++;title='נבחרת למועצת העיר';story='באולם עירייה צפוף ראשי רשימות מחליפים לחיצות יד. אחד מחברי המועצה החדשים מושיט לך תיקייה על מצב התחבורה, ומזכיר שיש ועדת תקציב כבר בשבוע הבא.';juice='אחריות מקומית היא שלטון אמיתי: שירותים, תושבים ותקציבים.'}else{s.losses++;title='לא נכנסת למועצת העיר';story='ספירת הקולות הושלמה. הרשימה שלך לא הכניסה אותך במיקום הנוכחי. עם זאת, הרשת שהוקמה במהלך המירוץ ממשיכה להתקיים.';juice='הקשר בין פעילות אזרחית לתפקיד נבחר אינו אוטומטי.'}
+      detail='מועצה מדומה: '+total+' מושבים · שיעור הצבעה '+s.localParl.turnout+'% · קואליציה עירונית '+councilTotal+' · אופוזיציה '+(total-councilTotal);
+    }else{
+      const coeff=c.headRule==='indirect'?-.25:c.headRule==='electoral'?-0.1:0;
+      const score=logistic(-3.3+.010*s.support+.012*s.trust+.011*s.links+.009*s.org+.18*campaign.effort+.015*s.partyPolitics+(s.partyHead?.35:0)+(s.wins>0?.45:-.65)+(s.age>=40?.25:0)+coeff);
+      won=rand()<clamp(score,.08,.83);
+      let electors=null;
+      if(c.headRule==='electoral'){const share=.46+.08*(score-.4)+rBetween(-.09,.09);electors=whole(538*clamp(share,.30,.70));won=electors>=270;detail='חבר האלקטורים: '+electors+'/538 · דרוש 270';}
+      if(won){s.office={type:'president',label:c.head+' '+c.name,from:s.year,until:s.year+c.headTerm};s.presidentialTerms++;s.wins++;if(c.type==='presidential'){s.government={kind:'playerPresident',coalition:[],leader:s.party,head:'אתה',stability:whole(rBetween(48,72)),treasury:55,portfolios:[],promiseCost:0,budgetFailed:0};recalcBlocks()}
+        title='נבחרת לנשיאות';story=c.headRule==='indirect'?'לאחר סבב נוסף של הצבעות בגוף הבוחר, יושב הראש מכריז על התוצאה. התפקיד הנשיאותי נושא סמכויות שונות משל ראש הממשלה.':'במטה הבחירות מתחלפים על המסך מחוזות ונפות. ההכרזה הסופית מתקבלת כשהפער הופך לבלתי ניתן לסגירה.';juice=c.type==='presidential'?'נשיא ארה״ב הוא ראש הרשות המבצעת, אבל הקונגרס אינו כפוף לו.':'בחירת נשיא אינה מעניקה לו אוטומטית סמכויות של ראש ממשלה.';
+      }else{s.losses++;title='הנשיאות הלכה למועמד אחר';story='ההצבעה הסתיימה. התוצאה מאכזבת, אבל עשרות אנשי צוות שעבדו במטה אינם נעלמים ביום אחד.';juice='לא כל פסגה פוליטית מתרחשת במסלול הראשון שנבחר.'}
+    }
+    s.campaign=null;s.flags.primaryWon=false;
+    if(!manual){log(title,story,'major');return {title,story}}
+    outcome(title,story,juice,detail,true,true);
+  }
+  function runBackgroundNational(year){const ctx=context();const due=(year===nextFrom(s.nationalAnchors[cityCountries[s.city]]||ctx.baseline,ctx.term,year,true)) && (s.parliament.year<year);
+    if(!due)return false;
+    const had=s.campaign&&s.campaign.type==='national'&&s.campaign.year===year;
+    if(had){settleElection(false);return true}
+    const before=s.parliament.votes.slice();buildParliament(year,0,false);s.elections.unshift(deep(s.parliament));if(s.elections.length>12)s.elections.length=12;
+    if(ctx.type==='parliamentary')caretaker('הסתיימה מערכת בחירות כללית');else{s.government=npcCoalition();recalcBlocks()}
+    const idx=s.parliament.seats.indexOf(Math.max(...s.parliament.seats));log('הבחירות שינו את יחסי הכוחות',partyName(idx)+' זכתה בסיעה הגדולה ביותר: '+s.parliament.seats[idx]+' מושבים. אין בכך לבדו כדי להבטיח רוב ממשלתי.','major');return true;
+  }
+  function yearTick(){const oldYear=s.year;
+    if(oldYear===2026&&cityCountries[s.city]==='US'&&s.parliament.year<2026)runBackgroundNational(2026);
+    const hadCampaign=s.campaign&&s.campaign.year===oldYear;
+    if(hadCampaign){const campaignType=s.campaign.type;settleElection(false);if(campaignType!=='national')runBackgroundNational(oldYear)}else if(oldYear>=context().baseline&&s.parliament.year<oldYear){runBackgroundNational(oldYear)}
+    if(rand()<hazard()){s.dead=true;log('סיום הביוגרפיה','החיים במשחק הסתיימו בגיל '+s.age+'.','major');phase='end';return}
+    s.year++;s.age++;s.turns=0;mod('stress',-8);mod('energy',15);mod('health',-.07*Math.max(0,s.age-57)+.018*(s.energy-53)-.02*(s.stress-33));if(s.firm>0)mod('money',s.delegated?Math.min(9,2+s.firm):Math.min(6,s.firm));
+    if(s.office&&s.office.until<=s.year){log('הכהונה הסתיימה','תקופת ה'+s.office.label+' הסתיימה; אם לא נבחרת מחדש, המנדט חוזר לציבור.');if(s.office.type==='president'&&ctxMode()==='presidential')s.government=npcCoalition();s.office=null;s.primeMinister=false;s.forming=null}
+    if(s.flags.snapElection&&s.flags.snapElection===s.year && cityCountries[s.city]!=='US'){
+      s.flags.snapElection=null;s.nationalAnchors[cityCountries[s.city]]=s.year;buildParliament(s.year,0,false);s.elections.unshift(deep(s.parliament));caretaker('בחירות מוקדמות בעקבות משבר');log('נערכו בחירות מוקדמות','הפרלמנט התחדש בהתאם להליך פיזור מוקדם.','major');
+    }
+    if(s.government.kind==='playerPM'){
+      const g=s.government;g.stability=whole(g.stability-2+rBetween(-2,3));
+      if(rand()<.13&&g.coalition.length>1){const partner=g.coalition[g.coalition.length-1];const distance=ideologicalDistance(g.leader,partner);if(rand()<clamp(.1+distance*.1+(70-g.stability)*.007,.05,.8)){
+        g.coalition.pop();g.stability=whole(g.stability-14);log('שותפה קואליציונית פורשת',partyName(partner)+' הודיעה על פרישה בעקבות מחלוקת על '+context().issues[Math.floor(rand()*context().issues.length)]+'.','major');recalcBlocks();
+      }}
+      if(totalSeats(g.coalition)<majority()||g.stability<22||s.flags.budgetDissolution){log('משבר ממשלתי','הממשלה איבדה בסיס לרוב יציב. כעת מתחיל ניסיון להרכיב ממשלת מעבר או לקיים בחירות מוקדמות.','major');s.primeMinister=false;caretaker('משבר אמון / תקציב');if(s.flags.budgetDissolution)s.flags.snapElection=s.year+1;s.flags.budgetDissolution=false}
+    }else if(s.government.kind==='npc'){
+      const g=s.government;g.stability=whole(g.stability-2+rBetween(-3,4));
+      if(g.stability<25){caretaker('נפילת הממשלה לאחר שחיקה');log('ראש הממשלה מגיש התפטרות','המתח בין השותפות הביא לסיום כהונת הממשלה. סיעות מתחילות התייעצויות.','major')}
+    }else if(s.government.kind==='caretaker' && !s.forming && s.year>=(s.flags.caretakerSince||s.parliament.year)+(s.office?.type==='mp'&&s.partyHead?3:1)){
+      s.government=npcCoalition();recalcBlocks();log('הוקמה ממשלה חדשה','לאחר תקופה של התייעצויות והרכבת רוב, '+partyName(s.government.leader)+' מציגה ממשלה שנשענת על '+totalSeats(s.government.coalition)+' מושבים.','major')
+    }
+    if(rand()<.16){const issue=context().issues[Math.floor(rand()*context().issues.length)];if(rand()<.52){mod('trust',-3);mod('stress',5);log('משבר ציבורי על סדר היום','דיון על '+issue+' משתלט על הכותרות. המוסדות דורשים תשובות קונקרטיות.')}else{mod('links',5);log('הזדמנות אזרחית','ארגון מקצועי מבקש ממך להוביל שיחה ציבורית על '+issue+'.')}}
+  }
+  function ctxMode(){return context().type}
+  function advance(count){if(phase!=='play'||!s.started||s.dead)return;remember();for(let i=0;i<count;i++){yearTick();if(s.dead)break}render()}
+  function undo(){if(!snapshots.length)return;s=snapshots.pop();phase=s.dead?'end':s.started?'play':'intro';render()}
+  function render(){const ctx=context(),majorityN=majority(),g=s.government;root.classList.toggle('playing',s.started);
+    $('intro').classList.toggle('hidden',s.started);$('game').classList.toggle('hidden',!s.started);$('result').classList.toggle('hidden',phase!=='result');$('choice').classList.toggle('hidden',phase!=='choice');$('found').classList.toggle('hidden',phase!=='found');$('ending').classList.toggle('hidden',!s.dead);$('action-region').classList.toggle('hidden',phase!=='play');
+    $('start-age').disabled=s.started;$('start-city').disabled=s.started;
+    $('intro-reality').textContent=cityCountries[s.city]==='CZ'?'2 בנובמבר 2026: הבחירות המקומיות בצ׳כיה כבר התקיימו באוקטובר. המפלגות בעיר מתווכחות על הנהגת הרשויות והתקציבים.':cityCountries[s.city]==='IL'?'2 בנובמבר 2026: ישראל אחרי הבחירות לכנסת ב־27 באוקטובר. השאלה כעת היא מי מסוגל לגייס רוב של 61.':cityCountries[s.city]==='US'?'2 בנובמבר 2026: הבחירות הפדרליות בארה״ב מחר, 3 בנובמבר. קמפיין חדש אפשר להתחיל לקראת המחזור הבא.':cityCountries[s.city]==='DE'?'2 בנובמבר 2026: בחירות ברלין היו בספטמבר. הבונדסטאג ממשיך במחזור שהחל ב־2025.':ctx[2026]||'';
+    $('clock').textContent=s.year+' · גיל '+s.age+' · '+ctx.name;
+    $('role').textContent=s.primeMinister?'ראש הממשלה':s.office?.label||(s.firm>0?'בעל חברת שותפויות':s.community>0?'מוביל פעילות קהילתית':'יזם / איש שותפויות');
+    $('party-label').textContent=s.party>=0?partyName(s.party):'ללא מפלגה';
+    $('current-office').textContent=s.office?'כהונה '+s.office.from+'–'+s.office.until:(s.primeMinister?'ראש ממשלה מכהן':'ללא משרה נבחרת');
+    $('year-actions').textContent=s.turns+' מתוך 4 מהלכים השנה';$('career-record').textContent=s.wins+' ניצחונות בבחירות · '+s.losses+' הפסדים';
+    $('next-year').textContent='לשנת '+(s.year+1)+' ←';$('next-year').disabled=phase!=='play'||s.dead;$('advance3').disabled=phase!=='play'||s.dead;$('undo').disabled=!snapshots.length;
+    const stats=[['עצמאות כלכלית','money'],['קשרים','links'],['אמון ציבורי','trust'],['תמיכה','support'],['ארגון','org'],['מומחיות','skill'],['אנרגיה','energy'],['בריאות משחקית','health'],['לחץ','stress']];
+    $('metrics').innerHTML='';stats.forEach(([name,key])=>{const card=document.createElement('div');card.className='metric';const nameNode=document.createElement('span');nameNode.textContent=name;const val=document.createElement('strong');val.textContent=s[key];const meter=document.createElement('div');meter.className='meter';const fill=document.createElement('i');fill.style.width=s[key]+'%';meter.appendChild(fill);card.append(nameNode,val,meter);$('metrics').appendChild(card)});
+    $('lifemodel').textContent='חציון משחקי: גיל '+medianAge()+' · סיכון שנתי '+(100*hazard()).toFixed(2)+'%';
+    const nextNat=(s.year===2026&&cityCountries[s.city]==='US'&&s.parliament.year===2024)?2026:nextNational(false),nextLoc=(s.year===2026&&s.city==='וושינגטון')?2026:nextLocal(false),nextPres=nextHead(false);
+    $('calendar').innerHTML='';const items=[{name:'פרלמנט לאומי',year:nextNat,info:ctx.chamber+' · '+ctx.term+' שנים'},{name:'רשות מקומית',year:nextLoc,info:ctx.localName+' · '+ctx.localTerm+' שנים'}];if(nextPres!==null)items.push({name:ctx.head,year:nextPres,info:ctx.headRule==='direct'?'בחירה ישירה':ctx.headRule==='electoral'?'בחירה באמצעות אלקטורים':'בחירה עקיפה'});if(ctx.europeSeats>0)items.push({name:'הפרלמנט האירופי',year:nextEuropean(false),info:'משלחת מדינה · מחזור של 5 שנים'});items.forEach(item=>{const x=document.createElement('div');x.className='calendar-item';const left=document.createElement('div');left.innerHTML='<b></b><small></small>';left.querySelector('b').textContent=item.name;left.querySelector('small').textContent=item.info;const year=document.createElement('strong');year.textContent=item.year;x.append(left,year);$('calendar').appendChild(x)});
+    $('context-line').textContent=ctx.issues[(s.year+Math.floor(s.age/3))%ctx.issues.length]+(s.year===2026?' · '+ctx[2026]:' · שנת '+s.year+': זו התפתחות בדיונית של עולם המשחק, שאינו משחזר את תוצאות הבחירות האמיתיות.');
+    
+    const coalition=g.kind==='caretaker'?[]:g.coalition||[];const coSeats=totalSeats(coalition);const oppSeats=ctx.seats-coSeats;
+    const leading=s.parliament.seats.indexOf(Math.max(...s.parliament.seats));
+    let sceneText='';
+    if(ctx.type==='presidential')sceneText='במסדרון הקונגרס עוזרת מחוקק מבקשת לדעת אם יהיה רוב בשני הבתים. דווקא ההבדל בין ממשל לנבחרי הציבור הוא שמכתיב את המשא ומתן סביב '+ctx.issues[0]+'.';
+    else if(g.kind==='caretaker')sceneText='הכתבים עומדים מחוץ לחדר הישיבות. מול דף ובו '+ctx.seats+' שמות נשאלת שאלה אחת: מי מסוגל לגייס '+majorityN+' חברים להצבעה? מאחורי הקלעים מדברים על '+ctx.issues[0]+'.';
+    else if(coSeats-majorityN<=4)sceneText='לממשלה יש יתרון של מושבים בודדים. בישיבת הסיעה הקטנה דורשים סעיף בתקציב, והשר הממונה על '+ctx.issues[1]+' כבר יודע שכל הימנעות עשויה לשנות את התוצאה.';
+    else sceneText='במסדרון הפרלמנט מתחיל יום ועדות. נציגת '+partyName(leading)+' מציגה דוח על '+ctx.issues[0]+', וראש ועדה מהאופוזיציה דורש לראות את הנספחים ולא רק את ההודעה לעיתונות.';
+    $('world-scene').textContent=sceneText;
+    $('gov-label').textContent=ctx.type==='presidential'?'רשות מבצעת וקונגרס':ctx.headRule==='monarch'?'ראש ממשלה ומלוכה חוקתית':'פרלמנט, ממשלה וראש מדינה';
+
+    $('coalition-total').textContent=g.kind==='caretaker'?'ממשלת מעבר':ctx.type==='presidential'?'אין קואליציה פרלמנטרית':coSeats+' בקואליציה / '+oppSeats+' באופוזיציה';
+    $('majority').textContent='רוב '+majorityN+' מתוך '+ctx.seats;
+    const govtSeats=ctx.type==='presidential'?Math.max(...s.parliament.seats):coSeats;
+    const govtPct=100*govtSeats/ctx.seats;
+    $('mini-balance-title').textContent=ctx.type==='presidential'?'מאזן המושבים בבית הנבחרים':'מאזן הקואליציה והאופוזיציה';
+    $('mini-balance-nums').textContent=ctx.type==='presidential'?('הסיעה הגדולה '+govtSeats+' / '+ctx.seats):g.kind==='caretaker'?('הרכבת ממשלה פתוחה · דרוש רוב '+majorityN):('קואליציה '+coSeats+' · אופוזיציה '+oppSeats+' · רוב '+majorityN);
+    $('mini-balance-bar').innerHTML='';
+    if(ctx.type==='presidential'){s.parliament.seats.forEach((value,i)=>{if(!value)return;const segment=document.createElement('span');segment.style.width=100*value/ctx.seats+'%';segment.style.background=s.parties[i].color;segment.title=partyName(i)+' — '+value+' מושבים';$('mini-balance-bar').appendChild(segment)})}
+    else{const a=document.createElement('span'),b=document.createElement('span');a.style.width=(g.kind==='caretaker'?100:govtPct)+'%';a.style.background=g.kind==='caretaker'?'var(--line)':'var(--sea)';b.style.width=(g.kind==='caretaker'?0:100-govtPct)+'%';b.style.background='var(--gold)';$('mini-balance-bar').append(a,b)}
+    $('mini-balance-sub').textContent=ctx.type==='presidential'?'בארה״ב, נשיא וקונגרס נבחרים בנפרד. אין רוב קואליציוני שממנה את הנשיא.':g.kind==='caretaker'?'ממשלת מעבר: הסיעות טרם הסכימו על רוב שלטוני.':'ראש האופוזיציה במשחק: '+(s.parliament.opposition.length?partyName([...s.parliament.opposition].sort((a,b)=>s.parliament.seats[b]-s.parliament.seats[a])[0]):'אין גוש אופוזיציה מדווח')+'.';
+
+    $('gov-name').textContent=g.kind==='playerPM'?'אתה עומד בראש הממשלה':g.kind==='playerPresident'?'אתה נשיא ארה״ב':g.kind==='caretaker'?'ממשלת מעבר':ctx.type==='presidential'?'ממשל נשיאותי בדיוני':partyName(g.leader)+' עומדת בראש הממשלה';
+    $('gov-details').textContent=(g.kind==='caretaker'?g.reason+' · ':ctx.type==='presidential'?'הקונגרס יכול להיות בשליטת מפלגה אחרת · ':'ממשלה: '+coalition.map(partyName).join(' + ')+' · ')+'יציבות '+g.stability+'/100 · תקציב '+g.treasury+'/100'+(g.kind==='playerPM'?' · התחייבויות לתיקים '+g.promiseCost+'/14':'');
+    const seatBar=$('seat-bar');seatBar.innerHTML='';seatBar.setAttribute('aria-label','תוצאות הפרלמנט: '+s.parliament.seats.map((v,i)=>partyName(i)+' '+v).join(', '));
+    s.parliament.seats.forEach((num,i)=>{if(num<=0)return;const segment=document.createElement('span');segment.style.width=(100*num/ctx.seats)+'%';segment.style.background=s.parties[i].color;segment.title=partyName(i)+' · '+num+' מושבים';seatBar.appendChild(segment)});
+    $('results-national').setAttribute('aria-pressed',String(resultView==='national'));$('results-local').setAttribute('aria-pressed',String(resultView==='local'));$('results-local').disabled=!s.localParl;$('results-europe').setAttribute('aria-pressed',String(resultView==='europe'));$('results-europe').disabled=!s.euroParl;
+    const isLocal=resultView==='local'&&s.localParl,isEurope=resultView==='europe'&&s.euroParl;const displayParl=isLocal?s.localParl:isEurope?s.euroParl:s.parliament;const displayCoalition=isLocal?s.localParl.coalition:coalition;
+    $('party-results').innerHTML='';
+    s.parties.forEach((p,i)=>{const row=document.createElement('button');row.type='button';row.className='result-row';row.setAttribute('aria-label',p.name+' '+displayParl.seats[i]+' מושבים');const dot=document.createElement('span');dot.className='dot';dot.style.background=p.color;const name=document.createElement('span');name.className='row-name';name.textContent=p.name;const votes=document.createElement('span');votes.className='row-votes';votes.textContent=displayParl.votes[i].toFixed(1)+'%';const seats=document.createElement('strong');seats.className='row-seats';seats.textContent=displayParl.seats[i];const status=document.createElement('small');status.className='row-status';status.textContent=isEurope?(displayParl.seats[i]>0?'משלחת':'ללא מושב'):isLocal?(displayCoalition.includes(i)?'קואליציה':'אופוזיציה'):ctx.type==='presidential'?(s.parliament.seats[i]===Math.max(...s.parliament.seats)?'סיעה גדולה':'בקונגרס'):coalition.includes(i)?'ממשלה':g.kind==='caretaker'?'מגעים':'אופוזיציה';row.append(dot,name,votes,seats,status);row.addEventListener('click',()=>showParty(i));$('party-results').appendChild(row)});
+    $('election-meta').textContent='בחירות '+displayParl.year+' · הצבעה בדיונית '+displayParl.turnout+'% · '+(isEurope?'משלחת מדומה לפרלמנט האירופי':isLocal?'מועצה / אסיפה מקומית':ctx.method==='PR'?'חלוקה יחסית מקורבת':ctx.method==='MIXED'?'מערכת מעורבת מקורבת':'הדמיית מחוזות חד־נציגיים')+' · '+displayParl.seats.reduce((a,b)=>a+b,0)+'/'+displayParl.total+' מושבים';
+    $('bloc-line').textContent=ctx.type==='presidential'?'רוב בבית הנבחרים: '+partyName(s.parliament.seats.indexOf(Math.max(...s.parliament.seats)))+' ('+Math.max(...s.parliament.seats)+' מתוך '+ctx.seats+'). הקונגרס אינו יוצר קואליציה שממנה נשיא; הסנאט אינו מדומה כאן.':g.kind==='caretaker'?'עדיין אין ממשלה עם רוב מוסכם. הסיעות מנהלות משא ומתן.':'ממשלה: '+coalition.map(i=>partyName(i)+' ('+s.parliament.seats[i]+')').join(' · ')+' | אופוזיציה: '+s.parliament.opposition.map(i=>partyName(i)+' ('+s.parliament.seats[i]+')').join(' · ');
+    $('cabinet-list').innerHTML='';if(g.portfolios?.length){g.portfolios.forEach(post=>{let e=document.createElement('div');e.className='cabinet-post';e.textContent=partyName(post.party)+' — '+post.post;$('cabinet-list').appendChild(e)})}else $('cabinet-list').textContent='עדיין לא חולקו תיקים בהסכמים החדשים.';
+    $('elections-note').textContent=s.campaign?'מועמדות פעילה: '+s.campaign.label+' · הצבעה '+s.campaign.year+' · מיקום ברשימה '+(s.campaign.type==='national'?s.campaign.rank:'—'):'אין כעת קמפיין אישי פעיל. אפשר להתמקד בפעילות מפלגתית או בקריירה אזרחית.';
+    $('party-panel').textContent=s.party>=0?partyName(s.party)+' · השפעה במוסדות המפלגה '+s.partyTrust+'/100 · אחדות סיעה '+s.partyFaction+'/100 · '+(s.partyHead?'אתה יו״ר המפלגה':'המפלגה מנוהלת כעת בידי '+s.parties[s.party].leader):'טרם הצטרפת למפלגה. אפשר לבחור מסגרת קיימת או להקים חדשה.';
+    for(const id of ['all','party','elections','government','life'])$('tab-'+id).setAttribute('aria-pressed',String(tab===id));
+    const actList=definitions.filter(a=>tab==='all'||a.cat===tab).sort((a,b)=>Number(available(b.id))-Number(available(a.id)));
+    $('action-list').innerHTML='';actList.forEach(a=>{const b=document.createElement('button');b.type='button';b.className='action';b.disabled=!available(a.id);const t=document.createElement('span');t.className='action-title';t.textContent=a.title;const d=document.createElement('span');d.className='action-sub';d.textContent=a.desc;const info=document.createElement('span');info.className='action-hint';if(b.disabled){if(s.turns>=4)info.textContent='המהלכים לשנה זו נוצלו';else if(a.id==='election')info.textContent='זמין כאשר קיימת מועמדות ושנת ההצבעה הגיעה';else if(a.id==='nominate')info.textContent='החלון נפתח כשמערכת בחירות מתקרבת';else if(a.id==='mandate')info.textContent='נדרשים מושב, הנהגת מפלגה וממשלת מעבר';else if(a.id==='talk'||a.id==='invest')info.textContent='נדרש מנדט פעיל להרכבה ורוב מתאים';else if(a.id==='business'&&s.office)info.textContent='משרה ציבורית מחייבת להעביר ניהול עסק פעיל';else if(a.id==='lead')info.textContent='נדרשת חברות במפלגה שאינך עומד בראשה';else info.textContent='יתאפשר לאחר פעולות קודמות';}b.append(t,d,info);b.addEventListener('click',()=>choose(a.id));$('action-list').appendChild(b)});
+    $('chronicle').innerHTML='';if(!s.log.length){const p=document.createElement('p');p.className='muted';p.textContent='האירוע הראשון יירשם כאן.';$('chronicle').appendChild(p)}
+    s.log.slice(-16).reverse().forEach(e=>{const line=document.createElement('div');line.className='story-line';const h=document.createElement('b');h.textContent=e.year+' · גיל '+e.age+' · '+e.title;const body=document.createElement('p');body.textContent=e.body;line.append(h,body);$('chronicle').appendChild(line)});
+    $('chronicle-count').textContent=s.log.length+' אירועים';
+    renderRoute();
+    $('resume-game').classList.toggle('hidden',!readSaved());persist();
+    if(s.dead){$('end-title').textContent='ביוגרפיה שנחתמה בגיל '+s.age;$('end-body').textContent='החיים במשחק הסתיימו במנגנון הסתברותי ולא בגיל קבוע. נרשמו '+s.wins+' ניצחונות בבחירות, '+s.losses+' הפסדים, '+s.community+' תוכניות קהילתיות ו־'+s.publications+' פרסומים. היו גם פרקים שאינם מופיעים בתואר אחד: עסק, חברויות, שותפויות, רעיונות ומסעות.'}
+  }
+  function showParty(i){const p=s.parties[i],data=resultView==='local'&&s.localParl?s.localParl:resultView==='europe'&&s.euroParl?s.euroParl:s.parliament;$('party-detail-title').textContent=p.name;$('party-detail-body').textContent=p.side+' · '+p.issue+' · מנהיג/ה: '+p.leader+'. במועצת המפלגה מתווכחים על '+p.issue+' ועל חלוקת המקומות ברשימה. בבחירות הבדיוניות של '+data.year+': '+data.votes[i].toFixed(1)+'% וקיבלה '+data.seats[i]+' מושבים. עמדות במשחק: כלכלה '+p.eco+', חברה '+p.soc+', מדיניות חוץ '+p.foreign+'.';$('party-detail').classList.remove('hidden')}
+  function renderRoute(){const ns='http://www.w3.org/2000/svg';$('route-lines').innerHTML='';$('route-point').innerHTML='';for(let k=1;k<s.route.length;k++){const a=positions[s.route[k-1]],b=positions[s.route[k]];if(!a||!b)continue;const path=document.createElementNS(ns,'line');for(const [key,val] of Object.entries({x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'var(--sea)','stroke-width':3}))path.setAttribute(key,val);$('route-lines').appendChild(path)}const xy=positions[s.city];if(xy){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',xy[0]);dot.setAttribute('cy',xy[1]);dot.setAttribute('r',9);dot.setAttribute('fill','none');dot.setAttribute('stroke','var(--sea)');dot.setAttribute('stroke-width','3');$('route-point').appendChild(dot)}$('route-caption').textContent=s.route.join(' → ')+' · סכמטי בלבד'}
+  $('start-age').addEventListener('change',initialize);$('start-city').addEventListener('change',initialize);
+  root.querySelectorAll('[data-first]').forEach(btn=>btn.addEventListener('click',()=>firstAction(btn.dataset.first)));
+  $('skip-intro').addEventListener('click',startFromBlank);$('resume-game').addEventListener('click',resume);
+  $('export-save').addEventListener('click',exportSnapshot);
+  $('import-save').addEventListener('change',evt=>{const file=evt.target.files?.[0];if(!file)return;if(file.size>1500000){$('save-note').textContent='קובץ גדול מדי';evt.target.value='';return;}const reader=new FileReader();reader.onload=()=>{try{importSnapshot(JSON.parse(String(reader.result)));$('save-note').textContent='שמירה נטענה בהצלחה';}catch(err){$('save-note').textContent=err.message||'לא ניתן לטעון קובץ';}};reader.onerror=()=>{$('save-note').textContent='לא ניתן לקרוא את הקובץ'};reader.readAsText(file);evt.target.value='';});
+  root.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;render()}));
+  $('cancel').addEventListener('click',()=>{phase='play';render();$('action-region').scrollIntoView({behavior:'auto',block:'start'})});
+  $('result-close').addEventListener('click',()=>{phase='play';render();$('action-region').scrollIntoView({behavior:'auto',block:'start'})});
+  $('found-cancel').addEventListener('click',()=>{phase='play';render();$('action-region').scrollIntoView({behavior:'auto',block:'start'})});
+  $('found-confirm').addEventListener('click',()=>{const name=$('found-name').value.trim().slice(0,40);if(name.length<3){$('found-error').textContent='יש להזין לפחות שלושה תווים.';return}$('found-error').textContent='';phase='play';act('found',{name,kind:$('found-idea').value})});
+  $('next-year').addEventListener('click',()=>advance(1));$('advance3').addEventListener('click',()=>advance(3));
+  $('undo').addEventListener('click',undo);$('restart').addEventListener('click',initialize);$('again').addEventListener('click',initialize);
+  $('close-party').addEventListener('click',()=>$('party-detail').classList.add('hidden'));
+  $('jump-actions').addEventListener('click',()=>$('action-region').scrollIntoView({behavior:'auto',block:'start'}));
+  $('jump-gov').addEventListener('click',()=>$('government-section').scrollIntoView({behavior:'auto',block:'start'}));
+  $('jump-results').addEventListener('click',()=>$('results-section').scrollIntoView({behavior:'auto',block:'start'}));
+  $('results-national').addEventListener('click',()=>{resultView='national';$('party-detail').classList.add('hidden');render()});
+  $('results-local').addEventListener('click',()=>{if(s.localParl){resultView='local';$('party-detail').classList.add('hidden');render()}});
+  $('results-europe').addEventListener('click',()=>{if(s.euroParl){resultView='europe';$('party-detail').classList.add('hidden');render()}});
+  // Read-only hooks keep test assertions independent of fragile text matching.
+  root.atlasState=()=>deep(s);
+  initialize();
+})();
+</script></body></html>
